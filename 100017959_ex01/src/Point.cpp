@@ -38,6 +38,18 @@ void Point::Set(float x, float y)
     this->y = y;
 }
 
+void Point::SetPolar(float r, float ang)
+{
+    this->x = r*cos(ang);
+    this->y = r*sin(ang);
+}
+
+void Point::Add(Point& point)
+{
+    this->x += point.GetX();
+    this->y += point.GetY();
+}
+
 std::string Point::ToString()
 {
     char buffer[64];

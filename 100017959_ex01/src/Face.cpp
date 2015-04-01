@@ -36,5 +36,4 @@ bool Face::IsDead()
 void Face::Damage(int damage)
 {
     hp -= damage;
-    std::cout << "HP: " << hp << std::endl;
 }

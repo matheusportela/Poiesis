@@ -15,8 +15,7 @@ State::State()
 
 State::~State()
 {
-    if (bg)
-        delete bg;
+    delete bg;
 }
 
 void State::ConfigureInputCallbacks()
@@ -75,6 +74,7 @@ bool State::IsQuitRequested()
 void State::HandleMouseInput()
 {
     Face* face;
+    int damage;
 
     // Goes in backward direction to try and hit the upper objects first.
     for (int i = objectArray.size() - 1; i >= 0; --i)
@@ -87,8 +87,8 @@ void State::HandleMouseInput()
         // Apply damage only once
         if (face->GetBox().IsInside(inputManager.GetMousePosition()))
         {
-            face->Damage(rand() % 10 + 10);
-            std::cout << "Damage" << std::endl;
+            damage = rand() % 10 + 10;
+            face->Damage(damage);
             break;
         }
     }
@@ -109,8 +109,13 @@ void State::HandleKeyboardInput()
 
 void State::AddObject(Point& point)
 {
-    // TODO: Add object to a random position inside a 200-pixels radius of the
-    // current mouse position
-    std::unique_ptr<GameObject> ptr(new Face(point));
-    objectArray.push_back(std::move(ptr));
+    // Add object to a random position inside a 200-pixels radius circumference
+    // relative to the given point
+    float angle_deg = (float)(rand() % 360);
+    float angle_rad = angle_deg*M_PI/180.0;
+    Point randomPoint;
+    randomPoint.SetPolar(200.0, angle_rad);
+    randomPoint.Add(point);
+
+    objectArray.emplace_back(new Face(randomPoint));
 }

@@ -7,6 +7,7 @@
 #ifndef POINT_H_
 #define POINT_H_
 
+#include <cmath>
 #include <string>
 
 class Point
@@ -29,6 +30,12 @@ class Point
     void SetY(float y);
 
     void Set(float x, float y);
+
+    // Set point coordinates given radius and angle in radians.
+    void SetPolar(float r, float ang);
+
+    // Adds two points in Cartesian coordinates.
+    void Add(Point& point);
 
     std::string ToString();
 

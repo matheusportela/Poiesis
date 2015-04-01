@@ -19,6 +19,7 @@ Game::Game(std::string title, int width, int height)
     
     instance = this;
     
+    SeedRandom();
     InitSDL();
     InitSDLImage();
     CreateWindow(title, width, height);
@@ -50,6 +51,11 @@ State& Game::GetState()
     return *state;
 }
 
+void Game::SeedRandom()
+{
+    srand(time(NULL));
+}
+
 void Game::InitState()
 {
     state = new State();
@@ -57,8 +63,7 @@ void Game::InitState()
 
 void Game::DestroyState()
 {
-    if (state)
-        delete state;
+    delete state;
 }
 
 void Game::InitSDL()

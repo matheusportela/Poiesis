@@ -9,6 +9,8 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#include <ctime>
+#include <cstdlib>
 #include <iostream>
 
 #include <SDL.h>
@@ -40,6 +42,9 @@ class Game
 
     // Gets the game-specific logic instance.
     State& GetState();
+
+    // Seeds random number generator with current time.
+    void SeedRandom();
 
     // Initializes game state.
     void InitState();

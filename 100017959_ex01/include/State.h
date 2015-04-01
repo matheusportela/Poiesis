@@ -46,6 +46,9 @@ class State
     // Renders game.
     void Render();
 
+    // Renders all objects sprites.
+    void RenderObjects();
+
     // Returns true if quit was requested by the user.
     bool IsQuitRequested();
 

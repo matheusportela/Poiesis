@@ -22,15 +22,15 @@ State::~State()
 void State::ConfigureInputCallbacks()
 {
     inputManager.RegisterCallback(
-        InputManager::MouseInput,
+        InputType::MouseInput,
         std::bind(&State::HandleMouseInput, this));
     
     inputManager.RegisterCallback(
-        InputManager::QuitButtonInput,
+        InputType::QuitButtonInput,
         std::bind(&State::HandleQuitButtonInput, this));
 
     inputManager.RegisterCallback(
-        InputManager::KeyboardInput,
+        InputType::KeyboardInput,
         std::bind(&State::HandleKeyboardInput, this));
 }
 
@@ -47,6 +47,8 @@ void State::DeleteDeadObjects()
         if (objectArray[i]->IsDead())
         {
             objectArray.erase(objectArray.begin() + i);
+
+            // Decrease index since objectArray is one size smaller
             --i;
         }
     }
@@ -56,7 +58,11 @@ void State::Render()
 {
     Point bgPoint(0, 0);
     bg->Render(bgPoint);
+    RenderObjects();    
+}
 
+void State::RenderObjects()
+{
     for (unsigned int i = 0; i < objectArray.size(); ++i)
         objectArray[i].get()->Render();
 }
@@ -71,10 +77,11 @@ void State::HandleMouseInput()
     Face* face;
 
     // Goes in backward direction to try and hit the upper objects first.
-    for (unsigned int i = objectArray.size() - 1; i >= 0; --i)
+    for (int i = objectArray.size() - 1; i >= 0; --i)
     {
-        // Cast pointer to Face instance
-        // This code is temporary and will be removed soon
+        // Cast pointer to Face instance, since it's the only type of GameObject
+        // we have.
+        // This code is temporary and will be removed soon.
         face = (Face*)objectArray[i].get();
 
         // Apply damage only once
@@ -102,7 +109,7 @@ void State::HandleKeyboardInput()
 
 void State::AddObject(Point& point)
 {
-    // TODO: Add object to a random position inside a 200-pixels ray of the
+    // TODO: Add object to a random position inside a 200-pixels radius of the
     // current mouse position
     std::unique_ptr<GameObject> ptr(new Face(point));
     objectArray.push_back(std::move(ptr));

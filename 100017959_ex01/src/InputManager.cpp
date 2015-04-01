@@ -16,19 +16,19 @@ int InputManager::GetPressedKey()
     return pressedKey;
 }
 
-void InputManager::RegisterCallback(InputType inputType, std::function<void()> callback)
+void InputManager::RegisterCallback(InputType::Type inputType, std::function<void()> callback)
 {
     callbackMap[inputType] = callback;
 }
 
-bool InputManager::HasCallback(InputType inputType)
+bool InputManager::HasCallback(InputType::Type inputType)
 {
-    std::map<InputType, std::function<void()>>::iterator it = callbackMap.find(inputType);
+    std::map<InputType::Type, std::function<void()>>::iterator it = callbackMap.find(inputType);
 
     return (it != callbackMap.end());
 }
 
-void InputManager::ActivateCallback(InputType inputType)
+void InputManager::ActivateCallback(InputType::Type inputType)
 {
     if (HasCallback(inputType))
         callbackMap[inputType]();
@@ -45,16 +45,16 @@ void InputManager::ProcessInputs()
         switch (event.type)
         {
             case SDL_QUIT:
-                ActivateCallback(QuitButtonInput);
+                ActivateCallback(InputType::QuitButtonInput);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                ActivateCallback(MouseInput);
+                ActivateCallback(InputType::MouseInput);
                 break;
 
             case SDL_KEYDOWN:
                 UpdatePressedKey(event.key.keysym.sym);
-                ActivateCallback(KeyboardInput);
+                ActivateCallback(InputType::KeyboardInput);
                 break;
         };
     }

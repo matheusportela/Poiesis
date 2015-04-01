@@ -18,32 +18,25 @@
 
 #include <SDL.h>
 
+#include "InputType.h"
 #include "Point.h"
 
 class InputManager
 {
   public:
-    // All types of input used by the game.
-    enum InputType
-    {
-        MouseInput,
-        KeyboardInput,
-        QuitButtonInput
-    };
-
     // Getters and setters.
     Point& GetMousePosition();
     int GetPressedKey();
 
     // Register a function to be called whenever an input of type inputType
     // happens. The callback function must return void and receive no arguments.
-    void RegisterCallback(InputType inputType, std::function<void()> callback);
+    void RegisterCallback(InputType::Type inputType, std::function<void()> callback);
 
     // Checks whether an input type has a callback function.
-    bool HasCallback(InputType inputType);
+    bool HasCallback(InputType::Type inputType);
 
     // Calls the callback function of an input type.
-    void ActivateCallback(InputType inputType);
+    void ActivateCallback(InputType::Type inputType);
 
     // Activates callback functions for specified input types.
     void ProcessInputs();
@@ -56,7 +49,7 @@ class InputManager
 
   private:
     // Container for callback functions.
-    std::map<InputType, std::function<void()>> callbackMap;
+    std::map<InputType::Type, std::function<void()>> callbackMap;
 
     // Current mouse position.
     Point mousePosition;

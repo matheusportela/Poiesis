@@ -9,11 +9,17 @@
 #ifndef STATE_H_
 #define STATE_H_
 
+#include <memory>
+#include <vector>
+
 #include <SDL.h>
 
-#include "Sprite.h"
 #include "Config.h"
+#include "Face.h"
 #include "FileUtils.h"
+#include "GameObject.h"
+#include "InputManager.h"
+#include "Sprite.h"
 
 // Forward declaration to avoid circular include.
 class Sprite;
@@ -28,17 +34,32 @@ class State
     // Destroys the game state.
     ~State();
 
-    // Update game state.
+    // Configures callback functions for all relevant user input type in the game.
+    void ConfigureInputCallbacks();
+
+    // Updates game state.
     void Update();
 
-    // Render game.
+    // Delete game objects that are marked as IsDead.
+    void DeleteDeadObjects();
+
+    // Renders game.
     void Render();
 
     // Returns true if quit was requested by the user.
     bool IsQuitRequested();
 
-    // Verifies if quit was requested by the user.
-    void CheckQuitRequested();
+    // Callback function for mouse input.
+    void HandleMouseInput();
+
+    // Callback function for quit button input.
+    void HandleQuitButtonInput();
+
+    // Callback function for keyboard input.
+    void HandleKeyboardInput();
+
+    // Adds an object at the given point.
+    void AddObject(Point& point);
 
   private:
     // Background sprite.
@@ -46,6 +67,12 @@ class State
 
     // User requested quit flag.
     bool quitRequested;
+
+    // Container for all Game Objects instanciated during the game.
+    std::vector<std::unique_ptr<GameObject>> objectArray;
+
+    // Manager for user inputs.
+    InputManager inputManager;
 };
 
 #endif // STATE_H_

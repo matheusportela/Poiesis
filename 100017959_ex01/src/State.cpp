@@ -10,6 +10,7 @@ State::State()
 {
     quitRequested = false;
     bg = new Sprite(CFG_GETP("STATE_BACKGROUND"));
+    ConfigureInputCallbacks();
 }
 
 State::~State()
@@ -18,14 +19,46 @@ State::~State()
         delete bg;
 }
 
+void State::ConfigureInputCallbacks()
+{
+    inputManager.RegisterCallback(
+        InputManager::MouseInput,
+        std::bind(&State::HandleMouseInput, this));
+    
+    inputManager.RegisterCallback(
+        InputManager::QuitButtonInput,
+        std::bind(&State::HandleQuitButtonInput, this));
+
+    inputManager.RegisterCallback(
+        InputManager::KeyboardInput,
+        std::bind(&State::HandleKeyboardInput, this));
+}
+
 void State::Update()
 {
-    CheckQuitRequested();
+    inputManager.ProcessInputs();
+    DeleteDeadObjects();
+}
+
+void State::DeleteDeadObjects()
+{
+    for (unsigned int i = 0; i < objectArray.size(); ++i)
+    {
+        if (objectArray[i]->IsDead())
+        {
+            objectArray.erase(objectArray.begin() + i);
+            --i;
+        }
+    }
 }
 
 void State::Render()
 {
-    bg->Render(0, 0);
+    Point bgPoint(0, 0);
+    bg->Render(bgPoint);
+
+    for (unsigned int i = 0; i < objectArray.size(); ++i)
+        objectArray[i].get()->Render();
 }
 
 bool State::IsQuitRequested()
@@ -33,9 +66,44 @@ bool State::IsQuitRequested()
     return quitRequested;
 }
 
-void State::CheckQuitRequested()
+void State::HandleMouseInput()
 {
-    // Verify if either Alt+F4 or close button was pressed.
-    if (SDL_QuitRequested())
+    Face* face;
+
+    // Goes in backward direction to try and hit the upper objects first.
+    for (unsigned int i = objectArray.size() - 1; i >= 0; --i)
+    {
+        // Cast pointer to Face instance
+        // This code is temporary and will be removed soon
+        face = (Face*)objectArray[i].get();
+
+        // Apply damage only once
+        if (face->GetBox().IsInside(inputManager.GetMousePosition()))
+        {
+            face->Damage(rand() % 10 + 10);
+            std::cout << "Damage" << std::endl;
+            break;
+        }
+    }
+}
+
+void State::HandleQuitButtonInput()
+{
+    quitRequested = true;
+}
+
+void State::HandleKeyboardInput()
+{
+    if (inputManager.GetPressedKey() == SDLK_ESCAPE)
         quitRequested = true;
+    else
+        AddObject(inputManager.GetMousePosition());
+}
+
+void State::AddObject(Point& point)
+{
+    // TODO: Add object to a random position inside a 200-pixels ray of the
+    // current mouse position
+    std::unique_ptr<GameObject> ptr(new Face(point));
+    objectArray.push_back(std::move(ptr));
 }

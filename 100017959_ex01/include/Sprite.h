@@ -15,6 +15,7 @@
 #include <SDL_image.h>
 
 #include "Game.h"
+#include "Point.h"
 
 // Forward declaration to avoid circular include.
 class Game;
@@ -50,7 +51,7 @@ class Sprite
     void SetClip(int x, int y, int w, int h);
 
     // Render sprite.
-    void Render(int x, int y);
+    void Render(Point& point);
 
   private:
     // Sprite image to be presented.

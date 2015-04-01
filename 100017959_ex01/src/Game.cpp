@@ -74,7 +74,7 @@ void Game::InitSDL()
 void Game::InitSDLImage()
 {
     // Initializes only JPG loader. Returns zero when no loader could be loaded.
-    if (IMG_Init(IMG_INIT_JPG) == 0)
+    if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) == 0)
     {
         std::cerr << "ERROR [Game] Could not initialize SDL image." << std::endl;
         std::cerr << SDL_GetError() << std::endl;

@@ -68,12 +68,12 @@ void Sprite::SetClip(int x, int y, int w, int h)
     clippingRectangle.h = h;
 }
 
-void Sprite::Render(int x, int y)
+void Sprite::Render(Point& point)
 {
     SDL_Rect dstRect
     {
-        .x = x,
-        .y = y,
+        .x = (int)point.GetX(),
+        .y = (int)point.GetY(),
         .w = clippingRectangle.w,
         .h = clippingRectangle.h
     };

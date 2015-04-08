@@ -8,7 +8,7 @@
 
 Face::Face(Point& point)
 {
-    hp = 30;
+    hp = CFG_GETI("FACE_HP");
     sprite = new Sprite(CFG_GETP("FACE_SPRITE"));
     box.SetCenter(point, sprite->GetWidth(), sprite->GetHeight());
 }
@@ -20,7 +20,6 @@ Face::~Face()
 
 void Face::Update(float dt)
 {
-
 }
 
 void Face::Render()

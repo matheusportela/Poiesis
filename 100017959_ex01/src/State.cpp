@@ -10,32 +10,17 @@ State::State()
 {
     quitRequested = false;
     bg = new Sprite(CFG_GETP("STATE_BACKGROUND"));
-    ConfigureInputCallbacks();
 }
 
 State::~State()
 {
     delete bg;
-}
-
-void State::ConfigureInputCallbacks()
-{
-    inputManager.RegisterCallback(
-        InputType::MouseInput,
-        std::bind(&State::HandleMouseInput, this));
-    
-    inputManager.RegisterCallback(
-        InputType::QuitButtonInput,
-        std::bind(&State::HandleQuitButtonInput, this));
-
-    inputManager.RegisterCallback(
-        InputType::KeyboardInput,
-        std::bind(&State::HandleKeyboardInput, this));
+    objectArray.clear();
 }
 
 void State::Update()
 {
-    inputManager.ProcessInputs();
+    Input();
     DeleteDeadObjects();
 }
 
@@ -55,9 +40,14 @@ void State::DeleteDeadObjects()
 
 void State::Render()
 {
+    RenderBackground();
+    RenderObjects();    
+}
+
+void State::RenderBackground()
+{
     Point bgPoint(0, 0);
     bg->Render(bgPoint);
-    RenderObjects();    
 }
 
 void State::RenderObjects()
@@ -71,41 +61,49 @@ bool State::IsQuitRequested()
     return quitRequested;
 }
 
-void State::HandleMouseInput()
+void State::Input()
 {
-    Face* face;
-    int damage;
+    SDL_Event event;
+    int mouse_x, mouse_y;
+    Point mouse_point;
 
-    // Goes in backward direction to try and hit the upper objects first.
-    for (int i = objectArray.size() - 1; i >= 0; --i)
+    // Store mouse coordinates
+    SDL_GetMouseState(&mouse_x, &mouse_y);
+    mouse_point.Set(mouse_x, mouse_y);
+
+    while (SDL_PollEvent(&event))
     {
-        // Cast pointer to Face instance, since it's the only type of GameObject
-        // we have.
-        // This code is temporary and will be removed soon.
-        face = (Face*)objectArray[i].get();
-
-        // Apply damage only once
-        if (face->GetBox().IsInside(inputManager.GetMousePosition()))
+        if (event.type == SDL_QUIT)
+            quitRequested = true;
+       
+        if (event.type == SDL_MOUSEBUTTONDOWN)
         {
-            damage = rand() % 10 + 10;
-            face->Damage(damage);
-            break;
+            // Iterate from the last created object to the first one
+            for (int i = objectArray.size() - 1; i >= 0; --i)
+            {
+                // This hardcoded cast is temporary and will be removed soon
+                Face* face = (Face*) objectArray[i].get();
+
+                if (face->GetBox().IsInside(mouse_point))
+                {
+                    face->Damage(rand() % 10 + 10);
+
+                    // Apply damage only once
+                    break;
+                }
+            }
+        }
+        
+        if (event.type == SDL_KEYDOWN)
+        {
+            if (event.key.keysym.sym == SDLK_ESCAPE)
+                quitRequested = true;
+            else
+                AddObject(mouse_point);
         }
     }
 }
 
-void State::HandleQuitButtonInput()
-{
-    quitRequested = true;
-}
-
-void State::HandleKeyboardInput()
-{
-    if (inputManager.GetPressedKey() == SDLK_ESCAPE)
-        quitRequested = true;
-    else
-        AddObject(inputManager.GetMousePosition());
-}
 
 void State::AddObject(Point& point)
 {
@@ -114,7 +112,7 @@ void State::AddObject(Point& point)
     float angle_deg = (float)(rand() % 360);
     float angle_rad = angle_deg*M_PI/180.0;
     Point randomPoint;
-    randomPoint.SetPolar(200.0, angle_rad);
+    randomPoint.SetPolar(CFG_GETF("RANDOM_RADIUS"), angle_rad);
     randomPoint.Add(point);
 
     objectArray.emplace_back(new Face(randomPoint));

@@ -124,6 +124,6 @@ void Game::Run()
         state->Update();
         state->Render();
         SDL_RenderPresent(renderer); // Force image renderizing
-        SDL_Delay(33); // Arbitrary delay to avoid CPU intense usage
+        SDL_Delay(CFG_GETI("GAME_DELAY")); // Arbitrary delay to avoid CPU intense usage
     }
 }

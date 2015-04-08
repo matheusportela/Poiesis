@@ -7,6 +7,8 @@
 #ifndef FACE_H_
 #define FACE_H_
 
+#include <memory>
+
 #include "Config.h"
 #include "GameObject.h"
 #include "Sprite.h"

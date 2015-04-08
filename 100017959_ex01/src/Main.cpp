@@ -15,7 +15,8 @@ int main(int argc, char **argv)
 {
     CFG_INIT("Configurations.cfg");
 
-    Game game("Matheus Vieira Portela - 10/0017959", 1024, 600);
+    Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
+        CFG_GETI("WINDOW_HEIGHT"));
     game.Run();
 
     return 0;

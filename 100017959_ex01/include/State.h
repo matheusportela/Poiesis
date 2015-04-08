@@ -47,20 +47,17 @@ class State
     // Renders game.
     void Render();
 
+    // Renders state background sprite.
+    void RenderBackground();
+
     // Renders all objects sprites.
     void RenderObjects();
 
     // Returns true if quit was requested by the user.
     bool IsQuitRequested();
 
-    // Callback function for mouse input.
-    void HandleMouseInput();
-
-    // Callback function for quit button input.
-    void HandleQuitButtonInput();
-
-    // Callback function for keyboard input.
-    void HandleKeyboardInput();
+    // Handle user input.
+    void Input();
 
     // Adds an object at the given point.
     void AddObject(Point& point);

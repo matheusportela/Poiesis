@@ -42,13 +42,25 @@
 #define CFG_INIT(filename) \
     Config::GetInstance().Read(filename)
 
-// Gets a configuration value.
-#define CFG_GET(key) \
+// Gets a configuration value as string.
+#define CFG_GETS(key) \
     Config::GetInstance().Get(key)
 
 // Gets a configuration value with prepended path.
 #define CFG_GETP(key) \
-    Config::GetInstance().GetWithPath(key)   
+    Config::GetInstance().GetWithPath(key)
+
+// Gets a configuration value as integer.
+#define CFG_GETI(key) \
+    Config::GetInstance().GetAsInteger(key)
+
+// Gets a configuration value as float.
+#define CFG_GETF(key) \
+    Config::GetInstance().GetAsFloat(key)
+
+// Gets a configuration value as char.
+#define CFG_GETC(key) \
+    Config::GetInstance().GetAsFloat(key)
 
 // Prints configuration keys and values.
 #define CFG_PRINT() \
@@ -92,7 +104,7 @@ class Config
     // Parses a single configuration line.
     void ParseLine(std::string line);
 
-    // Sanitizes line by removing white spaces.
+    // Sanitizes line by removing trailing white spaces.
     std::string SanitizeLine(std::string line);
 
     // Prints configuration key, value pairs
@@ -107,6 +119,18 @@ class Config
     // Gets single configuration value for a given key, automatically prepending
     // the path.
     std::string GetWithPath(std::string key);
+
+    // Gets single configuration value for a given key, automatically converting
+    // to an integer value.
+    int GetAsInteger(std::string key);
+
+    // Gets single configuration value for a given key, automatically converting
+    // to a float value.
+    int GetAsFloat(std::string key);
+
+    // Gets single configuration value for a given key, automatically converting
+    // to a char value.
+    char GetAsChar(std::string key);
 
     // Gets single configuration value for a given key.
     std::string operator[](std::string key);

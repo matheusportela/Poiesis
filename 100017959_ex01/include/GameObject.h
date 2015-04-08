@@ -15,6 +15,9 @@ class GameObject
     // Deletes the game object.
     virtual ~GameObject() {};
 
+    // Getters and setters
+    Rect& GetBox() { return box; }
+
     // Updates the game state after dt seconds.
     virtual void Update(float dt) = 0;
 
@@ -23,8 +26,6 @@ class GameObject
 
     // Communicates whether the game object must be deleted.
     virtual bool IsDead() = 0;
-
-    Rect& GetBox() { return box; }
 
   protected:
     // Bounding box.

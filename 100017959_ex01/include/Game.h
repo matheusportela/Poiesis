@@ -16,6 +16,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "Config.h"
 #include "State.h"
 
 // Forward declaration to avoid circular include.

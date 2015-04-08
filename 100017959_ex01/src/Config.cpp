@@ -97,7 +97,7 @@ bool Config::IsSpecialKey(std::string key)
 
 void Config::ParseLine(std::string line)
 {
-    // Using the approach suggested by http://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
+    // Using the approach suggested at http://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
     std::string delimiter = DELIMITER;
     size_t pos = line.find(delimiter);
     std::string key = SanitizeLine(line.substr(0, pos));
@@ -112,11 +112,13 @@ void Config::ParseLine(std::string line)
 
 std::string Config::SanitizeLine(std::string line)
 {
-    std::stringstream trimmer;
-    trimmer << line;
-    line.clear();
-    trimmer >> line;
-    return line;
+    // Using the approach suggested at http://codereview.stackexchange.com/questions/40124/trim-white-space-from-string
+    if (line.empty())
+        return line;
+
+    size_t first = line.find_first_not_of(' ');
+    size_t last  = line.find_last_not_of(' ');
+    return line.substr(first, last-first+1);
 }
 
 void Config::Print()
@@ -166,6 +168,22 @@ std::string Config::GetWithPath(std::string key)
     }
 
     return (join(path, Get(key)));
+}
+
+int Config::GetAsInteger(std::string key)
+{
+    return std::stoi(Get(key));
+}
+
+int Config::GetAsFloat(std::string key)
+{
+    return std::stof(Get(key));
+}
+
+char Config::GetAsChar(std::string key)
+{
+    std::string value = Get(key);
+    return value[0];
 }
 
 std::string Config::operator[](std::string key)

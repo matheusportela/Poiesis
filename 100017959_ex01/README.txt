@@ -28,11 +28,15 @@ Em ambiente Unix, execute o comando:
 
 MÓDULOS:
 
-Main: Gera o arquivo executável que inicializa o jogo.
-Game: Contém o código genérico da game engine.
-State: Contém o código específico do jogo.
-Sprite: Provê funcionalidades para renderização de imagens no jogo.
 Config: Permite leitura de valores a partir de um arquivo de configuração.
+Face: Implementação de um inimigo.
 FileUtils: Funções úteis para manipulação de arquivos.
+Game: Contém o código genérico da game engine.
+InputManager: Funcionalidades para tratamento de input do usuário. Não utilizado nessa etapa do projeto.
+Main: Gera o arquivo executável que inicializa o jogo.
+Point: Classe geométrica para representação de pontos, em 2 dimensões.
+Rect: Classe geométrica para representação de retângulos, em 2 dimensões.
+Sprite: Provê funcionalidades para renderização de imagens no jogo.
+State: Contém o código específico do jogo.
 
 ================================================================================

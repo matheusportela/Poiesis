@@ -4,8 +4,11 @@
 //
 // @brief 3 dimensional matrix representing the game map
 //
-// Tile map contains a vector with holds the entire game map. It provides
-// functionality to let tiles without renderization, simulating transparency.
+// Tile map is a 3-dimensional matrix that provides tiles renderization. It is
+// build on top of a tile set, which means that all tiles are contained in a
+// single image file.
+// The tile map is defined in a configuration file, parsed and renderized to the
+// screen.
 
 #ifndef TILE_MAP_H_
 #define TILE_MAP_H_

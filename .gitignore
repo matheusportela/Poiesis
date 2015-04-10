@@ -1,3 +1,7 @@
+# Compilation
+*.o
+Main
+
 # Sublime
 *.sublime-project
 *.sublime-workspace

@@ -4,7 +4,17 @@
 //
 // @brief Tile container
 //
-// Definition of class for storing tile used when renderizing the game map.
+// Tile set is an unique image which can be cut in several small rectangles in
+// order to render tiles on the screen.
+// Each tile is accessed through it's index value, which accesses the tile set
+// image as a 1-dimensional vector, such as in the scheme below.
+//  ------------------------
+// |  0 |  1 |  2 |  3 |  4 |
+//  ------------------------
+// |  5 |  6 |  7 |  8 |  9 |
+//  ------------------------
+// | 10 | 11 | 12 | 13 | 14 |
+//  ------------------------
 
 #ifndef TILE_SET_H_
 #define TILE_SET_H_
@@ -32,7 +42,7 @@ class TileSet
     // Checks whether the tile index is within bounds.
     bool IsValidIndex(int index);
 
-    // Renderizes the sprite in the given position for a valid index.
+    // Renderizes the indexed tile in the given window position.
     void Render(int index, Point& point);
 
   private:

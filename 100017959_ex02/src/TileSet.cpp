@@ -48,8 +48,9 @@ void TileSet::Render(int index, Point& point)
     // It is necessary to convert from index to (x, y) image coordinates for
     // clipping.
     int tile_x = (index % columns)*tileWidth;
-    int tile_y = (index / rows)*tileHeight;
+    int tile_y = (index / columns)*tileHeight;
+    Point tilePoint(tile_x, tile_y);
 
-    tileSprite->SetClip(tile_x, tile_y, tileWidth, tileHeight);
+    tileSprite->SetClip(tilePoint, tileWidth, tileHeight);
     tileSprite->Render(point);
 }

@@ -45,7 +45,7 @@ class Sprite
     bool IsOpen();
 
     // Sets clipping rectangle size.
-    void SetClip(int x, int y, int w, int h);
+    void SetClip(Point& point, int w, int h);
 
     // Render sprite.
     void Render(Point& point);

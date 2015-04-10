@@ -33,10 +33,11 @@ int Sprite::GetHeight()
 void Sprite::Open(std::string file)
 {
     texture = Resources::GetImage(file);
+    Point sprintPoint(0, 0);
 
     // Get image width and height
     SDL_QueryTexture(texture, NULL, NULL, &width, &height);
-    SetClip(0, 0, width, height);
+    SetClip(sprintPoint, width, height);
 }
 
 bool Sprite::IsOpen()
@@ -44,10 +45,10 @@ bool Sprite::IsOpen()
     return (texture != NULL);
 }
 
-void Sprite::SetClip(int x, int y, int w, int h)
+void Sprite::SetClip(Point& point, int w, int h)
 {
-    clippingRectangle.x = x;
-    clippingRectangle.y = y;
+    clippingRectangle.x = point.GetX();
+    clippingRectangle.y = point.GetY();
     clippingRectangle.w = w;
     clippingRectangle.h = h;
 }

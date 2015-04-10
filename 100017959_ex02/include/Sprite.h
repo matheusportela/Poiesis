@@ -38,11 +38,8 @@ class Sprite
     // Gets image presentation height.
     int GetHeight();
 
-    // Opens image file.
+    // Opens image file and loads it in memory with the resource manager.
     void Open(std::string file);
-
-    // Close an opened image.
-    void Close();
 
     // Checks whether the image is open.
     bool IsOpen();

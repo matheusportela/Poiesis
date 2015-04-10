@@ -10,6 +10,8 @@ TileSet::TileSet(int tileWidth, int tileHeight, std::string file) :
     tileWidth(tileWidth), tileHeight(tileHeight)
 {
     tileSprite = new Sprite(file);
+
+    // Calculates the number of columns and rows in the given tile set image.
     columns = tileSprite->GetWidth() / tileWidth;
     rows = tileSprite->GetHeight() / tileHeight;
 }
@@ -38,13 +40,16 @@ void TileSet::Render(int index, Point& point)
 {
     if (!IsValidIndex(index))
     {
-        std::cerr << "ERROR [TileSet] Index " << index << " out of bounds."
-                  << std::endl;
+        std::cerr << "ERROR [TileSet] Index " << index << " out of bounds. "
+                  << "Columns: " <<  columns << " Rows: " << rows << std::endl;
         exit(1);
     }
 
+    // It is necessary to convert from index to (x, y) image coordinates for
+    // clipping.
     int tile_x = (index % columns)*tileWidth;
     int tile_y = (index / rows)*tileHeight;
+
     tileSprite->SetClip(tile_x, tile_y, tileWidth, tileHeight);
     tileSprite->Render(point);
 }

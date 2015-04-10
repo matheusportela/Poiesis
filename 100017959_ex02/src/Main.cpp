@@ -11,9 +11,6 @@
 #include "Game.h"
 #include "ConfigParser.h"
 
-// Remove after tests
-#include "TileMap.h"
-
 int main(int argc, char **argv)
 {
     CFG_INIT("Configurations.cfg");

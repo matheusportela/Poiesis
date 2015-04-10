@@ -126,4 +126,7 @@ void Game::Run()
         SDL_RenderPresent(renderer); // Force image renderizing
         SDL_Delay(CFG_GETI("GAME_DELAY")); // Arbitrary delay to avoid CPU intense usage
     }
+
+    // Clear everything from memory.
+    Resources::ClearImages();
 }

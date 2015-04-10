@@ -18,7 +18,6 @@ Sprite::Sprite(std::string file) : Sprite()
 
 Sprite::~Sprite()
 {
-    Close();
 }
 
 int Sprite::GetWidth()
@@ -33,26 +32,11 @@ int Sprite::GetHeight()
 
 void Sprite::Open(std::string file)
 {
-    Close();
-
-    texture = IMG_LoadTexture(Game::GetInstance()->GetRenderer(), file.c_str());
-
-    if (!texture)
-    {
-        std::cerr << "ERROR [Sprite] Could not load texture." << std::endl;
-        std::cerr << SDL_GetError() << std::endl;
-        exit(1);
-    }
+    texture = Resources::GetImage(file);
 
     // Get image width and height
     SDL_QueryTexture(texture, NULL, NULL, &width, &height);
     SetClip(0, 0, width, height);
-}
-
-void Sprite::Close()
-{
-    if (IsOpen())
-        SDL_DestroyTexture(texture);
 }
 
 bool Sprite::IsOpen()

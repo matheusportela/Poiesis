@@ -15,28 +15,71 @@
 
 #include <functional>
 #include <map>
+#include <utility>
 
 #include <SDL.h>
 
-#include "InputType.h"
 #include "Point.h"
+
+// All supported types of input.
+namespace InputType
+{
+    enum Type
+    {
+        MousePress,
+        MouseRelease,
+        MouseDown,
+        KeyPress,
+        KeyRelease,
+        KeyDown,
+        QuitButtonPress,
+    };
+}
+
+// All supported types of mouse input.
+namespace MouseButton
+{
+    enum Button
+    {
+        Left,
+        Middle,
+        Right,
+    };
+}
+
+// All supported types of keyboard input.
+namespace KeyboardButton
+{
+    enum Button
+    {
+        LowercaseA,
+        LowercaseD,
+        LowercaseS,
+        LowercaseW,
+        Esc,
+    };
+}
 
 class InputManager
 {
   public:
+    // Constructor.
+    InputManager();
+
     // Getters and setters.
     Point& GetMousePosition();
     int GetPressedKey();
 
     // Register a function to be called whenever an input of type inputType
     // happens. The callback function must return void and receive no arguments.
-    void RegisterCallback(InputType::Type inputType, std::function<void()> callback);
+    void RegisterCallback(std::function<void()> callback,
+        InputType::Type inputType, int code = 0);
 
     // Checks whether an input type has a callback function.
-    bool HasCallback(InputType::Type inputType);
+    bool HasCallback(InputType::Type inputType, int code = 0);
 
     // Calls the callback function of an input type.
-    void ActivateCallback(InputType::Type inputType);
+    void ActivateCallback(InputType::Type inputType, int code = 0);
 
     // Activates callback functions for specified input types.
     void ProcessInputs();
@@ -44,18 +87,27 @@ class InputManager
     // Get mouse position and store.
     void UpdateMousePosition();
 
-    // Get pressed key and store.
-    void UpdatePressedKey(int key);
+    bool IsSupportedKeyboardCode(int SDLCode);
+    bool IsSupportedMouseCode(int SDLCode);
 
   private:
+    // Maps SDL mouse button to InputManager mouse button.
+    static std::map<int, int> mouseButtonMap;
+
+    // Maps SDL keyboard button to InputManager keyboard button.
+    static std::map<int, int> keyboardButtonMap;
+
     // Container for callback functions.
-    std::map<InputType::Type, std::function<void()>> callbackMap;
+    std::map<std::pair<InputType::Type, int>, std::function<void()>> callbackMap;
 
     // Current mouse position.
     Point mousePosition;
 
-    // Last pressed key.
-    int pressedKey;
+    // Holds whether some key is pressed down.
+    std::map<int, int> keyDownMap;
+
+    // Holds whether some mouse button is pressed down.
+    std::map<int, int> mouseDownMap;
 };
 
 #endif // INPUT_MANAGER_H_

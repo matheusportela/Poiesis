@@ -13,6 +13,7 @@ State::State()
     tileSet = new TileSet(CFG_GETI("TILE_WIDTH"), CFG_GETI("TILE_HEIGHT"),
         CFG_GETP("TILE_SET"));
     tileMap = new TileMap(CFG_GETP("TILE_MAP"), tileSet);
+    ConfigureInputCallbacks();
 }
 
 State::~State()
@@ -23,9 +24,27 @@ State::~State()
     objectArray.clear();
 }
 
+void State::ConfigureInputCallbacks()
+{
+    inputManager.RegisterCallback(std::bind(&State::DamageCallback, this),
+        InputType::MousePress, MouseButton::Left);
+    
+    inputManager.RegisterCallback(std::bind(&State::QuitCallback, this),
+        InputType::QuitButtonPress);
+
+    inputManager.RegisterCallback(std::bind(&State::QuitCallback, this),
+        InputType::KeyPress, KeyboardButton::Esc);
+
+    inputManager.RegisterCallback(std::bind(&State::AddObjectCallback, this),
+        InputType::KeyPress, KeyboardButton::LowercaseA);
+
+    inputManager.RegisterCallback(std::bind(&State::AddObjectCallback, this),
+        InputType::KeyPress, KeyboardButton::LowercaseW);
+}
+
 void State::Update()
 {
-    Input();
+    inputManager.ProcessInputs();
     DeleteDeadObjects();
 }
 
@@ -73,49 +92,38 @@ bool State::IsQuitRequested()
     return quitRequested;
 }
 
-void State::Input()
+void State::DamageCallback()
 {
-    SDL_Event event;
-    int mouse_x, mouse_y;
-    Point mouse_point;
+    Face* face;
+    int damage;
 
-    // Store mouse coordinates
-    SDL_GetMouseState(&mouse_x, &mouse_y);
-    mouse_point.Set(mouse_x, mouse_y);
-
-    while (SDL_PollEvent(&event))
+    // Goes in backward direction to try and hit the upper objects first.
+    for (int i = objectArray.size() - 1; i >= 0; --i)
     {
-        if (event.type == SDL_QUIT)
-            quitRequested = true;
-       
-        if (event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            // Iterate from the last created object to the first one
-            for (int i = objectArray.size() - 1; i >= 0; --i)
-            {
-                // This hardcoded cast is temporary and will be removed soon
-                Face* face = (Face*) objectArray[i].get();
+        // Cast pointer to Face instance, since it's the only type of GameObject
+        // we have.
+        // This code is temporary and will be removed soon.
+        face = (Face*)objectArray[i].get();
 
-                if (face->GetBox().IsInside(mouse_point))
-                {
-                    face->Damage(rand() % 10 + 10);
-
-                    // Apply damage only once
-                    break;
-                }
-            }
-        }
-        
-        if (event.type == SDL_KEYDOWN)
+        // Apply damage only once
+        if (face->GetBox().IsInside(inputManager.GetMousePosition()))
         {
-            if (event.key.keysym.sym == SDLK_ESCAPE)
-                quitRequested = true;
-            else
-                AddObject(mouse_point);
+            damage = rand() % CFG_GETI("DAMAGE_RANGE") + CFG_GETI("DAMAGE_BASE");
+            face->Damage(damage);
+            break;
         }
     }
 }
 
+void State::QuitCallback()
+{
+    quitRequested = true;
+}
+
+void State::AddObjectCallback()
+{
+    AddObject(inputManager.GetMousePosition());
+}
 
 void State::AddObject(Point& point)
 {

@@ -60,8 +60,14 @@ class State
     // Returns true if quit was requested by the user.
     bool IsQuitRequested();
 
-    // Handle user input.
-    void Input();
+    // Callback function for mouse input.
+    void DamageCallback();
+
+    // Callback function for quit button input.
+    void QuitCallback();
+
+    // Callback function for keyboard input.
+    void AddObjectCallback();
 
     // Adds an object at the given point.
     void AddObject(Point& point);

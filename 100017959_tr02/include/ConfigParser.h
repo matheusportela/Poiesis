@@ -30,7 +30,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <map>
+#include <unordered_map>
 #include <sstream>
 #include <string>
 
@@ -133,7 +133,7 @@ class ConfigParser : public Parser
     std::ifstream filestream;
 
     // Map to hold configuration entries.
-    std::map<std::string, std::string> configurationMap;
+    std::unordered_map<std::string, std::string> configurationMap;
 
     // Path for file handling.
     std::string path;

@@ -86,7 +86,7 @@ std::string ConfigParser::SanitizeLine(std::string line)
 
 void ConfigParser::Print()
 {
-    std::map<std::string, std::string>::iterator it;
+    std::unordered_map<std::string, std::string>::iterator it;
 
     std::cout << "=============================================" << std::endl;
     std::cout << "Configuration file: " << configurationFilename << std::endl;

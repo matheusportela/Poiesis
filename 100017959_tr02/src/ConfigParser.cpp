@@ -63,6 +63,13 @@ void ConfigParser::ParseLine(std::string line)
     if (IsSpecialKey(key) and key == "$PATH")
         SetPath(value);
 
+    if (Contains(key))
+    {
+        std::cerr << "ERROR [ConfigParser] Key \"" << key << "\" defined "
+                  << "multiple times in configuration file." << std::endl;
+        exit(1);
+    }
+
     configurationMap[key] = value;
 }
 
@@ -92,11 +99,8 @@ void ConfigParser::Print()
 
 bool ConfigParser::Contains(std::string key)
 {
-    // Iterator receives std::map::end value when the map does not contain any
-    // entry with the given key.
-    std::map<std::string, std::string>::iterator it = configurationMap.find(key);
-
-    return (it != configurationMap.end());
+    // find returns end when the key has not been found in the map
+    return (configurationMap.find(key) != configurationMap.end());
 }
 
 std::string ConfigParser::Get(std::string key)

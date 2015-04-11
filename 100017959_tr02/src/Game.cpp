@@ -8,7 +8,7 @@
 
 Game* Game::instance = NULL;
 
-Game::Game(std::string title, int width, int height)
+Game::Game(std::string title, int width, int height) : frameStart(0), dt(0)
 {
     // Applying singleton pattern.
     if (instance != NULL)
@@ -49,6 +49,11 @@ SDL_Renderer* Game::GetRenderer()
 State& Game::GetState()
 {
     return *state;
+}
+
+float Game::GetDeltaTime()
+{
+    return dt;
 }
 
 void Game::SeedRandom()
@@ -121,6 +126,7 @@ void Game::Run()
 {
     while (!state->IsQuitRequested())
     {
+        UpdateDeltaTime();
         state->Update();
         state->Render();
         SDL_RenderPresent(renderer); // Force image renderizing
@@ -129,4 +135,12 @@ void Game::Run()
 
     // Clear everything from memory.
     Resources::ClearImages();
+}
+
+void Game::UpdateDeltaTime()
+{
+    unsigned int ticks = SDL_GetTicks();
+    unsigned int delta = ticks - frameStart;
+    frameStart = ticks;
+    dt = delta/1000.0; // milliseconds to seconds
 }

@@ -45,6 +45,9 @@ class Game
     // Gets the game-specific logic instance.
     State& GetState();
 
+    // Gets the amount of time passed since the last frame.
+    float GetDeltaTime();
+
     // Seeds random number generator with current time.
     void SeedRandom();
 
@@ -70,6 +73,9 @@ class Game
     void Run();
 
   private:
+    // Updates the amount of time has passed since the last frame.
+    void UpdateDeltaTime();
+
     // Game singletion instance.
     static Game* instance;
 
@@ -81,6 +87,12 @@ class Game
 
     // Game-specific logic.
     State* state;
+
+    // Moment when the frame has started (in milliseconds).
+    unsigned int frameStart;
+
+    // Amount of time passed since the last frame (in seconds).
+    float dt;
 };
 
 #endif // GAME_H_

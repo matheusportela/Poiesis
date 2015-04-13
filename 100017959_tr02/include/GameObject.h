@@ -7,6 +7,7 @@
 #ifndef GAME_OBJECT_H_
 #define GAME_OBJECT_H_
 
+#include "Point.h"
 #include "Rect.h"
 
 class GameObject
@@ -17,6 +18,12 @@ class GameObject
 
     // Getters and setters
     Rect& GetBox() { return box; }
+    Point GetCenter()
+    {
+        Point point;
+        point = box.GetCenter();
+        return point;
+    }
 
     // Updates the game state after dt seconds.
     virtual void Update(float dt) = 0;

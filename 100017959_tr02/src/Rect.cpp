@@ -62,6 +62,14 @@ void Rect::SetCenter(Point& centerPoint, float w, float h)
     this->h = h;
 }
 
+Point Rect::GetCenter()
+{
+    Point centerPoint;
+    centerPoint.SetX(point.GetX() + w/2.0);
+    centerPoint.SetY(point.GetY() + h/2.0);
+    return centerPoint;
+}
+
 std::string Rect::ToString()
 {
     char buffer[64];

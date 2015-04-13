@@ -9,24 +9,13 @@
 #include "Game.h"
 #include "ConfigParser.h"
 
-// Deletes after testing
-#include "Point.h"
-#include "Rect.h"
-
 int main(int argc, char **argv)
 {
     CFG_INIT("Configurations.cfg");
 
-    // Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
-    //     CFG_GETI("WINDOW_HEIGHT"));
-    // game.Run();
-
-    Point p(10, 10);
-    Rect r;
-    r.SetCenter(p, 5, 5);
-    p = r.GetCenter();
-    
-    std::cout << p.ToString() << r.ToString() << std::endl;
+    Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
+        CFG_GETI("WINDOW_HEIGHT"));
+    game.Run();
 
     return 0;
 }

@@ -127,7 +127,7 @@ void Game::Run()
     while (!state->IsQuitRequested())
     {
         UpdateDeltaTime();
-        state->Update();
+        state->Update(dt);
         state->Render();
         SDL_RenderPresent(renderer); // Force image renderizing
         SDL_Delay(CFG_GETI("GAME_DELAY")); // Arbitrary delay to avoid CPU intense usage

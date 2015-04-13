@@ -50,6 +50,12 @@ void Point::Add(Point& point)
     this->y += point.GetY();
 }
 
+void Point::Subtract(Point& point)
+{
+    this->x -= point.GetX();
+    this->y -= point.GetY();
+}
+
 std::string Point::ToString()
 {
     char buffer[64];

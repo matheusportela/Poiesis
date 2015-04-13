@@ -14,6 +14,9 @@ State::State()
         CFG_GETP("TILE_SET"));
     tileMap = new TileMap(CFG_GETP("TILE_MAP"), tileSet);
     ConfigureInputCallbacks();
+
+    // Testing camera speed.
+    Camera::speed = Vector(100, 100);
 }
 
 State::~State()
@@ -42,8 +45,9 @@ void State::ConfigureInputCallbacks()
         InputType::KeyPress, KeyboardButton::LowercaseW);
 }
 
-void State::Update()
+void State::Update(float dt)
 {
+    Camera::Update(dt);
     inputManager.ProcessInputs();
     DeleteDeadObjects();
 }
@@ -77,7 +81,10 @@ void State::RenderBackground()
 
 void State::RenderTiles()
 {
-    Point tile_map_point(0, 0);
+    // Since the first upper left corner is the system origin, we use the
+    // negative of the camera position to translate the origin by the amount we
+    // expect to move in the screen.
+    Point tile_map_point(-Camera::position.GetX(), -Camera::position.GetY());
     tileMap->Render(tile_map_point);
 }
 

@@ -15,6 +15,7 @@
 
 #include <SDL.h>
 
+#include "Camera.h"
 #include "ConfigParser.h"
 #include "Face.h"
 #include "FileUtils.h"
@@ -22,6 +23,7 @@
 #include "InputManager.h"
 #include "TileMap.h"
 #include "TileSet.h"
+#include "Vector.h"
 
 class TileMap;
 class TileSet;
@@ -39,8 +41,8 @@ class State
     // Configures callback functions for all relevant user input type in the game.
     void ConfigureInputCallbacks();
 
-    // Updates game state.
-    void Update();
+    // Updates game state after a delta time in seconds.
+    void Update(float dt);
 
     // Delete game objects that are marked as IsDead.
     void DeleteDeadObjects();

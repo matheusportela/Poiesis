@@ -11,6 +11,8 @@
 #include <iostream>
 #include <string>
 
+#include "Point.h"
+
 class Vector
 {
   public:
@@ -58,6 +60,9 @@ class Vector
 
     // Converts to string for printing purposes.
     std::string ToString();
+
+    // Converts vector to point with x, y coordinates.
+    Point ToPoint();
 
   private:
     // 2-D (x, y) coordinates

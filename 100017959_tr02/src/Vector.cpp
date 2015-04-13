@@ -107,3 +107,9 @@ std::string Vector::ToString()
 
     return stringBuffer;
 }
+
+Point Vector::ToPoint()
+{
+    Point centerPoint(x, y);
+    return centerPoint;
+}

@@ -37,6 +37,9 @@ class Point
     // Adds two points in Cartesian coordinates.
     void Add(Point& point);
 
+    // Subtracts two points in Cartesian coordinates.
+    void Subtract(Point& point);
+
     std::string ToString();
 
   private:

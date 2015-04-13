@@ -101,6 +101,7 @@ void TileMap::RenderLayer(int layer, Point& cameraPoint)
                 continue;
 
             tile_point.Set(x*tile_width, y*tile_height);
+            tile_point.Add(cameraPoint);
             tileSet->Render(tile_index, tile_point);
         }
     }

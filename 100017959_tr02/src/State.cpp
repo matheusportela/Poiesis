@@ -103,10 +103,8 @@ void State::DamageCallback()
         // we have.
         // This code is temporary and will be removed soon.
         face = (Face*)objectArray[i].get();
-
-        // Convert to world coordinates
-        clickPoint.Set(InputManager::GetInstance().GetMousePosition());
-        clickPoint.Add(Camera::position);
+        clickPoint = Camera::ScreenToWorldPoint(
+            InputManager::GetInstance().GetMousePosition());
 
         // Apply damage only once
         if (face->GetBox().IsInside(clickPoint))

@@ -9,6 +9,7 @@
 
 #include <memory>
 
+#include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
 #include "Sprite.h"

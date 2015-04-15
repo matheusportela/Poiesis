@@ -29,6 +29,12 @@ class Camera
     // Updates camera position given a time interval.
     static void Update(float dt);
 
+    // Converts a world point to screen coordinates.
+    static Point WorldToScreenPoint(Point& point);
+
+    // Converts a screen point to world coordinates.
+    static Point ScreenToWorldPoint(Point& point);
+
     // Camera position (in pixels).
     static Point position;
 

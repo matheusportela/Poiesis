@@ -21,6 +21,13 @@
 
 #include "Point.h"
 
+#define REGISTER_INPUT_TYPE_CALLBACK(method, key) \
+    InputManager::GetInstance().RegisterCallback(std::bind(&method, this), key);
+
+#define REGISTER_INPUT_KEY_CALLBACK(method, type, key) \
+    InputManager::GetInstance().RegisterCallback(std::bind(&method, this), type, key);
+
+
 // All supported types of input.
 namespace InputType
 {
@@ -63,8 +70,8 @@ namespace KeyboardButton
 class InputManager
 {
   public:
-    // Constructor.
-    InputManager();
+    // Singleton pattern.
+    static InputManager& GetInstance();
 
     // Getters and setters.
     Point& GetMousePosition();
@@ -91,6 +98,10 @@ class InputManager
     bool IsSupportedMouseCode(int SDLCode);
 
   private:
+    // Constructor.
+    InputManager();
+    ~InputManager();
+
     // Maps SDL mouse button to InputManager mouse button.
     static std::map<int, int> mouseButtonMap;
 

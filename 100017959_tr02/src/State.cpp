@@ -16,7 +16,8 @@ State::State()
     ConfigureInputCallbacks();
 
     // Testing camera speed.
-    Camera::speed = Vector(100, 100);
+    Camera::speed = Vector(CFG_GETI("CAMERA_SPEED_X"),
+        CFG_GETI("CAMERA_SPEED_Y"));
 }
 
 State::~State()
@@ -29,26 +30,31 @@ State::~State()
 
 void State::ConfigureInputCallbacks()
 {
-    inputManager.RegisterCallback(std::bind(&State::DamageCallback, this),
+    InputManager::GetInstance().RegisterCallback(
+        std::bind(&State::DamageCallback, this),
         InputType::MousePress, MouseButton::Left);
     
-    inputManager.RegisterCallback(std::bind(&State::QuitCallback, this),
+    InputManager::GetInstance().RegisterCallback(
+        std::bind(&State::QuitCallback, this),
         InputType::QuitButtonPress);
 
-    inputManager.RegisterCallback(std::bind(&State::QuitCallback, this),
+    InputManager::GetInstance().RegisterCallback(
+        std::bind(&State::QuitCallback, this),
         InputType::KeyPress, KeyboardButton::Esc);
 
-    inputManager.RegisterCallback(std::bind(&State::AddObjectCallback, this),
+    InputManager::GetInstance().RegisterCallback(
+        std::bind(&State::AddObjectCallback, this),
         InputType::KeyPress, KeyboardButton::LowercaseA);
 
-    inputManager.RegisterCallback(std::bind(&State::AddObjectCallback, this),
+    InputManager::GetInstance().RegisterCallback(
+        std::bind(&State::AddObjectCallback, this),
         InputType::KeyPress, KeyboardButton::LowercaseW);
 }
 
 void State::Update(float dt)
 {
     Camera::Update(dt);
-    inputManager.ProcessInputs();
+    InputManager::GetInstance().ProcessInputs();
     DeleteDeadObjects();
 }
 
@@ -101,6 +107,7 @@ bool State::IsQuitRequested()
 
 void State::DamageCallback()
 {
+    Point clickPoint;
     Face* face;
     int damage;
 
@@ -112,8 +119,12 @@ void State::DamageCallback()
         // This code is temporary and will be removed soon.
         face = (Face*)objectArray[i].get();
 
+        // Convert to world coordinates
+        clickPoint.Set(InputManager::GetInstance().GetMousePosition());
+        clickPoint.Add(Camera::position);
+
         // Apply damage only once
-        if (face->GetBox().IsInside(inputManager.GetMousePosition()))
+        if (face->GetBox().IsInside(clickPoint))
         {
             damage = rand() % CFG_GETI("DAMAGE_RANGE") + CFG_GETI("DAMAGE_BASE");
             face->Damage(damage);
@@ -129,7 +140,12 @@ void State::QuitCallback()
 
 void State::AddObjectCallback()
 {
-    AddObject(inputManager.GetMousePosition());
+    // An object is spawned at the place where the mouse is pointing to. This
+    // place is current mouse position (relative to the window) with the camera
+    // position (relative to the world).
+    Point objectPoint(InputManager::GetInstance().GetMousePosition());
+    objectPoint.Add(Camera::position);
+    AddObject(objectPoint);
 }
 
 void State::AddObject(Point& point)

@@ -40,6 +40,18 @@ InputManager::InputManager()
     }
 }
 
+InputManager::~InputManager()
+{
+}
+
+InputManager& InputManager::GetInstance()
+{
+    // Singleton pattern using the approach suggested at
+    // http://stackoverflow.com/questions/1008019/c-singleton-design-pattern
+    static InputManager instance;
+    return instance;
+}
+
 Point& InputManager::GetMousePosition()
 {
     return mousePosition;

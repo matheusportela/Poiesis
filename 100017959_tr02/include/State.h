@@ -84,9 +84,6 @@ class State
     // Container for all Game Objects instanciated during the game.
     std::vector<std::unique_ptr<GameObject>> objectArray;
 
-    // Manager for user inputs.
-    InputManager inputManager;
-
     // Tile management and renderization.
     TileSet* tileSet;
     TileMap* tileMap;

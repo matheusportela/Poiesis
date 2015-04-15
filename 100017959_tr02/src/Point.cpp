@@ -38,6 +38,12 @@ void Point::Set(float x, float y)
     this->y = y;
 }
 
+void Point::Set(Point& point)
+{
+    this->x = point.x;
+    this->y = point.y;
+}
+
 void Point::SetPolar(float r, float ang)
 {
     this->x = r*cos(ang);

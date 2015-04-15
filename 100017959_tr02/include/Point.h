@@ -30,6 +30,7 @@ class Point
     void SetY(float y);
 
     void Set(float x, float y);
+    void Set(Point& point);
 
     // Set point coordinates given radius and angle in radians.
     void SetPolar(float r, float ang);

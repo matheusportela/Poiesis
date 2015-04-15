@@ -24,7 +24,13 @@ void Face::Update(float dt)
 
 void Face::Render()
 {
-    sprite->Render(box.GetPoint());
+    // Face object is static in the world. This means that we must render it
+    // to the world point where is was spawned, not the window position. Hence,
+    // we subtract the current camera position to convert to world point.
+    Point renderPoint(box.GetPoint());
+    renderPoint.Subtract(Camera::position);
+
+    sprite->Render(renderPoint);
 }
 
 bool Face::IsDead()

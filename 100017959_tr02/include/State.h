@@ -74,6 +74,11 @@ class State
     // Adds an object at the given point.
     void AddObject(Point& point);
 
+    void MoveCameraUpCallback();
+    void MoveCameraDownCallback();
+    void MoveCameraLeftCallback();
+    void MoveCameraRightCallback();
+
   private:
     // Background sprite.
     Sprite* bg;

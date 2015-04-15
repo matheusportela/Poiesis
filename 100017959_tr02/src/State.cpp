@@ -14,10 +14,6 @@ State::State()
         CFG_GETP("TILE_SET"));
     tileMap = new TileMap(CFG_GETP("TILE_MAP"), tileSet);
     ConfigureInputCallbacks();
-
-    // Testing camera speed.
-    Camera::speed = Vector(CFG_GETI("CAMERA_SPEED_X"),
-        CFG_GETI("CAMERA_SPEED_Y"));
 }
 
 State::~State()
@@ -30,25 +26,14 @@ State::~State()
 
 void State::ConfigureInputCallbacks()
 {
-    InputManager::GetInstance().RegisterCallback(
-        std::bind(&State::DamageCallback, this),
-        InputType::MousePress, MouseButton::Left);
-    
-    InputManager::GetInstance().RegisterCallback(
-        std::bind(&State::QuitCallback, this),
-        InputType::QuitButtonPress);
-
-    InputManager::GetInstance().RegisterCallback(
-        std::bind(&State::QuitCallback, this),
-        InputType::KeyPress, KeyboardButton::Esc);
-
-    InputManager::GetInstance().RegisterCallback(
-        std::bind(&State::AddObjectCallback, this),
-        InputType::KeyPress, KeyboardButton::LowercaseA);
-
-    InputManager::GetInstance().RegisterCallback(
-        std::bind(&State::AddObjectCallback, this),
-        InputType::KeyPress, KeyboardButton::LowercaseW);
+    REGISTER_INPUT_TYPE_CALLBACK(State::QuitCallback, InputType::QuitButtonPress);
+    REGISTER_INPUT_KEY_CALLBACK(State::QuitCallback, InputType::KeyPress, KeyboardButton::Esc);
+    REGISTER_INPUT_KEY_CALLBACK(State::AddObjectCallback, InputType::KeyPress, KeyboardButton::Space);
+    REGISTER_INPUT_KEY_CALLBACK(State::DamageCallback, InputType::MousePress, MouseButton::Left);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraUpCallback, InputType::KeyDown, KeyboardButton::ArrowUp);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraDownCallback, InputType::KeyDown, KeyboardButton::ArrowDown);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraLeftCallback, InputType::KeyDown, KeyboardButton::ArrowLeft);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraRightCallback, InputType::KeyDown, KeyboardButton::ArrowRight);
 }
 
 void State::Update(float dt)
@@ -159,4 +144,28 @@ void State::AddObject(Point& point)
     randomPoint.Add(point);
 
     objectArray.emplace_back(new Face(randomPoint));
+}
+
+void State::MoveCameraUpCallback()
+{
+    Point point(0, -CFG_GETI("CAMERA_MOVE_DISTANCE"));
+    Camera::position.Add(point);
+}
+
+void State::MoveCameraDownCallback()
+{
+    Point point(0, CFG_GETI("CAMERA_MOVE_DISTANCE"));
+    Camera::position.Add(point);
+}
+
+void State::MoveCameraLeftCallback()
+{
+    Point point(-CFG_GETI("CAMERA_MOVE_DISTANCE"), 0);
+    Camera::position.Add(point);
+}
+
+void State::MoveCameraRightCallback()
+{
+    Point point(CFG_GETI("CAMERA_MOVE_DISTANCE"), 0);
+    Camera::position.Add(point);
 }

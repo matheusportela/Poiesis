@@ -123,11 +123,9 @@ void State::QuitCallback()
 
 void State::AddObjectCallback()
 {
-    // An object is spawned at the place where the mouse is pointing to. This
-    // place is current mouse position (relative to the window) with the camera
-    // position (relative to the world).
-    Point objectPoint(InputManager::GetInstance().GetMousePosition());
-    objectPoint.Add(Camera::position);
+    Point objectPoint;
+    objectPoint = Camera::ScreenToWorldPoint(
+        (InputManager::GetInstance().GetMousePosition()));
     AddObject(objectPoint);
 }
 

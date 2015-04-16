@@ -71,7 +71,7 @@ void Point::Multiply(int scalar)
 std::string Point::ToString()
 {
     char buffer[64];
-    sprintf(buffer, "(x: %f, y: %f)", x, y);
+    sprintf(buffer, "(%f, %f)", x, y);
     std::string stringBuffer = buffer;
 
     return stringBuffer;

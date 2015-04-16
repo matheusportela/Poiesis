@@ -16,11 +16,14 @@ class Point
     // Empty constructor.
     Point();
 
-    // Initialize with pre-defined (x, y) coordinates.
+    // Initializes with pre-defined (x, y) coordinates.
     Point(float x, float y);
 
     // Copy constructor.
     Point(Point& other);
+
+    // Virtual destructor
+    virtual ~Point() { };
 
     // Getters and setters
     float GetX();
@@ -32,7 +35,7 @@ class Point
     void Set(float x, float y);
     void Set(Point& point);
 
-    // Set point coordinates given radius and angle in radians.
+    // Sets point coordinates given radius and angle in radians.
     void SetPolar(float r, float ang);
 
     // Adds two points in Cartesian coordinates.
@@ -41,12 +44,13 @@ class Point
     // Subtracts two points in Cartesian coordinates.
     void Subtract(Point& point);
 
-    // Multiply point coordinates by a scalar value.
+    // Multiplies point coordinates by a scalar value.
     void Multiply(int scalar);
 
+    // Converts to string for printing purposes.
     std::string ToString();
 
-  private:
+  protected:
     // 2-D (x, y) coordinates
     float x;
     float y;

@@ -29,6 +29,7 @@ Em ambiente Unix, execute o comando:
 
 MÓDULOS:
 
+Camera: Classe estática que provê movimentação da cena do jogo.
 ConfigParser: Permite leitura de valores a partir de um arquivo de configuração.
 Face: Implementação de um inimigo.
 FileUtils: Funções úteis para manipulação de arquivos.
@@ -46,5 +47,6 @@ State: Contém o código específico do jogo.
 TileMap: Renderizador de mapa de jogo a partir de tiles.
 TileMapParser: Permite leitura de configuração de mapas por meio de tiles.
 TileSet: Gerenciador de tiles a partir de uma única imagem.
+Vector: Classe geométrica para representação e operações de vetores, em 2 dimensões.
 
 ================================================================================

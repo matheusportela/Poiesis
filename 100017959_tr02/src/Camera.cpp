@@ -28,12 +28,10 @@ void Camera::UpdatePositionByFocusObject()
 void Camera::UpdatePositionBySpeed(float dt)
 {
     Vector displacement(Camera::speed);
-    Point displacementPoint;
 
     // X = X0 + V*dt
     displacement.Multiply(dt);
-    displacementPoint = displacement.ToPoint();
-    Camera::position.Add(displacementPoint);
+    Camera::position.Add(displacement);
 }
 
 void Camera::Update(float dt)

@@ -6,44 +6,6 @@
 
 #include "Vector.h"
 
-Vector::Vector() : x(0), y(0) {}
-
-Vector::Vector(float x, float y) : x(x), y(y) {}
-
-Vector::Vector(Vector& other) : x(other.x), y(other.y) {}
-
-float Vector::GetX()
-{
-    return x;
-}
-
-void Vector::SetX(float x)
-{
-    this->x = x;
-}
-
-float Vector::GetY()
-{
-    return y;
-}
-
-void Vector::SetY(float y)
-{
-    this->y = y;
-}
-
-void Vector::Set(float x, float y)
-{
-    this->x = x;
-    this->y = y;
-}
-
-void Vector::SetPolar(float magnitude, float direction)
-{
-    this->x = magnitude*cos(direction);
-    this->y = magnitude*sin(direction);
-}
-
 float Vector::GetMagnitude()
 {
     return hypot(x, y);
@@ -52,18 +14,6 @@ float Vector::GetMagnitude()
 float Vector::GetDirection()
 {
     return atan2(y, x);
-}
-
-void Vector::Add(Vector& vector)
-{
-    this->x += vector.GetX();
-    this->y += vector.GetY();
-}
-
-void Vector::Subtract(Vector& vector)
-{
-    this->x -= vector.GetX();
-    this->y -= vector.GetY();
 }
 
 void Vector::Multiply(float scalar)
@@ -97,19 +47,4 @@ void Vector::Normalize()
 
     x = new_x;
     y = new_y;
-}
-
-std::string Vector::ToString()
-{
-    char buffer[64];
-    sprintf(buffer, "(%f, %f)", x, y);
-    std::string stringBuffer = buffer;
-
-    return stringBuffer;
-}
-
-Point Vector::ToPoint()
-{
-    Point centerPoint(x, y);
-    return centerPoint;
 }

@@ -62,6 +62,12 @@ void Point::Subtract(Point& point)
     this->y -= point.GetY();
 }
 
+void Point::Multiply(int scalar)
+{
+    this->x *= scalar;
+    this->y *= scalar;
+}
+
 std::string Point::ToString()
 {
     char buffer[64];

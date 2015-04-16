@@ -41,6 +41,9 @@ class Point
     // Subtracts two points in Cartesian coordinates.
     void Subtract(Point& point);
 
+    // Multiply point coordinates by a scalar value.
+    void Multiply(int scalar);
+
     std::string ToString();
 
   private:

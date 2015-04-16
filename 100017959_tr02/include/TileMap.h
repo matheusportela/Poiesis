@@ -19,6 +19,8 @@
 #include <string>
 #include <vector>
 
+#include "ConfigParser.h"
+#include "Point.h"
 #include "TileMapParser.h"
 #include "TileSet.h"
 
@@ -47,6 +49,10 @@ class TileMap
 
     // Prints tile map to standard output.
     void Print();
+
+    // Parallax scrolling makes each layer move with different speed. Higher
+    // layers will move faster than lower layers.
+    Point ApplyParallax(int layer, Point tilePoint, Point cameraPoint);
 
     // Render a single map layer.
     void RenderLayer(int layer, Point& cameraPoint);

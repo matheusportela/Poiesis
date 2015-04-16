@@ -146,6 +146,21 @@ char ConfigParser::GetAsChar(std::string key)
     return value[0];
 }
 
+bool ConfigParser::GetAsBool(std::string key)
+{
+    std::string value = Get(key);
+
+    if (value == "true")
+        return true;
+    else if (value == "false")
+        return false;
+    
+    std::cerr << "ERROR [ConfigParser] Unknown boolean value \"" << value
+              << "\". Allowed values are \"true\" and \"false\"." << std::endl;
+    exit(1);
+
+}
+
 std::string ConfigParser::operator[](std::string key)
 {
     return Get(key);

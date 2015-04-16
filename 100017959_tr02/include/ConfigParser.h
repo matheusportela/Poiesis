@@ -61,7 +61,11 @@
 
 // Gets a configuration value as char.
 #define CFG_GETC(key) \
-    ConfigParser::GetInstance().GetAsFloat(key)
+    ConfigParser::GetInstance().GetAsChar(key)
+
+// Gets a configuration value as boolean.
+#define CFG_GETB(key) \
+    ConfigParser::GetInstance().GetAsBool(key)
 
 // Prints configuration keys and values.
 #define CFG_PRINT() \
@@ -115,6 +119,10 @@ class ConfigParser : public Parser
     // Gets single configuration value for a given key, automatically converting
     // to a char value.
     char GetAsChar(std::string key);
+
+    // Gets single configuration value for a given key, automatically converting
+    // to a boolean value.
+    bool GetAsBool(std::string key);
 
     // Gets single configuration value for a given key.
     std::string operator[](std::string key);

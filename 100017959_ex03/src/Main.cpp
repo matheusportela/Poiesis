@@ -9,13 +9,18 @@
 #include "Game.h"
 #include "ConfigParser.h"
 
+// Remove after testing
+#include "Logger.h"
+
 int main(int argc, char **argv)
 {
-    CFG_INIT("Configurations.cfg");
+    // CFG_INIT("Configurations.cfg");
 
-    Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
-        CFG_GETI("WINDOW_HEIGHT"));
-    game.Run();
+    // Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
+    //     CFG_GETI("WINDOW_HEIGHT"));
+    // game.Run();
+
+    Logger::GetInstance().Print(Logger::Info, "Hello, world!");
 
     return 0;
 }

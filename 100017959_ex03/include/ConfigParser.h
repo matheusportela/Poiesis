@@ -1,4 +1,4 @@
-// @file   Config.h
+// @file   ConfigParser.h
 // @author Matheus Vieira Portela
 // @date   29/03/2015
 //

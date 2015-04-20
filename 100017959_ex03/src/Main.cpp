@@ -14,13 +14,12 @@
 
 int main(int argc, char **argv)
 {
-    // CFG_INIT("Configurations.cfg");
+    LOG_SET_INFO();
+    CFG_INIT("Configurations.cfg");
 
-    // Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
-    //     CFG_GETI("WINDOW_HEIGHT"));
-    // game.Run();
-
-    Logger::GetInstance().Print(Logger::Info, "Hello, world!");
+    Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
+        CFG_GETI("WINDOW_HEIGHT"));
+    game.Run();
 
     return 0;
 }

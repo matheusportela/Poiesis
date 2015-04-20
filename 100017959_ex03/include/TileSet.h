@@ -21,6 +21,7 @@
 
 #include <string>
 
+#include "Logger.h"
 #include "Point.h"
 #include "Sprite.h"
 

@@ -12,7 +12,7 @@ void Parser::Open(std::string file)
 
     if (!filestream.is_open())
     {
-        std::cerr << "ERROR [Parser] Could not open file: " << file << std::endl;
+        LOG_E("[Parser] Could not open file: " << file);
         exit(1);
     }
 }

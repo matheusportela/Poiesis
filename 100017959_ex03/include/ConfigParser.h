@@ -14,6 +14,7 @@
 // Special keys: Some keys, starting by "$", have ability to improve an aspect
 // of the configuration file, according to the table below:
 //     $PATH: Sets a path that is prepended when getting values with CFG_GETP
+//     $LOG_LEVEL: Sets the minimum log level to print messages.
 // 
 // Example:
 // 
@@ -28,13 +29,13 @@
 #ifndef CONFIG_PARSER_H_
 #define CONFIG_PARSER_H_
 
-#include <iostream>
 #include <fstream>
 #include <unordered_map>
 #include <sstream>
 #include <string>
 
 #include "FileUtils.h"
+#include "Logger.h"
 #include "Parser.h"
 
 #define DELIMITER "="
@@ -79,6 +80,9 @@ class ConfigParser : public Parser
 
     // Sets path value.
     void SetPath(std::string path);
+
+    // Sets log level.
+    void SetLogLevel(std::string level);
 
     // Reads configuration file.
     void Parse(std::string filename);

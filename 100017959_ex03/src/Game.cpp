@@ -13,7 +13,7 @@ Game::Game(std::string title, int width, int height) : frameStart(0), dt(0)
     // Applying singleton pattern.
     if (instance != NULL)
     {
-        std::cerr << "ERROR [Game] Multiple instances initialized." << std::endl;
+        LOG_E("[Game] Multiple instances initialized.");
         exit(1);
     }
     
@@ -75,8 +75,7 @@ void Game::InitSDL()
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0)
     {
-        std::cerr << "ERROR [Game] Could not initialize SDL." << std::endl;
-        std::cerr << SDL_GetError() << std::endl;
+        LOG_E("[Game] Could not initialize SDL. " << SDL_GetError());
         exit(1);
     }
 }
@@ -86,8 +85,7 @@ void Game::InitSDLImage()
     // Initializes only JPG loader. Returns zero when no loader could be loaded.
     if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) == 0)
     {
-        std::cerr << "ERROR [Game] Could not initialize SDL image." << std::endl;
-        std::cerr << SDL_GetError() << std::endl;
+        LOG_E("[Game] Could not initialize SDL image. " << SDL_GetError());
         exit(1);
     }
 }
@@ -100,8 +98,7 @@ void Game::CreateWindow(std::string title, int width, int height)
 
     if (!window)
     {
-        std::cerr << "ERROR [Game] Could not create window." << std::endl;
-        std::cerr << SDL_GetError() << std::endl;
+        LOG_E("ERROR [Game] Could not create window. " << SDL_GetError());
         exit(1);
     }
 }
@@ -116,8 +113,7 @@ void Game::CreateRenderer()
 
     if (!renderer)
     {
-        std::cerr << "ERROR [Game] Could not create renderer." << std::endl;
-        std::cerr << SDL_GetError() << std::endl;
+        LOG_E("[Game] Could not create renderer. "  << SDL_GetError());
         exit(1);
     }
 }

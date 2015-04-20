@@ -13,13 +13,14 @@
 #ifndef TILE_MAP_H_
 #define TILE_MAP_H_
 
-#include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
 #include "ConfigParser.h"
+#include "Logger.h"
 #include "Point.h"
 #include "TileMapParser.h"
 #include "TileSet.h"

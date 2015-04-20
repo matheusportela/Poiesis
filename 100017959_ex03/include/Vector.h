@@ -8,9 +8,8 @@
 #define VECTOR_H_
 
 #include <cmath>
-#include <iostream>
-#include <string>
 
+#include "Logger.h"
 #include "Point.h"
 
 class Vector : public Point

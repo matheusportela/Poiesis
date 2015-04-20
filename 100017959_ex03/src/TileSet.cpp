@@ -40,8 +40,8 @@ void TileSet::Render(int index, Point& point)
 {
     if (!IsValidIndex(index))
     {
-        std::cerr << "ERROR [TileSet] Index " << index << " out of bounds. "
-                  << "Columns: " <<  columns << " Rows: " << rows << std::endl;
+        LOG_E("[TileSet] Index " << index << " out of bounds. "
+            << "Columns: " <<  columns << " Rows: " << rows);
         exit(1);
     }
 

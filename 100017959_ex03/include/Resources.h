@@ -10,13 +10,13 @@
 #ifndef RESOURCES_H_
 #define RESOURCES_H_
 
-#include <iostream>
 #include <string>
 #include <unordered_map>
 
 #include <SDL_image.h>
 
 #include "Game.h"
+#include "Logger.h"
 
 class Resources
 {

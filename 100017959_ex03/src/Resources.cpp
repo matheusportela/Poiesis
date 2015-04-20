@@ -20,9 +20,8 @@ SDL_Texture* Resources::LoadImage(std::string file)
 
     if (!texture)
     {
-        std::cerr << "ERROR [Resources] Could not load image " << file
-                  << std::endl;
-        std::cerr << SDL_GetError() << std::endl;
+        LOG_E("[Resources] Could not load image \"" << file << "\". "
+            << SDL_GetError());
         exit(1);
     }
 

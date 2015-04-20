@@ -37,8 +37,8 @@ void Vector::Normalize()
 
     if (magnitude == 0)
     {
-        std::cerr << "ERROR [Vector] Normalize can only be applied to vectors "
-                  << "with non-zero magnitude." << std::endl;
+        LOG_E("[Vector] Normalize can only be applied to vectors with non-zero "
+            << "magnitude.");
         exit(1);
     }
 

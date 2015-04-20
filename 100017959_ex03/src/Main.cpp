@@ -11,7 +11,6 @@
 
 int main(int argc, char **argv)
 {
-    LOG_SET_DEBUG();
     CFG_INIT("Configurations.cfg");
 
     Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),

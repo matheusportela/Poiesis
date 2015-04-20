@@ -33,11 +33,14 @@ void TileMap::SetTileSet(TileSet* tileSet)
 
 void TileMap::Load(std::string file)
 {
+    LOG_I("Loading tile map: " << file);
+
     tileMapParser.Parse(file);
     width = tileMapParser.GetParsedWidth();
     height = tileMapParser.GetParsedHeight();
     depth = tileMapParser.GetParsedDepth();
     tileMatrix = tileMapParser.GetParsedTileMap();
+    Print();
 }
 
 bool TileMap::IsValidIndex(int x, int y, int z)
@@ -50,9 +53,9 @@ int& TileMap::At(int x, int y, int z)
 {
     if (!IsValidIndex(x, y, z))
     {
-        std::cerr << "ERROR [TileMap] Index (" << x << ", " << y << ", " << z
-                  << ") out of bounds. Max: (" << width << ", " << height << ", "
-                  << depth << ")" << std::endl;
+        LOG_E("[TileMap] Index (" << x << ", " << y << ", " << z
+            << ") out of bounds. Max: (" << width << ", " << height << ", "
+            << depth << ")");
         exit(1);
     }
 
@@ -61,10 +64,13 @@ int& TileMap::At(int x, int y, int z)
 
 void TileMap::Print()
 {
-    std::cout << "Width: " << tileMapParser.GetParsedWidth() << std::endl;
-    std::cout << "Height: " << tileMapParser.GetParsedHeight() << std::endl;
-    std::cout << "Depth: " << tileMapParser.GetParsedDepth() << std::endl;
-    std::cout << "Map:" << std::endl;
+    std::stringstream map_line;
+
+    LOG_D("Tile map");
+    LOG_D("Width: " << tileMapParser.GetParsedWidth());
+    LOG_D("Height: " << tileMapParser.GetParsedHeight());
+    LOG_D("Depth: " << tileMapParser.GetParsedDepth());
+    LOG_D("Map:");
 
     for (int z = 0; z < depth; ++z)
     {
@@ -73,13 +79,14 @@ void TileMap::Print()
             for (int x = 0; x < width; ++x)
             {
                 // Print with two digits
-                std::cout << std::setw(2) << At(x, y, z) << " ";
+                map_line << std::setw(2) << At(x, y, z) << " ";
             }
 
-            std::cout << std::endl;
+            LOG_D(map_line.str());
+            map_line.str("");
         }
 
-        std::cout << std::endl;
+        LOG_D("");
     }
 }
 

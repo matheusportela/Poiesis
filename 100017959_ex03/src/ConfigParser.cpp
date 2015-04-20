@@ -21,11 +21,40 @@ void ConfigParser::SetPath(std::string path)
     this->path = path;
 }
 
+void ConfigParser::SetLogLevel(std::string level)
+{
+    // if-else requires brackets due to macro expansion.
+    if (level == "Debug")
+    {
+        LOG_SET_DEBUG();
+    }
+    else if (level == "Info")
+    {
+        LOG_SET_INFO();
+    }
+    else if (level == "Warning")
+    {
+        LOG_SET_WARNING();
+    }
+    else if (level == "Error")
+    {
+        LOG_SET_ERROR();
+    }
+    else
+    {
+        LOG_E("[ConfigParser] Unrecognized log level \"" << level << "\"");
+        exit(1);
+    }
+
+    LOG_I("Log level: " << level);
+}
+
 void ConfigParser::Parse(std::string filename)
 {
     std::string line;
     configurationFilename = filename;
 
+    LOG_I("Reading configuration file: " << filename);
     Open(filename);
 
     while (CanRead())
@@ -38,6 +67,7 @@ void ConfigParser::Parse(std::string filename)
         ParseLine(line);
     }
 
+    Print();
     Close();
 }
 
@@ -60,13 +90,18 @@ void ConfigParser::ParseLine(std::string line)
     std::string value = SanitizeLine(line.substr(pos + delimiter.length(),
                                                  line.length()));
 
-    if (IsSpecialKey(key) and key == "$PATH")
-        SetPath(value);
+    if (IsSpecialKey(key)) 
+    {
+        if (key == "$PATH")
+            SetPath(value);
+        else if (key == "$LOG_LEVEL")
+            SetLogLevel(value);
+    }
 
     if (Contains(key))
     {
-        std::cerr << "ERROR [ConfigParser] Key \"" << key << "\" defined "
-                  << "multiple times in configuration file." << std::endl;
+        LOG_E("[ConfigParser] Key \"" << key << "\" defined multiple times in "
+            << "configuration file.");
         exit(1);
     }
 
@@ -88,13 +123,10 @@ void ConfigParser::Print()
 {
     std::unordered_map<std::string, std::string>::iterator it;
 
-    std::cout << "=============================================" << std::endl;
-    std::cout << "Configuration file: " << configurationFilename << std::endl;
-    std::cout << "=============================================" << std::endl;
-    std::cout << std::endl;
+    LOG_D("Configuration file: " << configurationFilename);
 
     for (it = configurationMap.begin(); it != configurationMap.end(); ++it)
-        std::cout << it->first << " -> " << it->second << std::endl;
+        LOG_D(it->first << " -> " << it->second);
 }
 
 bool ConfigParser::Contains(std::string key)
@@ -111,8 +143,8 @@ std::string ConfigParser::Get(std::string key)
     }
     else
     {
-        std::cerr << "ERROR [ConfigParser] Key \"" << key << "\" does not exist in the "
-                  << "configuration file." << std::endl;
+        LOG_E("[ConfigParser] Key \"" << key << "\" does not exist in the "
+            << "configuration file.");
         exit(1);
     }
 }
@@ -121,9 +153,8 @@ std::string ConfigParser::GetWithPath(std::string key)
 {
     if (path.empty())
     {
-        std::cerr << "ERROR [ConfigParser] Trying to read entry without setting path. "
-                  << "Define \"$PATH\" in your configuration file first."
-                  << std::endl;
+        LOG_E("[ConfigParser] Trying to read entry without setting path. "
+            "Define \"$PATH\" in your configuration file first.");
         exit(1);
     }
 
@@ -155,8 +186,8 @@ bool ConfigParser::GetAsBool(std::string key)
     else if (value == "false")
         return false;
     
-    std::cerr << "ERROR [ConfigParser] Unknown boolean value \"" << value
-              << "\". Allowed values are \"true\" and \"false\"." << std::endl;
+    LOG_E("[ConfigParser] Unknown boolean value \"" << value << "\". "
+        << "Allowed values are \"true\" and \"false\".");
     exit(1);
 
 }

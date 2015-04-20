@@ -11,12 +11,12 @@
 
 #include <ctime>
 #include <cstdlib>
-#include <iostream>
 
 #include <SDL.h>
 #include <SDL_image.h>
 
 #include "ConfigParser.h"
+#include "Logger.h"
 #include "Resources.h"
 #include "State.h"
 

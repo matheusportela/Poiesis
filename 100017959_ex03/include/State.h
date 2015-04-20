@@ -52,14 +52,14 @@ class State
     // Renders game.
     void Render();
 
-    // Renders state background sprite.
+    // Renders all sprites that stays behind the game characters.
     void RenderBackground();
 
-    // Renders all tiles.
-    void RenderTiles();
-
-    // Renders all objects sprites.
+    // Renders all sprites that stays in the same level as the game characters.
     void RenderObjects();
+
+    // Renders all sprites that stays above the game characters.
+    void RenderUpperObjects();
 
     // Returns true if quit was requested by the user.
     bool IsQuitRequested();

@@ -60,8 +60,15 @@ void State::DeleteDeadObjects()
 void State::Render()
 {
     RenderBackground();
-    RenderTiles();
+    // RenderTiles();
+    // RenderObjects();
+
+    // Objects are over the first layer of the map, in order to apply properly
+    // parallax effect.
+    Point tile_map_point(-Camera::position.GetX(), -Camera::position.GetY());
+    tileMap->RenderLayer(0, tile_map_point);
     RenderObjects();
+    tileMap->RenderLayer(1, tile_map_point);
 }
 
 void State::RenderBackground()

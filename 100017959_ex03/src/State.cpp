@@ -64,29 +64,29 @@ void State::DeleteDeadObjects()
 void State::Render()
 {
     RenderBackground();
-    RenderTiles();
     RenderObjects();
+    RenderUpperObjects();
 }
 
 void State::RenderBackground()
 {
     Point bg_point(0, 0);
-    bg->Render(bg_point);
-}
-
-void State::RenderTiles()
-{
-    // Since the first upper left corner is the system origin, we use the
-    // negative of the camera position to translate the origin by the amount we
-    // expect to move in the screen.
     Point tile_map_point(-Camera::position.GetX(), -Camera::position.GetY());
-    tileMap->Render(tile_map_point);
+
+    bg->Render(bg_point);
+    tileMap->RenderBaseLayer(tile_map_point);
 }
 
 void State::RenderObjects()
 {
     for (unsigned int i = 0; i < objectArray.size(); ++i)
         objectArray[i].get()->Render();
+}
+
+void State::RenderUpperObjects()
+{
+    Point tile_map_point(-Camera::position.GetX(), -Camera::position.GetY());
+    tileMap->RenderUpperLayers(tile_map_point);
 }
 
 bool State::IsQuitRequested()

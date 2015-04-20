@@ -138,3 +138,14 @@ void TileMap::Render(Point& cameraPoint)
     for (int z = 0; z < depth; ++z)
         RenderLayer(z, cameraPoint);
 }
+
+void TileMap::RenderBaseLayer(Point& cameraPoint)
+{
+    RenderLayer(0, cameraPoint);
+}
+
+void TileMap::RenderUpperLayers(Point& cameraPoint)
+{
+    for (int z = 1; z < depth; ++z)
+        RenderLayer(z, cameraPoint);
+}

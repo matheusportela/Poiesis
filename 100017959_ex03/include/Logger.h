@@ -7,19 +7,37 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
-#include <cstdio>
-#include <cstdarg>
 #include <iostream>
 #include <string>
 
+// Configures to display logs with level higher or equal to the given one.
 #define LOG_SET_DEBUG() Logger::GetInstance().SetLevel(Logger::Debug);
 #define LOG_SET_INFO() Logger::GetInstance().SetLevel(Logger::Info);
 #define LOG_SET_WARNING() Logger::GetInstance().SetLevel(Logger::Warning);
 #define LOG_SET_ERROR() Logger::GetInstance().SetLevel(Logger::Error);
-#define LOGD(args...) Logger::GetInstance().Print(Logger::Debug, args);
-#define LOGI(args...) Logger::GetInstance().Print(Logger::Info, args);
-#define LOGW(args...) Logger::GetInstance().Print(Logger::Warning, args);
-#define LOGE(args...) Logger::GetInstance().Print(Logger::Error, args);
+
+// Outputs a log message if it's level is high enough.
+#define LOG(level, message) \
+    do { \
+        if (level >= Logger::GetInstance().GetLevel()) { \
+            Logger::GetInstance().GetStream() \
+            << Logger::GetInstance().GetPrefix(level) \
+            << message \
+            << Logger::GetInstance().GetSufix(); \
+        } \
+    } while (false)
+
+// Outputs debug log message.
+#define LOG_D(message) LOG(Logger::Debug, message)
+
+// Outputs informational log message.
+#define LOG_I(message) LOG(Logger::Info, message)
+
+// Outputs warning log message.
+#define LOG_W(message) LOG(Logger::Warning, message)
+
+// Outputs error log message.
+#define LOG_E(message) LOG(Logger::Error, message)
 
 class Logger
 {
@@ -37,7 +55,11 @@ class Logger
     static Logger& GetInstance();
 
     // Getters and setters.
+    LogLevel GetLevel();
     void SetLevel(LogLevel level);
+
+    // Gets the stream where messages will be displayed.
+    std::ostream& GetStream() { return std::cerr; };
 
     // Maps log levels to strings for printing purposes.
     std::string GetLevelString(LogLevel level);
@@ -45,8 +67,11 @@ class Logger
     // Maps log levels to colors for printing purposes.
     std::string GetLevelColor(LogLevel level);
 
-    // Print message with a log level.
-    void Print(LogLevel level, const char* format, ...);
+    // Formats a prefix for the log message.
+    std::string GetPrefix(LogLevel level);
+
+    // Formats a sufix for the log message.
+    std::string GetSufix();
 
   private:
     // Singleton pattern using the approach suggested at

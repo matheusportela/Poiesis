@@ -9,12 +9,9 @@
 #include "Game.h"
 #include "ConfigParser.h"
 
-// Remove after testing
-#include "Logger.h"
-
 int main(int argc, char **argv)
 {
-    LOG_SET_INFO();
+    LOG_SET_DEBUG();
     CFG_INIT("Configurations.cfg");
 
     Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),

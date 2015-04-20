@@ -18,6 +18,11 @@ Logger& Logger::GetInstance()
     return instance;
 };
 
+Logger::LogLevel Logger::GetLevel()
+{
+    return level;
+}
+
 void Logger::SetLevel(LogLevel level)
 {
     this->level = level;
@@ -49,7 +54,7 @@ std::string Logger::GetLevelColor(LogLevel level)
         case Debug:
             return "\e[1;35m"; // purple
         case Info:
-            return "\e[1;1m"; // standard
+            return "\e[1;1m"; // white
         case Warning:
             return "\e[1;33m"; // yellow
         case Error:
@@ -61,19 +66,12 @@ std::string Logger::GetLevelColor(LogLevel level)
     exit(1);
 }
 
-void Logger::Print(LogLevel level, const char* format, ...)
+std::string Logger::GetPrefix(LogLevel level)
 {
-    if (level < this->level)
-        return;
+    return GetLevelColor(level) + GetLevelString(level) + ": ";
+}
 
-    va_list args;
-    std::string level_color = GetLevelColor(level);
-    std::string level_string = GetLevelString(level);
-
-    fprintf(stderr, "%s%s: ", level_color.c_str(), level_string.c_str());
-    
-    va_start(args, format);
-    vfprintf(stderr, format, args);
-    va_end(args);
-    fprintf(stderr, "\e[0;0m\n");
+std::string Logger::GetSufix()
+{
+    return "\e[0;0m\n";
 }

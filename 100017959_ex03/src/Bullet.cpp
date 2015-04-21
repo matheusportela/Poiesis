@@ -12,7 +12,7 @@ Bullet::Bullet(Point point, float angle)
     sprite = new Sprite(CFG_GETP("BULLET_SPRITE"));
     box.SetCenter(point, sprite->GetWidth(), sprite->GetHeight());
     distanceLeft = CFG_GETF("BULLET_MAX_DISTANCE");
-    speed.SetPolar(CFG_GETF("BULLET_SPEED"), angle);
+    speed.SetPolar(CFG_GETI("BULLET_SPEED"), angle);
 }
 
 Bullet::~Bullet()

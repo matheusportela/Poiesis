@@ -68,6 +68,11 @@ void Point::Multiply(int scalar)
     this->y *= scalar;
 }
 
+float Point::CalculateDistance(Point point)
+{
+    return hypot(point.x - x, point.y - y);
+}
+
 std::string Point::ToString()
 {
     char buffer[64];

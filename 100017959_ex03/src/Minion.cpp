@@ -9,6 +9,7 @@
 Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
 {
     sprite = new Sprite(CFG_GETP("MINION_SPRITE"));
+    SetRandomScale();
     angularSpeed = CFG_GETF("MINION_ANGULAR_SPEED");
     distance = CFG_GETI("MINION_DISTANCE");
     circumferencePosition.SetPolar(distance, arcOffset);
@@ -17,6 +18,16 @@ Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
 Minion::~Minion()
 {
     delete sprite;
+}
+
+void Minion::SetRandomScale()
+{
+    float min_scale = CFG_GETF("MINION_MIN_SCALE");
+    float max_scale = CFG_GETF("MINION_MAX_SCALE");
+
+    // Generating a random number in the interval [min_scale, max_scale]
+    float scale = min_scale + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX/(max_scale-min_scale)));
+    sprite->SetScale(scale);
 }
 
 void Minion::UpdatePosition(float dt)

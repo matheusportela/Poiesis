@@ -7,6 +7,7 @@
 #ifndef ALIEN_H_
 #define ALIEN_H_
 
+#include <limits>
 #include <memory>
 #include <queue>
 
@@ -37,6 +38,9 @@ class Alien : public GameObject
     void RenderMinions();
     void Render();
     bool IsDead();
+
+    // Returns the index of the closest minion to a given point.
+    int GetClosestMinion(Point point);
 
     // Makes a minion shoot with user input.
     void ShootCallback();

@@ -64,9 +64,35 @@ bool Alien::IsDead()
     return (hp <= 0);
 }
 
+int Alien::GetClosestMinion(Point point)
+{
+    Point minionPosition;
+    int closestMinionIndex = 0;
+    float closestDistance = std::numeric_limits<float>::max();
+    float distance;
+
+    for (unsigned int i = 0; i < minionArray.size(); ++i)
+    {
+        minionPosition = minionArray[i]->GetCenter();
+        distance = minionPosition.CalculateDistance(point);
+
+        if (distance < closestDistance)
+        {
+            closestMinionIndex = i;
+            closestDistance = distance;
+        }
+    }
+
+    return closestMinionIndex;
+}
+
 void Alien::ShootCallback()
 {
     Point point;
+    int minionIndex;
+
     point = InputManager::GetInstance().GetMousePosition();
-    minionArray[0]->Shoot(point);
+    point = Camera::ScreenToWorldPoint(point);
+    minionIndex = GetClosestMinion(point);
+    minionArray[minionIndex]->Shoot(point);
 }

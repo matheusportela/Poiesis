@@ -27,6 +27,9 @@ class Minion : public GameObject
     Minion(GameObject* parent, float arcOffset);
     ~Minion();
 
+    // Spawns minion with a random scale factor.
+    void SetRandomScale();
+
     // Updates minion position.
     void UpdatePosition(float dt);
 

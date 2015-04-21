@@ -47,6 +47,9 @@ class Point
     // Multiplies point coordinates by a scalar value.
     void Multiply(int scalar);
 
+    // Calculates the distance to another point.
+    float CalculateDistance(Point point);
+
     // Converts to string for printing purposes.
     std::string ToString();
 

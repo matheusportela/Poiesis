@@ -166,7 +166,7 @@ int ConfigParser::GetAsInteger(std::string key)
     return std::stoi(Get(key));
 }
 
-int ConfigParser::GetAsFloat(std::string key)
+float ConfigParser::GetAsFloat(std::string key)
 {
     return std::stof(Get(key));
 }

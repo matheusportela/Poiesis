@@ -66,6 +66,10 @@ class Alien : public GameObject
     // Alien's speed.
     Vector speed;
 
+    // Alien's rotation vector.
+    float angularSpeed;
+    Vector rotationVector;
+
     // Actions to be executed by Alien.
     std::queue<Action> taskQueue;
 

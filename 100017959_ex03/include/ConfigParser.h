@@ -118,7 +118,7 @@ class ConfigParser : public Parser
 
     // Gets single configuration value for a given key, automatically converting
     // to a float value.
-    int GetAsFloat(std::string key);
+    float GetAsFloat(std::string key);
 
     // Gets single configuration value for a given key, automatically converting
     // to a char value.

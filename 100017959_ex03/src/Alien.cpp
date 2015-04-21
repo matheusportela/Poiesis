@@ -11,7 +11,11 @@ Alien::Alien(Point& point, int numMinions)
     hp = CFG_GETI("ALIEN_HP");
     sprite = new Sprite(CFG_GETP("ALIEN_SPRITE"));
     box.SetCenter(point, sprite->GetWidth(), sprite->GetHeight());
+    angularSpeed = CFG_GETF("ALIEN_ANGULAR_SPEED");
     InitializeMinions(CFG_GETI("ALIEN_NUM_MINIONS"));
+
+    // Rotation vector is an unitary vector, since we only need it's direction
+    rotationVector.Set(1, 0);
 
     REGISTER_INPUT_KEY_CALLBACK(Alien::ShootCallback, InputType::MousePress,
         MouseButton::Left);
@@ -33,6 +37,9 @@ void Alien::InitializeMinions(int numMinions)
 
 void Alien::Update(float dt)
 {
+    rotationVector.Rotate(angularSpeed * dt);
+    rotation = rotationVector.GetDirection();
+
     for (unsigned int i = 0; i < minionArray.size(); ++i)
         minionArray[i]->Update(dt);
 }
@@ -47,7 +54,7 @@ void Alien::Render()
 {
     Point renderPoint;
     renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
-    sprite->Render(renderPoint);
+    sprite->Render(renderPoint, rotation);
 
     RenderMinions();
 }

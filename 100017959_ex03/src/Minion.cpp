@@ -10,7 +10,7 @@ Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
 {
     sprite = new Sprite(CFG_GETP("MINION_SPRITE"));
     angularSpeed = CFG_GETF("MINION_ANGULAR_SPEED");
-    distance = CFG_GETF("MINION_DISTANCE");
+    distance = CFG_GETI("MINION_DISTANCE");
     circumferencePosition.SetPolar(distance, arcOffset);
 }
 
@@ -30,6 +30,7 @@ void Minion::UpdatePosition(float dt)
     minionCenter.Add(circumferencePosition);
 
     box.SetCenter(minionCenter, sprite->GetWidth(), sprite->GetHeight());
+    rotation = circumferencePosition.GetDirection();
 }
 
 void Minion::UpdateBullets(float dt)
@@ -68,7 +69,7 @@ void Minion::Render()
 {
     Point renderPoint;
     renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
-    sprite->Render(renderPoint);
+    sprite->Render(renderPoint, rotation);
 
     RenderBullets();
 }

@@ -8,16 +8,16 @@
 
 Rect::Rect() : point(0, 0), w(0), h(0) {}
 
-Rect::Rect(Point& point) : point(point), w(0), h(0) {}
+Rect::Rect(Point point) : point(point), w(0), h(0) {}
 
-Rect::Rect(Point& point, float w, float h) : point(point), w(w), h(h) {}
+Rect::Rect(Point point, float w, float h) : point(point), w(w), h(h) {}
 
-Point& Rect::GetPoint()
+Point Rect::GetPoint()
 {
     return point;
 }
 
-void Rect::SetPoint(Point& point)
+void Rect::SetPoint(Point point)
 {
     this->point = point;
 }
@@ -42,19 +42,19 @@ void Rect::SetH(float h)
     this->h = h;
 }
 
-void Rect::Set(Point& point)
+void Rect::Set(Point point)
 {
     this->point = point;
 }
 
-void Rect::Set(Point& point, float w, float h)
+void Rect::Set(Point point, float w, float h)
 {
     this->point = point;
     this->w = w;
     this->h = h;
 }
 
-void Rect::SetCenter(Point& centerPoint, float w, float h)
+void Rect::SetCenter(Point centerPoint, float w, float h)
 {
     this->point.SetX(centerPoint.GetX() - w/2.0);
     this->point.SetY(centerPoint.GetY() - h/2.0);
@@ -79,7 +79,7 @@ std::string Rect::ToString()
     return stringBuffer;
 }
 
-bool Rect::IsInside(Point& point)
+bool Rect::IsInside(Point point)
 {
     return (point.GetX() >= this->point.GetX() and point.GetX() <= this->point.GetX() + w and
             point.GetY() >= this->point.GetY() and point.GetY() <= this->point.GetY() + h);

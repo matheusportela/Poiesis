@@ -44,7 +44,7 @@ class TileSet
     bool IsValidIndex(int index);
 
     // Renderizes the indexed tile in the given window position.
-    void Render(int index, Point& point);
+    void Render(int index, Point point);
 
   private:
     // Tile sprite.

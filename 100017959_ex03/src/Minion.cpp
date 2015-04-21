@@ -32,12 +32,10 @@ void Minion::SetRandomScale()
 
 void Minion::UpdatePosition(float dt)
 {
-    Point minionCenter;
-    Point parentCenter;
-
     // Keeps rotating in a circular shape around it's parent.
     circumferencePosition.Rotate(angularSpeed * dt);
-    minionCenter = parent->GetCenter();
+
+    Point minionCenter = parent->GetCenter();
     minionCenter.Add(circumferencePosition);
 
     box.SetCenter(minionCenter, sprite->GetWidth(), sprite->GetHeight());
@@ -78,8 +76,7 @@ void Minion::RenderBullets()
 
 void Minion::Render()
 {
-    Point renderPoint;
-    renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
+    Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
     sprite->Render(renderPoint, rotation);
 
     RenderBullets();
@@ -93,10 +90,8 @@ bool Minion::IsDead()
 
 void Minion::Shoot(Point position)
 {
-    Point minionPosition;
+    Point minionPosition = GetCenter();
     Vector shootVector;
-
-    minionPosition = GetCenter();
     shootVector.Set(position);
     shootVector.Subtract(minionPosition);
 

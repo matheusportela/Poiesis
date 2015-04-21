@@ -20,7 +20,7 @@ class GameObject
     virtual ~GameObject() {};
 
     // Getters and setters
-    Rect& GetBox() { return box; }
+    Rect GetBox() { return box; }
     Point GetCenter()
     {
         Point point;

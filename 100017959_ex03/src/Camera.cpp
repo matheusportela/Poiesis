@@ -27,7 +27,7 @@ void Camera::UpdatePositionByFocusObject()
 
 void Camera::UpdatePositionBySpeed(float dt)
 {
-    Vector displacement(Camera::speed);
+    Vector displacement = Camera::speed;
 
     // X = X0 + V*dt
     displacement.Multiply(dt);
@@ -42,16 +42,16 @@ void Camera::Update(float dt)
         UpdatePositionBySpeed(dt);
 }
 
-Point Camera::WorldToScreenPoint(Point& point)
+Point Camera::WorldToScreenPoint(Point point)
 {
-    Point convertedPoint(point);
+    Point convertedPoint = point;
     convertedPoint.Subtract(Camera::position);
     return convertedPoint;
 }
 
-Point Camera::ScreenToWorldPoint(Point& point)
+Point Camera::ScreenToWorldPoint(Point point)
 {
-    Point convertedPoint(point);
+    Point convertedPoint = point;
     convertedPoint.Add(Camera::position);
     return convertedPoint;
 }

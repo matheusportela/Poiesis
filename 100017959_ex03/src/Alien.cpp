@@ -6,7 +6,7 @@
 
 #include "Alien.h"
 
-Alien::Alien(Point& point, int numMinions)
+Alien::Alien(Point point, int numMinions)
 {
     hp = CFG_GETI("ALIEN_HP");
     sprite = new Sprite(CFG_GETP("ALIEN_SPRITE"));
@@ -52,8 +52,7 @@ void Alien::RenderMinions()
 
 void Alien::Render()
 {
-    Point renderPoint;
-    renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
+    Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
     sprite->Render(renderPoint, rotation);
 
     RenderMinions();
@@ -88,11 +87,8 @@ int Alien::GetClosestMinion(Point point)
 
 void Alien::ShootCallback()
 {
-    Point point;
-    int minionIndex;
-
-    point = InputManager::GetInstance().GetMousePosition();
-    point = Camera::ScreenToWorldPoint(point);
-    minionIndex = GetClosestMinion(point);
+    Point point = Camera::ScreenToWorldPoint(
+        InputManager::GetInstance().GetMousePosition());
+    int minionIndex = GetClosestMinion(point);
     minionArray[minionIndex]->Shoot(point);
 }

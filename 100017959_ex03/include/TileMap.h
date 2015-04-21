@@ -56,16 +56,16 @@ class TileMap
     Point ApplyParallax(int layer, Point tilePoint, Point cameraPoint);
 
     // Render a single map layer.
-    void RenderLayer(int layer, Point& cameraPoint);
+    void RenderLayer(int layer, Point cameraPoint);
 
     // Render all map layers.
-    void Render(Point& cameraPoint);
+    void Render(Point cameraPoint);
 
     // Render the first layer only.
-    void RenderBaseLayer(Point& cameraPoint);
+    void RenderBaseLayer(Point cameraPoint);
 
     // Render all layers above the first one.
-    void RenderUpperLayers(Point& cameraPoint);
+    void RenderUpperLayers(Point cameraPoint);
 
   private:
     // Parser for getting tile map definition from a file.

@@ -22,9 +22,7 @@ Bullet::~Bullet()
 
 void Bullet::UpdatePosition(Vector displacement)
 {
-    Point bulletCenter;
-
-    bulletCenter = GetCenter();
+    Point bulletCenter = GetCenter();
     bulletCenter.Add(displacement);
     box.SetCenter(bulletCenter, sprite->GetWidth(), sprite->GetHeight());
 }
@@ -36,8 +34,7 @@ void Bullet::UpdateDistanceLeft(Vector displacement)
 
 void Bullet::Update(float dt)
 {
-    Vector displacement;
-    displacement = speed;
+    Vector displacement = speed;
     displacement.Multiply(dt);
 
     UpdatePosition(displacement);
@@ -46,8 +43,7 @@ void Bullet::Update(float dt)
 
 void Bullet::Render()
 {
-    Point renderPoint;
-    renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
+    Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
     sprite->Render(renderPoint, rotation);
 }
 

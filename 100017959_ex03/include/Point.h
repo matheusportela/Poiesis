@@ -20,7 +20,7 @@ class Point
     Point(float x, float y);
 
     // Copy constructor.
-    Point(Point& other);
+    Point(const Point& other);
 
     // Virtual destructor
     virtual ~Point() { };
@@ -33,19 +33,22 @@ class Point
     void SetY(float y);
 
     void Set(float x, float y);
-    void Set(Point& point);
+    void Set(Point point);
 
     // Sets point coordinates given radius and angle in radians.
     void SetPolar(float r, float ang);
 
     // Adds two points in Cartesian coordinates.
-    void Add(Point& point);
+    void Add(Point point);
 
     // Subtracts two points in Cartesian coordinates.
-    void Subtract(Point& point);
+    void Subtract(Point point);
 
     // Multiplies point coordinates by a scalar value.
     void Multiply(int scalar);
+
+    // Multiplies point coordinates by -1.
+    void Negate();
 
     // Calculates the distance to another point.
     float CalculateDistance(Point point);

@@ -92,19 +92,17 @@ void TileMap::Print()
 
 Point TileMap::ApplyParallax(int layer, Point tilePoint, Point cameraPoint)
 {
-    Point parallax_point;
-
     // Layers start at zero but we still want to move the first layer.
     int speed = (layer + 1)*CFG_GETI("PARALLAX_SPEED");
 
-    parallax_point.Set(cameraPoint);
+    Point parallax_point = cameraPoint;
     parallax_point.Multiply(speed);
     parallax_point.Add(tilePoint);
 
     return parallax_point;
 }
 
-void TileMap::RenderLayer(int layer, Point& cameraPoint)
+void TileMap::RenderLayer(int layer, Point cameraPoint)
 {
     Point tile_point;
     int tile_width = tileSet->GetTileWidth();
@@ -133,18 +131,18 @@ void TileMap::RenderLayer(int layer, Point& cameraPoint)
     }
 }
 
-void TileMap::Render(Point& cameraPoint)
+void TileMap::Render(Point cameraPoint)
 {
     for (int z = 0; z < depth; ++z)
         RenderLayer(z, cameraPoint);
 }
 
-void TileMap::RenderBaseLayer(Point& cameraPoint)
+void TileMap::RenderBaseLayer(Point cameraPoint)
 {
     RenderLayer(0, cameraPoint);
 }
 
-void TileMap::RenderUpperLayers(Point& cameraPoint)
+void TileMap::RenderUpperLayers(Point cameraPoint)
 {
     for (int z = 1; z < depth; ++z)
         RenderLayer(z, cameraPoint);

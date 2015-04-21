@@ -27,7 +27,7 @@ class Alien : public GameObject
   public:
     // Initializes Alien at the given (x, y) coordinates with a number of
     // minions.
-    Alien(Point& point, int numMinions);
+    Alien(Point point, int numMinions);
     ~Alien();
 
     // Create all it's minions.

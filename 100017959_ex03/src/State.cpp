@@ -15,7 +15,8 @@ State::State()
     tileMap = new TileMap(CFG_GETP("TILE_MAP"), tileSet);
     ConfigureInputCallbacks();
 
-    Point alienPosition(512, 300);
+    Point alienPosition(CFG_GETI("ALIEN_INITIAL_X"),
+        CFG_GETI("ALIEN_INITIAL_Y"));
     objectArray.emplace_back(new Alien(alienPosition, 1));
 }
 
@@ -71,7 +72,11 @@ void State::Render()
 void State::RenderBackground()
 {
     Point bg_point(0, 0);
-    Point tile_map_point(-Camera::position.GetX(), -Camera::position.GetY());
+
+    // Movement illusion requires background to move in the direction opposite
+    // to the camera. Hence, we negate it's position.
+    Point tile_map_point = Camera::position;
+    tile_map_point.Negate();
 
     bg->Render(bg_point);
     tileMap->RenderBaseLayer(tile_map_point);
@@ -85,7 +90,11 @@ void State::RenderObjects()
 
 void State::RenderUpperObjects()
 {
-    Point tile_map_point(-Camera::position.GetX(), -Camera::position.GetY());
+    // Movement illusion requires background to move in the direction opposite
+    // to the camera. Hence, we negate it's position.
+    Point tile_map_point = Camera::position;
+    tile_map_point.Negate();
+    
     tileMap->RenderUpperLayers(tile_map_point);
 }
 

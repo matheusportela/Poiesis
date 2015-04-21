@@ -10,7 +10,7 @@ Point::Point() : x(0), y(0) {}
 
 Point::Point(float x, float y) : x(x), y(y) {}
 
-Point::Point(Point& other) : x(other.x), y(other.y) {}
+Point::Point(const Point& other) : x(other.x), y(other.y) {}
 
 float Point::GetX()
 {
@@ -38,7 +38,7 @@ void Point::Set(float x, float y)
     this->y = y;
 }
 
-void Point::Set(Point& point)
+void Point::Set(Point point)
 {
     this->x = point.x;
     this->y = point.y;
@@ -50,13 +50,13 @@ void Point::SetPolar(float r, float ang)
     this->y = r*sin(ang);
 }
 
-void Point::Add(Point& point)
+void Point::Add(Point point)
 {
     this->x += point.GetX();
     this->y += point.GetY();
 }
 
-void Point::Subtract(Point& point)
+void Point::Subtract(Point point)
 {
     this->x -= point.GetX();
     this->y -= point.GetY();
@@ -66,6 +66,11 @@ void Point::Multiply(int scalar)
 {
     this->x *= scalar;
     this->y *= scalar;
+}
+
+void Point::Negate()
+{
+    Multiply(-1);
 }
 
 float Point::CalculateDistance(Point point)

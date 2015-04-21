@@ -68,7 +68,7 @@ class Minion : public GameObject
     float angularSpeed;
 
     // Minion's position in the circular trajectory around it's parent.
-    Vector circumferencePosition;
+    Vector rotationVector;
     
     // Minion's bullets.
     std::vector<std::unique_ptr<Bullet>> bulletArray;

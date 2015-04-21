@@ -16,12 +16,6 @@ float Vector::GetDirection()
     return atan2(y, x);
 }
 
-void Vector::Multiply(float scalar)
-{
-    x *= scalar;
-    y *= scalar;
-}
-
 void Vector::Rotate(float angle)
 {
     float new_x = x*cos(angle) - y*sin(angle);

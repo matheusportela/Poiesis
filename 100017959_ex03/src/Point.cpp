@@ -62,7 +62,7 @@ void Point::Subtract(Point point)
     this->y -= point.GetY();
 }
 
-void Point::Multiply(int scalar)
+void Point::Multiply(float scalar)
 {
     this->x *= scalar;
     this->y *= scalar;

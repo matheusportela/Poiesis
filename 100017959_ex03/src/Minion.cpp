@@ -12,7 +12,7 @@ Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
     SetRandomScale();
     angularSpeed = CFG_GETF("MINION_ANGULAR_SPEED");
     distance = CFG_GETI("MINION_DISTANCE");
-    circumferencePosition.SetPolar(distance, arcOffset);
+    rotationVector.SetPolar(distance, arcOffset);
 }
 
 Minion::~Minion()
@@ -33,13 +33,13 @@ void Minion::SetRandomScale()
 void Minion::UpdatePosition(float dt)
 {
     // Keeps rotating in a circular shape around it's parent.
-    circumferencePosition.Rotate(angularSpeed * dt);
+    rotationVector.Rotate(angularSpeed * dt);
 
     Point minionCenter = parent->GetCenter();
-    minionCenter.Add(circumferencePosition);
+    minionCenter.Add(rotationVector);
 
     box.SetCenter(minionCenter, sprite->GetWidth(), sprite->GetHeight());
-    rotation = circumferencePosition.GetDirection();
+    rotation = rotationVector.GetDirection();
 }
 
 void Minion::UpdateBullets(float dt)

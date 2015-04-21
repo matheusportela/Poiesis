@@ -45,7 +45,7 @@ class Point
     void Subtract(Point point);
 
     // Multiplies point coordinates by a scalar value.
-    void Multiply(int scalar);
+    void Multiply(float scalar);
 
     // Multiplies point coordinates by -1.
     void Negate();

@@ -21,9 +21,6 @@ class Vector : public Point
     // Calculates the direction (in radians).
     float GetDirection();
 
-    // Multiplies vector by a scalar.
-    void Multiply(float scalar);
-
     // Rotates vector by an angle (in radians) couterclockwise.
     void Rotate(float angle);
 

@@ -12,6 +12,9 @@ Alien::Alien(Point& point, int numMinions)
     sprite = new Sprite(CFG_GETP("ALIEN_SPRITE"));
     box.SetCenter(point, sprite->GetWidth(), sprite->GetHeight());
     InitializeMinions(CFG_GETI("ALIEN_NUM_MINIONS"));
+
+    REGISTER_INPUT_KEY_CALLBACK(Alien::ShootCallback, InputType::MousePress,
+        MouseButton::Left);
 }
 
 Alien::~Alien()
@@ -25,9 +28,7 @@ void Alien::InitializeMinions(int numMinions)
     float arcOffset = 2*M_PI/numMinions;
 
     for (int i = 0; i < numMinions; ++i)
-    {
         minionArray.emplace_back(new Minion(this, i*arcOffset));
-    }
 }
 
 void Alien::Update(float dt)
@@ -54,4 +55,11 @@ void Alien::Render()
 bool Alien::IsDead()
 {
     return (hp <= 0);
+}
+
+void Alien::ShootCallback()
+{
+    Point point;
+    point = InputManager::GetInstance().GetMousePosition();
+    minionArray[0]->Shoot(point);
 }

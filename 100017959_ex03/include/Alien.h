@@ -38,6 +38,9 @@ class Alien : public GameObject
     void Render();
     bool IsDead();
 
+    // Makes a minion shoot with user input.
+    void ShootCallback();
+
   private:
     class Action
     {

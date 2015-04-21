@@ -115,7 +115,7 @@ class InputManager
     static InputManager& GetInstance();
 
     // Getters and setters.
-    Point& GetMousePosition();
+    Point GetMousePosition();
     int GetPressedKey();
 
     // Register a function to be called whenever an input of type inputType

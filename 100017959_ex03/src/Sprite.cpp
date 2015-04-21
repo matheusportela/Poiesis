@@ -6,9 +6,8 @@
 
 #include "Sprite.h"
 
-Sprite::Sprite()
+Sprite::Sprite() : texture(NULL), scaleX(1), scaleY(1)
 {
-    texture = NULL;
 }
 
 Sprite::Sprite(std::string file) : Sprite()
@@ -28,6 +27,22 @@ int Sprite::GetWidth()
 int Sprite::GetHeight()
 {
     return height;
+}
+
+void Sprite::SetScaleX(float scale)
+{
+    scaleX = scale;
+}
+
+void Sprite::SetScaleY(float scale)
+{
+    scaleY = scale;
+}
+
+void Sprite::SetScale(float scale)
+{
+    scaleX = scale;
+    scaleY = scale;
 }
 
 void Sprite::Open(std::string file)
@@ -53,15 +68,21 @@ void Sprite::SetClip(Point& point, int w, int h)
     clippingRectangle.h = h;
 }
 
-void Sprite::Render(Point& point)
+void Sprite::Render(Point& point, float angle)
 {
     SDL_Rect dstRect
     {
         .x = (int)point.GetX(),
         .y = (int)point.GetY(),
-        .w = clippingRectangle.w,
-        .h = clippingRectangle.h
+        .w = (int)(clippingRectangle.w*scaleX),
+        .h = (int)(clippingRectangle.h*scaleY)
     };
-    SDL_RenderCopy(Game::GetInstance()->GetRenderer(), texture,
-                   &clippingRectangle, &dstRect);
+
+    // SDL_RenderCopyEx accepts an angle in degrees. So, we convert from
+    // radians, which is the standard for the whole project.
+    float rotationAngle = angle*180.0/M_PI;
+
+    SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), texture,
+                     &clippingRectangle, &dstRect, rotationAngle, NULL,
+                     SDL_FLIP_NONE);
 }

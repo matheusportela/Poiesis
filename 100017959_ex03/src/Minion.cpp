@@ -19,7 +19,7 @@ Minion::~Minion()
     delete sprite;
 }
 
-void Minion::Update(float dt)
+void Minion::UpdatePosition(float dt)
 {
     Point minionCenter;
     Point parentCenter;
@@ -32,11 +32,45 @@ void Minion::Update(float dt)
     box.SetCenter(minionCenter, sprite->GetWidth(), sprite->GetHeight());
 }
 
+void Minion::UpdateBullets(float dt)
+{
+    for (unsigned int i = 0; i < bulletArray.size(); ++i)
+        bulletArray[i]->Update(dt);
+}
+
+void Minion::DestroyBullets()
+{
+    for (unsigned int i = 0; i < bulletArray.size(); ++i)
+    {
+        if (bulletArray[i]->IsDead())
+        {
+            bulletArray.erase(bulletArray.begin() + i);
+            --i;
+        }
+    }
+
+}
+
+void Minion::Update(float dt)
+{
+    DestroyBullets();
+    UpdatePosition(dt);
+    UpdateBullets(dt);
+}
+
+void Minion::RenderBullets()
+{
+    for (unsigned int i = 0; i < bulletArray.size(); ++i)
+        bulletArray[i]->Render();
+}
+
 void Minion::Render()
 {
     Point renderPoint;
     renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
     sprite->Render(renderPoint);
+
+    RenderBullets();
 }
 
 bool Minion::IsDead()
@@ -45,6 +79,15 @@ bool Minion::IsDead()
     return false;
 }
 
-void Shoot(Point position)
+void Minion::Shoot(Point position)
 {
+    Point minionPosition;
+    Vector shootVector;
+
+    minionPosition = GetCenter();
+    shootVector.Set(position);
+    shootVector.Subtract(minionPosition);
+
+    bulletArray.emplace_back(new Bullet(minionPosition,
+                                        shootVector.GetDirection()));
 }

@@ -13,6 +13,9 @@
 class GameObject
 {
   public:
+    // Constructor for game object.
+    GameObject() : rotation(0) {};
+
     // Deletes the game object.
     virtual ~GameObject() {};
 
@@ -37,6 +40,9 @@ class GameObject
   protected:
     // Bounding box.
     Rect box;
+
+    // Game object body rotation.
+    float rotation;
 };
 
 #endif // GAME_OBJECT_H_

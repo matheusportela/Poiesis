@@ -93,7 +93,7 @@ InputManager& InputManager::GetInstance()
     return instance;
 }
 
-Point& InputManager::GetMousePosition()
+Point InputManager::GetMousePosition()
 {
     return mousePosition;
 }

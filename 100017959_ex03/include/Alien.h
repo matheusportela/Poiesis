@@ -25,6 +25,8 @@ class Sprite;
 class Alien : public GameObject
 {
   public:
+    class Action;
+
     // Initializes Alien at the given (x, y) coordinates with a number of
     // minions.
     Alien(Point point, int numMinions);
@@ -50,6 +52,9 @@ class Alien : public GameObject
     // Returns the index of the closest minion to a given point.
     int GetClosestMinion(Point point);
 
+    void ScheduleAction(Action action);
+    void ScheduleMoveAction(Point point);
+
     // Moves Alien to the clicked position.
     void MoveCallback();
 
@@ -57,7 +62,6 @@ class Alien : public GameObject
     void ShootCallback();
 
   private:
-    class Action;
 
     // Aliens's hitpoints.
     int hp;

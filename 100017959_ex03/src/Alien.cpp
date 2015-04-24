@@ -106,12 +106,24 @@ int Alien::GetClosestMinion(Point point)
     return closestMinionIndex;
 }
 
+void Alien::ScheduleAction(Alien::Action action)
+{
+    taskQueue.push(action);
+    LOG_D("Action queue size: " << taskQueue.size());
+}
+
+void Alien::ScheduleMoveAction(Point point)
+{
+    Alien::Action moveAction(Action::Move, point);
+    ScheduleAction(moveAction);
+}
+
 void Alien::MoveCallback()
 {
     LOG_D("Alien move callback");
 
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    Alien::Action action(Action::Move, point);
+    ScheduleMoveAction(point);
 }
 
 void Alien::ShootCallback()

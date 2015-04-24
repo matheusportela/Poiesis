@@ -57,20 +57,7 @@ class Alien : public GameObject
     void ShootCallback();
 
   private:
-    class Action
-    {
-      public:
-        enum ActionType
-        {
-            Move,
-            Shoot,
-        };
-
-        Action(ActionType type, Point point) : type(type), position(point) {};
-
-        ActionType type;
-        Point position;
-    };
+    class Action;
 
     // Aliens's hitpoints.
     int hp;
@@ -90,6 +77,21 @@ class Alien : public GameObject
 
     // Alien's minions.
     std::vector<std::unique_ptr<Minion>> minionArray;
+};
+
+class Alien::Action
+{
+  public:
+    enum ActionType
+    {
+        Move,
+        Shoot,
+    };
+
+    Action(ActionType type, Point point) : type(type), point(point) {};
+
+    ActionType type;
+    Point point;
 };
 
 #endif // ALIEN_H_

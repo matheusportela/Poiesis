@@ -108,11 +108,17 @@ int Alien::GetClosestMinion(Point point)
 
 void Alien::MoveCallback()
 {
+    LOG_D("Alien move callback");
 
+    Point point = Camera::ScreenToWorldPoint(
+        InputManager::GetInstance().GetMousePosition());
+    Alien::Action action(Action::Move, point);
 }
 
 void Alien::ShootCallback()
 {
+    LOG_D("Alien shoot callback");
+
     Point point = Camera::ScreenToWorldPoint(
         InputManager::GetInstance().GetMousePosition());
     int minionIndex = GetClosestMinion(point);

@@ -9,7 +9,7 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
-#include <iostream>
+#include <string>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -30,7 +30,7 @@ class Sprite
     Sprite(std::string file);
 
     // Destroys the sprite.
-    ~Sprite();
+    virtual ~Sprite();
 
     // Gets image presentation width.
     int GetWidth();
@@ -59,7 +59,7 @@ class Sprite
     // Render sprite.
     void Render(Point point, float angle = 0);
 
-  private:
+  protected:
     // Sprite image to be presented.
     SDL_Texture* texture;
 

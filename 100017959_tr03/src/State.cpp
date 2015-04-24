@@ -23,10 +23,10 @@ State::State()
 
 State::~State()
 {
+    objectArray.clear();
     delete tileMap;
     delete tileSet;
     delete bg;
-    objectArray.clear();
 }
 
 void State::ConfigureInputCallbacks()

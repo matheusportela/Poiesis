@@ -18,6 +18,8 @@ Alien::Alien(Point point, int numMinions)
     rotationVector.Set(1, 0);
 
     REGISTER_INPUT_KEY_CALLBACK(Alien::ShootCallback, InputType::MousePress,
+        MouseButton::Right);
+    REGISTER_INPUT_KEY_CALLBACK(Alien::MoveCallback, InputType::MousePress,
         MouseButton::Left);
 }
 
@@ -35,13 +37,32 @@ void Alien::InitializeMinions(int numMinions)
         minionArray.emplace_back(new Minion(this, i*arcOffset));
 }
 
-void Alien::Update(float dt)
+void Alien::UpdateRotation(float dt)
 {
     rotationVector.Rotate(angularSpeed * dt);
     rotation = rotationVector.GetDirection();
+}
 
+void Alien::UpdatePosition(float dt)
+{
+    Vector displacement = speed;
+    displacement.Multiply(dt);
+    
+    Point position = GetCenter();
+    position.Add(displacement);
+    box.SetCenter(position, sprite->GetWidth(), sprite->GetHeight());
+}
+
+void Alien::UpdateMinions(float dt)
+{
     for (unsigned int i = 0; i < minionArray.size(); ++i)
         minionArray[i]->Update(dt);
+}
+
+void Alien::Update(float dt)
+{
+    UpdateRotation(dt);
+    UpdateMinions(dt);
 }
 
 void Alien::RenderMinions()
@@ -83,6 +104,11 @@ int Alien::GetClosestMinion(Point point)
     }
 
     return closestMinionIndex;
+}
+
+void Alien::MoveCallback()
+{
+
 }
 
 void Alien::ShootCallback()

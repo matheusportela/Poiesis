@@ -33,6 +33,14 @@ class Alien : public GameObject
     // Create all it's minions.
     void InitializeMinions(int numMinions);
 
+    // Updates Alien's rotation.
+    void UpdateRotation(float dt);
+
+    void UpdatePosition(float dt);
+
+    // Updates minions.
+    void UpdateMinions(float dt);
+
     // Defining GameObject virtual methods.
     void Update(float dt);
     void RenderMinions();
@@ -41,6 +49,9 @@ class Alien : public GameObject
 
     // Returns the index of the closest minion to a given point.
     int GetClosestMinion(Point point);
+
+    // Moves Alien to the clicked position.
+    void MoveCallback();
 
     // Makes a minion shoot with user input.
     void ShootCallback();
@@ -55,7 +66,7 @@ class Alien : public GameObject
             Shoot,
         };
 
-        Action(ActionType type, Point& point) : type(type), position(point) {};
+        Action(ActionType type, Point point) : type(type), position(point) {};
 
         ActionType type;
         Point position;

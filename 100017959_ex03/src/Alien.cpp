@@ -59,28 +59,9 @@ void Alien::UpdateMinions(float dt)
         minionArray[i]->Update(dt);
 }
 
-void Alien::ExecuteAction()
-{
-    std::shared_ptr<Action> action;
-    bool finished = false;
-
-    if (taskQueue.size() > 0)
-    {
-        action = taskQueue.front();
-        action->Execute();
-        finished = action->IsFinished();
-    }
-
-    if (finished)
-    {
-        action->PostExecute();
-        taskQueue.pop();
-    }
-}
-
 void Alien::Update(float dt)
 {
-    ExecuteAction();
+    actionScheduler.Execute();
     UpdatePosition(dt);
     UpdateRotation(dt);
     UpdateMinions(dt);
@@ -130,7 +111,7 @@ int Alien::GetClosestMinion(Point point)
 void Alien::MoveCallback()
 {
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    taskQueue.push(std::shared_ptr<MoveAction>(
+    actionScheduler.Schedule(std::shared_ptr<MoveAction>(
         new MoveAction(this, point, CFG_GETF("ALIEN_SPEED"),
                        CFG_GETF("ALIEN_MOVE_ERROR_MARGIN"))));
 }

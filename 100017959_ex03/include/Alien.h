@@ -11,6 +11,7 @@
 #include <memory>
 #include <queue>
 
+#include "ActionScheduler.h"
 #include "MoveAction.h"
 #include "Camera.h"
 #include "ConfigParser.h"
@@ -33,9 +34,6 @@ class Alien : public GameObject
 
     // Create all it's minions.
     void InitializeMinions(int numMinions);
-
-    // Executes queued action.
-    void ExecuteAction();
 
     // Updates Alien's rotation.
     void UpdateRotation(float dt);
@@ -79,8 +77,8 @@ class Alien : public GameObject
     float angularSpeed;
     Vector rotationVector;
 
-    // Actions to be executed by Alien.
-    std::queue<std::shared_ptr<Action>> taskQueue;
+    // Scheduller to deal with sequential actions.
+    ActionScheduler actionScheduler;
 
     // Alien's minions.
     std::vector<std::unique_ptr<Minion>> minionArray;

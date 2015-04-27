@@ -59,8 +59,55 @@ void Alien::UpdateMinions(float dt)
         minionArray[i]->Update(dt);
 }
 
+bool Alien::IsMoveFinished(Point target, float errorMargin)
+{
+    Vector displacement;
+    displacement.Set(target);
+    displacement.Subtract(GetCenter());
+
+    return (displacement.GetMagnitude() <= errorMargin);
+}
+
+bool Alien::ExecuteMoveAction(Point target)
+{
+    speed.Set(target);
+    speed.Subtract(GetCenter());
+    speed.Normalize();
+    speed.Multiply(CFG_GETI("ALIEN_SPEED"));
+
+    return IsMoveFinished(target, CFG_GETI("ALIEN_MOVE_ERROR_MARGIN"));
+}
+
+void Alien::ExecuteAction()
+{
+    bool finished = false;
+
+    if (taskQueue.size() > 0)
+    {
+        Alien::Action& action = taskQueue.front();
+
+        switch (action.type)
+        {
+            case Alien::Action::Move:
+                finished = ExecuteMoveAction(action.target);
+                break;
+            case Alien::Action::Shoot:
+                finished = true;
+                break;
+        }
+    }
+
+    if (finished)
+    {
+        speed.Set(0, 0);
+        taskQueue.pop();
+    }
+}
+
 void Alien::Update(float dt)
 {
+    ExecuteAction();
+    UpdatePosition(dt);
     UpdateRotation(dt);
     UpdateMinions(dt);
 }
@@ -109,7 +156,6 @@ int Alien::GetClosestMinion(Point point)
 void Alien::ScheduleAction(Alien::Action action)
 {
     taskQueue.push(action);
-    LOG_D("Action queue size: " << taskQueue.size());
 }
 
 void Alien::ScheduleMoveAction(Point point)
@@ -120,8 +166,6 @@ void Alien::ScheduleMoveAction(Point point)
 
 void Alien::MoveCallback()
 {
-    LOG_D("Alien move callback");
-
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
     ScheduleMoveAction(point);
 }

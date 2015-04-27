@@ -35,9 +35,19 @@ class Alien : public GameObject
     // Create all it's minions.
     void InitializeMinions(int numMinions);
 
+    
+    bool IsMoveFinished(Point target, float errorMargin);
+
+    // Executes move action.
+    bool ExecuteMoveAction(Point target);
+
+    // Executes queued action.
+    void ExecuteAction();
+
     // Updates Alien's rotation.
     void UpdateRotation(float dt);
 
+    // Updates Alien's position.
     void UpdatePosition(float dt);
 
     // Updates minions.
@@ -52,7 +62,10 @@ class Alien : public GameObject
     // Returns the index of the closest minion to a given point.
     int GetClosestMinion(Point point);
 
+    // Schedules an action to be execute whenever possible.
     void ScheduleAction(Action action);
+
+    // Schedules a move action.
     void ScheduleMoveAction(Point point);
 
     // Moves Alien to the clicked position.
@@ -92,10 +105,10 @@ class Alien::Action
         Shoot,
     };
 
-    Action(ActionType type, Point point) : type(type), point(point) {};
+    Action(ActionType type, Point target) : type(type), target(target) {};
 
     ActionType type;
-    Point point;
+    Point target;
 };
 
 #endif // ALIEN_H_

@@ -11,6 +11,7 @@
 #include <memory>
 #include <queue>
 
+#include "MoveAction.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
@@ -25,8 +26,6 @@ class Sprite;
 class Alien : public GameObject
 {
   public:
-    class Action;
-
     // Initializes Alien at the given (x, y) coordinates with a number of
     // minions.
     Alien(Point point, int numMinions);
@@ -34,12 +33,6 @@ class Alien : public GameObject
 
     // Create all it's minions.
     void InitializeMinions(int numMinions);
-
-    
-    bool IsMoveFinished(Point target, float errorMargin);
-
-    // Executes move action.
-    bool ExecuteMoveAction(Point target);
 
     // Executes queued action.
     void ExecuteAction();
@@ -63,7 +56,7 @@ class Alien : public GameObject
     int GetClosestMinion(Point point);
 
     // Schedules an action to be execute whenever possible.
-    void ScheduleAction(Action action);
+    // void ScheduleAction(Action action);
 
     // Schedules a move action.
     void ScheduleMoveAction(Point point);
@@ -82,33 +75,15 @@ class Alien : public GameObject
     // Alien's sprite.
     Sprite* sprite;
 
-    // Alien's speed.
-    Vector speed;
-
     // Alien's rotation vector.
     float angularSpeed;
     Vector rotationVector;
 
     // Actions to be executed by Alien.
-    std::queue<Action> taskQueue;
+    std::queue<std::shared_ptr<Action>> taskQueue;
 
     // Alien's minions.
     std::vector<std::unique_ptr<Minion>> minionArray;
-};
-
-class Alien::Action
-{
-  public:
-    enum ActionType
-    {
-        Move,
-        Shoot,
-    };
-
-    Action(ActionType type, Point target) : type(type), target(target) {};
-
-    ActionType type;
-    Point target;
 };
 
 #endif // ALIEN_H_

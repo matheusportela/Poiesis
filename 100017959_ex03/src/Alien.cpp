@@ -59,47 +59,21 @@ void Alien::UpdateMinions(float dt)
         minionArray[i]->Update(dt);
 }
 
-bool Alien::IsMoveFinished(Point target, float errorMargin)
-{
-    Vector displacement;
-    displacement.Set(target);
-    displacement.Subtract(GetCenter());
-
-    return (displacement.GetMagnitude() <= errorMargin);
-}
-
-bool Alien::ExecuteMoveAction(Point target)
-{
-    speed.Set(target);
-    speed.Subtract(GetCenter());
-    speed.Normalize();
-    speed.Multiply(CFG_GETI("ALIEN_SPEED"));
-
-    return IsMoveFinished(target, CFG_GETI("ALIEN_MOVE_ERROR_MARGIN"));
-}
-
 void Alien::ExecuteAction()
 {
+    std::shared_ptr<Action> action;
     bool finished = false;
 
     if (taskQueue.size() > 0)
     {
-        Alien::Action& action = taskQueue.front();
-
-        switch (action.type)
-        {
-            case Alien::Action::Move:
-                finished = ExecuteMoveAction(action.target);
-                break;
-            case Alien::Action::Shoot:
-                finished = true;
-                break;
-        }
+        action = taskQueue.front();
+        action->Execute();
+        finished = action->IsFinished();
     }
 
     if (finished)
     {
-        speed.Set(0, 0);
+        action->PostExecute();
         taskQueue.pop();
     }
 }
@@ -153,27 +127,16 @@ int Alien::GetClosestMinion(Point point)
     return closestMinionIndex;
 }
 
-void Alien::ScheduleAction(Alien::Action action)
-{
-    taskQueue.push(action);
-}
-
-void Alien::ScheduleMoveAction(Point point)
-{
-    Alien::Action moveAction(Action::Move, point);
-    ScheduleAction(moveAction);
-}
-
 void Alien::MoveCallback()
 {
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    ScheduleMoveAction(point);
+    taskQueue.push(std::shared_ptr<MoveAction>(
+        new MoveAction(this, point, CFG_GETF("ALIEN_SPEED"),
+                       CFG_GETF("ALIEN_MOVE_ERROR_MARGIN"))));
 }
 
 void Alien::ShootCallback()
 {
-    LOG_D("Alien shoot callback");
-
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
     int minionIndex = GetClosestMinion(point);
     minionArray[minionIndex]->Shoot(point);

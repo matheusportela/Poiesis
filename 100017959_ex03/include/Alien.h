@@ -12,11 +12,12 @@
 #include <queue>
 
 #include "ActionScheduler.h"
-#include "MoveAction.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
 #include "Minion.h"
+#include "MoveAction.h"
+#include "ShootAction.h"
 #include "Sprite.h"
 #include "Point.h"
 #include "Vector.h"
@@ -50,15 +51,6 @@ class Alien : public GameObject
     void Render();
     bool IsDead();
 
-    // Returns the index of the closest minion to a given point.
-    int GetClosestMinion(Point point);
-
-    // Schedules an action to be execute whenever possible.
-    // void ScheduleAction(Action action);
-
-    // Schedules a move action.
-    void ScheduleMoveAction(Point point);
-
     // Moves Alien to the clicked position.
     void MoveCallback();
 
@@ -81,7 +73,7 @@ class Alien : public GameObject
     ActionScheduler actionScheduler;
 
     // Alien's minions.
-    std::vector<std::unique_ptr<Minion>> minionArray;
+    std::vector<std::shared_ptr<Minion>> minionArray;
 };
 
 #endif // ALIEN_H_

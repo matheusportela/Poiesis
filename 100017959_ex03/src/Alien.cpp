@@ -86,28 +86,6 @@ bool Alien::IsDead()
     return (hp <= 0);
 }
 
-int Alien::GetClosestMinion(Point point)
-{
-    Point minionPosition;
-    int closestMinionIndex = 0;
-    float closestDistance = std::numeric_limits<float>::max();
-    float distance;
-
-    for (unsigned int i = 0; i < minionArray.size(); ++i)
-    {
-        minionPosition = minionArray[i]->GetCenter();
-        distance = minionPosition.CalculateDistance(point);
-
-        if (distance < closestDistance)
-        {
-            closestMinionIndex = i;
-            closestDistance = distance;
-        }
-    }
-
-    return closestMinionIndex;
-}
-
 void Alien::MoveCallback()
 {
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
@@ -119,6 +97,6 @@ void Alien::MoveCallback()
 void Alien::ShootCallback()
 {
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    int minionIndex = GetClosestMinion(point);
-    minionArray[minionIndex]->Shoot(point);
+    actionScheduler.Schedule(std::shared_ptr<ShootAction>(
+        new ShootAction(this, minionArray, point)));
 }

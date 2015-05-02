@@ -24,12 +24,12 @@
 #include "Point.h"
 
 #define REGISTER_INPUT_TYPE_CALLBACK(method, key) \
-    LOG_D("[InputManager] Registered callback - function: " << #method << \
+    LOG_D("[InputManager] Registering callback - function: " << #method << \
         ", key: " << #key); \
     InputManager::GetInstance().RegisterCallback(std::bind(&method, this), key);
 
 #define REGISTER_INPUT_KEY_CALLBACK(method, type, key) \
-    LOG_D("[InputManager] Registered callback - function: " << #method << \
+    LOG_D("[InputManager] Registering callback - function: " << #method << \
         ", type: " << #type << ", key: " << #key); \
     InputManager::GetInstance().RegisterCallback(std::bind(&method, this), type, key);
 

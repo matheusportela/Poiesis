@@ -34,6 +34,9 @@ class Penguins : public GameObject
     // Destroys Penguins.
     ~Penguins();
 
+    // Updates the cannon rotation to match the mouse.
+    void UpdateCannonRotation();
+
     // Updates Penguins position after some elapsed time.
     void UpdatePosition(float dt);
 
@@ -71,6 +74,7 @@ class Penguins : public GameObject
     float maxLinearSpeed;
     Sprite* bodySprite;
     Sprite* cannonSprite;
+    float cannonRotation;
 };
 
 #endif // PENGUINS_H_

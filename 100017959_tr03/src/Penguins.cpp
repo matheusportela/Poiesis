@@ -6,7 +6,7 @@
 
 #include "Penguins.h"
 
-Penguins::Penguins(Point position)
+Penguins::Penguins(Point position) : cannonRotation(0.0)
 {
     hp = CFG_GETI("PENGUINS_HP");
     linearAcceleration = CFG_GETF("PENGUINS_ACCELERATION");
@@ -45,18 +45,29 @@ void Penguins::UpdatePosition(float dt)
     box.SetCenter(position, bodySprite->GetWidth(), bodySprite->GetHeight());
 }
 
+void Penguins::UpdateCannonRotation()
+{
+    Point mousePosition = InputManager::GetInstance().GetMouseScreenPosition();
+    Point cannonPosition = Camera::WorldToScreenPoint(GetCenter());
+
+    Vector cannonToMouseVector;
+    cannonToMouseVector.Set(mousePosition);
+    cannonToMouseVector.Subtract(cannonPosition);
+
+    cannonRotation = cannonToMouseVector.GetDirection();
+}
+
 void Penguins::Update(float dt)
 {
-    LOG_D("[Penguins] Speed: " << speed.ToString());
-
     UpdatePosition(dt);
+    UpdateCannonRotation();
 }
 
 void Penguins::Render()
 {
     Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
     bodySprite->Render(renderPoint, rotation);
-    cannonSprite->Render(renderPoint, rotation);
+    cannonSprite->Render(renderPoint, cannonRotation);
 }
 
 bool Penguins::IsDead()

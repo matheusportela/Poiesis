@@ -68,6 +68,7 @@ class Penguins : public GameObject
     int hp;
     float linearAcceleration;
     float angularSpeed;
+    float maxLinearSpeed;
     Sprite* bodySprite;
     Sprite* cannonSprite;
 };

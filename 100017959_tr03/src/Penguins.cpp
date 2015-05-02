@@ -11,6 +11,7 @@ Penguins::Penguins(Point position)
     hp = CFG_GETI("PENGUINS_HP");
     linearAcceleration = CFG_GETF("PENGUINS_ACCELERATION");
     angularSpeed = CFG_GETF("PENGUINS_ANGULAR_SPEED");
+    maxLinearSpeed = CFG_GETF("PENGUINS_MAX_SPEED");
     bodySprite = new Sprite(CFG_GETP("PENGUINS_BODY_SPRITE"));
     cannonSprite = new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE"));
     box.SetCenter(position, bodySprite->GetWidth(), bodySprite->GetHeight());
@@ -47,7 +48,7 @@ void Penguins::UpdatePosition(float dt)
 void Penguins::Update(float dt)
 {
     LOG_D("[Penguins] Speed: " << speed.ToString());
-    
+
     UpdatePosition(dt);
 }
 
@@ -77,6 +78,7 @@ void Penguins::ChangeSpeed(float acceleration)
     deltaSpeed.Multiply(acceleration);
 
     speed.Add(deltaSpeed);
+    speed.Saturate(maxLinearSpeed);
 }
 
 void Penguins::SpeedUpCallback()

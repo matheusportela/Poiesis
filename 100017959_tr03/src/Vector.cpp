@@ -42,3 +42,12 @@ void Vector::Normalize()
     x = new_x;
     y = new_y;
 }
+
+void Vector::Saturate(float maximum)
+{
+    if (GetMagnitude() > maximum)
+    {
+        Normalize();
+        Multiply(maximum);
+    }
+}

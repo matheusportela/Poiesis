@@ -26,6 +26,9 @@ class Vector : public Point
 
     // Adjusts the x, y coordinates such that the vector norm is 1.
     void Normalize();
+
+    // Limits vector magnitude.
+    void Saturate(float maximum);
 };
 
 #endif // VECTOR_H_

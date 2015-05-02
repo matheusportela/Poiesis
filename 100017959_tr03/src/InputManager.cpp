@@ -106,6 +106,13 @@ Point InputManager::GetMouseScreenPosition()
 void InputManager::RegisterCallback(std::function<void()> callback,
     InputType::Type inputType, int button)
 {
+    if (HasCallback(inputType, button))
+    {
+        LOG_E("[InputManager] Multiple callback registration (Input type: "
+            << inputType << ", button: " << button << ")");
+        exit(1);
+    }
+
     callbackMap[std::make_pair(inputType, button)] = callback;
 }
 

@@ -35,6 +35,9 @@ void Penguins::UpdatePosition(float dt)
 {
     Vector displacement = speed;
     displacement.Multiply(dt);
+
+    // Apply the displacement to the penguin front.
+    displacement.Rotate(rotation);
     
     Point position = GetCenter();
     position.Add(displacement);
@@ -44,6 +47,7 @@ void Penguins::UpdatePosition(float dt)
 void Penguins::Update(float dt)
 {
     LOG_D("[Penguins] Speed: " << speed.ToString());
+    
     UpdatePosition(dt);
 }
 
@@ -87,10 +91,10 @@ void Penguins::SlowDownCallback()
 
 void Penguins::LeftRotationCallback()
 {
-    rotation += angularSpeed;
+    rotation -= angularSpeed;
 }
 
 void Penguins::RightRotationCallback()
 {
-    rotation -= angularSpeed;
+    rotation += angularSpeed;
 }

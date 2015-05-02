@@ -1,25 +1,25 @@
-// @file   SpriteSheet.h
+// @file   AnimatedSprite.h
 // @author Matheus Vieira Portela
 // @date   01/05/2015
 //
 // @brief Allows sequential rendering of sprites from a single image file.
 //
-// SpriteSheet provides sequential usage of sprites that are located in a
+// AnimatedSprite provides sequential usage of sprites that are located in a
 // single image, creating an effect of animation.
 
-#ifndef SPRITE_SHEET_H_
-#define SPRITE_SHEET_H_
+#ifndef ANIMATED_SPRITE_H_
+#define ANIMATED_SPRITE_H_
 
 #include <string>
 
 #include "Sprite.h"
 
-class SpriteSheet : public Sprite
+class AnimatedSprite : public Sprite
 {
   public:
     // Initializes a sprite sheet with an image file, the number of frames and
     // the time each frame will be displayed.
-    SpriteSheet(std::string file, int numFrames, float frameTime);
+    AnimatedSprite(std::string file, int numFrames, float frameTime);
 
     void UpdateElapsedTime(float dt);
 
@@ -53,4 +53,4 @@ class SpriteSheet : public Sprite
     int frameWidth;
 };
 
-#endif // SPRITE_SHEET_H_
+#endif // ANIMATED_SPRITE_H_

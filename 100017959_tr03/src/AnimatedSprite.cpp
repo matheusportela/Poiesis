@@ -1,12 +1,12 @@
-// @file   SpriteSheet.cpp
+// @file   AnimatedSprite.cpp
 // @author Matheus Vieira Portela
 // @date   01/05/2015
 //
 // @brief Allows sequential rendering of sprites from a single image file.
 
-#include "SpriteSheet.h"
+#include "AnimatedSprite.h"
 
-SpriteSheet::SpriteSheet(std::string file, int numFrames, float frameTime) :
+AnimatedSprite::AnimatedSprite(std::string file, int numFrames, float frameTime) :
     Sprite(file), currentFrame(0), numFrames(numFrames), frameTime(frameTime),
     elapsedTime(0.0)
 {
@@ -14,42 +14,42 @@ SpriteSheet::SpriteSheet(std::string file, int numFrames, float frameTime) :
     SetFrameClip();
 }
 
-void SpriteSheet::UpdateElapsedTime(float dt)
+void AnimatedSprite::UpdateElapsedTime(float dt)
 {
     elapsedTime += dt;
 }
 
-void SpriteSheet::ResetElapsedTime()
+void AnimatedSprite::ResetElapsedTime()
 {
     elapsedTime = 0.0;
 }
 
-bool SpriteSheet::IsFrameFinished()
+bool AnimatedSprite::IsFrameFinished()
 {
     return (elapsedTime >= frameTime);
 }
 
-void SpriteSheet::UpdateCurrentFrame()
+void AnimatedSprite::UpdateCurrentFrame()
 {
     ++currentFrame;
     currentFrame = currentFrame == numFrames ? 0 : currentFrame;
 }
 
-void SpriteSheet::SetFrameClip()
+void AnimatedSprite::SetFrameClip()
 {
     int x = frameWidth*currentFrame;
     Point point(x, 0);
     SetClip(point, frameWidth, GetHeight());
 }
 
-void SpriteSheet::RenderNextFrame()
+void AnimatedSprite::RenderNextFrame()
 {
     UpdateCurrentFrame();
     SetFrameClip();
     ResetElapsedTime();
 }
 
-void SpriteSheet::Update(float dt)
+void AnimatedSprite::Update(float dt)
 {
     UpdateElapsedTime(dt);
     if (IsFrameFinished())

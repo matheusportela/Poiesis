@@ -5,3 +5,6 @@ Main
 # Sublime
 *.sublime-project
 *.sublime-workspace
+
+# Binary
+*.zip

@@ -68,12 +68,27 @@ class Penguins : public GameObject
     void RightRotationCallback();
 
   private:
-    int hp;
-    float linearAcceleration;
-    float angularSpeed;
-    float maxLinearSpeed;
+    // Penguins body sprite, placed below the cannon sprite. This is also the
+    // sprite considered for positioning and collision.
     Sprite* bodySprite;
+
+    // Penguins cannon sprite, placed above the body sprite. This sprite has
+    // independent rotation from the body sprite.
     Sprite* cannonSprite;
+
+    // Penguins HP before death.
+    int hp;
+
+    // Penguins linear acceleration, applied by user input.
+    float linearAcceleration;
+
+    // Penguins angular speed, applied by user input.
+    float angularSpeed;
+
+    // Penguins maximum linear speed.
+    float maxLinearSpeed;
+
+    // Cannon current rotation, which is applied to the sprite.
     float cannonRotation;
 };
 

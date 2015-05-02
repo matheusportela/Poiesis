@@ -21,17 +21,24 @@ class AnimatedSprite : public Sprite
     // the time each frame will be displayed.
     AnimatedSprite(std::string file, int numFrames, float frameTime);
 
+    // Updates elapsed time since the beginning of the current frame.
     void UpdateElapsedTime(float dt);
 
+    // Resets elapsed time accumulator.
     void ResetElapsedTime();
 
+    // Checks whether the current frame is finished and should be replaced by
+    // a new one.
     bool IsFrameFinished();
 
+    // Updates the current frame.
     void UpdateCurrentFrame();
 
-    void RenderNextFrame();
-
+    // Sets the clipping rectangle to render the next animation frame. 
     void SetFrameClip();
+
+    // Prepares everything necessary to render the next animation frame.
+    void RenderNextFrame();
 
     // Updates the sprite to the next frame.
     void Update(float dt);

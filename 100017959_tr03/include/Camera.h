@@ -40,6 +40,7 @@ class Camera
 
     // Camera speed (in pixels/second).
     static Vector speed;
+    
   private:
     // Current object that the camera follows.
     static GameObject* focus;

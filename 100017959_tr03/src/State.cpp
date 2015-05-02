@@ -13,11 +13,11 @@ State::State()
     tileSet = new TileSet(CFG_GETI("TILE_WIDTH"), CFG_GETI("TILE_HEIGHT"),
         CFG_GETP("TILE_SET"));
     tileMap = new TileMap(CFG_GETP("TILE_MAP"), tileSet);
-    ConfigureInputCallbacks();
 
-    Point alienPosition(CFG_GETI("ALIEN_INITIAL_X"),
-        CFG_GETI("ALIEN_INITIAL_Y"));
-    objectArray.emplace_back(new Alien(alienPosition, 1));
+    InitializePenguins();
+    InitializeAlien();
+
+    ConfigureInputCallbacks();
 }
 
 State::~State()
@@ -26,6 +26,20 @@ State::~State()
     delete tileSet;
     delete bg;
     objectArray.clear();
+}
+
+void State::InitializePenguins()
+{
+    Point penguinsPosition(CFG_GETI("PENGUINS_INITIAL_X"),
+        CFG_GETI("PENGUINS_INITIAL_Y"));
+    objectArray.emplace_back(new Penguins(penguinsPosition));
+}
+
+void State::InitializeAlien()
+{
+    Point alienPosition(CFG_GETI("ALIEN_INITIAL_X"),
+        CFG_GETI("ALIEN_INITIAL_Y"));
+    objectArray.emplace_back(new Alien(alienPosition, 1));
 }
 
 void State::ConfigureInputCallbacks()

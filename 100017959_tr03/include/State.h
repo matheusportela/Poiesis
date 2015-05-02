@@ -21,6 +21,7 @@
 #include "FileUtils.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include "Penguins.h"
 #include "Sprite.h"
 #include "TileMap.h"
 #include "TileSet.h"
@@ -35,6 +36,12 @@ class State
 
     // Destroys the game state.
     ~State();
+
+    // Initialize Penguins game object.
+    void InitializePenguins();
+
+    // Initialize Alien game object.
+    void InitializeAlien();
 
     // Configures callback functions for all relevant user input type in the game.
     void ConfigureInputCallbacks();

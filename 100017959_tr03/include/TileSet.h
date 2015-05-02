@@ -25,8 +25,6 @@
 #include "Point.h"
 #include "Sprite.h"
 
-class Sprite;
-
 class TileSet
 {
   public:

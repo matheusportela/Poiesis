@@ -9,6 +9,7 @@
 
 #include "Point.h"
 #include "Rect.h"
+#include "Vector.h"
 
 class GameObject
 {
@@ -27,6 +28,7 @@ class GameObject
         point = box.GetCenter();
         return point;
     }
+    void SetSpeed(Vector speed) { this->speed = speed; }
 
     // Updates the game state after dt seconds.
     virtual void Update(float dt) = 0;
@@ -43,6 +45,9 @@ class GameObject
 
     // Game object body rotation.
     float rotation;
+
+    // Game object speed.
+    Vector speed;
 };
 
 #endif // GAME_OBJECT_H_

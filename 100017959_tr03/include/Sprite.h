@@ -9,16 +9,12 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
-#include <string>
+#include <iostream>
 
 #include <SDL.h>
 #include <SDL_image.h>
 
-#include "Game.h"
 #include "Point.h"
-
-// Forward declaration to avoid circular include.
-class Game;
 
 class Sprite
 {
@@ -30,7 +26,7 @@ class Sprite
     Sprite(std::string file);
 
     // Destroys the sprite.
-    virtual ~Sprite();
+    virtual ~Sprite() {};
 
     // Gets image presentation width.
     int GetWidth();
@@ -59,7 +55,7 @@ class Sprite
     // Render sprite.
     void Render(Point point, float angle = 0);
 
-  protected:
+  private:
     // Sprite image to be presented.
     SDL_Texture* texture;
 

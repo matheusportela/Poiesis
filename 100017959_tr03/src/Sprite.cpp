@@ -6,6 +6,8 @@
 
 #include "Sprite.h"
 
+#include "Game.h"
+
 Sprite::Sprite() : texture(NULL), scaleX(1), scaleY(1)
 {
 }
@@ -13,10 +15,6 @@ Sprite::Sprite() : texture(NULL), scaleX(1), scaleY(1)
 Sprite::Sprite(std::string file) : Sprite()
 {
     Open(file);
-}
-
-Sprite::~Sprite()
-{
 }
 
 int Sprite::GetWidth()

@@ -25,8 +25,6 @@
 #include "TileMapParser.h"
 #include "TileSet.h"
 
-class TileSet;
-
 class TileMap
 {
   public:

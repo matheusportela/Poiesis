@@ -11,16 +11,17 @@
 #include <memory>
 #include <queue>
 
+#include "ActionScheduler.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
+#include "InputManager.h"
 #include "Minion.h"
+#include "MoveAction.h"
+#include "ShootAction.h"
 #include "Sprite.h"
 #include "Point.h"
 #include "Vector.h"
-
-class Minion;
-class Sprite;
 
 class Alien : public GameObject
 {
@@ -33,33 +34,28 @@ class Alien : public GameObject
     // Create all it's minions.
     void InitializeMinions(int numMinions);
 
+    // Updates Alien's rotation.
+    void UpdateRotation(float dt);
+
+    // Updates Alien's position.
+    void UpdatePosition(float dt);
+
+    // Updates minions.
+    void UpdateMinions(float dt);
+
     // Defining GameObject virtual methods.
     void Update(float dt);
     void RenderMinions();
     void Render();
     bool IsDead();
 
-    // Returns the index of the closest minion to a given point.
-    int GetClosestMinion(Point point);
+    // Moves Alien to the clicked position.
+    void MoveCallback();
 
     // Makes a minion shoot with user input.
     void ShootCallback();
 
   private:
-    class Action
-    {
-      public:
-        enum ActionType
-        {
-            Move,
-            Shoot,
-        };
-
-        Action(ActionType type, Point& point) : type(type), position(point) {};
-
-        ActionType type;
-        Point position;
-    };
 
     // Aliens's hitpoints.
     int hp;
@@ -67,18 +63,15 @@ class Alien : public GameObject
     // Alien's sprite.
     Sprite* sprite;
 
-    // Alien's speed.
-    Vector speed;
-
     // Alien's rotation vector.
     float angularSpeed;
     Vector rotationVector;
 
-    // Actions to be executed by Alien.
-    std::queue<Action> taskQueue;
+    // Scheduller to deal with sequential actions.
+    ActionScheduler actionScheduler;
 
     // Alien's minions.
-    std::vector<std::unique_ptr<Minion>> minionArray;
+    std::vector<std::shared_ptr<Minion>> minionArray;
 };
 
 #endif // ALIEN_H_

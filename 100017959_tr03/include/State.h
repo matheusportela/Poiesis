@@ -26,10 +26,6 @@
 #include "TileSet.h"
 #include "Vector.h"
 
-class Sprite;
-class TileMap;
-class TileSet;
-
 // This class provides game-specific logic methods.
 class State
 {

@@ -20,9 +20,6 @@
 #include "Resources.h"
 #include "State.h"
 
-// Forward declaration to avoid circular include.
-class State;
-
 // This class provides reusable generic methods for game development, without
 // any game-specific details.
 //

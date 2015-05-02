@@ -93,7 +93,12 @@ InputManager& InputManager::GetInstance()
     return instance;
 }
 
-Point InputManager::GetMousePosition()
+Point InputManager::GetMouseWorldPosition()
+{
+    return Camera::ScreenToWorldPoint(mousePosition);
+}
+
+Point InputManager::GetMouseScreenPosition()
 {
     return mousePosition;
 }

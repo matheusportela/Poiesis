@@ -17,16 +17,15 @@ State::State()
 
     Point alienPosition(CFG_GETI("ALIEN_INITIAL_X"),
         CFG_GETI("ALIEN_INITIAL_Y"));
-    objectArray.emplace_back(new Alien(alienPosition,
-                                       CFG_GETI("ALIEN_NUM_MINIONS")));
+    objectArray.emplace_back(new Alien(alienPosition, 1));
 }
 
 State::~State()
 {
-    objectArray.clear();
     delete tileMap;
     delete tileSet;
     delete bg;
+    objectArray.clear();
 }
 
 void State::ConfigureInputCallbacks()

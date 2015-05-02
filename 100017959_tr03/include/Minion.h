@@ -7,7 +7,8 @@
 #ifndef MINION_H_
 #define MINION_H_
 
-#include <queue>
+#include <memory>
+#include <vector>
 
 #include "Bullet.h"
 #include "Camera.h"
@@ -17,9 +18,6 @@
 #include "Sprite.h"
 #include "Point.h"
 #include "Vector.h"
-
-class Bullet;
-class Sprite;
 
 class Minion : public GameObject
 {

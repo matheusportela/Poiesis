@@ -19,6 +19,7 @@
 
 #include <SDL.h>
 
+#include "Camera.h"
 #include "Point.h"
 
 #define REGISTER_INPUT_TYPE_CALLBACK(method, key) \
@@ -114,9 +115,11 @@ class InputManager
     // Singleton pattern.
     static InputManager& GetInstance();
 
-    // Getters and setters.
-    Point GetMousePosition();
-    int GetPressedKey();
+    // Gets mouse position with respect to the world coordinates.
+    Point GetMouseWorldPosition();
+
+    // Gets mouse position with respect to the screen coordinates.
+    Point GetMouseScreenPosition();
 
     // Register a function to be called whenever an input of type inputType
     // happens. The callback function must return void and receive no arguments.

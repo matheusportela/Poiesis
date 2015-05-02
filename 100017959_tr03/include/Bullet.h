@@ -16,8 +16,6 @@
 #include "Point.h"
 #include "Vector.h"
 
-class Sprite;
-
 class Bullet : public GameObject
 {
   public:

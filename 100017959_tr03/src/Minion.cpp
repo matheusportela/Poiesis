@@ -17,6 +17,7 @@ Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
 
 Minion::~Minion()
 {
+    bulletArray.clear();
     delete sprite;
 }
 

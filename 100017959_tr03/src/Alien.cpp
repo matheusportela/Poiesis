@@ -16,11 +16,6 @@ Alien::Alien(Point point, int numMinions)
 
     // Rotation vector is an unitary vector, since we only need it's direction
     rotationVector.Set(1, 0);
-
-    REGISTER_INPUT_KEY_CALLBACK(Alien::ShootCallback, InputType::MousePress,
-        MouseButton::Right);
-    REGISTER_INPUT_KEY_CALLBACK(Alien::MoveCallback, InputType::MousePress,
-        MouseButton::Left);
 }
 
 Alien::~Alien()

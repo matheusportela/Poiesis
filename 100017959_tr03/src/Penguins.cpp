@@ -24,10 +24,13 @@ Penguins::Penguins(Point position) : cannonRotation(0.0)
         InputType::KeyDown, KeyboardButton::LowercaseA);
     REGISTER_INPUT_KEY_CALLBACK(Penguins::RightRotationCallback,
         InputType::KeyDown, KeyboardButton::LowercaseD);
+    REGISTER_INPUT_KEY_CALLBACK(Penguins::Shoot, InputType::MousePress,
+        MouseButton::Left);
 }
 
 Penguins::~Penguins()
 {
+    bulletArray.clear();
     delete cannonSprite;
     delete bodySprite;
 }
@@ -57,10 +60,37 @@ void Penguins::UpdateCannonRotation()
     cannonRotation = cannonToMouseVector.GetDirection();
 }
 
+void Penguins::UpdateBullets(float dt)
+{
+    for (unsigned int i = 0; i < bulletArray.size(); ++i)
+        bulletArray[i]->Update(dt);
+}
+
+void Penguins::DestroyBullets()
+{
+    for (unsigned int i = 0; i < bulletArray.size(); ++i)
+    {
+        if (bulletArray[i]->IsDead())
+        {
+            bulletArray.erase(bulletArray.begin() + i);
+            --i;
+        }
+    }
+
+}
+
 void Penguins::Update(float dt)
 {
+    DestroyBullets();
     UpdatePosition(dt);
     UpdateCannonRotation();
+    UpdateBullets(dt);
+}
+
+void Penguins::RenderBullets()
+{
+    for (unsigned int i = 0; i < bulletArray.size(); ++i)
+        bulletArray[i]->Render();
 }
 
 void Penguins::Render()
@@ -68,6 +98,8 @@ void Penguins::Render()
     Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
     bodySprite->Render(renderPoint, rotation);
     cannonSprite->Render(renderPoint, cannonRotation);
+
+    RenderBullets();
 }
 
 bool Penguins::IsDead()
@@ -75,9 +107,23 @@ bool Penguins::IsDead()
     return (hp <= 0);
 }
 
+Point Penguins::CalculateBulletPosition()
+{
+    Point cannonPosition = GetCenter();
+    Point bulletPosition(cannonPosition);
+
+    Vector offset;
+    offset.Set(cannonSprite->GetWidth()/2, 0);
+    offset.Rotate(cannonRotation);
+
+    bulletPosition.Add(offset);
+    return bulletPosition;
+}
+
 void Penguins::Shoot()
 {
-
+    Point bulletPosition = CalculateBulletPosition();
+    bulletArray.emplace_back(new Bullet(bulletPosition, cannonRotation));
 }
 
 void Penguins::ChangeSpeed(float acceleration)

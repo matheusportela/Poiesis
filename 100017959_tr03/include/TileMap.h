@@ -30,13 +30,13 @@ class TileMap
 {
   public:
     // Initializes the tile map.
-    TileMap(std::string tileMapfile, std::string tileSetFile, int tileWidth,
-        int tileHeight);
+    TileMap(std::string file, std::unique_ptr<TileSet> tileSet);
 
     // Getters and setters.
     int GetWidth();
     int GetHeight();
     int GetDepth();
+    void SetTileSet(std::unique_ptr<TileSet> tileSet);
 
     // Loads a tile map from tile configuration file.
     void Load(std::string file);

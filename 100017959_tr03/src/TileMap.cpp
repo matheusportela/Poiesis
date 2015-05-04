@@ -6,12 +6,10 @@
 
 #include "TileMap.h"
 
-TileMap::TileMap(std::string tileMapfile, std::string tileSetFile,
-    int tileWidth, int tileHeight)
+TileMap::TileMap(std::string file, std::unique_ptr<TileSet> tileSet) :
+    tileSet(std::move(tileSet))
 {
-    tileSet = std::unique_ptr<TileSet>(
-        new TileSet(tileWidth, tileHeight, tileSetFile));
-    Load(tileMapfile);
+    Load(file);
 }
 
 int TileMap::GetWidth()
@@ -27,6 +25,11 @@ int TileMap::GetHeight()
 int TileMap::GetDepth()
 {
     return depth;
+}
+
+void TileMap::SetTileSet(std::unique_ptr<TileSet> tileSet)
+{
+    this->tileSet = std::move(tileSet);
 }
 
 void TileMap::Load(std::string file)

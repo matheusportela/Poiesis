@@ -6,7 +6,7 @@
 
 #include "Penguins.h"
 
-Penguins::Penguins(Point position) : cannonRotation(0.0)
+Penguins::Penguins(const Point& position) : cannonRotation(0.0)
 {
     hp = CFG_GETI("PENGUINS_HP");
     linearAcceleration = CFG_GETF("PENGUINS_ACCELERATION");

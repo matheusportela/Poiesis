@@ -16,10 +16,10 @@ class Vector : public Point
 {
   public:
     // Calculates the magnitude, also known as norm or absolute vector.
-    float GetMagnitude();
+    float GetMagnitude() const;
 
     // Calculates the direction (in radians).
-    float GetDirection();
+    float GetDirection() const;
 
     // Rotates vector by an angle (in radians) couterclockwise.
     void Rotate(float angle);

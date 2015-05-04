@@ -6,7 +6,7 @@
 
 #include "ActionScheduler.h"
 
-void ActionScheduler::Schedule(std::shared_ptr<Action> action)
+void ActionScheduler::Schedule(const std::shared_ptr<Action>& action)
 {
     queue.push(action);
 }

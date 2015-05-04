@@ -7,12 +7,12 @@
 #include "ShootAction.h"
 
 ShootAction::ShootAction(GameObject* object,
-    std::vector<std::shared_ptr<Minion>> minionArray, Point target) :
+    std::vector<std::shared_ptr<Minion>> minionArray, const Point& target) :
     Action(object), minionArray(minionArray), target(target)
 {
 }
 
-int ShootAction::GetClosestMinion(Point point)
+int ShootAction::GetClosestMinion(const Point& point)
 {
     Point minionPosition;
     int closestMinionIndex = 0;

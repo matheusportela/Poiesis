@@ -34,7 +34,7 @@ class Penguins : public GameObject
 {
   public:
     // Initializes Penguins in the given position.
-    Penguins(Point position);
+    Penguins(const Point& position);
 
     // Destroys Penguins.
     ~Penguins();

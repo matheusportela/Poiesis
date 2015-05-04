@@ -12,7 +12,7 @@ Point::Point(float x, float y) : x(x), y(y) {}
 
 Point::Point(const Point& other) : x(other.x), y(other.y) {}
 
-float Point::GetX()
+float Point::GetX() const
 {
     return x;
 }
@@ -22,7 +22,7 @@ void Point::SetX(float x)
     this->x = x;
 }
 
-float Point::GetY()
+float Point::GetY() const
 {
     return y;
 }
@@ -73,12 +73,12 @@ void Point::Negate()
     Multiply(-1);
 }
 
-float Point::CalculateDistance(Point point)
+float Point::CalculateDistance(Point point) const
 {
     return hypot(point.x - x, point.y - y);
 }
 
-std::string Point::ToString()
+std::string Point::ToString() const
 {
     char buffer[64];
     sprintf(buffer, "(%f, %f)", x, y);

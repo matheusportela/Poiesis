@@ -51,19 +51,20 @@ class TileMap
 
     // Parallax scrolling makes each layer move with different speed. Higher
     // layers will move faster than lower layers.
-    Point ApplyParallax(int layer, Point tilePoint, Point cameraPoint);
+    Point ApplyParallax(int layer, const Point& tilePoint,
+        const Point& cameraPoint);
 
     // Render a single map layer.
-    void RenderLayer(int layer, Point cameraPoint);
+    void RenderLayer(int layer, const Point& cameraPoint);
 
     // Render all map layers.
-    void Render(Point cameraPoint);
+    void Render(const Point& cameraPoint);
 
     // Render the first layer only.
-    void RenderBaseLayer(Point cameraPoint);
+    void RenderBaseLayer(const Point& cameraPoint);
 
     // Render all layers above the first one.
-    void RenderUpperLayers(Point cameraPoint);
+    void RenderUpperLayers(const Point& cameraPoint);
 
   private:
     // Parser for getting tile map definition from a file.

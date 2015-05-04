@@ -135,8 +135,8 @@ class ConfigParser : public Parser
     // Singleton pattern using the approach suggested at
     // http://stackoverflow.com/questions/1008019/c-singleton-design-pattern
     ConfigParser() {};
-    ConfigParser(ConfigParser const &) = delete;
-    void operator=(ConfigParser const &) = delete;
+    ConfigParser(const ConfigParser&) = delete;
+    void operator=(const ConfigParser&) = delete;
 
     // File containing the configuration values.
     std::string configurationFilename;

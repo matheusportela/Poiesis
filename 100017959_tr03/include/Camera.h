@@ -30,10 +30,10 @@ class Camera
     static void Update(float dt);
 
     // Converts a world point to screen coordinates.
-    static Point WorldToScreenPoint(Point point);
+    static Point WorldToScreenPoint(const Point& point);
 
     // Converts a screen point to world coordinates.
-    static Point ScreenToWorldPoint(Point point);
+    static Point ScreenToWorldPoint(const Point& point);
 
     // Camera position (in pixels).
     static Point position;

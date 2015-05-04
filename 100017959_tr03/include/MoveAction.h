@@ -15,7 +15,8 @@
 class MoveAction : public Action
 {
   public:
-    MoveAction(GameObject* object, Point target, float speed, float margin);
+    MoveAction(GameObject* object, const Point& target, float speed,
+        float margin);
 
     // Calculates the displacement from the object current position to the
     // target point.

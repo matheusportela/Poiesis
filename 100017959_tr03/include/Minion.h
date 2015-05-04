@@ -50,7 +50,7 @@ class Minion : public GameObject
     bool IsDead();
 
     // Shoots a bullet in the direction of the given position.
-    void Shoot(Point position);
+    void Shoot(const Point& position);
 
   private:
     // Minion's sprite.

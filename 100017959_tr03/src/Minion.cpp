@@ -89,7 +89,7 @@ bool Minion::IsDead()
     return false;
 }
 
-void Minion::Shoot(Point position)
+void Minion::Shoot(const Point& position)
 {
     Point minionPosition = GetCenter();
     Vector shootVector;

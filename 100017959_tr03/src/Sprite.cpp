@@ -58,7 +58,7 @@ bool Sprite::IsOpen()
     return (texture != NULL);
 }
 
-void Sprite::SetClip(Point point, int w, int h)
+void Sprite::SetClip(const Point& point, int w, int h)
 {
     clippingRectangle.x = point.GetX();
     clippingRectangle.y = point.GetY();
@@ -66,7 +66,7 @@ void Sprite::SetClip(Point point, int w, int h)
     clippingRectangle.h = h;
 }
 
-void Sprite::Render(Point point, float angle)
+void Sprite::Render(const Point& point, float angle)
 {
     SDL_Rect dstRect
     {

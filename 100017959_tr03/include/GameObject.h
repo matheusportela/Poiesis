@@ -22,13 +22,8 @@ class GameObject
 
     // Getters and setters
     Rect GetBox() { return box; }
-    Point GetCenter()
-    {
-        Point point;
-        point = box.GetCenter();
-        return point;
-    }
-    void SetSpeed(Vector speed) { this->speed = speed; }
+    Point GetCenter() { return box.GetCenter(); }
+    void SetSpeed(const Vector& speed) { this->speed = speed; }
 
     // Updates the game state after dt seconds.
     virtual void Update(float dt) = 0;

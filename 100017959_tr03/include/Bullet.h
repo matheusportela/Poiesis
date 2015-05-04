@@ -19,14 +19,14 @@
 class Bullet : public GameObject
 {
   public:
-    Bullet(Point point, float angle);
+    Bullet(const Point& position, float angle);
     ~Bullet();
 
     // Updates bullet position.
-    void UpdatePosition(Vector displacement);
+    void UpdatePosition(const Vector& displacement);
 
     // Updates distance left before destruction.
-    void UpdateDistanceLeft(Vector displacement);
+    void UpdateDistanceLeft(const Vector& displacement);
 
     // Defining GameObject virtual methods.
     void Update(float dt);

@@ -6,7 +6,7 @@
 
 #include "MoveAction.h"
 
-MoveAction::MoveAction(GameObject* object, Point target, float speed,
+MoveAction::MoveAction(GameObject* object, const Point& target, float speed,
     float margin) : Action(object), target(target), speed(speed), margin(margin)
 {
 }

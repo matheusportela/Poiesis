@@ -26,10 +26,10 @@ class Point
     virtual ~Point() { };
 
     // Getters and setters
-    float GetX();
+    float GetX() const;
     void SetX(float x);
 
-    float GetY();
+    float GetY() const;
     void SetY(float y);
 
     void Set(float x, float y);
@@ -51,10 +51,10 @@ class Point
     void Negate();
 
     // Calculates the distance to another point.
-    float CalculateDistance(Point point);
+    float CalculateDistance(Point point) const;
 
     // Converts to string for printing purposes.
-    std::string ToString();
+    std::string ToString() const;
 
   protected:
     // 2-D (x, y) coordinates

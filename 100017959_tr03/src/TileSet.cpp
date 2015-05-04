@@ -36,7 +36,7 @@ bool TileSet::IsValidIndex(int index)
     return ((index < rows*columns) && (index >= 0));
 }
 
-void TileSet::Render(int index, Point point)
+void TileSet::Render(int index, const Point& point)
 {
     if (!IsValidIndex(index))
     {

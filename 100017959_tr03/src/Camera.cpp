@@ -42,14 +42,14 @@ void Camera::Update(float dt)
         UpdatePositionBySpeed(dt);
 }
 
-Point Camera::WorldToScreenPoint(Point point)
+Point Camera::WorldToScreenPoint(const Point& point)
 {
     Point convertedPoint = point;
     convertedPoint.Subtract(Camera::position);
     return convertedPoint;
 }
 
-Point Camera::ScreenToWorldPoint(Point point)
+Point Camera::ScreenToWorldPoint(const Point& point)
 {
     Point convertedPoint = point;
     convertedPoint.Add(Camera::position);

@@ -16,7 +16,7 @@ class ActionScheduler
 {
   public:
     // Schedules an action by pushing it to the end of the queue.
-    void Schedule(std::shared_ptr<Action> action);
+    void Schedule(const std::shared_ptr<Action>& action);
 
     // Executes the front action, if any.
     void Execute();

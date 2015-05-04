@@ -6,12 +6,12 @@
 
 #include "Vector.h"
 
-float Vector::GetMagnitude()
+float Vector::GetMagnitude() const
 {
     return hypot(x, y);
 }
 
-float Vector::GetDirection()
+float Vector::GetDirection() const
 {
     return atan2(y, x);
 }

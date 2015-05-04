@@ -19,9 +19,9 @@ class ShootAction : public Action
 {
   public:
     ShootAction(GameObject *object,
-        std::vector<std::shared_ptr<Minion>> minionArray, Point target);
+        std::vector<std::shared_ptr<Minion>> minionArray, const Point& target);
 
-    int GetClosestMinion(Point point);
+    int GetClosestMinion(const Point& point);
 
     // Moves the game object to the specified point.
     void Execute();

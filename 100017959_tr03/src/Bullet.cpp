@@ -6,11 +6,11 @@
 
 #include "Bullet.h"
 
-Bullet::Bullet(Point point, float angle)
+Bullet::Bullet(const Point& position, float angle)
 {
     rotation = angle;
     sprite = new Sprite(CFG_GETP("BULLET_SPRITE"));
-    box.SetCenter(point, sprite->GetWidth(), sprite->GetHeight());
+    box.SetCenter(position, sprite->GetWidth(), sprite->GetHeight());
     distanceLeft = CFG_GETF("BULLET_MAX_DISTANCE");
     speed.SetPolar(CFG_GETI("BULLET_SPEED"), angle);
 }
@@ -20,14 +20,14 @@ Bullet::~Bullet()
     delete sprite;
 }
 
-void Bullet::UpdatePosition(Vector displacement)
+void Bullet::UpdatePosition(const Vector& displacement)
 {
     Point bulletCenter = GetCenter();
     bulletCenter.Add(displacement);
     box.SetCenter(bulletCenter, sprite->GetWidth(), sprite->GetHeight());
 }
 
-void Bullet::UpdateDistanceLeft(Vector displacement)
+void Bullet::UpdateDistanceLeft(const Vector& displacement)
 {
     distanceLeft -= displacement.GetMagnitude();
 }

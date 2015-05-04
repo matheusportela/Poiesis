@@ -12,8 +12,10 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
     linearAcceleration = CFG_GETF("PENGUINS_ACCELERATION");
     angularSpeed = CFG_GETF("PENGUINS_ANGULAR_SPEED");
     maxLinearSpeed = CFG_GETF("PENGUINS_MAX_SPEED");
-    bodySprite = new Sprite(CFG_GETP("PENGUINS_BODY_SPRITE"));
-    cannonSprite = new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE"));
+    bodySprite = std::unique_ptr<Sprite>(
+        new Sprite(CFG_GETP("PENGUINS_BODY_SPRITE")));
+    cannonSprite = std::unique_ptr<Sprite>(
+        new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE")));
     box.SetCenter(position, bodySprite->GetWidth(), bodySprite->GetHeight());
 
     REGISTER_INPUT_KEY_CALLBACK(Penguins::SpeedUpCallback,
@@ -31,8 +33,6 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
 Penguins::~Penguins()
 {
     bulletArray.clear();
-    delete cannonSprite;
-    delete bodySprite;
 }
 
 void Penguins::UpdatePosition(float dt)

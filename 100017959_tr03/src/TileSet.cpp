@@ -9,16 +9,11 @@
 TileSet::TileSet(int tileWidth, int tileHeight, std::string file) :
     tileWidth(tileWidth), tileHeight(tileHeight)
 {
-    tileSprite = new Sprite(file);
+    tileSprite = std::unique_ptr<Sprite>(new Sprite(file));
 
     // Calculates the number of columns and rows in the given tile set image.
     columns = tileSprite->GetWidth() / tileWidth;
     rows = tileSprite->GetHeight() / tileHeight;
-}
-
-TileSet::~TileSet()
-{
-    delete tileSprite;
 }
 
 int TileSet::GetTileWidth()

@@ -15,6 +15,7 @@
 
 #include <iomanip>
 #include <fstream>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -29,13 +30,13 @@ class TileMap
 {
   public:
     // Initializes the tile map.
-    TileMap(std::string file, TileSet* tileSet);
+    TileMap(std::string tileMapfile, std::string tileSetFile, int tileWidth,
+        int tileHeight);
 
     // Getters and setters.
     int GetWidth();
     int GetHeight();
     int GetDepth();
-    void SetTileSet(TileSet* tileSet);
 
     // Loads a tile map from tile configuration file.
     void Load(std::string file);
@@ -74,7 +75,7 @@ class TileMap
     std::vector<int> tileMatrix;
 
     // Tile set in use.
-    TileSet* tileSet;
+    std::unique_ptr<TileSet> tileSet;
 
     // Tile map size defitions.
     int width;

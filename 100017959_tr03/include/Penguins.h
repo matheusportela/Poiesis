@@ -88,11 +88,11 @@ class Penguins : public GameObject
   private:
     // Penguins body sprite, placed below the cannon sprite. This is also the
     // sprite considered for positioning and collision.
-    Sprite* bodySprite;
+    std::unique_ptr<Sprite> bodySprite;
 
     // Penguins cannon sprite, placed above the body sprite. This sprite has
     // independent rotation from the body sprite.
-    Sprite* cannonSprite;
+    std::unique_ptr<Sprite> cannonSprite;
 
     // Penguins HP before death.
     int hp;

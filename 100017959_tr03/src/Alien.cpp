@@ -9,7 +9,7 @@
 Alien::Alien(const Point& position, int numMinions)
 {
     hp = CFG_GETI("ALIEN_HP");
-    sprite = new Sprite(CFG_GETP("ALIEN_SPRITE"));
+    sprite = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("ALIEN_SPRITE")));
     box.SetCenter(position, sprite->GetWidth(), sprite->GetHeight());
     angularSpeed = CFG_GETF("ALIEN_ANGULAR_SPEED");
     InitializeMinions(CFG_GETI("ALIEN_NUM_MINIONS"));
@@ -20,7 +20,6 @@ Alien::Alien(const Point& position, int numMinions)
 
 Alien::~Alien()
 {
-    delete sprite;
     minionArray.clear();
 }
 

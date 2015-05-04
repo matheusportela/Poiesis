@@ -7,6 +7,7 @@
 #ifndef BULLET_H_
 #define BULLET_H_
 
+#include <memory>
 #include <queue>
 
 #include "Camera.h"
@@ -35,7 +36,7 @@ class Bullet : public GameObject
 
   private:
     // Bullet's sprite.
-    Sprite* sprite;
+    std::unique_ptr<Sprite> sprite;
 
     // Bullet's speed.
     Vector speed;

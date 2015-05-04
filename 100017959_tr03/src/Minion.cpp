@@ -8,7 +8,7 @@
 
 Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
 {
-    sprite = new Sprite(CFG_GETP("MINION_SPRITE"));
+    sprite = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("MINION_SPRITE")));
     SetRandomScale();
     angularSpeed = CFG_GETF("MINION_ANGULAR_SPEED");
     distance = CFG_GETI("MINION_DISTANCE");
@@ -18,7 +18,6 @@ Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
 Minion::~Minion()
 {
     bulletArray.clear();
-    delete sprite;
 }
 
 void Minion::SetRandomScale()

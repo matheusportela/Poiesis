@@ -19,6 +19,7 @@
 #ifndef TILE_SET_H_
 #define TILE_SET_H_
 
+#include <memory>
 #include <string>
 
 #include "Logger.h"
@@ -30,9 +31,6 @@ class TileSet
   public:
     // Initializes the tile set.
     TileSet(int tileWidth, int tileHeight, std::string file);
-
-    // Destroys the tile set.
-    ~TileSet();
 
     // Getters and setters
     int GetTileWidth();
@@ -46,7 +44,7 @@ class TileSet
 
   private:
     // Tile sprite.
-    Sprite* tileSprite;
+    std::unique_ptr<Sprite> tileSprite;
 
     // Tile set size.
     int rows;

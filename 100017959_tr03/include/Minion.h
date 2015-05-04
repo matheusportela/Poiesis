@@ -54,7 +54,7 @@ class Minion : public GameObject
 
   private:
     // Minion's sprite.
-    Sprite* sprite;
+    std::unique_ptr<Sprite> sprite;
 
     // Minion's parent, required to keep tracking the position.
     GameObject* parent;

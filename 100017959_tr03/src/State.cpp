@@ -9,10 +9,10 @@
 State::State()
 {
     quitRequested = false;
-    bg = new Sprite(CFG_GETP("STATE_BACKGROUND"));
-    tileSet = new TileSet(CFG_GETI("TILE_WIDTH"), CFG_GETI("TILE_HEIGHT"),
-        CFG_GETP("TILE_SET"));
-    tileMap = new TileMap(CFG_GETP("TILE_MAP"), tileSet);
+    bg = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("STATE_BACKGROUND")));
+    tileMap = std::unique_ptr<TileMap>(
+        new TileMap(CFG_GETP("TILE_MAP"), CFG_GETP("TILE_SET"),
+            CFG_GETI("TILE_WIDTH"), CFG_GETI("TILE_HEIGHT")));
 
     InitializePenguins();
     InitializeAlien();
@@ -22,9 +22,6 @@ State::State()
 
 State::~State()
 {
-    delete tileMap;
-    delete tileSet;
-    delete bg;
     objectArray.clear();
 }
 

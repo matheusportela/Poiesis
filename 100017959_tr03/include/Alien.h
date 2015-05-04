@@ -61,7 +61,7 @@ class Alien : public GameObject
     int hp;
 
     // Alien's sprite.
-    Sprite* sprite;
+    std::unique_ptr<Sprite> sprite;
 
     // Alien's rotation vector.
     float angularSpeed;

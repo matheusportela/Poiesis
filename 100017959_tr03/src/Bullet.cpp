@@ -9,7 +9,7 @@
 Bullet::Bullet(const Point& position, float angle)
 {
     rotation = angle;
-    sprite = new Sprite(CFG_GETP("BULLET_SPRITE"));
+    sprite = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("BULLET_SPRITE")));
     box.SetCenter(position, sprite->GetWidth(), sprite->GetHeight());
     distanceLeft = CFG_GETF("BULLET_MAX_DISTANCE");
     speed.SetPolar(CFG_GETI("BULLET_SPEED"), angle);
@@ -17,7 +17,6 @@ Bullet::Bullet(const Point& position, float angle)
 
 Bullet::~Bullet()
 {
-    delete sprite;
 }
 
 void Bullet::UpdatePosition(const Vector& displacement)

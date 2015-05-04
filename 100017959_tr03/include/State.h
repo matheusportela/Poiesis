@@ -78,7 +78,7 @@ class State
 
   private:
     // Background sprite.
-    Sprite* bg;
+    std::unique_ptr<Sprite> bg;
 
     // User requested quit flag.
     bool quitRequested;
@@ -87,8 +87,7 @@ class State
     std::vector<std::unique_ptr<GameObject>> objectArray;
 
     // Tile management and renderization.
-    TileSet* tileSet;
-    TileMap* tileMap;
+    std::unique_ptr<TileMap> tileMap;
 };
 
 #endif // STATE_H_

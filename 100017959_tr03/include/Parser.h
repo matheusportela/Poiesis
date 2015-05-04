@@ -19,6 +19,8 @@
 class Parser
 {
   public:
+    virtual ~Parser() {}
+
     // Opens file stream.
     void Open(std::string file);
     

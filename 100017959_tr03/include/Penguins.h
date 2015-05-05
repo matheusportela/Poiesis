@@ -89,10 +89,6 @@ class Penguins : public GameObject
     void RightRotationCallback();
 
   private:
-    // Penguins body sprite, placed below the cannon sprite. This is also the
-    // sprite considered for positioning and collision.
-    std::unique_ptr<Sprite> bodySprite;
-
     // Penguins cannon sprite, placed above the body sprite. This sprite has
     // independent rotation from the body sprite.
     std::unique_ptr<Sprite> cannonSprite;

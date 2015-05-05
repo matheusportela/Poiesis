@@ -63,9 +63,14 @@ void GameObject::SetRotation(float rotation)
 void GameObject::SetScale(float scale)
 {
     if (sprite)
+    {
         sprite->SetScale(scale);
+    }
     else
+    {
         LOG_E("[GameObject] Cannot set game object scale without a sprite");
+        exit(1);
+    }
 }
 
 void GameObject::RenderSprite()

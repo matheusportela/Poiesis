@@ -29,6 +29,7 @@ Game::Game(std::string title, int width, int height) : frameStart(0), dt(0)
 
 Game::~Game()
 {
+    Resources::ClearImages();
     DestroyState();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

@@ -23,7 +23,7 @@ class Point
     Point(const Point& other);
 
     // Virtual destructor
-    virtual ~Point() { };
+    virtual ~Point() {};
 
     // Getters and setters
     float GetX() const;

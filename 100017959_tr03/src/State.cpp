@@ -28,12 +28,17 @@ State::~State()
 
 void State::InitializePenguins()
 {
-    objectArray.emplace_back(GameObjectFactory::Create("Penguins"));
+    Point position(CFG_GETI("PENGUINS_INITIAL_X"),
+        CFG_GETI("PENGUINS_INITIAL_Y"));
+    objectArray.emplace_back(new Penguins(position));
 }
 
 void State::InitializeAlien()
 {
-    objectArray.emplace_back(GameObjectFactory::Create("Alien"));
+    Point position(CFG_GETI("ALIEN_INITIAL_X"),
+        CFG_GETI("ALIEN_INITIAL_Y"));
+    int numMinions = CFG_GETI("ALIEN_NUM_MINIONS");
+    objectArray.emplace_back(new Alien(position, numMinions));
 }
 
 void State::ConfigureInputCallbacks()

@@ -20,7 +20,6 @@
 #include "ConfigParser.h"
 #include "FileUtils.h"
 #include "GameObject.h"
-#include "GameObjectFactory.h"
 #include "InputManager.h"
 #include "Penguins.h"
 #include "Sprite.h"

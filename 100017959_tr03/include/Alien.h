@@ -56,7 +56,6 @@ class Alien : public GameObject
     void ShootCallback();
 
   private:
-
     // Aliens's hitpoints.
     int hp;
 

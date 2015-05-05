@@ -34,17 +34,17 @@ void Alien::InitializeMinions(int numMinions)
 void Alien::UpdateRotation(float dt)
 {
     rotationVector.Rotate(angularSpeed * dt);
-    rotation = rotationVector.GetDirection();
+    SetRotation(rotationVector.GetDirection());
 }
 
 void Alien::UpdatePosition(float dt)
 {
-    Vector displacement = speed;
+    Vector displacement = GetSpeed();
     displacement.Multiply(dt);
     
     Point position = GetCenter();
     position.Add(displacement);
-    box.SetCenter(position, sprite->GetWidth(), sprite->GetHeight());
+    SetCenter(position);
 }
 
 void Alien::UpdateMinions(float dt)

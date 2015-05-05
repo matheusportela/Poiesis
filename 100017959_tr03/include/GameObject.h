@@ -32,6 +32,12 @@ class GameObject
     // Gets object center.
     Point GetCenter() const;
 
+    // Gets object rotation, in radians.
+    float GetRotation() const;
+
+    // Gets object speed.
+    Vector GetSpeed() const;
+
     // Sets object linear speed.
     void SetSpeed(const Vector& speed);
 
@@ -40,6 +46,9 @@ class GameObject
 
     // Sets object center, considering the it's sprite size.
     void SetCenter(const Point& center);
+
+    // Sets object rotation, in radians.
+    void SetRotation(float rotation);
 
     // Renders object's sprite.
     void RenderSprite();
@@ -53,7 +62,7 @@ class GameObject
     // Communicates whether the game object must be deleted.
     virtual bool IsDead() = 0;
 
-  protected:
+  private:
     // GameObject sprite that is rendered on screen.
     std::unique_ptr<Sprite> sprite;
 

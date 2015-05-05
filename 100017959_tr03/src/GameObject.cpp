@@ -22,6 +22,16 @@ Point GameObject::GetCenter() const
     return box.GetCenter();
 }
 
+float GameObject::GetRotation() const
+{
+    return rotation;
+}
+
+Vector GameObject::GetSpeed() const
+{
+    return speed;
+}
+
 void GameObject::SetSpeed(const Vector& speed)
 {
     this->speed = speed;
@@ -43,6 +53,11 @@ void GameObject::SetCenter(const Point& center)
         LOG_W("[GameObject] Setting center without sprite");
         box.SetCenter(center, 0, 0);
     }
+}
+
+void GameObject::SetRotation(float rotation)
+{
+    this->rotation = rotation;
 }
 
 void GameObject::RenderSprite()

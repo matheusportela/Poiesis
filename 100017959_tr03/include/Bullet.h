@@ -35,12 +35,6 @@ class Bullet : public GameObject
     bool IsDead();
 
   private:
-    // Bullet's sprite.
-    std::unique_ptr<Sprite> sprite;
-
-    // Bullet's speed.
-    Vector speed;
-
     // Amount of distance the bullet still have before being destroyed.
     float distanceLeft;
 };

@@ -28,9 +28,7 @@ State::~State()
 
 void State::InitializePenguins()
 {
-    Point penguinsPosition(CFG_GETI("PENGUINS_INITIAL_X"),
-        CFG_GETI("PENGUINS_INITIAL_Y"));
-    objectArray.emplace_back(new Penguins(penguinsPosition));
+    objectArray.emplace_back(GameObjectFactory::Create("Penguins"));
 }
 
 void State::InitializeAlien()

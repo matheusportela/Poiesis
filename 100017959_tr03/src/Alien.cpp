@@ -8,9 +8,9 @@
 
 Alien::Alien(const Point& position, int numMinions)
 {
+    SetSprite(CFG_GETP("ALIEN_SPRITE"));
+    SetCenter(position);
     hp = CFG_GETI("ALIEN_HP");
-    sprite = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("ALIEN_SPRITE")));
-    box.SetCenter(position, sprite->GetWidth(), sprite->GetHeight());
     angularSpeed = CFG_GETF("ALIEN_ANGULAR_SPEED");
     InitializeMinions(CFG_GETI("ALIEN_NUM_MINIONS"));
 
@@ -69,9 +69,7 @@ void Alien::RenderMinions()
 
 void Alien::Render()
 {
-    Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
-    sprite->Render(renderPoint, rotation);
-
+    RenderSprite();
     RenderMinions();
 }
 

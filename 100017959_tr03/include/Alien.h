@@ -60,9 +60,6 @@ class Alien : public GameObject
     // Aliens's hitpoints.
     int hp;
 
-    // Alien's sprite.
-    std::unique_ptr<Sprite> sprite;
-
     // Alien's rotation vector.
     float angularSpeed;
     Vector rotationVector;

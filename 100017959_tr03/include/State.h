@@ -9,17 +9,15 @@
 #ifndef STATE_H_
 #define STATE_H_
 
-#include <cstdlib>
 #include <memory>
 #include <vector>
-
-#include <SDL.h>
 
 #include "Alien.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "FileUtils.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Penguins.h"
 #include "Sprite.h"
@@ -34,9 +32,6 @@ class State
     // Initializes the game state.
     State();
 
-    // Destroys the game state.
-    ~State();
-
     // Initialize Penguins game object.
     void InitializePenguins();
 
@@ -49,17 +44,11 @@ class State
     // Updates game state after a delta time in seconds.
     void Update(float dt);
 
-    // Delete game objects that are marked as IsDead.
-    void DeleteDeadObjects();
-
     // Renders game.
     void Render();
 
     // Renders all sprites that stays behind the game characters.
     void RenderBackground();
-
-    // Renders all sprites that stays in the same level as the game characters.
-    void RenderObjects();
 
     // Renders all sprites that stays above the game characters.
     void RenderUpperObjects();
@@ -82,9 +71,6 @@ class State
 
     // User requested quit flag.
     bool quitRequested;
-
-    // Container for all Game Objects instanciated during the game.
-    std::vector<std::unique_ptr<GameObject>> objectArray;
 
     // Tile management and renderization.
     std::unique_ptr<TileMap> tileMap;

@@ -8,12 +8,12 @@
 #define MINION_H_
 
 #include <memory>
-#include <vector>
 
 #include "Bullet.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
 #include "Logger.h"
 #include "Sprite.h"
 #include "Point.h"
@@ -23,7 +23,6 @@ class Minion : public GameObject
 {
   public:
     Minion(GameObject* parent, float arcOffset);
-    ~Minion();
 
     // Spawns minion with a random scale factor.
     void SetRandomScale();
@@ -31,17 +30,8 @@ class Minion : public GameObject
     // Updates minion position.
     void UpdatePosition(float dt);
 
-    // Updates minion's bullets positions.
-    void UpdateBullets(float dt);
-
-    // Destroys bullets.
-    void DestroyBullets();
-
     // Update cycle.
     void Update(float dt);
-
-    // Renders minion's bullets.
-    void RenderBullets();
 
     // Render cycle.
     void Render();
@@ -64,9 +54,6 @@ class Minion : public GameObject
 
     // Minion's position in the circular trajectory around it's parent.
     Vector rotationVector;
-    
-    // Minion's bullets.
-    std::vector<std::unique_ptr<Bullet>> bulletArray;
 };
 
 #endif // MINION_H_

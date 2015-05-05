@@ -7,14 +7,14 @@
 #ifndef ALIEN_H_
 #define ALIEN_H_
 
-#include <limits>
 #include <memory>
-#include <queue>
+#include <vector>
 
 #include "ActionScheduler.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Minion.h"
 #include "MoveAction.h"
@@ -29,7 +29,6 @@ class Alien : public GameObject
     // Initializes Alien at the given (x, y) coordinates with a number of
     // minions.
     Alien(const Point& position, int numMinions);
-    ~Alien();
 
     // Create all it's minions.
     void InitializeMinions(int numMinions);
@@ -40,12 +39,8 @@ class Alien : public GameObject
     // Updates Alien's position.
     void UpdatePosition(float dt);
 
-    // Updates minions.
-    void UpdateMinions(float dt);
-
     // Defining GameObject virtual methods.
     void Update(float dt);
-    void RenderMinions();
     void Render();
     bool IsDead();
 
@@ -66,7 +61,7 @@ class Alien : public GameObject
     // Scheduller to deal with sequential actions.
     ActionScheduler actionScheduler;
 
-    // Alien's minions.
+    // Alien's minions references, used with ShootAction.
     std::vector<std::shared_ptr<Minion>> minionArray;
 };
 

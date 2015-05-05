@@ -15,11 +15,6 @@ Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
     rotationVector.SetPolar(distance, arcOffset);
 }
 
-Minion::~Minion()
-{
-    bulletArray.clear();
-}
-
 void Minion::SetRandomScale()
 {
     float min_scale = CFG_GETF("MINION_MIN_SCALE");
@@ -42,42 +37,14 @@ void Minion::UpdatePosition(float dt)
     SetRotation(rotationVector.GetDirection());
 }
 
-void Minion::UpdateBullets(float dt)
-{
-    for (unsigned int i = 0; i < bulletArray.size(); ++i)
-        bulletArray[i]->Update(dt);
-}
-
-void Minion::DestroyBullets()
-{
-    for (unsigned int i = 0; i < bulletArray.size(); ++i)
-    {
-        if (bulletArray[i]->IsDead())
-        {
-            bulletArray.erase(bulletArray.begin() + i);
-            --i;
-        }
-    }
-
-}
-
 void Minion::Update(float dt)
 {
-    DestroyBullets();
     UpdatePosition(dt);
-    UpdateBullets(dt);
-}
-
-void Minion::RenderBullets()
-{
-    for (unsigned int i = 0; i < bulletArray.size(); ++i)
-        bulletArray[i]->Render();
 }
 
 void Minion::Render()
 {
     RenderSprite();
-    RenderBullets();
 }
 
 bool Minion::IsDead()
@@ -93,6 +60,6 @@ void Minion::Shoot(const Point& position)
     shootVector.Set(position);
     shootVector.Subtract(minionPosition);
 
-    bulletArray.emplace_back(new Bullet(minionPosition,
-                                        shootVector.GetDirection()));
+    GameObjectManager::GetInstance().Add(
+        std::make_shared<Bullet>(minionPosition, shootVector.GetDirection()));
 }

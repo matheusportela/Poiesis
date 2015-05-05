@@ -21,16 +21,11 @@ State::State()
     ConfigureInputCallbacks();
 }
 
-State::~State()
-{
-    objectArray.clear();
-}
-
 void State::InitializePenguins()
 {
     Point position(CFG_GETI("PENGUINS_INITIAL_X"),
         CFG_GETI("PENGUINS_INITIAL_Y"));
-    objectArray.emplace_back(new Penguins(position));
+    GameObjectManager::GetInstance().Add(std::make_shared<Penguins>(position));
 }
 
 void State::InitializeAlien()
@@ -38,47 +33,37 @@ void State::InitializeAlien()
     Point position(CFG_GETI("ALIEN_INITIAL_X"),
         CFG_GETI("ALIEN_INITIAL_Y"));
     int numMinions = CFG_GETI("ALIEN_NUM_MINIONS");
-    objectArray.emplace_back(new Alien(position, numMinions));
+    GameObjectManager::GetInstance().Add(
+        std::make_shared<Alien>(position, numMinions));
 }
 
 void State::ConfigureInputCallbacks()
 {
-    REGISTER_INPUT_TYPE_CALLBACK(State::QuitCallback, InputType::QuitButtonPress);
-    REGISTER_INPUT_KEY_CALLBACK(State::QuitCallback, InputType::KeyPress, KeyboardButton::Esc);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraUpCallback, InputType::KeyDown, KeyboardButton::ArrowUp);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraDownCallback, InputType::KeyDown, KeyboardButton::ArrowDown);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraLeftCallback, InputType::KeyDown, KeyboardButton::ArrowLeft);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraRightCallback, InputType::KeyDown, KeyboardButton::ArrowRight);
+    REGISTER_INPUT_TYPE_CALLBACK(State::QuitCallback,
+        InputType::QuitButtonPress);
+    REGISTER_INPUT_KEY_CALLBACK(State::QuitCallback,
+        InputType::KeyPress, KeyboardButton::Esc);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraUpCallback,
+        InputType::KeyDown, KeyboardButton::ArrowUp);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraDownCallback,
+        InputType::KeyDown, KeyboardButton::ArrowDown);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraLeftCallback,
+        InputType::KeyDown, KeyboardButton::ArrowLeft);
+    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraRightCallback,
+        InputType::KeyDown, KeyboardButton::ArrowRight);
 }
 
 void State::Update(float dt)
 {
     Camera::Update(dt);
     InputManager::GetInstance().ProcessInputs();
-    DeleteDeadObjects();
-
-    for (unsigned int i = 0; i < objectArray.size(); ++i)
-        objectArray[i]->Update(dt);
-}
-
-void State::DeleteDeadObjects()
-{
-    for (unsigned int i = 0; i < objectArray.size(); ++i)
-    {
-        if (objectArray[i]->IsDead())
-        {
-            objectArray.erase(objectArray.begin() + i);
-
-            // Decrease index since objectArray is one size smaller
-            --i;
-        }
-    }
+    GameObjectManager::GetInstance().Update(dt);
 }
 
 void State::Render()
 {
     RenderBackground();
-    RenderObjects();
+    GameObjectManager::GetInstance().Render();
     RenderUpperObjects();
 }
 
@@ -93,12 +78,6 @@ void State::RenderBackground()
 
     bg->Render(bg_point);
     tileMap->RenderBaseLayer(tile_map_point);
-}
-
-void State::RenderObjects()
-{
-    for (unsigned int i = 0; i < objectArray.size(); ++i)
-        objectArray[i].get()->Render();
 }
 
 void State::RenderUpperObjects()

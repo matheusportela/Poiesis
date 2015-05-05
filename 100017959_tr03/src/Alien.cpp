@@ -18,17 +18,15 @@ Alien::Alien(const Point& position, int numMinions)
     rotationVector.Set(1, 0);
 }
 
-Alien::~Alien()
-{
-    minionArray.clear();
-}
-
 void Alien::InitializeMinions(int numMinions)
 {
     float arcOffset = 2*M_PI/numMinions;
 
     for (int i = 0; i < numMinions; ++i)
+    {
         minionArray.emplace_back(new Minion(this, i*arcOffset));
+        GameObjectManager::GetInstance().Add(minionArray[i]);
+    }
 }
 
 void Alien::UpdateRotation(float dt)
@@ -47,30 +45,16 @@ void Alien::UpdatePosition(float dt)
     SetCenter(position);
 }
 
-void Alien::UpdateMinions(float dt)
-{
-    for (unsigned int i = 0; i < minionArray.size(); ++i)
-        minionArray[i]->Update(dt);
-}
-
 void Alien::Update(float dt)
 {
     actionScheduler.Execute();
     UpdatePosition(dt);
     UpdateRotation(dt);
-    UpdateMinions(dt);
-}
-
-void Alien::RenderMinions()
-{
-    for (unsigned int i = 0; i < minionArray.size(); ++i)
-        minionArray[i]->Render();
 }
 
 void Alien::Render()
 {
     RenderSprite();
-    RenderMinions();
 }
 
 bool Alien::IsDead()
@@ -81,14 +65,13 @@ bool Alien::IsDead()
 void Alien::MoveCallback()
 {
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    actionScheduler.Schedule(std::shared_ptr<MoveAction>(
-        new MoveAction(this, point, CFG_GETF("ALIEN_SPEED"),
-                       CFG_GETF("ALIEN_MOVE_ERROR_MARGIN"))));
+    actionScheduler.Schedule(std::make_shared<MoveAction>(this, point,
+        CFG_GETF("ALIEN_SPEED"), CFG_GETF("ALIEN_MOVE_ERROR_MARGIN")));
 }
 
 void Alien::ShootCallback()
 {
     Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    actionScheduler.Schedule(std::shared_ptr<ShootAction>(
-        new ShootAction(this, minionArray, point)));
+    actionScheduler.Schedule(std::make_shared<ShootAction>(this, minionArray,
+        point));
 }

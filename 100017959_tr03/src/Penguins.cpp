@@ -29,11 +29,6 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
         MouseButton::Left);
 }
 
-Penguins::~Penguins()
-{
-    bulletArray.clear();
-}
-
 void Penguins::UpdatePosition(float dt)
 {
     Vector displacement = GetSpeed();
@@ -59,31 +54,10 @@ void Penguins::UpdateCannonRotation()
     cannonRotation = cannonToMouseVector.GetDirection();
 }
 
-void Penguins::UpdateBullets(float dt)
-{
-    for (unsigned int i = 0; i < bulletArray.size(); ++i)
-        bulletArray[i]->Update(dt);
-}
-
-void Penguins::DestroyBullets()
-{
-    for (unsigned int i = 0; i < bulletArray.size(); ++i)
-    {
-        if (bulletArray[i]->IsDead())
-        {
-            bulletArray.erase(bulletArray.begin() + i);
-            --i;
-        }
-    }
-
-}
-
 void Penguins::Update(float dt)
 {
-    DestroyBullets();
     UpdatePosition(dt);
     UpdateCannonRotation();
-    UpdateBullets(dt);
 }
 
 void Penguins::RenderCannonSprite()
@@ -92,17 +66,10 @@ void Penguins::RenderCannonSprite()
     cannonSprite->Render(renderPoint, cannonRotation);
 }
 
-void Penguins::RenderBullets()
-{
-    for (unsigned int i = 0; i < bulletArray.size(); ++i)
-        bulletArray[i]->Render();
-}
-
 void Penguins::Render()
 {
     RenderSprite();
     RenderCannonSprite();
-    RenderBullets();
 }
 
 bool Penguins::IsDead()
@@ -126,7 +93,8 @@ Point Penguins::CalculateBulletPosition()
 void Penguins::Shoot()
 {
     Point bulletPosition = CalculateBulletPosition();
-    bulletArray.emplace_back(new Bullet(bulletPosition, cannonRotation));
+    GameObjectManager::GetInstance().Add(
+        std::make_shared<Bullet>(bulletPosition, cannonRotation));
 }
 
 void Penguins::ChangeSpeed(float acceleration)

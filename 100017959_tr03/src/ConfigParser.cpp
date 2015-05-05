@@ -10,8 +10,6 @@
 
 ConfigParser& ConfigParser::GetInstance()
 {
-    // Singleton pattern using the approach suggested at
-    // http://stackoverflow.com/questions/1008019/c-singleton-design-pattern
     static ConfigParser instance;
     return instance;
 };

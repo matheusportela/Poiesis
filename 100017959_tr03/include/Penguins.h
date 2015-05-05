@@ -16,19 +16,16 @@
 #define PENGUINS_H_
 
 #include <memory>
-#include <vector>
 
 #include "Bullet.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Point.h"
 #include "Sprite.h"
 #include "Vector.h"
-
-// Remove after test
-#include "Logger.h"
 
 class Penguins : public GameObject
 {
@@ -36,29 +33,17 @@ class Penguins : public GameObject
     // Initializes Penguins in the given position.
     Penguins(const Point& position);
 
-    // Destroys Penguins.
-    ~Penguins();
-
     // Updates the cannon rotation to match the mouse.
     void UpdateCannonRotation();
 
     // Updates Penguins position after some elapsed time.
     void UpdatePosition(float dt);
 
-    // Updates bullets shot by Penguins.
-    void UpdateBullets(float dt);
-
-    // Destroy bullets marked as dead.
-    void DestroyBullets();
-
     // Runs update cycle.
     void Update(float dt);
 
     // Renders top penguin cannon sprite.
     void RenderCannonSprite();
-
-    // Renders bullets that have been shot.
-    void RenderBullets();
 
     // Renders Penguins.
     void Render();
@@ -107,9 +92,6 @@ class Penguins : public GameObject
 
     // Cannon current rotation, which is applied to the sprite.
     float cannonRotation;
-
-    // Penguins's bullets.
-    std::vector<std::unique_ptr<Bullet>> bulletArray;
 };
 
 #endif // PENGUINS_H_

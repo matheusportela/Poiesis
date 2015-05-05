@@ -65,7 +65,7 @@ void GameObject::SetScale(float scale)
     if (sprite)
         sprite->SetScale(scale);
     else
-        LOG_W("[GameObject] Setting object scale without defined sprite");
+        LOG_E("[GameObject] Cannot set game object scale without a sprite");
 }
 
 void GameObject::RenderSprite()

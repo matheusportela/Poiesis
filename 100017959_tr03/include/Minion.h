@@ -53,9 +53,6 @@ class Minion : public GameObject
     void Shoot(const Point& position);
 
   private:
-    // Minion's sprite.
-    std::unique_ptr<Sprite> sprite;
-
     // Minion's parent, required to keep tracking the position.
     GameObject* parent;
 

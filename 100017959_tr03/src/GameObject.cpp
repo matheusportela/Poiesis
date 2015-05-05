@@ -51,13 +51,21 @@ void GameObject::SetCenter(const Point& center)
     else
     {
         LOG_W("[GameObject] Setting center without sprite");
-        box.SetCenter(center, 0, 0);
+        box.SetPoint(center);
     }
 }
 
 void GameObject::SetRotation(float rotation)
 {
     this->rotation = rotation;
+}
+
+void GameObject::SetScale(float scale)
+{
+    if (sprite)
+        sprite->SetScale(scale);
+    else
+        LOG_W("[GameObject] Setting object scale without defined sprite");
 }
 
 void GameObject::RenderSprite()

@@ -41,7 +41,8 @@ class GameObject
     // Sets object linear speed.
     void SetSpeed(const Vector& speed);
 
-    // Sets object sprite.
+    // Sets object sprite. This is usually done first, since other methods may
+    // use sprite properties.
     void SetSprite(std::string file);
 
     // Sets object center, considering the it's sprite size.
@@ -49,6 +50,9 @@ class GameObject
 
     // Sets object rotation, in radians.
     void SetRotation(float rotation);
+
+    // Scales object dimensions.
+    void SetScale(float scale);
 
     // Renders object's sprite.
     void RenderSprite();

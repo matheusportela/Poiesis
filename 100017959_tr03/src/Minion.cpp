@@ -8,7 +8,7 @@
 
 Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
 {
-    sprite = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("MINION_SPRITE")));
+    SetSprite(CFG_GETP("MINION_SPRITE"));
     SetRandomScale();
     angularSpeed = CFG_GETF("MINION_ANGULAR_SPEED");
     distance = CFG_GETI("MINION_DISTANCE");
@@ -27,7 +27,7 @@ void Minion::SetRandomScale()
 
     // Generating a random number in the interval [min_scale, max_scale]
     float scale = min_scale + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX/(max_scale-min_scale)));
-    sprite->SetScale(scale);
+    SetScale(scale);
 }
 
 void Minion::UpdatePosition(float dt)
@@ -38,8 +38,8 @@ void Minion::UpdatePosition(float dt)
     Point minionCenter = parent->GetCenter();
     minionCenter.Add(rotationVector);
 
-    box.SetCenter(minionCenter, sprite->GetWidth(), sprite->GetHeight());
-    rotation = rotationVector.GetDirection();
+    SetCenter(minionCenter);
+    SetRotation(rotationVector.GetDirection());
 }
 
 void Minion::UpdateBullets(float dt)
@@ -76,9 +76,7 @@ void Minion::RenderBullets()
 
 void Minion::Render()
 {
-    Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
-    sprite->Render(renderPoint, rotation);
-
+    RenderSprite();
     RenderBullets();
 }
 

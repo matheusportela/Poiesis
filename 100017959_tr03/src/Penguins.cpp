@@ -8,15 +8,14 @@
 
 Penguins::Penguins(const Point& position) : cannonRotation(0.0)
 {
+    SetSprite(CFG_GETP("PENGUINS_BODY_SPRITE"));
+    SetCenter(position);
     hp = CFG_GETI("PENGUINS_HP");
     linearAcceleration = CFG_GETF("PENGUINS_ACCELERATION");
     angularSpeed = CFG_GETF("PENGUINS_ANGULAR_SPEED");
     maxLinearSpeed = CFG_GETF("PENGUINS_MAX_SPEED");
-    bodySprite = std::unique_ptr<Sprite>(
-        new Sprite(CFG_GETP("PENGUINS_BODY_SPRITE")));
     cannonSprite = std::unique_ptr<Sprite>(
         new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE")));
-    box.SetCenter(position, bodySprite->GetWidth(), bodySprite->GetHeight());
 
     REGISTER_INPUT_KEY_CALLBACK(Penguins::SpeedUpCallback,
         InputType::KeyDown, KeyboardButton::LowercaseW);
@@ -37,15 +36,15 @@ Penguins::~Penguins()
 
 void Penguins::UpdatePosition(float dt)
 {
-    Vector displacement = speed;
+    Vector displacement = GetSpeed();
     displacement.Multiply(dt);
 
     // Apply the displacement to the penguin front.
-    displacement.Rotate(rotation);
+    displacement.Rotate(GetRotation());
     
     Point position = GetCenter();
     position.Add(displacement);
-    box.SetCenter(position, bodySprite->GetWidth(), bodySprite->GetHeight());
+    SetCenter(position);
 }
 
 void Penguins::UpdateCannonRotation()
@@ -87,6 +86,12 @@ void Penguins::Update(float dt)
     UpdateBullets(dt);
 }
 
+void Penguins::RenderCannonSprite()
+{
+    Point renderPoint = Camera::WorldToScreenPoint(GetPoint());
+    cannonSprite->Render(renderPoint, cannonRotation);
+}
+
 void Penguins::RenderBullets()
 {
     for (unsigned int i = 0; i < bulletArray.size(); ++i)
@@ -95,10 +100,8 @@ void Penguins::RenderBullets()
 
 void Penguins::Render()
 {
-    Point renderPoint = Camera::WorldToScreenPoint(box.GetPoint());
-    bodySprite->Render(renderPoint, rotation);
-    cannonSprite->Render(renderPoint, cannonRotation);
-
+    RenderSprite();
+    RenderCannonSprite();
     RenderBullets();
 }
 
@@ -128,14 +131,16 @@ void Penguins::Shoot()
 
 void Penguins::ChangeSpeed(float acceleration)
 {
+    Vector newSpeed = GetSpeed();
     Vector deltaSpeed;
 
     deltaSpeed.Set(1, 0);
     deltaSpeed.Normalize();
     deltaSpeed.Multiply(acceleration);
 
-    speed.Add(deltaSpeed);
-    speed.Saturate(maxLinearSpeed);
+    newSpeed.Add(deltaSpeed);
+    newSpeed.Saturate(maxLinearSpeed);
+    SetSpeed(newSpeed);
 }
 
 void Penguins::SpeedUpCallback()
@@ -150,10 +155,14 @@ void Penguins::SlowDownCallback()
 
 void Penguins::LeftRotationCallback()
 {
-    rotation -= angularSpeed;
+    float newRotation = GetRotation();
+    newRotation -= angularSpeed;
+    SetRotation(newRotation);
 }
 
 void Penguins::RightRotationCallback()
 {
-    rotation += angularSpeed;
+    float newRotation = GetRotation();
+    newRotation += angularSpeed;
+    SetRotation(newRotation);
 }

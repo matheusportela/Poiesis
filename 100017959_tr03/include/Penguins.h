@@ -54,6 +54,9 @@ class Penguins : public GameObject
     // Runs update cycle.
     void Update(float dt);
 
+    // Renders top penguin cannon sprite.
+    void RenderCannonSprite();
+
     // Renders bullets that have been shot.
     void RenderBullets();
 

@@ -33,9 +33,7 @@ void State::InitializePenguins()
 
 void State::InitializeAlien()
 {
-    Point alienPosition(CFG_GETI("ALIEN_INITIAL_X"),
-        CFG_GETI("ALIEN_INITIAL_Y"));
-    objectArray.emplace_back(new Alien(alienPosition, 1));
+    objectArray.emplace_back(GameObjectFactory::Create("Alien"));
 }
 
 void State::ConfigureInputCallbacks()

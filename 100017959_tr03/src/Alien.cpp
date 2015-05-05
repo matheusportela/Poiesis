@@ -12,7 +12,7 @@ Alien::Alien(const Point& position, int numMinions)
     SetCenter(position);
     hp = CFG_GETI("ALIEN_HP");
     angularSpeed = CFG_GETF("ALIEN_ANGULAR_SPEED");
-    InitializeMinions(CFG_GETI("ALIEN_NUM_MINIONS"));
+    InitializeMinions(numMinions);
 
     // Rotation vector is an unitary vector, since we only need it's direction
     rotationVector.Set(1, 0);

@@ -72,7 +72,7 @@ class GameObject
     // Checks whether the game object is of the given string type.
     virtual bool Is(std::string type) = 0;
 
-  private:
+  protected:
     // GameObject sprite that is rendered on screen.
     std::unique_ptr<Sprite> sprite;
 

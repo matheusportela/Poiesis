@@ -18,6 +18,15 @@ State::State()
     InitializePenguins();
     InitializeAlien();
 
+    std::unique_ptr<Sprite> animatedSprite(new AnimatedSprite(
+        CFG_GETP("EXPLOSION_SPRITE"), CFG_GETI("EXPLOSION_NUM_FRAMES"),
+        CFG_GETF("EXPLOSION_FRAME_TIME")));
+    Point position(CFG_GETI("STILL_ANIMATION_TEST_X"),
+        CFG_GETI("STILL_ANIMATION_TEST_Y"));
+    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
+        position, std::move(animatedSprite),
+        CFG_GETF("STILL_ANIMATION_TEST_TIME")));
+
     ConfigureInputCallbacks();
 }
 

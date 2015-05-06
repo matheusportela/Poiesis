@@ -26,6 +26,10 @@
 #include "TileSet.h"
 #include "Vector.h"
 
+// Remove after tests
+#include "AnimatedSprite.h"
+#include "StillAnimation.h"
+
 // This class provides game-specific logic methods.
 class State
 {

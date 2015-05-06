@@ -52,6 +52,8 @@ void GameObjectManager::Update(float dt)
 
     for (unsigned int i = 0; i < objects.size(); ++i)
         objects[i]->Update(dt);
+
+    LOG_D("Number of objects: " << objects.size());
 }
 
 void GameObjectManager::Render()

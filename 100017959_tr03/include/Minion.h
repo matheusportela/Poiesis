@@ -24,6 +24,9 @@ class Minion : public GameObject
   public:
     Minion(GameObject* parent, float arcOffset);
 
+    // Sets minion to die.
+    void SetDead();
+
     // Spawns minion with a random scale factor.
     void SetRandomScale();
 
@@ -42,6 +45,9 @@ class Minion : public GameObject
     // Implements behavior for collision.
     void NotifyCollision(std::shared_ptr<GameObject> other);
 
+    // True if type is "Minion".
+    bool Is(std::string type);
+
     // Shoots a bullet in the direction of the given position.
     void Shoot(const Point& position);
 
@@ -57,6 +63,9 @@ class Minion : public GameObject
 
     // Minion's position in the circular trajectory around it's parent.
     Vector rotationVector;
+
+    // Flag for Minion death.
+    bool dead;
 };
 
 #endif // MINION_H_

@@ -55,5 +55,11 @@ bool Bullet::IsDead()
 
 void Bullet::NotifyCollision(std::shared_ptr<GameObject> other)
 {
-    LOG_D("Bullet collided");
+    if (other->Is("Alien"))
+        distanceLeft = 0;
+}
+
+bool Bullet::Is(std::string type)
+{
+    return (type == "Bullet");
 }

@@ -18,6 +18,12 @@ Alien::Alien(const Point& position, int numMinions)
     rotationVector.Set(1, 0);
 }
 
+Alien::~Alien()
+{
+    for (unsigned int i = 0; i < minionArray.size(); ++i)
+        minionArray[i]->SetDead();
+}
+
 void Alien::InitializeMinions(int numMinions)
 {
     float arcOffset = 2*M_PI/numMinions;
@@ -64,7 +70,13 @@ bool Alien::IsDead()
 
 void Alien::NotifyCollision(std::shared_ptr<GameObject> other)
 {
-    LOG_D("Alien collided");
+    if (other->Is("Bullet"))
+        hp -= CFG_GETI("BULLET_DAMAGE");
+}
+
+bool Alien::Is(std::string type)
+{
+    return (type == "Alien");
 }
 
 void Alien::MoveCallback()

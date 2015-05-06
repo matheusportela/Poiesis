@@ -79,7 +79,11 @@ bool Penguins::IsDead()
 
 void Penguins::NotifyCollision(std::shared_ptr<GameObject> other)
 {
-    LOG_D("Penguins collided");
+}
+
+bool Penguins::Is(std::string type)
+{
+    return (type == "Penguins");
 }
 
 Point Penguins::CalculateBulletPosition()

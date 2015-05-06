@@ -35,6 +35,9 @@ class Bullet : public GameObject
     bool IsDead();
     void NotifyCollision(std::shared_ptr<GameObject> other);
 
+    // True if type is "Bullet".
+    bool Is(std::string type);
+
   private:
     // Amount of distance the bullet still have before being destroyed.
     float distanceLeft;

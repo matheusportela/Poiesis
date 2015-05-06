@@ -69,6 +69,9 @@ class GameObject
     // Implements behavior for collisions.
     virtual void NotifyCollision(std::shared_ptr<GameObject> other) = 0;
 
+    // Checks whether the game object is of the given string type.
+    virtual bool Is(std::string type) = 0;
+
   private:
     // GameObject sprite that is rendered on screen.
     std::unique_ptr<Sprite> sprite;

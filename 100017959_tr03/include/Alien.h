@@ -30,6 +30,9 @@ class Alien : public GameObject
     // minions.
     Alien(const Point& position, int numMinions);
 
+    // Destroys Alien and all its minions.
+    ~Alien();
+
     // Create all it's minions.
     void InitializeMinions(int numMinions);
 
@@ -44,6 +47,9 @@ class Alien : public GameObject
     void Render();
     bool IsDead();
     void NotifyCollision(std::shared_ptr<GameObject> other);
+
+    // True if type is "Alien".
+    bool Is(std::string type);
 
     // Moves Alien to the clicked position.
     void MoveCallback();

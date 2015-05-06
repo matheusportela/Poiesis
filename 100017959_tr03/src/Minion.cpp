@@ -6,13 +6,19 @@
 
 #include "Minion.h"
 
-Minion::Minion(GameObject* parent, float arcOffset) : parent(parent)
+Minion::Minion(GameObject* parent, float arcOffset) : parent(parent),
+    dead(false)
 {
     SetSprite(CFG_GETP("MINION_SPRITE"));
     SetRandomScale();
     angularSpeed = CFG_GETF("MINION_ANGULAR_SPEED");
     distance = CFG_GETI("MINION_DISTANCE");
     rotationVector.SetPolar(distance, arcOffset);
+}
+
+void Minion::SetDead()
+{
+    dead = true;
 }
 
 void Minion::SetRandomScale()
@@ -50,12 +56,16 @@ void Minion::Render()
 bool Minion::IsDead()
 {
     // Minion never dies. Only it's parent can destroy it.
-    return false;
+    return dead;
 }
 
 void Minion::NotifyCollision(std::shared_ptr<GameObject> other)
 {
-    LOG_D("Minion collided");
+}
+
+bool Minion::Is(std::string type)
+{
+    return (type == "Minion");
 }
 
 void Minion::Shoot(const Point& position)

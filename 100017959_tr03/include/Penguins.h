@@ -54,6 +54,9 @@ class Penguins : public GameObject
     // Implements behavior for collision.
     void NotifyCollision(std::shared_ptr<GameObject> other);
 
+    // True if type is "Penguins".
+    bool Is(std::string type);
+
     // Calculates the bullet initial position, considering the cannon sprite
     // offset.
     Point CalculateBulletPosition();

@@ -62,6 +62,11 @@ bool Alien::IsDead()
     return (hp <= 0);
 }
 
+void Alien::NotifyCollision(std::shared_ptr<GameObject> other)
+{
+    LOG_D("Alien collided");
+}
+
 void Alien::MoveCallback()
 {
     Point point = InputManager::GetInstance().GetMouseWorldPosition();

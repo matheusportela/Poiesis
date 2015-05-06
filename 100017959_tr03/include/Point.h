@@ -10,6 +10,8 @@
 #include <cmath>
 #include <string>
 
+#include "Logger.h"
+
 class Point
 {
   public:
@@ -47,6 +49,9 @@ class Point
     // Multiplies point coordinates by a scalar value.
     void Multiply(float scalar);
 
+    // Divides point coordinates by a scalar value, except zero.
+    void Divide(float scalar);
+
     // Multiplies point coordinates by -1.
     void Negate();
 
@@ -61,5 +66,29 @@ class Point
     float x;
     float y;
 };
+
+inline Point operator+(Point lhs, const Point& rhs)
+{
+    lhs.Add(rhs);
+    return lhs;
+}
+
+inline Point operator-(Point lhs, const Point& rhs)
+{
+    lhs.Subtract(rhs);
+    return lhs;
+}
+
+inline Point operator*(Point lhs, float rhs)
+{
+    lhs.Multiply(rhs);
+    return lhs;
+}
+
+inline Point operator/(Point lhs, float rhs)
+{
+    lhs.Divide(rhs);
+    return lhs;
+}
 
 #endif // POINT_H_

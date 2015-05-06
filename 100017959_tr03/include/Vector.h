@@ -15,6 +15,10 @@
 class Vector : public Point
 {
   public:
+    Vector();
+    Vector(float x, float y);
+    Vector(const Point& point);
+
     // Calculates the magnitude, also known as norm or absolute vector.
     float GetMagnitude() const;
 

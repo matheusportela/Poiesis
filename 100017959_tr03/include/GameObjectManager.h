@@ -9,6 +9,7 @@
 #ifndef GAME_OBJECT_MANAGER_H_
 #define GAME_OBJECT_MANAGER_H_
 
+#include <iterator>
 #include <memory>
 #include <vector>
 
@@ -22,6 +23,12 @@ class GameObjectManager
 
     // Clears objects array.
     ~GameObjectManager();
+
+    // Gets number of game objects.
+    int GetSize();
+
+    // Gets game object reference with its index.
+    std::shared_ptr<GameObject> GetObject(int i);
 
     // Adds a new game object to be managed.
     void Add(std::shared_ptr<GameObject> object);

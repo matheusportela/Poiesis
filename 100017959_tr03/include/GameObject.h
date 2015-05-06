@@ -66,6 +66,9 @@ class GameObject
     // Communicates whether the game object must be deleted.
     virtual bool IsDead() = 0;
 
+    // Implements behavior for collisions.
+    virtual void NotifyCollision(std::shared_ptr<GameObject> other) = 0;
+
   private:
     // GameObject sprite that is rendered on screen.
     std::unique_ptr<Sprite> sprite;

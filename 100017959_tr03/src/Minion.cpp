@@ -53,6 +53,11 @@ bool Minion::IsDead()
     return false;
 }
 
+void Minion::NotifyCollision(std::shared_ptr<GameObject> other)
+{
+    LOG_D("Minion collided");
+}
+
 void Minion::Shoot(const Point& position)
 {
     Point minionPosition = GetCenter();

@@ -51,6 +51,9 @@ class Penguins : public GameObject
     // Checks whether Penguins is dead.
     bool IsDead();
 
+    // Implements behavior for collision.
+    void NotifyCollision(std::shared_ptr<GameObject> other);
+
     // Calculates the bullet initial position, considering the cannon sprite
     // offset.
     Point CalculateBulletPosition();

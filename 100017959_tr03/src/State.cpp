@@ -58,16 +58,17 @@ void State::Update(float dt)
     Camera::Update(dt);
     InputManager::GetInstance().ProcessInputs();
     GameObjectManager::GetInstance().Update(dt);
+    CollisionSimulator::Collide();
 }
 
 void State::Render()
 {
-    RenderBackground();
+    RenderBottomTiles();
     GameObjectManager::GetInstance().Render();
-    RenderUpperObjects();
+    RenderTopTiles();
 }
 
-void State::RenderBackground()
+void State::RenderBottomTiles()
 {
     Point bg_point(0, 0);
 
@@ -80,7 +81,7 @@ void State::RenderBackground()
     tileMap->RenderBaseLayer(tile_map_point);
 }
 
-void State::RenderUpperObjects()
+void State::RenderTopTiles()
 {
     // Movement illusion requires background to move in the direction opposite
     // to the camera. Hence, we negate it's position.

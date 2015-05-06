@@ -6,6 +6,18 @@
 
 #include "Vector.h"
 
+Vector::Vector() : Point()
+{
+}
+
+Vector::Vector(float x, float y) : Point(x, y)
+{
+}
+
+Vector::Vector(const Point& point) : Point(point)
+{
+}
+
 float Vector::GetMagnitude() const
 {
     return hypot(x, y);

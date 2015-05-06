@@ -43,6 +43,7 @@ class Alien : public GameObject
     void Update(float dt);
     void Render();
     bool IsDead();
+    void NotifyCollision(std::shared_ptr<GameObject> other);
 
     // Moves Alien to the clicked position.
     void MoveCallback();

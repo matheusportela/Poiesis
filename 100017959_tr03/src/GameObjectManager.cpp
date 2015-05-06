@@ -17,6 +17,16 @@ GameObjectManager::~GameObjectManager()
     objects.clear();
 }
 
+int GameObjectManager::GetSize()
+{
+    return objects.size();
+}
+
+std::shared_ptr<GameObject> GameObjectManager::GetObject(int i)
+{
+    return objects[i];
+}
+
 void GameObjectManager::Add(std::shared_ptr<GameObject> object)
 {
     objects.push_back(std::move(object));

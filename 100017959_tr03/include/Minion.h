@@ -39,6 +39,9 @@ class Minion : public GameObject
     // Checks whether the minion must be destroyed.
     bool IsDead();
 
+    // Implements behavior for collision.
+    void NotifyCollision(std::shared_ptr<GameObject> other);
+
     // Shoots a bullet in the direction of the given position.
     void Shoot(const Point& position);
 

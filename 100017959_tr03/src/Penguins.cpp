@@ -77,6 +77,11 @@ bool Penguins::IsDead()
     return (hp <= 0);
 }
 
+void Penguins::NotifyCollision(std::shared_ptr<GameObject> other)
+{
+    LOG_D("Penguins collided");
+}
+
 Point Penguins::CalculateBulletPosition()
 {
     Point cannonPosition = GetCenter();

@@ -14,6 +14,7 @@
 
 #include "Alien.h"
 #include "Camera.h"
+#include "CollisionSimulator.h"
 #include "ConfigParser.h"
 #include "FileUtils.h"
 #include "GameObject.h"
@@ -48,10 +49,10 @@ class State
     void Render();
 
     // Renders all sprites that stays behind the game characters.
-    void RenderBackground();
+    void RenderBottomTiles();
 
     // Renders all sprites that stays above the game characters.
-    void RenderUpperObjects();
+    void RenderTopTiles();
 
     // Returns true if quit was requested by the user.
     bool IsQuitRequested();

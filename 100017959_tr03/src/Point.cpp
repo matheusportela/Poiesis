@@ -68,6 +68,18 @@ void Point::Multiply(float scalar)
     this->y *= scalar;
 }
 
+void Point::Divide(float scalar)
+{
+    if (scalar == 0.0)
+    {
+        LOG_E("[Point] Division by zero");
+        exit(1);
+    }
+
+    this->x *= scalar;
+    this->y *= scalar;
+}
+
 void Point::Negate()
 {
     Multiply(-1);

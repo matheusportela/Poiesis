@@ -33,6 +33,7 @@ class Bullet : public GameObject
     void Update(float dt);
     void Render();
     bool IsDead();
+    void NotifyCollision(std::shared_ptr<GameObject> other);
 
   private:
     // Amount of distance the bullet still have before being destroyed.

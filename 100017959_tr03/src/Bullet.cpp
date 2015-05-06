@@ -52,3 +52,8 @@ bool Bullet::IsDead()
 {
     return (distanceLeft <= 0);
 }
+
+void Bullet::NotifyCollision(std::shared_ptr<GameObject> other)
+{
+    LOG_D("Bullet collided");
+}

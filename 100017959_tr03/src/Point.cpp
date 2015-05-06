@@ -76,8 +76,8 @@ void Point::Divide(float scalar)
         exit(1);
     }
 
-    this->x *= scalar;
-    this->y *= scalar;
+    this->x /= scalar;
+    this->y /= scalar;
 }
 
 void Point::Negate()

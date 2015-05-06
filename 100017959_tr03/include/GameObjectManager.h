@@ -46,6 +46,9 @@ class GameObjectManager
     GameObjectManager(const GameObjectManager&) = delete;
     void operator=(const GameObjectManager&) = delete;
 
+    // Updates all registered game objects.
+    void UpdateObjects(float dt);
+
     // Delete objects that are marked as dead.
     void DeleteDeadObjects();
 

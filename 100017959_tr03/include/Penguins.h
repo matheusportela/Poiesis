@@ -25,6 +25,7 @@
 #include "InputManager.h"
 #include "Point.h"
 #include "Sprite.h"
+#include "Timer.h"
 #include "Vector.h"
 
 class Penguins : public GameObject
@@ -98,6 +99,9 @@ class Penguins : public GameObject
 
     // Cannon current rotation, which is applied to the sprite.
     float cannonRotation;
+
+    // Cooldown for shooting action.
+    Timer shootCooldownTimer;
 };
 
 #endif // PENGUINS_H_

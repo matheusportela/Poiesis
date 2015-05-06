@@ -58,6 +58,7 @@ void Penguins::Update(float dt)
 {
     UpdatePosition(dt);
     UpdateCannonRotation();
+    shootCooldownTimer.Update(dt);
 }
 
 void Penguins::RenderCannonSprite()
@@ -101,9 +102,13 @@ Point Penguins::CalculateBulletPosition()
 
 void Penguins::Shoot()
 {
-    Point bulletPosition = CalculateBulletPosition();
-    GameObjectManager::GetInstance().Add(
-        std::make_shared<Bullet>(bulletPosition, cannonRotation));
+    if (shootCooldownTimer.IsFinished())
+    {
+        Point bulletPosition = CalculateBulletPosition();
+        GameObjectManager::GetInstance().Add(
+            std::make_shared<Bullet>(bulletPosition, cannonRotation));
+        shootCooldownTimer.Set(CFG_GETF("PENGUINS_SHOOT_COOLDOWN"));
+    }
 }
 
 void Penguins::ChangeSpeed(float acceleration)

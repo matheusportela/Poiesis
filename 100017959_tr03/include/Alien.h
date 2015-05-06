@@ -50,6 +50,9 @@ class Alien : public GameObject
     // Renders Alien's sprite.
     void Render();
 
+    // Creates animation used for explosion.
+    void CreateExplosionAnimation();
+
     // Shows explosion sprite.
     void OnDeath();
 

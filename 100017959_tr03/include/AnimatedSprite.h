@@ -21,6 +21,11 @@ class AnimatedSprite : public Sprite
     // the time each frame will be displayed.
     AnimatedSprite(std::string file, int numFrames, float frameTime);
 
+    // Adjust sprite width to compensate frames. For instance, if each frame
+    // has 100px width, a sprite with 3 frames will have a 300px width. We
+    // correct this here to avoid anomallies.
+    void AdjustWidth();
+
     // Updates elapsed time since the beginning of the current frame.
     void UpdateElapsedTime(float dt);
 

@@ -10,8 +10,16 @@ AnimatedSprite::AnimatedSprite(std::string file, int numFrames, float frameTime)
     Sprite(file), currentFrame(0), numFrames(numFrames), frameTime(frameTime),
     elapsedTime(0.0)
 {
-    SetWidth(GetWidth()/numFrames);
+    AdjustWidth();
+
+    // Clip initially to show only the clipped frame.
     SetFrameClip();
+}
+
+void AnimatedSprite::AdjustWidth()
+{
+    int newWidth = GetWidth()/numFrames;
+    SetWidth(newWidth);
 }
 
 void AnimatedSprite::UpdateElapsedTime(float dt)
@@ -37,8 +45,8 @@ void AnimatedSprite::UpdateCurrentFrame()
 
 void AnimatedSprite::SetFrameClip()
 {
-    int x = GetWidth()*currentFrame;
-    Point point(x, 0);
+    int frameX = GetWidth()*currentFrame;
+    Point point(frameX, 0);
     SetClip(point, GetWidth(), GetHeight());
 }
 

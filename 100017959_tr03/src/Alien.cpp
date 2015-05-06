@@ -63,16 +63,20 @@ void Alien::Render()
     RenderSprite();
 }
 
+void Alien::CreateExplosionAnimation()
+{
+    int numFrames = CFG_GETI("ALIEN_EXPLOSION_NUM_FRAMES");
+    float frameDuration = CFG_GETF("ALIEN_EXPLOSION_FRAME_TIME");
+    float animationDuration = numFrames*frameDuration;
+    std::unique_ptr<Sprite> animatedSprite(new AnimatedSprite(
+        CFG_GETP("ALIEN_EXPLOSION_SPRITE"), numFrames, frameDuration));
+    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
+        GetCenter(), std::move(animatedSprite), animationDuration));
+}
+
 void Alien::OnDeath()
 {
-    LOG_D("Alien position: " << GetCenter().ToString());
-
-    std::unique_ptr<Sprite> animatedSprite(new AnimatedSprite(
-        CFG_GETP("EXPLOSION_SPRITE"), CFG_GETI("EXPLOSION_NUM_FRAMES"),
-        CFG_GETF("EXPLOSION_FRAME_TIME")));
-    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), std::move(animatedSprite),
-        CFG_GETF("STILL_ANIMATION_TEST_TIME")));
+    CreateExplosionAnimation();
 }
 
 bool Alien::IsDead()

@@ -63,6 +63,9 @@ class GameObject
     // Renders everything necessary in the current frame.
     virtual void Render() = 0;
 
+    // Implements behavior for the moment when the object is destroyed.
+    virtual void OnDeath() {};
+
     // Communicates whether the game object must be deleted.
     virtual bool IsDead() = 0;
 

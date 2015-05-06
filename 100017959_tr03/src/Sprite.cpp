@@ -17,14 +17,24 @@ Sprite::Sprite(std::string file) : Sprite()
     Open(file);
 }
 
-int Sprite::GetWidth()
+int Sprite::GetWidth() const
 {
     return width;
 }
 
-int Sprite::GetHeight()
+int Sprite::GetHeight() const
 {
     return height;
+}
+
+void Sprite::SetWidth(float width)
+{
+    this->width = width;
+}
+
+void Sprite::SetHeight(float height)
+{
+    this->height = height;
 }
 
 void Sprite::SetScaleX(float scale)
@@ -53,7 +63,7 @@ void Sprite::Open(std::string file)
     SetClip(sprintPoint, width, height);
 }
 
-bool Sprite::IsOpen()
+bool Sprite::IsOpen() const
 {
     return (texture != NULL);
 }

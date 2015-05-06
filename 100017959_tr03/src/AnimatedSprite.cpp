@@ -10,7 +10,7 @@ AnimatedSprite::AnimatedSprite(std::string file, int numFrames, float frameTime)
     Sprite(file), currentFrame(0), numFrames(numFrames), frameTime(frameTime),
     elapsedTime(0.0)
 {
-    frameWidth = GetWidth()/numFrames;
+    SetWidth(GetWidth()/numFrames);
     SetFrameClip();
 }
 
@@ -37,9 +37,9 @@ void AnimatedSprite::UpdateCurrentFrame()
 
 void AnimatedSprite::SetFrameClip()
 {
-    int x = frameWidth*currentFrame;
+    int x = GetWidth()*currentFrame;
     Point point(x, 0);
-    SetClip(point, frameWidth, GetHeight());
+    SetClip(point, GetWidth(), GetHeight());
 }
 
 void AnimatedSprite::RenderNextFrame()

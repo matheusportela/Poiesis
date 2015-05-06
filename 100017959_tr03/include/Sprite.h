@@ -29,10 +29,16 @@ class Sprite
     virtual ~Sprite() {};
 
     // Gets image presentation width.
-    int GetWidth();
+    int GetWidth() const;
 
     // Gets image presentation height.
-    int GetHeight();
+    int GetHeight() const;
+
+    // Sets image presentation width.
+    void SetWidth(float width);
+
+    // Sets image presentation height.
+    void SetHeight(float height);
 
     // Sets image scalling factor in X axis.
     void SetScaleX(float scale);
@@ -47,7 +53,7 @@ class Sprite
     void Open(std::string file);
 
     // Checks whether the image is open.
-    bool IsOpen();
+    bool IsOpen() const;
 
     // Sets clipping rectangle size.
     void SetClip(const Point& point, int w, int h);

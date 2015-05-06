@@ -9,6 +9,7 @@
 StillAnimation::StillAnimation(const Point& position,
     std::unique_ptr<Sprite> animatedSprite, float time)
 {
+    LOG_D("Animation position: " << position.ToString());
     sprite = std::move(animatedSprite);
     SetCenter(position);
     timer.Set(time);

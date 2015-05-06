@@ -10,6 +10,7 @@
 #include <memory>
 #include <vector>
 
+#include "AnimatedSprite.h"
 #include "ActionScheduler.h"
 #include "Camera.h"
 #include "ConfigParser.h"
@@ -20,6 +21,7 @@
 #include "MoveAction.h"
 #include "ShootAction.h"
 #include "Sprite.h"
+#include "StillAnimation.h"
 #include "Point.h"
 #include "Vector.h"
 
@@ -44,8 +46,17 @@ class Alien : public GameObject
 
     // Defining GameObject virtual methods.
     void Update(float dt);
+
+    // Renders Alien's sprite.
     void Render();
+
+    // Shows explosion sprite.
+    void OnDeath();
+
+    // Checks whether Alien's HP is zero.
     bool IsDead();
+
+    // Receives damage from bullets.
     void NotifyCollision(std::shared_ptr<GameObject> other);
 
     // True if type is "Alien".

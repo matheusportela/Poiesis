@@ -38,6 +38,7 @@ void GameObjectManager::DeleteDeadObjects()
     {
         if (objects[i]->IsDead())
         {
+            objects[i]->OnDeath();
             objects.erase(objects.begin() + i);
 
             // Decrease index since objects is one size smaller

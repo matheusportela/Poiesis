@@ -7,6 +7,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+#include "ConfigParser.h"
 #include "GameObject.h"
 #include "Point.h"
 #include "Vector.h"
@@ -15,10 +16,16 @@ class Camera
 {
   public:
     // Registers the object that the camera will follow.
-    static void Follow(GameObject* focus);
+    static void Follow(std::weak_ptr<GameObject> focus);
 
     // Stops following the registered object.
     static void Unfollow();
+
+    // Gets focus object as shared pointer.
+    static std::shared_ptr<GameObject> GetFocusObject();
+
+    // Checks whether the is a object that the camera is following.
+    static bool HasFocusObject();
 
     // Updates camera position with the registered object position.
     static void UpdatePositionByFocusObject();
@@ -42,8 +49,9 @@ class Camera
     static Vector speed;
     
   private:
-    // Current object that the camera follows.
-    static GameObject* focus;
+    // Current object that the camera follows. It must be a weak pointer to not
+    // claim ownership of the object, since Camera is not a GameObject manager.
+    static std::weak_ptr<GameObject> focus;
 };
 
 #endif // CAMERA_H_

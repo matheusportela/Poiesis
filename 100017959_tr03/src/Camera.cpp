@@ -8,21 +8,34 @@
 
 Point Camera::position;
 Vector Camera::speed;
-GameObject* Camera::focus = NULL;
+std::weak_ptr<GameObject> Camera::focus;
 
-void Camera::Follow(GameObject* focus)
+void Camera::Follow(std::weak_ptr<GameObject> focus)
 {
     Camera::focus = focus;
 }
 
 void Camera::Unfollow()
 {
-    Camera::focus = NULL;
+    Camera::focus.reset();
+}
+
+std::shared_ptr<GameObject> Camera::GetFocusObject()
+{
+    return Camera::focus.lock();
+}
+
+bool Camera::HasFocusObject()
+{
+    std::shared_ptr<GameObject> focusObject = GetFocusObject();
+    return (focusObject != nullptr);
 }
 
 void Camera::UpdatePositionByFocusObject()
 {
-    position = Camera::focus->GetCenter();
+    Point offset(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"));
+    std::shared_ptr<GameObject> focusObject = GetFocusObject();
+    position = focusObject->GetCenter() - (offset/2);
 }
 
 void Camera::UpdatePositionBySpeed(float dt)
@@ -36,7 +49,7 @@ void Camera::UpdatePositionBySpeed(float dt)
 
 void Camera::Update(float dt)
 {
-    if (Camera::focus)
+    if (HasFocusObject())
         UpdatePositionByFocusObject();
     else
         UpdatePositionBySpeed(dt);

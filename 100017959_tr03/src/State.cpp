@@ -25,7 +25,9 @@ void State::InitializePenguins()
 {
     Point position(CFG_GETI("PENGUINS_INITIAL_X"),
         CFG_GETI("PENGUINS_INITIAL_Y"));
-    GameObjectManager::GetInstance().Add(std::make_shared<Penguins>(position));
+    std::shared_ptr<Penguins> penguins = std::make_shared<Penguins>(position);
+    GameObjectManager::GetInstance().Add(penguins);
+    Camera::Follow(penguins);
 }
 
 void State::InitializeAlien()

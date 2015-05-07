@@ -6,22 +6,22 @@
 
 #include "GameObjectContainer.h"
 
-void GameObjectContainer::Insert(std::string key,
+void GameObjectContainer::Add(std::string key,
     std::shared_ptr<GameObject> object)
 {
     if (HasKey(key))
-        InsertExistingKey(key, object);
+        AddExistingKey(key, object);
     else
-        InsertNewKey(key, object);
+        AddNewKey(key, object);
 }
 
-void GameObjectContainer::InsertExistingKey(std::string key,
+void GameObjectContainer::AddExistingKey(std::string key,
     std::shared_ptr<GameObject> object)
 {
     container[key].push_back(object);
 }
 
-void GameObjectContainer::InsertNewKey(std::string key,
+void GameObjectContainer::AddNewKey(std::string key,
     std::shared_ptr<GameObject> object)
 {
     std::vector<std::shared_ptr<GameObject>> objects = {object};

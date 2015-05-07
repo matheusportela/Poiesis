@@ -24,7 +24,8 @@ std::shared_ptr<GameObject> GameObjectManager::GetObject(std::string key)
 
 void GameObjectManager::Add(std::shared_ptr<GameObject> object, std::string key)
 {
-    container.Insert(key, object);
+    LOG_D("[GameObjectManager] Creating object with key \"" << key << "\"");
+    container.Add(key, object);
 }
 
 void GameObjectManager::DeleteDeadObjects()
@@ -46,7 +47,11 @@ void GameObjectManager::DeleteDeadObjects()
         object = keyAndObject.second;
 
         if (object->IsDead())
+        {
+            LOG_D("[GameObjectManager] Deleting object with key \"" << key
+                << "\"");
             container.DeleteObject(key, object);
+        }
     }
 }
 
@@ -60,8 +65,6 @@ void GameObjectManager::Update(float dt)
 {
     DeleteDeadObjects();
     UpdateObjects(dt);
-
-    LOG_D("Count: " << container.GetAllObjects().size());
 }
 
 void GameObjectManager::Render()

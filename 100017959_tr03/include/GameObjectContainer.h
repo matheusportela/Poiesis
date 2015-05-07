@@ -20,9 +20,9 @@
 class GameObjectContainer
 {
   public:
-    // Inserts GameObject instance with an associated key. It can store
+    // Adds GameObject instance with an associated key. It can store
     // multiple objects with the same key.
-    void Insert(std::string key, std::shared_ptr<GameObject> object);
+    void Add(std::string key, std::shared_ptr<GameObject> object);
 
     // Gets the first GameObject instance with the associated key.
     std::shared_ptr<GameObject> GetObject(std::string key);
@@ -47,11 +47,11 @@ class GameObjectContainer
     // Checks whether the given key is already stored in container.
     bool HasKey(std::string key);
 
-    // Insert an object with a not-previously seen key. 
-    void InsertExistingKey(std::string key, std::shared_ptr<GameObject> object);
+    // Adds an object with a not-previously seen key. 
+    void AddExistingKey(std::string key, std::shared_ptr<GameObject> object);
 
-    // Insert an object with a key that already exists.
-    void InsertNewKey(std::string key, std::shared_ptr<GameObject> object);
+    // Adds an object with a key that already exists.
+    void AddNewKey(std::string key, std::shared_ptr<GameObject> object);
 
     // Container for GameObject instances.
     std::unordered_map<std::string,

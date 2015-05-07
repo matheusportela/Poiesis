@@ -32,9 +32,6 @@ class Alien : public GameObject
     // minions.
     Alien(const Point& position, int numMinions);
 
-    // Destroys Alien and all its minions.
-    ~Alien();
-
     // Create all it's minions.
     void InitializeMinions(int numMinions);
 

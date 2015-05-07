@@ -18,12 +18,6 @@ Alien::Alien(const Point& position, int numMinions)
     rotationVector.Set(1, 0);
 }
 
-Alien::~Alien()
-{
-    for (unsigned int i = 0; i < minionArray.size(); ++i)
-        minionArray[i]->SetDead();
-}
-
 void Alien::InitializeMinions(int numMinions)
 {
     float arcOffset = 2*M_PI/numMinions;
@@ -76,6 +70,9 @@ void Alien::CreateExplosionAnimation()
 
 void Alien::OnDeath()
 {
+    for (unsigned int i = 0; i < minionArray.size(); ++i)
+        minionArray[i]->SetDead();
+
     CreateExplosionAnimation();
 }
 

@@ -6,6 +6,11 @@
 
 #include "ActionScheduler.h"
 
+int ActionScheduler::GetQueueSize() const
+{
+    return queue.size();
+}
+
 void ActionScheduler::Schedule(const std::shared_ptr<Action>& action)
 {
     queue.push(action);

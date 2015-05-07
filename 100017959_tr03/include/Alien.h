@@ -63,12 +63,16 @@ class Alien : public GameObject
     bool Is(std::string type);
 
     // Moves Alien to the clicked position.
-    void MoveCallback();
+    void MoveBehavior();
 
-    // Makes a minion shoot with user input.
-    void ShootCallback();
+    // Makes a minion shoot at the player.
+    void ShootBehavior();
+
+    void RestBehavior();
 
   private:
+    int behavior;
+
     // Aliens's hitpoints.
     int hp;
 
@@ -78,6 +82,9 @@ class Alien : public GameObject
 
     // Scheduller to deal with sequential actions.
     ActionScheduler actionScheduler;
+
+    // Time between shoots.
+    Timer shootCooldown;
 
     // Alien's minions references, used with ShootAction.
     std::vector<std::shared_ptr<Minion>> minionArray;

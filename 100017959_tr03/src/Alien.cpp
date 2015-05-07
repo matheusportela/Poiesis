@@ -14,6 +14,8 @@ Alien::Alien(const Point& position, int numMinions)
     angularSpeed = CFG_GETF("ALIEN_ANGULAR_SPEED");
     InitializeMinions(numMinions);
 
+    behavior = 0;
+
     // Rotation vector is an unitary vector, since we only need it's direction
     rotationVector.Set(1, 0);
 }
@@ -47,7 +49,21 @@ void Alien::UpdatePosition(float dt)
 
 void Alien::Update(float dt)
 {
+    switch (behavior)
+    {
+        case 0:
+            MoveBehavior();
+            break;
+        case 1:
+            ShootBehavior();
+            break;
+        case 2:
+            RestBehavior();
+            break;
+    }
+
     actionScheduler.Execute();
+    shootCooldown.Update(dt);
     UpdatePosition(dt);
     UpdateRotation(dt);
 }
@@ -92,16 +108,45 @@ bool Alien::Is(std::string type)
     return (type == "Alien");
 }
 
-void Alien::MoveCallback()
+void Alien::MoveBehavior()
 {
-    Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    actionScheduler.Schedule(std::make_shared<MoveAction>(this, point,
-        CFG_GETF("ALIEN_SPEED"), CFG_GETF("ALIEN_MOVE_ERROR_MARGIN")));
+    if (actionScheduler.GetQueueSize() == 0)
+    {
+        LOG_D("Move behavior");
+
+        std::shared_ptr<GameObject> playerObject =
+            GameObjectManager::GetInstance().GetObject("player");
+        Point point = playerObject->GetCenter();
+        actionScheduler.Schedule(std::make_shared<MoveAction>(this, point,
+            CFG_GETF("ALIEN_SPEED"), CFG_GETF("ALIEN_MOVE_ERROR_MARGIN")));
+
+        behavior = 1;
+    }
 }
 
-void Alien::ShootCallback()
+void Alien::ShootBehavior()
 {
-    Point point = InputManager::GetInstance().GetMouseWorldPosition();
-    actionScheduler.Schedule(std::make_shared<ShootAction>(this, minionArray,
-        point));
+    if (actionScheduler.GetQueueSize() == 0)
+    {
+        LOG_D("Shoot behavior");
+
+        std::shared_ptr<GameObject> playerObject =
+            GameObjectManager::GetInstance().GetObject("player");
+        Point point = playerObject->GetCenter();
+        actionScheduler.Schedule(std::make_shared<ShootAction>(this, minionArray,
+            point));
+
+        shootCooldown.Set(CFG_GETF("ALIEN_REST_BEHAVIOR_TIME"));
+        behavior = 2;
+    }
+}
+
+void Alien::RestBehavior()
+{
+    if (shootCooldown.IsFinished())
+    {
+        LOG_D("Rest behavior");
+
+        behavior = 0;
+    }
 }

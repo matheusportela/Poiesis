@@ -15,6 +15,9 @@
 class ActionScheduler
 {
   public:
+    // Gets action queue size.
+    int GetQueueSize() const;
+
     // Schedules an action by pushing it to the end of the queue.
     void Schedule(const std::shared_ptr<Action>& action);
 

@@ -12,55 +12,55 @@ GameObjectManager& GameObjectManager::GetInstance()
     return instance;
 };
 
-GameObjectManager::~GameObjectManager()
+std::vector<std::shared_ptr<GameObject>> GameObjectManager::GetObjects()
 {
-    objects.clear();
+    return container.GetAllObjects();
 }
 
-int GameObjectManager::GetSize()
+std::shared_ptr<GameObject> GameObjectManager::GetObject(std::string key)
 {
-    return objects.size();
+    return container.GetObject(key);
 }
 
-std::shared_ptr<GameObject> GameObjectManager::GetObject(int i)
+void GameObjectManager::Add(std::shared_ptr<GameObject> object, std::string key)
 {
-    return objects[i];
-}
-
-void GameObjectManager::Add(std::shared_ptr<GameObject> object)
-{
-    objects.push_back(std::move(object));
+    container.Insert(key, object);
 }
 
 void GameObjectManager::DeleteDeadObjects()
 {
-    for (unsigned int i = 0; i < objects.size(); ++i)
-    {
-        if (objects[i]->IsDead())
-        {
-            objects[i]->OnDeath();
-            objects.erase(objects.begin() + i);
+    std::string key;
+    std::shared_ptr<GameObject> object;
 
-            // Decrease index since objects is one size smaller
-            --i;
+    for (auto keyAndObject : container.GetKeysAndObjects())
+    {
+        key = keyAndObject.first;
+        object = keyAndObject.second;
+
+        if (object->IsDead())
+        {
+            object->OnDeath();
+            container.DeleteObject(key, object);
         }
     }
 }
 
 void GameObjectManager::UpdateObjects(float dt)
 {
-    for (unsigned int i = 0; i < objects.size(); ++i)
-        objects[i]->Update(dt);
+    for (auto object : container.GetAllObjects())
+        object->Update(dt);
 }
 
 void GameObjectManager::Update(float dt)
 {
     DeleteDeadObjects();
     UpdateObjects(dt);
+
+    LOG_D("Count: " << container.GetAllObjects().size());
 }
 
 void GameObjectManager::Render()
 {
-    for (unsigned int i = 0; i < objects.size(); ++i)
-        objects[i]->Render();
+    for (auto object : container.GetAllObjects())
+        object->Render();
 }

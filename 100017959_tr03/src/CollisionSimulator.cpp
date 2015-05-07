@@ -8,15 +8,17 @@
 
 void CollisionSimulator::Collide()
 {
+    std::vector<std::shared_ptr<GameObject>> objects =
+        GameObjectManager::GetInstance().GetObjects();
     std::shared_ptr<GameObject> object1;
     std::shared_ptr<GameObject> object2;
 
-    for (int i = 0; i < GameObjectManager::GetInstance().GetSize()-1; ++i)
+    for (unsigned int i = 0; i < objects.size()-1; ++i)
     {
-        for (int j = i+1; j < GameObjectManager::GetInstance().GetSize(); ++j)
+        for (unsigned int j = i+1; j < objects.size(); ++j)
         {
-            object1 = GameObjectManager::GetInstance().GetObject(i);
-            object2 = GameObjectManager::GetInstance().GetObject(j);
+            object1 = objects[i];
+            object2 = objects[j];
 
             if (IsColliding(object1, object2))
             {

@@ -11,9 +11,11 @@
 
 #include <iterator>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "GameObject.h"
+#include "GameObjectContainer.h"
 
 class GameObjectManager
 {
@@ -21,17 +23,14 @@ class GameObjectManager
     // Gets game object manager as in the singleton pattern.
     static GameObjectManager& GetInstance();
 
-    // Clears objects array.
-    ~GameObjectManager();
+    // Gets all GameObject references in vector form.
+    std::vector<std::shared_ptr<GameObject>> GetObjects();
 
-    // Gets number of game objects.
-    int GetSize();
-
-    // Gets game object reference with its index.
-    std::shared_ptr<GameObject> GetObject(int i);
+    // Get a GameObject reference with it's key.
+    std::shared_ptr<GameObject> GetObject(std::string key);
 
     // Adds a new game object to be managed.
-    void Add(std::shared_ptr<GameObject> object);
+    void Add(std::shared_ptr<GameObject> object, std::string key = "anonymous");
 
     // Updates game objects.
     void Update(float dt);
@@ -53,7 +52,7 @@ class GameObjectManager
     void DeleteDeadObjects();
 
     // Container for objects.
-    std::vector<std::shared_ptr<GameObject>> objects;
+    GameObjectContainer container;
 };
 
 #endif // GAME_OBJECT_MANAGER_H_

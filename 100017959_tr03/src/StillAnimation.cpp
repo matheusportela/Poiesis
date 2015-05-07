@@ -7,28 +7,28 @@
 #include "StillAnimation.h"
 
 StillAnimation::StillAnimation(const Point& position,
-    std::unique_ptr<Sprite> animatedSprite, float time)
+    std::string sprite, int numFrames, float frameDuration) :
+    AnimatedGameObject(sprite, numFrames, frameDuration)
 {
-    sprite = std::move(animatedSprite);
     SetCenter(position);
-    timer.Set(time);
+    InitializeTimer(numFrames, frameDuration);
 }
 
-void StillAnimation::UpdateAnimation(float dt)
+void StillAnimation::InitializeTimer(int numFrames, float frameDuration)
 {
-    AnimatedSprite* animatedSprite = dynamic_cast<AnimatedSprite*>(sprite.get());
-    animatedSprite->Update(dt);
+    float duration = numFrames*frameDuration;
+    timer.Set(duration);
 }
 
 void StillAnimation::Update(float dt)
 {
+    AnimatedGameObject::Update(dt);
     timer.Update(dt);
-    UpdateAnimation(dt);    
 }
 
 void StillAnimation::Render()
 {
-    RenderSprite();
+    AnimatedGameObject::Render();
 }
 
 bool StillAnimation::IsDead()

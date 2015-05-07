@@ -84,13 +84,12 @@ void Penguins::Render()
 
 void Penguins::CreateExplosionAnimation()
 {
+    std::string sprite = CFG_GETP("PENGUINS_EXPLOSION_SPRITE");
     int numFrames = CFG_GETI("PENGUINS_EXPLOSION_NUM_FRAMES");
     float frameDuration = CFG_GETF("PENGUINS_EXPLOSION_FRAME_TIME");
-    float animationDuration = numFrames*frameDuration;
-    std::unique_ptr<Sprite> animatedSprite(new AnimatedSprite(
-        CFG_GETP("PENGUINS_EXPLOSION_SPRITE"), numFrames, frameDuration));
+
     GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), std::move(animatedSprite), animationDuration));
+        GetCenter(), sprite, numFrames, frameDuration));
 }
 
 void Penguins::OnDeath()

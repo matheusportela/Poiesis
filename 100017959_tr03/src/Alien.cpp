@@ -79,13 +79,12 @@ void Alien::Render()
 
 void Alien::CreateExplosionAnimation()
 {
+    std::string sprite = CFG_GETP("ALIEN_EXPLOSION_SPRITE");
     int numFrames = CFG_GETI("ALIEN_EXPLOSION_NUM_FRAMES");
     float frameDuration = CFG_GETF("ALIEN_EXPLOSION_FRAME_TIME");
-    float animationDuration = numFrames*frameDuration;
-    std::unique_ptr<Sprite> animatedSprite(new AnimatedSprite(
-        CFG_GETP("ALIEN_EXPLOSION_SPRITE"), numFrames, frameDuration));
+
     GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), std::move(animatedSprite), animationDuration));
+        GetCenter(), sprite, numFrames, frameDuration), "alien_explosion");
 }
 
 void Alien::OnDeath()

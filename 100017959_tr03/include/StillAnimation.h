@@ -10,21 +10,20 @@
 #include <memory>
 #include <string>
 
-#include "AnimatedSprite.h"
-#include "GameObject.h"
-#include "Sprite.h"
+#include "AnimatedGameObject.h"
 #include "Timer.h"
 
-class StillAnimation : public GameObject
+class StillAnimation : public AnimatedGameObject
 {
   public:
     // Initializes animation with a position, a file containing the sprites and
     // a time duration. 
-    StillAnimation(const Point& position,
-        std::unique_ptr<Sprite> animatedSprite, float time);
+    StillAnimation(const Point& position, std::string sprite, int numFrames,
+        float frameDuration);
 
-    // Updates the animation.
-    void UpdateAnimation(float dt);
+    // Initializes timer with sufficient time to show up the entire animation
+    // once.
+    void InitializeTimer(int numFrames, float frameDuration);
 
     // Updates the game object.
     void Update(float dt);

@@ -103,8 +103,8 @@ bool Alien::IsDead()
 
 void Alien::NotifyCollision(std::shared_ptr<GameObject> other)
 {
-    if (other->Is("Bullet"))
-        hp -= CFG_GETI("BULLET_DAMAGE");
+    if (other->Is("PenguinsBullet"))
+        hp -= CFG_GETI("PENGUINS_BULLET_DAMAGE");
 }
 
 bool Alien::Is(std::string type)

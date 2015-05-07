@@ -89,6 +89,8 @@ bool Penguins::IsDead()
 
 void Penguins::NotifyCollision(std::shared_ptr<GameObject> other)
 {
+    if (other->Is("MinionBullet"))
+        hp -= CFG_GETI("MINION_BULLET_DAMAGE");
 }
 
 bool Penguins::Is(std::string type)

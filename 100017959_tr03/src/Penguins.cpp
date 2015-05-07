@@ -82,6 +82,22 @@ void Penguins::Render()
     RenderCannonSprite();
 }
 
+void Penguins::CreateExplosionAnimation()
+{
+    int numFrames = CFG_GETI("PENGUINS_EXPLOSION_NUM_FRAMES");
+    float frameDuration = CFG_GETF("PENGUINS_EXPLOSION_FRAME_TIME");
+    float animationDuration = numFrames*frameDuration;
+    std::unique_ptr<Sprite> animatedSprite(new AnimatedSprite(
+        CFG_GETP("PENGUINS_EXPLOSION_SPRITE"), numFrames, frameDuration));
+    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
+        GetCenter(), std::move(animatedSprite), animationDuration));
+}
+
+void Penguins::OnDeath()
+{
+    CreateExplosionAnimation();
+}
+
 bool Penguins::IsDead()
 {
     return (hp <= 0);

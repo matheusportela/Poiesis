@@ -17,14 +17,16 @@
 
 #include <memory>
 
-#include "PenguinsBullet.h"
+#include "AnimatedSprite.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
+#include "PenguinsBullet.h"
 #include "Point.h"
 #include "Sprite.h"
+#include "StillAnimation.h"
 #include "Timer.h"
 #include "Vector.h"
 
@@ -51,6 +53,12 @@ class Penguins : public GameObject
 
     // Renders Penguins.
     void Render();
+
+    // Creates animation used for explosion.
+    void CreateExplosionAnimation();
+
+    // Shows explosion sprite.
+    void OnDeath();
 
     // Checks whether Penguins is dead.
     bool IsDead();

@@ -9,12 +9,12 @@
 
 #include <memory>
 
-#include "MinionBullet.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "Logger.h"
+#include "MinionBullet.h"
 #include "Sprite.h"
 #include "Point.h"
 #include "Vector.h"

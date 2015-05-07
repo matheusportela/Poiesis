@@ -2,7 +2,7 @@
 // @author Matheus Vieira Portela
 // @date   20/04/2015
 //
-// @brief Minion's bullet game object
+// @brief Generic bullet game object
 
 #ifndef BULLET_H_
 #define BULLET_H_
@@ -20,8 +20,9 @@
 class Bullet : public GameObject
 {
   public:
+    Bullet() {}
+
     Bullet(const Point& position, float angle);
-    ~Bullet();
 
     // Updates bullet position.
     void UpdatePosition(const Vector& displacement);
@@ -31,14 +32,20 @@ class Bullet : public GameObject
 
     // Defining GameObject virtual methods.
     void Update(float dt);
+
+    // Renders bullet sprite.
     void Render();
+
+    // Checks whether bullet must be deleted.
     bool IsDead();
+
+    // Executes behavior during collision.
     void NotifyCollision(std::shared_ptr<GameObject> other);
 
     // True if type is "Bullet".
     bool Is(std::string type);
 
-  private:
+  protected:
     // Amount of distance the bullet still have before being destroyed.
     float distanceLeft;
 };

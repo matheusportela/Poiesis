@@ -9,7 +9,7 @@
 
 #include <memory>
 
-#include "Bullet.h"
+#include "MinionBullet.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"

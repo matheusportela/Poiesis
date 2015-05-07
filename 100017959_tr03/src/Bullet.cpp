@@ -18,10 +18,6 @@ Bullet::Bullet(const Point& position, float angle)
     SetSpeed(newSpeed);
 }
 
-Bullet::~Bullet()
-{
-}
-
 void Bullet::UpdatePosition(const Vector& displacement)
 {
     Point bulletCenter = GetCenter();

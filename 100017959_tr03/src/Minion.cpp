@@ -76,5 +76,5 @@ void Minion::Shoot(const Point& position)
     shootVector.Subtract(minionPosition);
 
     GameObjectManager::GetInstance().Add(
-        std::make_shared<Bullet>(minionPosition, shootVector.GetDirection()));
+        std::make_shared<MinionBullet>(minionPosition, shootVector.GetDirection()));
 }

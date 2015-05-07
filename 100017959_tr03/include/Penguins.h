@@ -17,7 +17,7 @@
 
 #include <memory>
 
-#include "Bullet.h"
+#include "PenguinsBullet.h"
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"

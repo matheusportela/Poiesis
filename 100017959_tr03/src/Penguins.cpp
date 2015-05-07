@@ -115,7 +115,7 @@ void Penguins::Shoot()
     {
         Point bulletPosition = CalculateBulletPosition();
         GameObjectManager::GetInstance().Add(
-            std::make_shared<Bullet>(bulletPosition, cannonRotation));
+            std::make_shared<PenguinsBullet>(bulletPosition, cannonRotation));
         shootCooldownTimer.Set(CFG_GETF("PENGUINS_SHOOT_COOLDOWN"));
     }
 }

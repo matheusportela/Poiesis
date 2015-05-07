@@ -1,6 +1,6 @@
-// @file   Bullet.h
+// @file   MinionBullet.h
 // @author Matheus Vieira Portela
-// @date   20/04/2015
+// @date   07/05/2015
 //
 // @brief Minion's bullet game object
 
@@ -26,5 +26,5 @@ void MinionBullet::NotifyCollision(std::shared_ptr<GameObject> other)
 
 bool MinionBullet::Is(std::string type)
 {
-    return (type == "Bullet" || Bullet::Is(type));
+    return (type == "MinionBullet" || Bullet::Is(type));
 }

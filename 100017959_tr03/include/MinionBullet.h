@@ -1,6 +1,6 @@
-// @file   Bullet.h
+// @file   MinionBullet.h
 // @author Matheus Vieira Portela
-// @date   20/04/2015
+// @date   07/05/2015
 //
 // @brief Minion's bullet game object
 

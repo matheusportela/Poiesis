@@ -14,7 +14,7 @@ Alien::Alien(const Point& position, int numMinions)
     angularSpeed = CFG_GETF("ALIEN_ANGULAR_SPEED");
     InitializeMinions(numMinions);
 
-    behavior = 0;
+    behaviorState = MOVING;
 
     // Rotation vector is an unitary vector, since we only need it's direction
     rotationVector.Set(1, 0);
@@ -28,6 +28,22 @@ void Alien::InitializeMinions(int numMinions)
     {
         minionArray.emplace_back(new Minion(this, i*arcOffset));
         GameObjectManager::GetInstance().Add(minionArray[i]);
+    }
+}
+
+void Alien::RunBehavior()
+{
+    switch (behaviorState)
+    {
+        case MOVING:
+            MoveBehavior();
+            break;
+        case SHOOTING:
+            ShootBehavior();
+            break;
+        case RESTING:
+            RestBehavior();
+            break;
     }
 }
 
@@ -49,19 +65,7 @@ void Alien::UpdatePosition(float dt)
 
 void Alien::Update(float dt)
 {
-    switch (behavior)
-    {
-        case 0:
-            MoveBehavior();
-            break;
-        case 1:
-            ShootBehavior();
-            break;
-        case 2:
-            RestBehavior();
-            break;
-    }
-
+    RunBehavior();
     actionScheduler.Execute();
     shootCooldown.Update(dt);
     UpdatePosition(dt);
@@ -110,25 +114,23 @@ bool Alien::Is(std::string type)
 
 void Alien::MoveBehavior()
 {
-    if (actionScheduler.GetQueueSize() == 0)
+    if (actionScheduler.IsQueueEmpty())
     {
-        LOG_D("Move behavior");
+        behaviorState = SHOOTING;
 
         std::shared_ptr<GameObject> playerObject =
             GameObjectManager::GetInstance().GetObject("player");
         Point point = playerObject->GetCenter();
         actionScheduler.Schedule(std::make_shared<MoveAction>(this, point,
             CFG_GETF("ALIEN_SPEED"), CFG_GETF("ALIEN_MOVE_ERROR_MARGIN")));
-
-        behavior = 1;
     }
 }
 
 void Alien::ShootBehavior()
 {
-    if (actionScheduler.GetQueueSize() == 0)
+    if (actionScheduler.IsQueueEmpty())
     {
-        LOG_D("Shoot behavior");
+        behaviorState = RESTING;
 
         std::shared_ptr<GameObject> playerObject =
             GameObjectManager::GetInstance().GetObject("player");
@@ -137,7 +139,6 @@ void Alien::ShootBehavior()
             point));
 
         shootCooldown.Set(CFG_GETF("ALIEN_REST_BEHAVIOR_TIME"));
-        behavior = 2;
     }
 }
 
@@ -145,8 +146,6 @@ void Alien::RestBehavior()
 {
     if (shootCooldown.IsFinished())
     {
-        LOG_D("Rest behavior");
-
-        behavior = 0;
+        behaviorState = MOVING;
     }
 }

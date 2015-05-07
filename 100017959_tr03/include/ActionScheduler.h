@@ -18,6 +18,9 @@ class ActionScheduler
     // Gets action queue size.
     int GetQueueSize() const;
 
+    // Checks whether action queue is empty.
+    bool IsQueueEmpty() const;
+
     // Schedules an action by pushing it to the end of the queue.
     void Schedule(const std::shared_ptr<Action>& action);
 

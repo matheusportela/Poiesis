@@ -34,6 +34,9 @@ class Penguins : public GameObject
     // Initializes Penguins in the given position.
     Penguins(const Point& position);
 
+    // Simulates friction to slow down penguin when no input is given.
+    void ApplyFriction();
+
     // Updates the cannon rotation to match the mouse.
     void UpdateCannonRotation();
 

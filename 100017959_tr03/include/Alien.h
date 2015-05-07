@@ -35,6 +35,9 @@ class Alien : public GameObject
     // Create all it's minions.
     void InitializeMinions(int numMinions);
 
+    // Executes behaviors depending on the current Alien state.
+    void RunBehavior();
+
     // Updates Alien's rotation.
     void UpdateRotation(float dt);
 
@@ -68,10 +71,19 @@ class Alien : public GameObject
     // Makes a minion shoot at the player.
     void ShootBehavior();
 
+    // Makes the Alien rest for a pre-configured amount of time.
     void RestBehavior();
 
   private:
-    int behavior;
+    enum State
+    {
+        MOVING,
+        SHOOTING,
+        RESTING
+    };
+
+    // Holds action state for the Alien.
+    int behaviorState;
 
     // Aliens's hitpoints.
     int hp;

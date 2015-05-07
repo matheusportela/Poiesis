@@ -29,6 +29,14 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
         MouseButton::Left);
 }
 
+void Penguins::ApplyFriction()
+{
+    float friction = CFG_GETF("PENGUINS_FRICTION_FACTOR");
+    float speed = GetSpeed().GetMagnitude();
+    float disacceleration = -speed*friction;
+    ChangeSpeed(disacceleration);
+}
+
 void Penguins::UpdatePosition(float dt)
 {
     Vector displacement = GetSpeed();
@@ -56,6 +64,7 @@ void Penguins::UpdateCannonRotation()
 
 void Penguins::Update(float dt)
 {
+    ApplyFriction();
     UpdatePosition(dt);
     UpdateCannonRotation();
     shootCooldownTimer.Update(dt);

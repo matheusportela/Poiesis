@@ -116,16 +116,53 @@ void InputManager::RegisterCallback(std::function<void()> callback,
     callbackMap[std::make_pair(inputType, button)] = callback;
 }
 
+void InputManager::RegisterCommand(std::weak_ptr<Command> command,
+    InputType::Type inputType, int button)
+{
+    if (HasCommand(inputType, button))
+    {
+        LOG_E("[InputManager] Multiple callback registration (Input type: "
+            << inputType << ", button: " << button << ")");
+        exit(1);
+    }
+
+    commandMap[std::make_pair(inputType, button)] = command;
+}
+
 bool InputManager::HasCallback(InputType::Type inputType, int button)
 {
     return (callbackMap.find(std::make_pair(inputType, button))
         != callbackMap.end());
 }
 
+bool InputManager::HasCommand(InputType::Type inputType, int button)
+{
+    return (commandMap.find(std::make_pair(inputType, button))
+        != commandMap.end());
+}
+
 void InputManager::ActivateCallback(InputType::Type inputType, int button)
 {
     if (HasCallback(inputType, button))
         callbackMap[std::make_pair(inputType, button)]();
+
+    ActivateCommand(inputType, button);
+}
+
+void InputManager::ActivateCommand(InputType::Type inputType, int button)
+{
+    if (HasCommand(inputType, button))
+    {
+        if (!commandMap[std::make_pair(inputType, button)].expired())
+        {
+            auto command = commandMap[std::make_pair(inputType, button)].lock();
+            command->Execute();
+        }
+        else
+        {
+            LOG_D("Expired. Removing command from input manager");
+        }
+    }
 }
 
 void InputManager::ProcessInputs()

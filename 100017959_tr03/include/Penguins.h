@@ -19,11 +19,13 @@
 
 #include "AnimatedSprite.h"
 #include "Camera.h"
+#include "Command.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "PenguinsBullet.h"
+#include "PenguinsCommands.h"
 #include "Point.h"
 #include "Sprite.h"
 #include "StillAnimation.h"
@@ -113,6 +115,12 @@ class Penguins : public GameObject
 
     // Cooldown for shooting action.
     Timer shootCooldownTimer;
+
+    std::shared_ptr<PenguinsShootCommand> shootCommand;
+    std::shared_ptr<PenguinsSpeedUpCommand> speedUpCommand;
+    std::shared_ptr<PenguinsSlowDownCommand> slowDownCommand;
+    std::shared_ptr<PenguinsLeftRotationCommand> leftRotationCommand;
+    std::shared_ptr<PenguinsRightRotationCommand> rightRotationCommand;
 };
 
 #endif // PENGUINS_H_

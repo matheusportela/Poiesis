@@ -20,6 +20,7 @@
 #include <SDL.h>
 
 #include "Camera.h"
+#include "Command.h"
 #include "Logger.h"
 #include "Point.h"
 
@@ -129,13 +130,24 @@ class InputManager
     // Register a function to be called whenever an input of type inputType
     // happens. The callback function must return void and receive no arguments.
     void RegisterCallback(std::function<void()> callback,
-        InputType::Type inputType, int code = 0);
+        InputType::Type inputType, int button = 0);
+
+    // Register a command to be executed whenever an input of the given type
+    // happens.
+    void RegisterCommand(std::weak_ptr<Command> command,
+        InputType::Type inputType, int button);
 
     // Checks whether an input type has a callback function.
-    bool HasCallback(InputType::Type inputType, int code = 0);
+    bool HasCallback(InputType::Type inputType, int button = 0);
+
+    // Checks whether an input type has registered commands.
+    bool HasCommand(InputType::Type inputType, int button = 0);
 
     // Calls the callback function of an input type.
-    void ActivateCallback(InputType::Type inputType, int code = 0);
+    void ActivateCallback(InputType::Type inputType, int button = 0);
+
+    // Executes the registered command to the input type.
+    void ActivateCommand(InputType::Type inputType, int button = 0);
 
     // Activates callback functions for specified input types.
     void ProcessInputs();
@@ -168,6 +180,13 @@ class InputManager
 
     // Holds whether some mouse button is pressed down.
     std::map<int, int> mouseDownMap;
+
+
+
+
+
+    // Container for commands.
+    std::map<std::pair<InputType::Type, int>, std::weak_ptr<Command>> commandMap;
 };
 
 #endif // INPUT_MANAGER_H_

@@ -17,16 +17,37 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
     cannonSprite = std::unique_ptr<Sprite>(
         new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE")));
 
-    REGISTER_INPUT_KEY_CALLBACK(Penguins::SpeedUpCallback,
+    // REGISTER_INPUT_KEY_CALLBACK(Penguins::SpeedUpCallback,
+    //     InputType::KeyDown, KeyboardButton::LowercaseW);
+    // REGISTER_INPUT_KEY_CALLBACK(Penguins::SlowDownCallback,
+    //     InputType::KeyDown, KeyboardButton::LowercaseS);
+    // REGISTER_INPUT_KEY_CALLBACK(Penguins::LeftRotationCallback,
+    //     InputType::KeyDown, KeyboardButton::LowercaseA);
+    // REGISTER_INPUT_KEY_CALLBACK(Penguins::RightRotationCallback,
+    //     InputType::KeyDown, KeyboardButton::LowercaseD);
+    // REGISTER_INPUT_KEY_CALLBACK(Penguins::Shoot, InputType::MousePress,
+    //     MouseButton::Left);
+
+
+    speedUpCommand = std::make_shared<PenguinsSpeedUpCommand>(this);
+    InputManager::GetInstance().RegisterCommand(speedUpCommand,
         InputType::KeyDown, KeyboardButton::LowercaseW);
-    REGISTER_INPUT_KEY_CALLBACK(Penguins::SlowDownCallback,
+
+    slowDownCommand = std::make_shared<PenguinsSlowDownCommand>(this);
+    InputManager::GetInstance().RegisterCommand(slowDownCommand,
         InputType::KeyDown, KeyboardButton::LowercaseS);
-    REGISTER_INPUT_KEY_CALLBACK(Penguins::LeftRotationCallback,
+
+    leftRotationCommand = std::make_shared<PenguinsLeftRotationCommand>(this);
+    InputManager::GetInstance().RegisterCommand(leftRotationCommand,
         InputType::KeyDown, KeyboardButton::LowercaseA);
-    REGISTER_INPUT_KEY_CALLBACK(Penguins::RightRotationCallback,
+
+    rightRotationCommand = std::make_shared<PenguinsRightRotationCommand>(this);
+    InputManager::GetInstance().RegisterCommand(rightRotationCommand,
         InputType::KeyDown, KeyboardButton::LowercaseD);
-    REGISTER_INPUT_KEY_CALLBACK(Penguins::Shoot, InputType::MousePress,
-        MouseButton::Left);
+
+    shootCommand = std::make_shared<PenguinsShootCommand>(this);
+    InputManager::GetInstance().RegisterCommand(shootCommand,
+        InputType::MousePress, MouseButton::Left);
 }
 
 void Penguins::ApplyFriction()

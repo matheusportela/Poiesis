@@ -37,8 +37,7 @@ void Bullet::UpdateDistanceLeft(const Vector& displacement)
 
 void Bullet::Update(float dt)
 {
-    Vector displacement = GetSpeed();
-    displacement.Multiply(dt);
+    Vector displacement = GetSpeed()*dt;
 
     UpdatePosition(displacement);
     UpdateDistanceLeft(displacement);

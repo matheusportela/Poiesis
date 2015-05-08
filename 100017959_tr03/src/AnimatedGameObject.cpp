@@ -7,16 +7,16 @@
 #include "AnimatedGameObject.h"
 
 AnimatedGameObject::AnimatedGameObject(std::string spriteFile, int numFrames,
-    float frameDuration)
+    float frameDuration, bool repeat)
 {
-    InitializeAnimatedSprite(spriteFile, numFrames, frameDuration);
+    InitializeAnimatedSprite(spriteFile, numFrames, frameDuration, repeat);
 }
 
 void AnimatedGameObject::InitializeAnimatedSprite(std::string spriteFile,
-    int numFrames, int frameDuration)
+    int numFrames, int frameDuration, bool repeat)
 {
     sprite = std::unique_ptr<Sprite>(new AnimatedSprite(spriteFile, numFrames,
-        frameDuration));
+        frameDuration, repeat));
 }
 
 void AnimatedGameObject::Update(float dt)

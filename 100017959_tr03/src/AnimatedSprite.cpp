@@ -6,9 +6,10 @@
 
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(std::string file, int numFrames, float frameTime) :
-    Sprite(file), currentFrame(0), numFrames(numFrames), frameTime(frameTime),
-    elapsedTime(0.0)
+AnimatedSprite::AnimatedSprite(std::string file, int numFrames,
+    float frameDuration, bool repeat) :
+    Sprite(file), currentFrame(0), numFrames(numFrames), frameDuration(frameDuration),
+    repeat(repeat), elapsedTime(0.0)
 {
     AdjustWidth();
 
@@ -34,13 +35,17 @@ void AnimatedSprite::ResetElapsedTime()
 
 bool AnimatedSprite::IsFrameFinished()
 {
-    return (elapsedTime >= frameTime);
+    return (elapsedTime >= frameDuration);
 }
 
 void AnimatedSprite::UpdateCurrentFrame()
 {
     ++currentFrame;
-    currentFrame = currentFrame == numFrames ? 0 : currentFrame;
+
+    if (repeat)
+        currentFrame = currentFrame == numFrames ? 0 : currentFrame;
+    else
+        currentFrame = currentFrame == numFrames ? currentFrame-1 : currentFrame;
 }
 
 void AnimatedSprite::SetFrameClip()

@@ -19,7 +19,7 @@ class StillAnimation : public AnimatedGameObject
     // Initializes animation with a position, a file containing the sprites and
     // a time duration. 
     StillAnimation(const Point& position, std::string sprite, int numFrames,
-        float frameDuration);
+        float frameDuration, bool repeat);
 
     // Initializes timer with sufficient time to show up the entire animation
     // once.

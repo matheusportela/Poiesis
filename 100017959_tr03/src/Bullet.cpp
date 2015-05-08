@@ -8,7 +8,7 @@
 
 Bullet::Bullet(const Point& position, float angle, float speed,
     float maxDistance, std::string sprite, int numFrames, float frameDuration) :
-    AnimatedGameObject(sprite, numFrames, frameDuration)
+    AnimatedGameObject(sprite, numFrames, frameDuration, false)
 {
     SetRotation(angle);
     SetCenter(position);

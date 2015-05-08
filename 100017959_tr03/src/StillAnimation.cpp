@@ -7,8 +7,8 @@
 #include "StillAnimation.h"
 
 StillAnimation::StillAnimation(const Point& position,
-    std::string sprite, int numFrames, float frameDuration) :
-    AnimatedGameObject(sprite, numFrames, frameDuration)
+    std::string sprite, int numFrames, float frameDuration, bool repeat) :
+    AnimatedGameObject(sprite, numFrames, frameDuration, repeat)
 {
     SetCenter(position);
     InitializeTimer(numFrames, frameDuration);

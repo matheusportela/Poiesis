@@ -17,9 +17,11 @@
 class AnimatedSprite : public Sprite
 {
   public:
-    // Initializes a sprite sheet with an image file, the number of frames and
-    // the time each frame will be displayed.
-    AnimatedSprite(std::string file, int numFrames, float frameTime);
+    // Initializes a sprite sheet with an image file, the number of frames,
+    // the duration each frame will be displayed and whether the animation
+    // repeats after reaching the last frame.
+    AnimatedSprite(std::string file, int numFrames, float frameDuration,
+        bool repeat=true);
 
     // Adjust sprite width to compensate frames. For instance, if each frame
     // has 100px width, a sprite with 3 frames will have a 300px width. We
@@ -56,13 +58,13 @@ class AnimatedSprite : public Sprite
     int numFrames;
 
     // Amount of time each frame will be displayed, in seconds.
-    float frameTime;
+    float frameDuration;
+
+    // Holds whether the animation will repeat after reaching the last frame.
+    bool repeat;
 
     // Elapsed time since the sprite frame beginning, in seconds.
     float elapsedTime;
-
-    // Width of each frame, in pixels.
-    int frameWidth;
 };
 
 #endif // ANIMATED_SPRITE_H_

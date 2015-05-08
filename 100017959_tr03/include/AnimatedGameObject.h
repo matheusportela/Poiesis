@@ -17,12 +17,13 @@
 class AnimatedGameObject : public GameObject
 {
   public:
-    AnimatedGameObject(std::string sprite, int numFrames, float frameDuration);
+    AnimatedGameObject(std::string sprite, int numFrames, float frameDuration,
+        bool repeat);
 
     virtual ~AnimatedGameObject() {}
 
     void InitializeAnimatedSprite(std::string sprite, int numFrames,
-        int frameDuration);
+        int frameDuration, bool repeat);
 
     virtual void Update(float dt);
 

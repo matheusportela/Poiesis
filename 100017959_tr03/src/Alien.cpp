@@ -84,7 +84,7 @@ void Alien::CreateExplosionAnimation()
     float frameDuration = CFG_GETF("ALIEN_EXPLOSION_FRAME_TIME");
 
     GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), sprite, numFrames, frameDuration), "alien_explosion");
+        GetCenter(), sprite, numFrames, frameDuration, false));
 }
 
 void Alien::OnDeath()

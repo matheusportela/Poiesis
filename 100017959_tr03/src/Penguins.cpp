@@ -89,7 +89,7 @@ void Penguins::CreateExplosionAnimation()
     float frameDuration = CFG_GETF("PENGUINS_EXPLOSION_FRAME_TIME");
 
     GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), sprite, numFrames, frameDuration));
+        GetCenter(), sprite, numFrames, frameDuration, false));
 }
 
 void Penguins::OnDeath()

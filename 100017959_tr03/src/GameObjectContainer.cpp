@@ -36,9 +36,12 @@ std::shared_ptr<GameObject> GameObjectContainer::GetObject(std::string key)
     }
     else
     {
-        LOG_E("[GameObjectContainer] No GameObject with key \"" << key
-            << "\"");
-        exit(1);
+        // LOG_E("[GameObjectContainer] No GameObject with key \"" << key
+        //     << "\"");
+        // exit(1);
+        LOG_W("[GameObjectContainer] No GameObject with key \"" << key
+            << "\", using nullptr instead");
+        return nullptr;
     }
 }
 

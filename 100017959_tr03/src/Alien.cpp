@@ -120,9 +120,13 @@ void Alien::MoveBehavior()
 
         std::shared_ptr<GameObject> playerObject =
             GameObjectManager::GetInstance().GetObject("player");
-        Point point = playerObject->GetCenter();
-        actionScheduler.Schedule(std::make_shared<MoveAction>(this, point,
-            CFG_GETF("ALIEN_SPEED"), CFG_GETF("ALIEN_MOVE_ERROR_MARGIN")));
+
+        if (playerObject)
+        {
+            Point point = playerObject->GetCenter();
+            actionScheduler.Schedule(std::make_shared<MoveAction>(this, point,
+                CFG_GETF("ALIEN_SPEED"), CFG_GETF("ALIEN_MOVE_ERROR_MARGIN")));
+        }
     }
 }
 
@@ -135,9 +139,13 @@ void Alien::ShootBehavior()
 
         std::shared_ptr<GameObject> playerObject =
             GameObjectManager::GetInstance().GetObject("player");
-        Point point = playerObject->GetCenter();
-        actionScheduler.Schedule(std::make_shared<ShootAction>(this, minionArray,
+
+        if (playerObject)
+        {
+            Point point = playerObject->GetCenter();
+            actionScheduler.Schedule(std::make_shared<ShootAction>(this, minionArray,
                 point));
+        }
 
         shootCooldown.Set(CFG_GETF("ALIEN_REST_BEHAVIOR_TIME"));
     }

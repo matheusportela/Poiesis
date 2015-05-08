@@ -21,13 +21,6 @@ class Camera
     // Stops following the registered object.
     static void Unfollow();
 
-    // Gets focus object as shared pointer.
-    static std::shared_ptr<GameObject> GetFocusObject();
-
-    // Checks whether there is a object that the camera is following. This is
-    // useful to check whether the object has been destroyed, for instance.
-    static bool HasFocusObject();
-
     // Updates camera position with the registered object position.
     static void UpdatePositionByFocusObject();
 

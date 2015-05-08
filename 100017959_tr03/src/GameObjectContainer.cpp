@@ -36,9 +36,9 @@ std::shared_ptr<GameObject> GameObjectContainer::GetObject(std::string key)
     }
     else
     {
-        LOG_E("[GameObjectContainer] No GameObject with key \"" << key
-            << "\"");
-        exit(1);
+        LOG_W("[GameObjectContainer] No GameObject with key \"" << key
+            << "\", returning nullptr instead");
+        return nullptr;
     }
 }
 
@@ -105,7 +105,11 @@ void GameObjectContainer::DeleteObject(std::string key,
                 --i; // Decrease index since objects is one size smaller
             }
         }
-        container[key] = objects;
+
+        if (objects.size() > 0)
+            container[key] = objects;
+        else
+            container.erase(key);
     }
     else
     {

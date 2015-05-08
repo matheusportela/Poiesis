@@ -20,21 +20,10 @@ void Camera::Unfollow()
     Camera::focus.reset();
 }
 
-std::shared_ptr<GameObject> Camera::GetFocusObject()
-{
-    return Camera::focus.lock();
-}
-
-bool Camera::HasFocusObject()
-{
-    std::shared_ptr<GameObject> focusObject = GetFocusObject();
-    return (focusObject != nullptr);
-}
-
 void Camera::UpdatePositionByFocusObject()
 {
     Point offset(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"));
-    std::shared_ptr<GameObject> focusObject = GetFocusObject();
+    std::shared_ptr<GameObject> focusObject = focus.lock();
     position = focusObject->GetCenter() - (offset/2);
 }
 
@@ -49,7 +38,7 @@ void Camera::UpdatePositionBySpeed(float dt)
 
 void Camera::Update(float dt)
 {
-    if (HasFocusObject())
+    if (!focus.expired())
         UpdatePositionByFocusObject();
     else
         UpdatePositionBySpeed(dt);

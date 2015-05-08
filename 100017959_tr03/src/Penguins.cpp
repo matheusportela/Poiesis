@@ -17,18 +17,6 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
     cannonSprite = std::unique_ptr<Sprite>(
         new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE")));
 
-    // REGISTER_INPUT_KEY_CALLBACK(Penguins::SpeedUpCallback,
-    //     InputType::KeyDown, KeyboardButton::LowercaseW);
-    // REGISTER_INPUT_KEY_CALLBACK(Penguins::SlowDownCallback,
-    //     InputType::KeyDown, KeyboardButton::LowercaseS);
-    // REGISTER_INPUT_KEY_CALLBACK(Penguins::LeftRotationCallback,
-    //     InputType::KeyDown, KeyboardButton::LowercaseA);
-    // REGISTER_INPUT_KEY_CALLBACK(Penguins::RightRotationCallback,
-    //     InputType::KeyDown, KeyboardButton::LowercaseD);
-    // REGISTER_INPUT_KEY_CALLBACK(Penguins::Shoot, InputType::MousePress,
-    //     MouseButton::Left);
-
-
     speedUpCommand = std::make_shared<PenguinsSpeedUpCommand>(this);
     InputManager::GetInstance().RegisterCommand(speedUpCommand,
         InputType::KeyDown, KeyboardButton::LowercaseW);

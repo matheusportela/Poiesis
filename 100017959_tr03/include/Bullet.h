@@ -8,21 +8,21 @@
 #define BULLET_H_
 
 #include <memory>
-#include <queue>
 
-#include "Camera.h"
 #include "ConfigParser.h"
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
 #include "Sprite.h"
 #include "Point.h"
 #include "Vector.h"
 
-class Bullet : public GameObject
+class Bullet : public AnimatedGameObject
 {
   public:
-    Bullet() {}
+    Bullet(const Point& position, float angle, float speed, float maxDistance,
+        std::string sprite, int numFrames, float frameDuration);
 
-    Bullet(const Point& position, float angle);
+    // Initializes bullet speed vector with magnitude and angle.
+    void InitializeSpeed(float magnitude, float angle);
 
     // Updates bullet position.
     void UpdatePosition(const Vector& displacement);

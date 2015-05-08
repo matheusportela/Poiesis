@@ -6,15 +6,20 @@
 
 #include "Bullet.h"
 
-Bullet::Bullet(const Point& position, float angle)
+Bullet::Bullet(const Point& position, float angle, float speed,
+    float maxDistance, std::string sprite, int numFrames, float frameDuration) :
+    AnimatedGameObject(sprite, numFrames, frameDuration)
 {
     SetRotation(angle);
-    SetSprite(CFG_GETP("BULLET_SPRITE"));
     SetCenter(position);
-    distanceLeft = CFG_GETF("BULLET_MAX_DISTANCE");
+    InitializeSpeed(speed, angle);
+    distanceLeft = maxDistance;
+}
 
+void Bullet::InitializeSpeed(float magnitude, float angle)
+{
     Vector newSpeed;
-    newSpeed.SetPolar(CFG_GETI("BULLET_SPEED"), angle);
+    newSpeed.SetPolar(magnitude, angle);
     SetSpeed(newSpeed);
 }
 
@@ -37,11 +42,12 @@ void Bullet::Update(float dt)
 
     UpdatePosition(displacement);
     UpdateDistanceLeft(displacement);
+    AnimatedGameObject::Update(dt);
 }
 
 void Bullet::Render()
 {
-    RenderSprite();
+    AnimatedGameObject::Render();
 }
 
 bool Bullet::IsDead()
@@ -51,8 +57,6 @@ bool Bullet::IsDead()
 
 void Bullet::NotifyCollision(std::shared_ptr<GameObject> other)
 {
-    if (other->Is("Alien"))
-        distanceLeft = 0;
 }
 
 bool Bullet::Is(std::string type)

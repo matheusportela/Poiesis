@@ -6,16 +6,14 @@
 
 #include "PenguinsBullet.h"
 
-PenguinsBullet::PenguinsBullet(const Point& position, float angle)
+PenguinsBullet::PenguinsBullet(const Point& position, float angle) :
+    Bullet(position, angle,
+        CFG_GETI("PENGUINS_BULLET_SPEED"),
+        CFG_GETF("PENGUINS_BULLET_MAX_DISTANCE"),
+        CFG_GETP("PENGUINS_BULLET_SPRITE"),
+        CFG_GETI("PENGUINS_BULLET_NUM_FRAMES"),
+        CFG_GETF("PENGUINS_BULLET_FRAME_DURATION"))
 {
-    SetRotation(angle);
-    SetSprite(CFG_GETP("PENGUINS_BULLET_SPRITE"));
-    SetCenter(position);
-    distanceLeft = CFG_GETF("PENGUINS_BULLET_MAX_DISTANCE");
-
-    Vector newSpeed;
-    newSpeed.SetPolar(CFG_GETI("PENGUINS_BULLET_SPEED"), angle);
-    SetSpeed(newSpeed);
 }
 
 void PenguinsBullet::NotifyCollision(std::shared_ptr<GameObject> other)

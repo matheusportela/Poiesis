@@ -26,8 +26,9 @@ void Alien::InitializeMinions(int numMinions)
 
     for (int i = 0; i < numMinions; ++i)
     {
-        minionArray.emplace_back(new Minion(this, i*arcOffset));
-        GameObjectManager::GetInstance().Add(minionArray[i]);
+        std::weak_ptr<GameObject> minion =
+            GameObjectFactory::CreateMinion(this, arcOffset*i);
+        minionArray.push_back(minion);
     }
 }
 
@@ -82,9 +83,8 @@ void Alien::CreateExplosionAnimation()
     std::string sprite = CFG_GETP("ALIEN_EXPLOSION_SPRITE");
     int numFrames = CFG_GETI("ALIEN_EXPLOSION_NUM_FRAMES");
     float frameDuration = CFG_GETF("ALIEN_EXPLOSION_FRAME_TIME");
-
-    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), sprite, numFrames, frameDuration, false));
+    GameObjectFactory::CreateStillAnimation(GetCenter(), sprite, numFrames,
+        frameDuration, false);
 }
 
 void Alien::OnDeath()
@@ -105,7 +105,14 @@ void Alien::NotifyCollision(std::shared_ptr<GameObject> other)
     if (IsDead())
     {
         for (unsigned int i = 0; i < minionArray.size(); ++i)
-            minionArray[i]->SetDead();
+        {
+            if (minionArray[i].expired())
+                continue;
+
+            auto minionPtr = minionArray[i].lock();
+            auto minion = static_cast<Minion*>(minionPtr.get());
+            minion->SetDead();
+        }
     }
 }
 
@@ -146,8 +153,8 @@ void Alien::ShootBehavior()
         if (playerObject)
         {
             Point point = playerObject->GetCenter();
-            actionScheduler.Schedule(std::make_shared<ShootAction>(this, minionArray,
-                point));
+            actionScheduler.Schedule(std::make_shared<ShootAction>(this,
+                minionArray, point));
         }
 
         shootCooldown.Set(CFG_GETF("ALIEN_REST_BEHAVIOR_TIME"));

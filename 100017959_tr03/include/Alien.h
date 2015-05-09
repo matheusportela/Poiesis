@@ -15,14 +15,15 @@
 #include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
+#include "GameObjectFactory.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Minion.h"
 #include "MoveAction.h"
 #include "ShootAction.h"
 #include "Sprite.h"
-#include "StillAnimation.h"
 #include "Point.h"
+#include "Timer.h"
 #include "Vector.h"
 
 class Alien : public GameObject
@@ -99,7 +100,7 @@ class Alien : public GameObject
     Timer shootCooldown;
 
     // Alien's minions references, used with ShootAction.
-    std::vector<std::shared_ptr<Minion>> minionArray;
+    std::vector<std::weak_ptr<GameObject>> minionArray;
 };
 
 #endif // ALIEN_H_

@@ -19,7 +19,8 @@ class ShootAction : public Action
 {
   public:
     ShootAction(GameObject *object,
-        std::vector<std::shared_ptr<Minion>> minionArray, const Point& target);
+        std::vector<std::weak_ptr<GameObject>> minionArray,
+        const Point& target);
 
     int GetClosestMinion(const Point& point);
 
@@ -32,7 +33,7 @@ class ShootAction : public Action
 
   private:
     // Minion that will shoot.
-    std::vector<std::shared_ptr<Minion>> minionArray;
+    std::vector<std::weak_ptr<GameObject>> minionArray;
 
     // Target point to move the object.
     Point target;

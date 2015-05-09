@@ -12,21 +12,18 @@
 #include <memory>
 #include <vector>
 
-#include "Alien.h"
 #include "Camera.h"
 #include "CollisionSimulator.h"
 #include "Command.h"
 #include "CommandFactory.h"
 #include "ConfigParser.h"
-#include "FileUtils.h"
 #include "GameObject.h"
+#include "GameObjectFactory.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
-#include "Penguins.h"
 #include "Sprite.h"
 #include "TileMap.h"
 #include "TileSet.h"
-#include "Vector.h"
 
 // This class provides game-specific logic methods.
 class State
@@ -78,6 +75,7 @@ class State
     // Tile management and renderization.
     std::unique_ptr<TileMap> tileMap;
 
+    // Commands.
     std::shared_ptr<Command> quitButtonCommand;
     std::shared_ptr<Command> quitEscCommand;
     std::shared_ptr<Command> cameraUpCommand;

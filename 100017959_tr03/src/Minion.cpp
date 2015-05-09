@@ -59,8 +59,8 @@ void Minion::CreateExplosionAnimation()
     int numFrames = CFG_GETI("ALIEN_EXPLOSION_NUM_FRAMES");
     float frameDuration = CFG_GETF("ALIEN_EXPLOSION_FRAME_TIME");
 
-    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), sprite, numFrames, frameDuration, false));
+    GameObjectFactory::CreateStillAnimation(GetCenter(), sprite, numFrames,
+        frameDuration, false);
 }
 
 void Minion::OnDeath()
@@ -90,6 +90,6 @@ void Minion::Shoot(const Point& position)
     shootVector.Set(position);
     shootVector.Subtract(minionPosition);
 
-    GameObjectManager::GetInstance().Add(
-        std::make_shared<MinionBullet>(minionPosition, shootVector.GetDirection()));
+    GameObjectFactory::CreateMinionBullet(minionPosition,
+        shootVector.GetDirection());
 }

@@ -96,8 +96,9 @@ void Penguins::CreateExplosionAnimation()
     int numFrames = CFG_GETI("PENGUINS_EXPLOSION_NUM_FRAMES");
     float frameDuration = CFG_GETF("PENGUINS_EXPLOSION_FRAME_TIME");
 
-    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
-        GetCenter(), sprite, numFrames, frameDuration, false));
+    GameObjectFactory::CreateStillAnimation(GetCenter(), sprite, numFrames,
+        frameDuration, false);
+
 }
 
 void Penguins::OnDeath()
@@ -139,8 +140,7 @@ void Penguins::Shoot()
     if (shootCooldownTimer.IsFinished())
     {
         Point bulletPosition = CalculateBulletPosition();
-        GameObjectManager::GetInstance().Add(
-            std::make_shared<PenguinsBullet>(bulletPosition, cannonRotation));
+        GameObjectFactory::CreatePenguinsBullet(bulletPosition, cannonRotation);
         shootCooldownTimer.Set(CFG_GETF("PENGUINS_SHOOT_COOLDOWN"));
     }
 }

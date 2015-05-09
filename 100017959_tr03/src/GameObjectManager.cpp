@@ -6,6 +6,8 @@
 
 #include "GameObjectManager.h"
 
+std::string GameObjectManager::DEFAULT_TAG = "anonymous";
+
 GameObjectManager& GameObjectManager::GetInstance()
 {
     static GameObjectManager instance;

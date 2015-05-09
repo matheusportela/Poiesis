@@ -23,12 +23,11 @@
 #include "CommandFactory.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
+#include "GameObjectFactory.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
-#include "PenguinsBullet.h"
 #include "Point.h"
 #include "Sprite.h"
-#include "StillAnimation.h"
 #include "Timer.h"
 #include "Vector.h"
 

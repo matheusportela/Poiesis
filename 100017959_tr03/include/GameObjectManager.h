@@ -20,6 +20,8 @@
 class GameObjectManager
 {
   public:
+    static std::string DEFAULT_TAG;
+
     // Gets game object manager as in the singleton pattern.
     static GameObjectManager& GetInstance();
 
@@ -30,7 +32,7 @@ class GameObjectManager
     std::shared_ptr<GameObject> GetObject(std::string key);
 
     // Adds a new game object to be managed.
-    void Add(std::shared_ptr<GameObject> object, std::string key = "anonymous");
+    void Add(std::shared_ptr<GameObject> object, std::string key);
 
     // Updates game objects.
     void Update(float dt);

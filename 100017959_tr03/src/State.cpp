@@ -25,9 +25,8 @@ void State::InitializePenguins()
 {
     Point position(CFG_GETI("PENGUINS_INITIAL_X"),
         CFG_GETI("PENGUINS_INITIAL_Y"));
-    std::shared_ptr<Penguins> penguins = std::make_shared<Penguins>(position);
-    GameObjectManager::GetInstance().Add(penguins, "player");
-    Camera::Follow(penguins);
+    GameObjectFactory::CreatePenguins(position, "player");
+    Camera::Follow(GameObjectManager::GetInstance().GetObject("player"));
 }
 
 void State::InitializeAlien()
@@ -35,8 +34,7 @@ void State::InitializeAlien()
     Point position(CFG_GETI("ALIEN_INITIAL_X"),
         CFG_GETI("ALIEN_INITIAL_Y"));
     int numMinions = CFG_GETI("ALIEN_NUM_MINIONS");
-    GameObjectManager::GetInstance().Add(
-        std::make_shared<Alien>(position, numMinions));
+    GameObjectFactory::CreateAlien(position, numMinions, "alien");
 }
 
 void State::ConfigureInputCommands()

@@ -10,18 +10,14 @@
 #include <memory>
 #include <vector>
 
-#include "AnimatedSprite.h"
 #include "ActionScheduler.h"
-#include "Camera.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
 #include "GameObjectFactory.h"
 #include "GameObjectManager.h"
-#include "InputManager.h"
 #include "Minion.h"
 #include "MoveAction.h"
 #include "ShootAction.h"
-#include "Sprite.h"
 #include "Point.h"
 #include "Timer.h"
 #include "Vector.h"
@@ -84,7 +80,7 @@ class Alien : public GameObject
     };
 
     // Holds action state for the Alien.
-    int behaviorState;
+    State behaviorState;
 
     // Aliens's hitpoints.
     int hp;

@@ -17,7 +17,6 @@
 
 #include <memory>
 
-#include "AnimatedSprite.h"
 #include "Camera.h"
 #include "Command.h"
 #include "CommandFactory.h"

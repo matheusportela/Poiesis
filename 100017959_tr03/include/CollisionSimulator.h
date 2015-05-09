@@ -26,6 +26,7 @@ class CollisionSimulator
     static bool IsColliding(std::shared_ptr<GameObject> object1,
         std::shared_ptr<GameObject> object2);
 
+  private:
     static float Mag(const Point& p);
     
     static Point Norm(const Point& p);

@@ -11,7 +11,6 @@
 
 #include "ConfigParser.h"
 #include "AnimatedGameObject.h"
-#include "Sprite.h"
 #include "Point.h"
 #include "Vector.h"
 

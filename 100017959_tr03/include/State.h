@@ -59,12 +59,6 @@ class State
     // Set quit requested as true.
     void SetQuitRequested();
 
-    // Callback functions for camera moving input.
-    void MoveCameraUpCallback();
-    void MoveCameraDownCallback();
-    void MoveCameraLeftCallback();
-    void MoveCameraRightCallback();
-
   private:
     // Background sprite.
     std::unique_ptr<Sprite> bg;

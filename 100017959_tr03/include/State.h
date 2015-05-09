@@ -14,6 +14,10 @@
 
 #include "Alien.h"
 #include "Camera.h"
+#include "CameraDownCommand.h"
+#include "CameraLeftCommand.h"
+#include "CameraRightCommand.h"
+#include "CameraUpCommand.h"
 #include "CollisionSimulator.h"
 #include "ConfigParser.h"
 #include "FileUtils.h"
@@ -21,6 +25,7 @@
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Penguins.h"
+#include "QuitCommand.h"
 #include "Sprite.h"
 #include "TileMap.h"
 #include "TileSet.h"
@@ -39,8 +44,8 @@ class State
     // Initialize Alien game object.
     void InitializeAlien();
 
-    // Configures callback functions for all relevant user input type in the game.
-    void ConfigureInputCallbacks();
+    // Configures commands for all relevant user input type in the game.
+    void ConfigureInputCommands();
 
     // Updates game state after a delta time in seconds.
     void Update(float dt);
@@ -57,8 +62,8 @@ class State
     // Returns true if quit was requested by the user.
     bool IsQuitRequested();
 
-    // Callback function for quit button input.
-    void QuitCallback();
+    // Set quit requested as true.
+    void SetQuitRequested();
 
     // Callback functions for camera moving input.
     void MoveCameraUpCallback();
@@ -75,6 +80,12 @@ class State
 
     // Tile management and renderization.
     std::unique_ptr<TileMap> tileMap;
+
+    std::shared_ptr<QuitCommand> quitCommand;
+    std::shared_ptr<CameraUpCommand> cameraUpCommand;
+    std::shared_ptr<CameraDownCommand> cameraDownCommand;
+    std::shared_ptr<CameraLeftCommand> cameraLeftCommand;
+    std::shared_ptr<CameraRightCommand> cameraRightCommand;
 };
 
 #endif // STATE_H_

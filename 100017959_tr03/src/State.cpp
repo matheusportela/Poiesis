@@ -18,7 +18,7 @@ State::State()
     InitializePenguins();
     InitializeAlien();
 
-    ConfigureInputCallbacks();
+    ConfigureInputCommands();
 }
 
 void State::InitializePenguins()
@@ -39,19 +39,28 @@ void State::InitializeAlien()
         std::make_shared<Alien>(position, numMinions));
 }
 
-void State::ConfigureInputCallbacks()
+void State::ConfigureInputCommands()
 {
-    REGISTER_INPUT_TYPE_CALLBACK(State::QuitCallback,
+    quitCommand = std::make_shared<QuitCommand>(this);
+    InputManager::GetInstance().RegisterCommand(quitCommand,
         InputType::QuitButtonPress);
-    REGISTER_INPUT_KEY_CALLBACK(State::QuitCallback,
+    InputManager::GetInstance().RegisterCommand(quitCommand,
         InputType::KeyPress, KeyboardButton::Esc);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraUpCallback,
+
+    cameraUpCommand = std::make_shared<CameraUpCommand>();
+    InputManager::GetInstance().RegisterCommand(cameraUpCommand,
         InputType::KeyDown, KeyboardButton::ArrowUp);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraDownCallback,
+
+    cameraDownCommand = std::make_shared<CameraDownCommand>();
+    InputManager::GetInstance().RegisterCommand(cameraDownCommand,
         InputType::KeyDown, KeyboardButton::ArrowDown);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraLeftCallback,
+    
+    cameraLeftCommand = std::make_shared<CameraLeftCommand>();
+    InputManager::GetInstance().RegisterCommand(cameraLeftCommand,
         InputType::KeyDown, KeyboardButton::ArrowLeft);
-    REGISTER_INPUT_KEY_CALLBACK(State::MoveCameraRightCallback,
+
+    cameraRightCommand = std::make_shared<CameraRightCommand>();
+    InputManager::GetInstance().RegisterCommand(cameraRightCommand,
         InputType::KeyDown, KeyboardButton::ArrowRight);
 }
 
@@ -98,31 +107,7 @@ bool State::IsQuitRequested()
     return quitRequested;
 }
 
-void State::QuitCallback()
+void State::SetQuitRequested()
 {
     quitRequested = true;
-}
-
-void State::MoveCameraUpCallback()
-{
-    Point point(0, -CFG_GETI("CAMERA_MOVE_DISTANCE"));
-    Camera::position.Add(point);
-}
-
-void State::MoveCameraDownCallback()
-{
-    Point point(0, CFG_GETI("CAMERA_MOVE_DISTANCE"));
-    Camera::position.Add(point);
-}
-
-void State::MoveCameraLeftCallback()
-{
-    Point point(-CFG_GETI("CAMERA_MOVE_DISTANCE"), 0);
-    Camera::position.Add(point);
-}
-
-void State::MoveCameraRightCallback()
-{
-    Point point(CFG_GETI("CAMERA_MOVE_DISTANCE"), 0);
-    Camera::position.Add(point);
 }

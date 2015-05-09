@@ -5,17 +5,15 @@
 // @brief Manager for user input
 //
 // Input manager is the responsible for polling SDL for user input. After doing
-// so, if any input happened, it calls the registered callback function for the
-// input type, if any is present.
+// so, if any input happened, it calls the registered commands for the input
+// type, if any is present.
 // This provides a loose coupling, easily allowing methods to be independently
 // called for UI processing.
 
 #ifndef INPUT_MANAGER_H_
 #define INPUT_MANAGER_H_
 
-#include <functional>
 #include <map>
-#include <utility>
 
 #include <SDL.h>
 
@@ -23,17 +21,6 @@
 #include "Command.h"
 #include "Logger.h"
 #include "Point.h"
-
-#define REGISTER_INPUT_TYPE_CALLBACK(method, key) \
-    LOG_D("[InputManager] Registering callback - function: " << #method << \
-        ", key: " << #key); \
-    InputManager::GetInstance().RegisterCallback(std::bind(&method, this), key);
-
-#define REGISTER_INPUT_KEY_CALLBACK(method, type, key) \
-    LOG_D("[InputManager] Registering callback - function: " << #method << \
-        ", type: " << #type << ", key: " << #key); \
-    InputManager::GetInstance().RegisterCallback(std::bind(&method, this), type, key);
-
 
 // All supported types of input.
 namespace InputType
@@ -127,29 +114,18 @@ class InputManager
     // Gets mouse position with respect to the screen coordinates.
     Point GetMouseScreenPosition();
 
-    // Register a function to be called whenever an input of type inputType
-    // happens. The callback function must return void and receive no arguments.
-    void RegisterCallback(std::function<void()> callback,
-        InputType::Type inputType, int button = 0);
-
     // Register a command to be executed whenever an input of the given type
     // happens.
     void RegisterCommand(std::weak_ptr<Command> command,
-        InputType::Type inputType, int button);
-
-    // Checks whether an input type has a callback function.
-    bool HasCallback(InputType::Type inputType, int button = 0);
+        InputType::Type inputType, int button = 0);
 
     // Checks whether an input type has registered commands.
     bool HasCommand(InputType::Type inputType, int button = 0);
 
-    // Calls the callback function of an input type.
-    void ActivateCallback(InputType::Type inputType, int button = 0);
-
     // Executes the registered command to the input type.
     void ActivateCommand(InputType::Type inputType, int button = 0);
 
-    // Activates callback functions for specified input types.
+    // Activates commands for specified input types.
     void ProcessInputs();
 
     // Get mouse position and store.
@@ -169,8 +145,8 @@ class InputManager
     // Maps SDL keyboard button to InputManager keyboard button.
     static std::map<int, int> keyboardButtonMap;
 
-    // Container for callback functions.
-    std::map<std::pair<InputType::Type, int>, std::function<void()>> callbackMap;
+    // Container for commands.
+    std::map<std::pair<InputType::Type, int>, std::weak_ptr<Command>> commandMap;
 
     // Current mouse position.
     Point mousePosition;
@@ -180,13 +156,6 @@ class InputManager
 
     // Holds whether some mouse button is pressed down.
     std::map<int, int> mouseDownMap;
-
-
-
-
-
-    // Container for commands.
-    std::map<std::pair<InputType::Type, int>, std::weak_ptr<Command>> commandMap;
 };
 
 #endif // INPUT_MANAGER_H_

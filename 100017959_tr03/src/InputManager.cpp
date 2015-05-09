@@ -103,25 +103,12 @@ Point InputManager::GetMouseScreenPosition()
     return mousePosition;
 }
 
-void InputManager::RegisterCallback(std::function<void()> callback,
-    InputType::Type inputType, int button)
-{
-    if (HasCallback(inputType, button))
-    {
-        LOG_E("[InputManager] Multiple callback registration (Input type: "
-            << inputType << ", button: " << button << ")");
-        exit(1);
-    }
-
-    callbackMap[std::make_pair(inputType, button)] = callback;
-}
-
 void InputManager::RegisterCommand(std::weak_ptr<Command> command,
     InputType::Type inputType, int button)
 {
     if (HasCommand(inputType, button))
     {
-        LOG_E("[InputManager] Multiple callback registration (Input type: "
+        LOG_E("[InputManager] Multiple command registration (Input type: "
             << inputType << ", button: " << button << ")");
         exit(1);
     }
@@ -129,24 +116,10 @@ void InputManager::RegisterCommand(std::weak_ptr<Command> command,
     commandMap[std::make_pair(inputType, button)] = command;
 }
 
-bool InputManager::HasCallback(InputType::Type inputType, int button)
-{
-    return (callbackMap.find(std::make_pair(inputType, button))
-        != callbackMap.end());
-}
-
 bool InputManager::HasCommand(InputType::Type inputType, int button)
 {
     return (commandMap.find(std::make_pair(inputType, button))
         != commandMap.end());
-}
-
-void InputManager::ActivateCallback(InputType::Type inputType, int button)
-{
-    if (HasCallback(inputType, button))
-        callbackMap[std::make_pair(inputType, button)]();
-
-    ActivateCommand(inputType, button);
 }
 
 void InputManager::ActivateCommand(InputType::Type inputType, int button)
@@ -177,7 +150,7 @@ void InputManager::ProcessInputs()
         switch (event.type)
         {
             case SDL_QUIT:
-                ActivateCallback(InputType::QuitButtonPress);
+                ActivateCommand(InputType::QuitButtonPress);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -187,7 +160,7 @@ void InputManager::ProcessInputs()
                     // It is a press event if it's the first frame in which the
                     // button is hold down
                     if (!mouseDownMap[button])
-                        ActivateCallback(InputType::MousePress, button);
+                        ActivateCommand(InputType::MousePress, button);
                     mouseDownMap[button] = true;
                 }
                 break;
@@ -196,7 +169,7 @@ void InputManager::ProcessInputs()
                 if (IsSupportedMouseCode(event.button.button))
                 {
                     button = InputManager::mouseButtonMap[event.button.button];
-                    ActivateCallback(InputType::MouseRelease, button);
+                    ActivateCommand(InputType::MouseRelease, button);
                     mouseDownMap[button] = false;
                 }
                 break;
@@ -208,7 +181,7 @@ void InputManager::ProcessInputs()
                     // It is a press event if it's the first frame in which the
                     // button is hold down
                     if (!keyDownMap[button])
-                        ActivateCallback(InputType::KeyPress, button);
+                        ActivateCommand(InputType::KeyPress, button);
                     keyDownMap[button] = true;
                 }
                 break;
@@ -217,7 +190,7 @@ void InputManager::ProcessInputs()
                 if (IsSupportedKeyboardCode(event.key.keysym.sym))
                 {
                     button = InputManager::keyboardButtonMap[event.key.keysym.sym];
-                    ActivateCallback(InputType::KeyRelease, button);
+                    ActivateCommand(InputType::KeyRelease, button);
                     keyDownMap[button] = false;
                 }
                 break;
@@ -230,7 +203,7 @@ void InputManager::ProcessInputs()
     {
         button = it->second;
         if(mouseDownMap[button])
-            ActivateCallback(InputType::MouseDown, button);
+            ActivateCommand(InputType::MouseDown, button);
     }
 
     for (std::map<int, int>::iterator it = keyboardButtonMap.begin();
@@ -238,7 +211,7 @@ void InputManager::ProcessInputs()
     {
         button = it->second;
         if(keyDownMap[button])
-            ActivateCallback(InputType::KeyDown, button);
+            ActivateCommand(InputType::KeyDown, button);
     }
 }
 

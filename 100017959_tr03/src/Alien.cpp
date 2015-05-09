@@ -89,9 +89,6 @@ void Alien::CreateExplosionAnimation()
 
 void Alien::OnDeath()
 {
-    for (unsigned int i = 0; i < minionArray.size(); ++i)
-        minionArray[i]->SetDead();
-
     CreateExplosionAnimation();
 }
 
@@ -104,6 +101,12 @@ void Alien::NotifyCollision(std::shared_ptr<GameObject> other)
 {
     if (other->Is("PenguinsBullet"))
         hp -= CFG_GETI("PENGUINS_BULLET_DAMAGE");
+
+    if (IsDead())
+    {
+        for (unsigned int i = 0; i < minionArray.size(); ++i)
+            minionArray[i]->SetDead();
+    }
 }
 
 bool Alien::Is(std::string type)

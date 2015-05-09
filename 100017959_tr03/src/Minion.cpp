@@ -53,6 +53,21 @@ void Minion::Render()
     RenderSprite();
 }
 
+void Minion::CreateExplosionAnimation()
+{
+    std::string sprite = CFG_GETP("ALIEN_EXPLOSION_SPRITE");
+    int numFrames = CFG_GETI("ALIEN_EXPLOSION_NUM_FRAMES");
+    float frameDuration = CFG_GETF("ALIEN_EXPLOSION_FRAME_TIME");
+
+    GameObjectManager::GetInstance().Add(std::make_shared<StillAnimation>(
+        GetCenter(), sprite, numFrames, frameDuration, false));
+}
+
+void Minion::OnDeath()
+{
+    CreateExplosionAnimation();
+}
+
 bool Minion::IsDead()
 {
     // Minion never dies. Only it's parent can destroy it.

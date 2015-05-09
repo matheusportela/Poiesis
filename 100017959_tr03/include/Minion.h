@@ -16,6 +16,7 @@
 #include "Logger.h"
 #include "MinionBullet.h"
 #include "Sprite.h"
+#include "StillAnimation.h"
 #include "Point.h"
 #include "Vector.h"
 
@@ -38,6 +39,12 @@ class Minion : public GameObject
 
     // Render cycle.
     void Render();
+
+    // Creates explosion effect.
+    void CreateExplosionAnimation();
+    
+    // Behavior for Minion death.
+    void OnDeath();
 
     // Checks whether the minion must be destroyed.
     bool IsDead();

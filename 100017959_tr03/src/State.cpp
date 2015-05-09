@@ -41,26 +41,22 @@ void State::InitializeAlien()
 
 void State::ConfigureInputCommands()
 {
-    quitCommand = std::make_shared<QuitCommand>(this);
-    InputManager::GetInstance().RegisterCommand(quitCommand,
+    quitButtonCommand = CommandFactory::CreateQuitCommand(this,
         InputType::QuitButtonPress);
-    InputManager::GetInstance().RegisterCommand(quitCommand,
+
+    quitEscCommand = CommandFactory::CreateQuitCommand(this,
         InputType::KeyPress, KeyboardButton::Esc);
 
-    cameraUpCommand = std::make_shared<CameraUpCommand>();
-    InputManager::GetInstance().RegisterCommand(cameraUpCommand,
+    cameraUpCommand = CommandFactory::CreateCameraUpCommand(
         InputType::KeyDown, KeyboardButton::ArrowUp);
 
-    cameraDownCommand = std::make_shared<CameraDownCommand>();
-    InputManager::GetInstance().RegisterCommand(cameraDownCommand,
+    cameraDownCommand = CommandFactory::CreateCameraDownCommand(
         InputType::KeyDown, KeyboardButton::ArrowDown);
     
-    cameraLeftCommand = std::make_shared<CameraLeftCommand>();
-    InputManager::GetInstance().RegisterCommand(cameraLeftCommand,
+    cameraLeftCommand = CommandFactory::CreateCameraLeftCommand(
         InputType::KeyDown, KeyboardButton::ArrowLeft);
 
-    cameraRightCommand = std::make_shared<CameraRightCommand>();
-    InputManager::GetInstance().RegisterCommand(cameraRightCommand,
+    cameraRightCommand = CommandFactory::CreateCameraRightCommand(
         InputType::KeyDown, KeyboardButton::ArrowRight);
 }
 

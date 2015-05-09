@@ -14,18 +14,15 @@
 
 #include "Alien.h"
 #include "Camera.h"
-#include "CameraDownCommand.h"
-#include "CameraLeftCommand.h"
-#include "CameraRightCommand.h"
-#include "CameraUpCommand.h"
 #include "CollisionSimulator.h"
+#include "Command.h"
+#include "CommandFactory.h"
 #include "ConfigParser.h"
 #include "FileUtils.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Penguins.h"
-#include "QuitCommand.h"
 #include "Sprite.h"
 #include "TileMap.h"
 #include "TileSet.h"
@@ -81,11 +78,12 @@ class State
     // Tile management and renderization.
     std::unique_ptr<TileMap> tileMap;
 
-    std::shared_ptr<QuitCommand> quitCommand;
-    std::shared_ptr<CameraUpCommand> cameraUpCommand;
-    std::shared_ptr<CameraDownCommand> cameraDownCommand;
-    std::shared_ptr<CameraLeftCommand> cameraLeftCommand;
-    std::shared_ptr<CameraRightCommand> cameraRightCommand;
+    std::shared_ptr<Command> quitButtonCommand;
+    std::shared_ptr<Command> quitEscCommand;
+    std::shared_ptr<Command> cameraUpCommand;
+    std::shared_ptr<Command> cameraDownCommand;
+    std::shared_ptr<Command> cameraLeftCommand;
+    std::shared_ptr<Command> cameraRightCommand;
 };
 
 #endif // STATE_H_

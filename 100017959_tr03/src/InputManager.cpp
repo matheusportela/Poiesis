@@ -133,7 +133,8 @@ void InputManager::ActivateCommand(InputType::Type inputType, int button)
         }
         else
         {
-            LOG_D("Expired. Removing command from input manager");
+            LOG_D("[InputManager] Command expired (Input type: " << inputType
+                << ", button: " << button << ")");
         }
     }
 }

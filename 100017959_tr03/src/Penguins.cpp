@@ -16,25 +16,24 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
     maxLinearSpeed = CFG_GETF("PENGUINS_MAX_SPEED");
     cannonSprite = std::unique_ptr<Sprite>(
         new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE")));
+    ConfigureInputCommands();    
+}
 
-    speedUpCommand = std::make_shared<PenguinsSpeedUpCommand>(this);
-    InputManager::GetInstance().RegisterCommand(speedUpCommand,
-        InputType::KeyDown, KeyboardButton::LowercaseW);
+void Penguins::ConfigureInputCommands()
+{
+    speedUpCommand = CommandFactory::CreatePenguinsSpeedUpCommand(
+        this, InputType::KeyDown, KeyboardButton::LowercaseW);
 
-    slowDownCommand = std::make_shared<PenguinsSlowDownCommand>(this);
-    InputManager::GetInstance().RegisterCommand(slowDownCommand,
-        InputType::KeyDown, KeyboardButton::LowercaseS);
+    slowDownCommand = CommandFactory::CreatePenguinsSlowDownCommand(
+        this, InputType::KeyDown, KeyboardButton::LowercaseS);
 
-    leftRotationCommand = std::make_shared<PenguinsLeftRotationCommand>(this);
-    InputManager::GetInstance().RegisterCommand(leftRotationCommand,
-        InputType::KeyDown, KeyboardButton::LowercaseA);
+    leftRotationCommand = CommandFactory::CreatePenguinsLeftRotationCommand(
+        this, InputType::KeyDown, KeyboardButton::LowercaseA);
 
-    rightRotationCommand = std::make_shared<PenguinsRightRotationCommand>(this);
-    InputManager::GetInstance().RegisterCommand(rightRotationCommand,
-        InputType::KeyDown, KeyboardButton::LowercaseD);
+    rightRotationCommand = CommandFactory::CreatePenguinsRightRotationCommand(
+        this, InputType::KeyDown, KeyboardButton::LowercaseD);
 
-    shootCommand = std::make_shared<PenguinsShootCommand>(this);
-    InputManager::GetInstance().RegisterCommand(shootCommand,
+    shootCommand = CommandFactory::CreatePenguinsShootCommand(this,
         InputType::MousePress, MouseButton::Left);
 }
 

@@ -20,16 +20,12 @@
 #include "AnimatedSprite.h"
 #include "Camera.h"
 #include "Command.h"
+#include "CommandFactory.h"
 #include "ConfigParser.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "PenguinsBullet.h"
-#include "PenguinsLeftRotationCommand.h"
-#include "PenguinsRightRotationCommand.h"
-#include "PenguinsShootCommand.h"
-#include "PenguinsSlowDownCommand.h"
-#include "PenguinsSpeedUpCommand.h"
 #include "Point.h"
 #include "Sprite.h"
 #include "StillAnimation.h"
@@ -41,6 +37,9 @@ class Penguins : public GameObject
   public:
     // Initializes Penguins in the given position.
     Penguins(const Point& position);
+
+    // Configures all commands accepted by Penguins.
+    void ConfigureInputCommands();
 
     // Simulates friction to slow down penguin when no input is given.
     void ApplyFriction();
@@ -120,11 +119,12 @@ class Penguins : public GameObject
     // Cooldown for shooting action.
     Timer shootCooldownTimer;
 
-    std::shared_ptr<PenguinsShootCommand> shootCommand;
-    std::shared_ptr<PenguinsSpeedUpCommand> speedUpCommand;
-    std::shared_ptr<PenguinsSlowDownCommand> slowDownCommand;
-    std::shared_ptr<PenguinsLeftRotationCommand> leftRotationCommand;
-    std::shared_ptr<PenguinsRightRotationCommand> rightRotationCommand;
+    // Commands.
+    std::shared_ptr<Command> shootCommand;
+    std::shared_ptr<Command> speedUpCommand;
+    std::shared_ptr<Command> slowDownCommand;
+    std::shared_ptr<Command> leftRotationCommand;
+    std::shared_ptr<Command> rightRotationCommand;
 };
 
 #endif // PENGUINS_H_

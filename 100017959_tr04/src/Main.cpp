@@ -17,7 +17,6 @@ int main(int argc, char **argv)
 
     Game game(CFG_GETS("WINDOW_TITLE"), CFG_GETI("WINDOW_WIDTH"),
         CFG_GETI("WINDOW_HEIGHT"));
-    game.AddState(std::unique_ptr<State>(new StageState()));
     game.AddState(std::unique_ptr<State>(new TitleState()));
     game.Run();
 

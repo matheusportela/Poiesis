@@ -5,11 +5,18 @@
 // @brief Title screen
 
 #include "TitleState.h"
+#include "Game.h"
+#include "StageState.h"
 
 TitleState::TitleState()
 {
     bg = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("TITLE_BACKGROUND")));
     ConfigureInputCommands();
+}
+
+TitleState::~TitleState()
+{
+    Game::GetInstance()->AddState(std::unique_ptr<State>(new StageState()));
 }
 
 void TitleState::ConfigureInputCommands()
@@ -36,10 +43,8 @@ void TitleState::Render()
 
 void TitleState::Pause()
 {
-
 }
 
 void TitleState::Resume()
 {
-
 }

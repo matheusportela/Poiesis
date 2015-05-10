@@ -23,6 +23,7 @@ class TitleState : public State
 {
   public:
     TitleState();
+    ~TitleState();
     void ConfigureInputCommands();
     void Update(float dt);
     void Render();

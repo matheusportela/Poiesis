@@ -141,7 +141,6 @@ void Game::Run()
         UpdateCurrentState();
         SDL_Delay(CFG_GETI("GAME_DELAY")); // Arbitrary delay to avoid CPU intense usage
     }
-
     LOG_I("[Game] Exiting game");
 }
 
@@ -173,7 +172,12 @@ void Game::UpdateDeltaTime()
 void Game::UpdateCurrentState()
 {
     if (currentState->IsFinished())
+    {
+        // Executes the behavior defined in the state destructor
+        currentState.reset();
+        
         currentState = GetNextState();
+    }
 }
 
 void Game::AddState(std::unique_ptr<State> state)

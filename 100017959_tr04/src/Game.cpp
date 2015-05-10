@@ -153,5 +153,5 @@ void Game::UpdateCurrentState()
 
 void Game::AddState(std::unique_ptr<State> state)
 {
-
+    stateStack.push(std::move(state));
 }

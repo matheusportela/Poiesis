@@ -106,8 +106,7 @@ namespace KeyboardButton
 class InputManager
 {
   public:
-    // Singleton pattern.
-    static InputManager& GetInstance();
+    InputManager();
 
     // Gets mouse position with respect to the world coordinates.
     Point GetMouseWorldPosition();
@@ -147,10 +146,6 @@ class InputManager
     bool IsSupportedMouseCode(int SDLCode);
 
   private:
-    // Constructor.
-    InputManager();
-    ~InputManager();
-
     // Maps SDL mouse button to InputManager mouse button.
     static std::map<int, int> mouseButtonMap;
 

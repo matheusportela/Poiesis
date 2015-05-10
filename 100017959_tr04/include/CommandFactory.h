@@ -14,7 +14,7 @@
 #include "CameraLeftCommand.h"
 #include "CameraRightCommand.h"
 #include "CameraUpCommand.h"
-#include "InputManager.h"
+#include "FinishCommand.h"
 #include "PenguinsShootCommand.h"
 #include "PenguinsLeftRotationCommand.h"
 #include "PenguinsRightRotationCommand.h"
@@ -28,35 +28,32 @@ class State;
 class CommandFactory : public Command
 {
   public:
-    static std::shared_ptr<Command> CreateCameraUpCommand(
-        InputType::Type inputType, int button = 0);
+    static std::shared_ptr<Command> CreateCameraUpCommand();
 
-    static std::shared_ptr<Command> CreateCameraDownCommand(
-        InputType::Type inputType, int button = 0);
+    static std::shared_ptr<Command> CreateCameraDownCommand();
 
-    static std::shared_ptr<Command> CreateCameraLeftCommand(
-        InputType::Type inputType, int button = 0);
+    static std::shared_ptr<Command> CreateCameraLeftCommand();
 
-    static std::shared_ptr<Command> CreateCameraRightCommand(
-        InputType::Type inputType, int button = 0);
+    static std::shared_ptr<Command> CreateCameraRightCommand();
 
-    static std::shared_ptr<Command> CreateQuitCommand(State* parent,
-        InputType::Type inputType, int button = 0);
+    static std::shared_ptr<Command> CreateFinishCommand(State* parent);
+    
+    static std::shared_ptr<Command> CreateQuitCommand(State* parent);
 
     static std::shared_ptr<Command> CreatePenguinsShootCommand(
-        Penguins* parent, InputType::Type inputType, int button = 0);
+        Penguins* parent);
 
     static std::shared_ptr<Command> CreatePenguinsSpeedUpCommand(
-        Penguins* parent, InputType::Type inputType, int button = 0);
+        Penguins* parent);
 
     static std::shared_ptr<Command> CreatePenguinsSlowDownCommand(
-        Penguins* parent, InputType::Type inputType, int button = 0);
+        Penguins* parent);
     
     static std::shared_ptr<Command> CreatePenguinsLeftRotationCommand(
-        Penguins* parent, InputType::Type inputType, int button = 0);
+        Penguins* parent);
 
     static std::shared_ptr<Command> CreatePenguinsRightRotationCommand(
-        Penguins* parent, InputType::Type inputType, int button = 0);
+        Penguins* parent);
 };
 
 #endif // COMMAND_FACTORY_H_

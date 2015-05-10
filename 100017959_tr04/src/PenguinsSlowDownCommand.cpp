@@ -15,5 +15,5 @@ PenguinsSlowDownCommand::PenguinsSlowDownCommand(Penguins* penguins) :
 void PenguinsSlowDownCommand::Execute()
 {
     LOG_D("[PenguinsSlowDownCommand] Execute");
-    penguins->SpeedUpCallback();
+    penguins->SlowDownCallback();
 }

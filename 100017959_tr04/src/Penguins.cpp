@@ -5,6 +5,7 @@
 // @brief Playable game object.
 
 #include "Penguins.h"
+#include "StageState.h"
 
 Penguins::Penguins(const Point& position) : cannonRotation(0.0)
 {
@@ -21,28 +22,33 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
 
 void Penguins::ConfigureInputCommands()
 {
-    speedUpCommand = CommandFactory::CreatePenguinsSpeedUpCommand(
-        this, InputType::KeyDown, KeyboardButton::LowercaseW);
+    speedUpCommand = CommandFactory::CreatePenguinsSpeedUpCommand(this);
+    StageState::inputManager.RegisterCommand(speedUpCommand,
+        InputType::KeyDown, KeyboardButton::LowercaseW);
 
-    slowDownCommand = CommandFactory::CreatePenguinsSlowDownCommand(
-        this, InputType::KeyDown, KeyboardButton::LowercaseS);
+    slowDownCommand = CommandFactory::CreatePenguinsSlowDownCommand(this);
+    StageState::inputManager.RegisterCommand(slowDownCommand,
+        InputType::KeyDown, KeyboardButton::LowercaseS);
 
-    leftRotationCommand = CommandFactory::CreatePenguinsLeftRotationCommand(
-        this, InputType::KeyDown, KeyboardButton::LowercaseA);
+    leftRotationCommand = CommandFactory::CreatePenguinsLeftRotationCommand(this);
+    StageState::inputManager.RegisterCommand(leftRotationCommand,
+        InputType::KeyDown, KeyboardButton::LowercaseA);
 
-    rightRotationCommand = CommandFactory::CreatePenguinsRightRotationCommand(
-        this, InputType::KeyDown, KeyboardButton::LowercaseD);
+    rightRotationCommand = CommandFactory::CreatePenguinsRightRotationCommand(this);
+    StageState::inputManager.RegisterCommand(rightRotationCommand,
+        InputType::KeyDown, KeyboardButton::LowercaseD);
 
-    shootCommand = CommandFactory::CreatePenguinsShootCommand(this,
+    shootCommand = CommandFactory::CreatePenguinsShootCommand(this);
+    StageState::inputManager.RegisterCommand(shootCommand,
         InputType::MousePress, MouseButton::Left);
 }
 
 void Penguins::ApplyFriction()
 {
     float friction = CFG_GETF("PENGUINS_FRICTION_FACTOR");
-    float speed = GetSpeed().GetMagnitude();
-    float disacceleration = -speed*friction;
-    ChangeSpeed(disacceleration);
+    float speedFactor = 1-friction;
+    Vector speed = GetSpeed();
+    SetSpeed(speed*speedFactor);
 }
 
 void Penguins::UpdatePosition(float dt)
@@ -60,7 +66,7 @@ void Penguins::UpdatePosition(float dt)
 
 void Penguins::UpdateCannonRotation()
 {
-    Point mousePosition = InputManager::GetInstance().GetMouseScreenPosition();
+    Point mousePosition = StageState::inputManager.GetMouseScreenPosition();
     Point cannonPosition = Camera::WorldToScreenPoint(GetCenter());
 
     Vector cannonToMouseVector;

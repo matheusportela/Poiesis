@@ -57,6 +57,8 @@ class StageState : public State
     void Pause() {};
     void Resume() {};
 
+    static InputManager inputManager;
+
   private:
     // Background sprite.
     std::unique_ptr<Sprite> bg;
@@ -65,8 +67,7 @@ class StageState : public State
     std::unique_ptr<TileMap> tileMap;
 
     // Commands.
-    std::shared_ptr<Command> quitButtonCommand;
-    std::shared_ptr<Command> quitEscCommand;
+    std::shared_ptr<Command> quitCommand;
     std::shared_ptr<Command> cameraUpCommand;
     std::shared_ptr<Command> cameraDownCommand;
     std::shared_ptr<Command> cameraLeftCommand;

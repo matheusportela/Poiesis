@@ -81,18 +81,6 @@ InputManager::InputManager()
     }
 }
 
-InputManager::~InputManager()
-{
-}
-
-InputManager& InputManager::GetInstance()
-{
-    // Singleton pattern using the approach suggested at
-    // http://stackoverflow.com/questions/1008019/c-singleton-design-pattern
-    static InputManager instance;
-    return instance;
-}
-
 Point InputManager::GetMouseWorldPosition()
 {
     return Camera::ScreenToWorldPoint(mousePosition);
@@ -147,14 +135,10 @@ void InputManager::ActivateCommands(InputType::Type inputType, int button)
 {
     if (HasCommand(inputType, button))
     {
-        for (std::pair<std::pair<InputType::Type, int>,
-                       std::vector<std::weak_ptr<Command>>> pair : commandMap)
-        {
-            auto commands = pair.second;
-
-            for (std::weak_ptr<Command> command : commands)
-                ActivateCommand(command);
-        }
+        auto commands = commandMap[std::make_pair(inputType, button)];
+        
+        for (auto command : commands)
+            ActivateCommand(command);
     }
 }
 

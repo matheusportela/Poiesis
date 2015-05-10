@@ -15,6 +15,7 @@
 #include "Command.h"
 #include "CommandFactory.h"
 #include "ConfigParser.h"
+#include "InputManager.h"
 #include "Sprite.h"
 #include "State.h"
 
@@ -31,8 +32,10 @@ class TitleState : public State
   private:
     std::unique_ptr<Sprite> bg;
 
-    std::shared_ptr<Command> quitButtonCommand;
-    std::shared_ptr<Command> quitEscCommand;
+    std::shared_ptr<Command> quitCommand;
+    std::shared_ptr<Command> finishCommand;
+
+    InputManager inputManager;
 };
 
 #endif // TITLE_STATE_H_

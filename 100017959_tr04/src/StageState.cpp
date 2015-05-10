@@ -6,6 +6,8 @@
 
 #include "StageState.h"
 
+InputManager StageState::inputManager;
+
 StageState::StageState()
 {
     quitRequested = false;
@@ -39,29 +41,27 @@ void StageState::InitializeAlien()
 
 void StageState::ConfigureInputCommands()
 {
-    quitButtonCommand = CommandFactory::CreateQuitCommand(this,
-        InputType::QuitButtonPress);
+    quitCommand = CommandFactory::CreateQuitCommand(this);
+    inputManager.RegisterCommand(quitCommand, InputType::QuitButtonPress);
+    inputManager.RegisterCommand(quitCommand, InputType::KeyPress, KeyboardButton::Esc);
 
-    quitEscCommand = CommandFactory::CreateQuitCommand(this,
-        InputType::KeyPress, KeyboardButton::Esc);
+    cameraUpCommand = CommandFactory::CreateCameraUpCommand();
+    inputManager.RegisterCommand(cameraUpCommand, InputType::KeyDown, KeyboardButton::ArrowUp);
 
-    cameraUpCommand = CommandFactory::CreateCameraUpCommand(
-        InputType::KeyDown, KeyboardButton::ArrowUp);
-
-    cameraDownCommand = CommandFactory::CreateCameraDownCommand(
-        InputType::KeyDown, KeyboardButton::ArrowDown);
+    cameraDownCommand = CommandFactory::CreateCameraDownCommand();
+    inputManager.RegisterCommand(cameraDownCommand, InputType::KeyDown, KeyboardButton::ArrowDown);
     
-    cameraLeftCommand = CommandFactory::CreateCameraLeftCommand(
-        InputType::KeyDown, KeyboardButton::ArrowLeft);
+    cameraLeftCommand = CommandFactory::CreateCameraLeftCommand();
+    inputManager.RegisterCommand(cameraLeftCommand, InputType::KeyDown, KeyboardButton::ArrowLeft);
 
-    cameraRightCommand = CommandFactory::CreateCameraRightCommand(
-        InputType::KeyDown, KeyboardButton::ArrowRight);
+    cameraRightCommand = CommandFactory::CreateCameraRightCommand();
+    inputManager.RegisterCommand(cameraRightCommand, InputType::KeyDown, KeyboardButton::ArrowRight);
 }
 
 void StageState::Update(float dt)
 {
     Camera::Update(dt);
-    InputManager::GetInstance().ProcessInputs();
+    inputManager.ProcessInputs();
     GameObjectManager::GetInstance().Update(dt);
     CollisionSimulator::Collide();
 }

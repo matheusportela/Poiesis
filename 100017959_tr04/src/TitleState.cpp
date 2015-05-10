@@ -14,16 +14,19 @@ TitleState::TitleState()
 
 void TitleState::ConfigureInputCommands()
 {
-    quitButtonCommand = CommandFactory::CreateQuitCommand(this,
-        InputType::QuitButtonPress);
+    quitCommand = CommandFactory::CreateQuitCommand(this);
+    inputManager.RegisterCommand(quitCommand, InputType::QuitButtonPress);
+    inputManager.RegisterCommand(quitCommand, InputType::KeyPress,
+        KeyboardButton::Esc);
 
-    quitEscCommand = CommandFactory::CreateQuitCommand(this,
-        InputType::KeyPress, KeyboardButton::Esc);
+    finishCommand = CommandFactory::CreateFinishCommand(this);
+    inputManager.RegisterCommand(finishCommand, InputType::KeyPress,
+        KeyboardButton::Space);
 }
 
 void TitleState::Update(float dt)
 {
-
+    inputManager.ProcessInputs();
 }
 
 void TitleState::Render()

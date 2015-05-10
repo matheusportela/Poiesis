@@ -103,17 +103,26 @@ Point InputManager::GetMouseScreenPosition()
     return mousePosition;
 }
 
+void InputManager::AddExistingCommand(std::weak_ptr<Command> command,
+    InputType::Type inputType, int button)
+{
+    commandMap[std::make_pair(inputType, button)].push_back(command);
+}
+
+void InputManager::AddNewCommand(std::weak_ptr<Command> command,
+    InputType::Type inputType, int button)
+{
+    std::vector<std::weak_ptr<Command>> commands = { command };
+    commandMap[std::make_pair(inputType, button)] = commands;
+}
+
 void InputManager::RegisterCommand(std::weak_ptr<Command> command,
     InputType::Type inputType, int button)
 {
     if (HasCommand(inputType, button))
-    {
-        LOG_E("[InputManager] Multiple command registration (Input type: "
-            << inputType << ", button: " << button << ")");
-        exit(1);
-    }
-
-    commandMap[std::make_pair(inputType, button)] = command;
+        AddExistingCommand(command, inputType, button);
+    else
+        AddNewCommand(command, inputType, button);
 }
 
 bool InputManager::HasCommand(InputType::Type inputType, int button)
@@ -122,19 +131,29 @@ bool InputManager::HasCommand(InputType::Type inputType, int button)
         != commandMap.end());
 }
 
-void InputManager::ActivateCommand(InputType::Type inputType, int button)
+void InputManager::ActivateCommand(std::weak_ptr<Command> command)
+{
+    if (!command.expired())
+    {
+        command.lock()->Execute();
+    }
+    else
+    {
+        LOG_D("[InputManager] Command expired");
+    }
+}
+
+void InputManager::ActivateCommands(InputType::Type inputType, int button)
 {
     if (HasCommand(inputType, button))
     {
-        if (!commandMap[std::make_pair(inputType, button)].expired())
+        for (std::pair<std::pair<InputType::Type, int>,
+                       std::vector<std::weak_ptr<Command>>> pair : commandMap)
         {
-            auto command = commandMap[std::make_pair(inputType, button)].lock();
-            command->Execute();
-        }
-        else
-        {
-            LOG_D("[InputManager] Command expired (Input type: " << inputType
-                << ", button: " << button << ")");
+            auto commands = pair.second;
+
+            for (std::weak_ptr<Command> command : commands)
+                ActivateCommand(command);
         }
     }
 }
@@ -151,7 +170,7 @@ void InputManager::ProcessInputs()
         switch (event.type)
         {
             case SDL_QUIT:
-                ActivateCommand(InputType::QuitButtonPress);
+                ActivateCommands(InputType::QuitButtonPress);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -161,7 +180,7 @@ void InputManager::ProcessInputs()
                     // It is a press event if it's the first frame in which the
                     // button is hold down
                     if (!mouseDownMap[button])
-                        ActivateCommand(InputType::MousePress, button);
+                        ActivateCommands(InputType::MousePress, button);
                     mouseDownMap[button] = true;
                 }
                 break;
@@ -170,7 +189,7 @@ void InputManager::ProcessInputs()
                 if (IsSupportedMouseCode(event.button.button))
                 {
                     button = InputManager::mouseButtonMap[event.button.button];
-                    ActivateCommand(InputType::MouseRelease, button);
+                    ActivateCommands(InputType::MouseRelease, button);
                     mouseDownMap[button] = false;
                 }
                 break;
@@ -182,7 +201,7 @@ void InputManager::ProcessInputs()
                     // It is a press event if it's the first frame in which the
                     // button is hold down
                     if (!keyDownMap[button])
-                        ActivateCommand(InputType::KeyPress, button);
+                        ActivateCommands(InputType::KeyPress, button);
                     keyDownMap[button] = true;
                 }
                 break;
@@ -191,7 +210,7 @@ void InputManager::ProcessInputs()
                 if (IsSupportedKeyboardCode(event.key.keysym.sym))
                 {
                     button = InputManager::keyboardButtonMap[event.key.keysym.sym];
-                    ActivateCommand(InputType::KeyRelease, button);
+                    ActivateCommands(InputType::KeyRelease, button);
                     keyDownMap[button] = false;
                 }
                 break;
@@ -204,7 +223,7 @@ void InputManager::ProcessInputs()
     {
         button = it->second;
         if(mouseDownMap[button])
-            ActivateCommand(InputType::MouseDown, button);
+            ActivateCommands(InputType::MouseDown, button);
     }
 
     for (std::map<int, int>::iterator it = keyboardButtonMap.begin();
@@ -212,7 +231,7 @@ void InputManager::ProcessInputs()
     {
         button = it->second;
         if(keyDownMap[button])
-            ActivateCommand(InputType::KeyDown, button);
+            ActivateCommands(InputType::KeyDown, button);
     }
 }
 

@@ -14,6 +14,7 @@
 #define INPUT_MANAGER_H_
 
 #include <map>
+#include <vector>
 
 #include <SDL.h>
 
@@ -114,6 +115,14 @@ class InputManager
     // Gets mouse position with respect to the screen coordinates.
     Point GetMouseScreenPosition();
 
+    // Adds a command at the end of the command vector in command map.
+    void AddExistingCommand(std::weak_ptr<Command> command,
+        InputType::Type inputType, int button);
+
+    // Creates a new command vector in command map.
+    void AddNewCommand(std::weak_ptr<Command> command,
+        InputType::Type inputType, int button);
+
     // Register a command to be executed whenever an input of the given type
     // happens.
     void RegisterCommand(std::weak_ptr<Command> command,
@@ -122,8 +131,11 @@ class InputManager
     // Checks whether an input type has registered commands.
     bool HasCommand(InputType::Type inputType, int button = 0);
 
-    // Executes the registered command to the input type.
-    void ActivateCommand(InputType::Type inputType, int button = 0);
+    // Executes the registered command.
+    void ActivateCommand(std::weak_ptr<Command> command);
+
+    // Executes all commands registered with the input type.
+    void ActivateCommands(InputType::Type inputType, int button = 0);
 
     // Activates commands for specified input types.
     void ProcessInputs();
@@ -146,7 +158,8 @@ class InputManager
     static std::map<int, int> keyboardButtonMap;
 
     // Container for commands.
-    std::map<std::pair<InputType::Type, int>, std::weak_ptr<Command>> commandMap;
+    std::map<std::pair<InputType::Type, int>,
+                       std::vector<std::weak_ptr<Command>>> commandMap;
 
     // Current mouse position.
     Point mousePosition;

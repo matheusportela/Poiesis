@@ -44,7 +44,7 @@ void ConfigParser::SetLogLevel(std::string level)
         exit(1);
     }
 
-    LOG_I("Log level: " << level);
+    LOG_I("[ConfigParser] Log level: " << level);
 }
 
 void ConfigParser::Parse(std::string filename)
@@ -52,7 +52,7 @@ void ConfigParser::Parse(std::string filename)
     std::string line;
     configurationFilename = filename;
 
-    LOG_I("Reading configuration file: " << filename);
+    LOG_I("[ConfigParser] Reading configuration file: " << filename);
     Open(filename);
 
     while (CanRead())
@@ -121,7 +121,7 @@ void ConfigParser::Print()
 {
     std::unordered_map<std::string, std::string>::iterator it;
 
-    LOG_D("Configuration file: " << configurationFilename);
+    LOG_D("[ConfigParser] Configuration file: " << configurationFilename);
 
     for (it = configurationMap.begin(); it != configurationMap.end(); ++it)
         LOG_D(it->first << " -> " << it->second);

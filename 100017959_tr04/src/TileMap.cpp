@@ -34,7 +34,7 @@ void TileMap::SetTileSet(std::unique_ptr<TileSet> tileSet)
 
 void TileMap::Load(std::string file)
 {
-    LOG_I("Loading tile map: " << file);
+    LOG_I("[TileMap] Loading tile map: " << file);
 
     tileMapParser.Parse(file);
     width = tileMapParser.GetParsedWidth();

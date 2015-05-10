@@ -18,6 +18,7 @@
 #include "ConfigParser.h"
 #include "Logger.h"
 #include "Resources.h"
+#include "StageState.h"
 #include "State.h"
 
 // This class provides reusable generic methods for game development, without

@@ -1,12 +1,12 @@
-// @file   State.cpp
+// @file   StageState.cpp
 // @author Matheus Vieira Portela
 // @date   25/03/2015
 //
-// @brief Game state class implementation
+// @brief Game level
 
-#include "State.h"
+#include "StageState.h"
 
-State::State()
+StageState::StageState()
 {
     quitRequested = false;
     bg = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("STATE_BACKGROUND")));
@@ -21,7 +21,7 @@ State::State()
     ConfigureInputCommands();
 }
 
-void State::InitializePenguins()
+void StageState::InitializePenguins()
 {
     Point position(CFG_GETI("PENGUINS_INITIAL_X"),
         CFG_GETI("PENGUINS_INITIAL_Y"));
@@ -29,7 +29,7 @@ void State::InitializePenguins()
     Camera::Follow(GameObjectManager::GetInstance().GetObject("player"));
 }
 
-void State::InitializeAlien()
+void StageState::InitializeAlien()
 {
     Point position(CFG_GETI("ALIEN_INITIAL_X"),
         CFG_GETI("ALIEN_INITIAL_Y"));
@@ -37,7 +37,7 @@ void State::InitializeAlien()
     GameObjectFactory::CreateAlien(position, numMinions, "alien");
 }
 
-void State::ConfigureInputCommands()
+void StageState::ConfigureInputCommands()
 {
     quitButtonCommand = CommandFactory::CreateQuitCommand(this,
         InputType::QuitButtonPress);
@@ -58,7 +58,7 @@ void State::ConfigureInputCommands()
         InputType::KeyDown, KeyboardButton::ArrowRight);
 }
 
-void State::Update(float dt)
+void StageState::Update(float dt)
 {
     Camera::Update(dt);
     InputManager::GetInstance().ProcessInputs();
@@ -66,14 +66,14 @@ void State::Update(float dt)
     CollisionSimulator::Collide();
 }
 
-void State::Render()
+void StageState::Render()
 {
     RenderBottomTiles();
     GameObjectManager::GetInstance().Render();
     RenderTopTiles();
 }
 
-void State::RenderBottomTiles()
+void StageState::RenderBottomTiles()
 {
     Point bg_point(0, 0);
 
@@ -86,7 +86,7 @@ void State::RenderBottomTiles()
     tileMap->RenderBaseLayer(tile_map_point);
 }
 
-void State::RenderTopTiles()
+void StageState::RenderTopTiles()
 {
     // Movement illusion requires background to move in the direction opposite
     // to the camera. Hence, we negate it's position.
@@ -94,14 +94,4 @@ void State::RenderTopTiles()
     tile_map_point.Negate();
     
     tileMap->RenderUpperLayers(tile_map_point);
-}
-
-bool State::IsQuitRequested()
-{
-    return quitRequested;
-}
-
-void State::SetQuitRequested()
-{
-    quitRequested = true;
 }

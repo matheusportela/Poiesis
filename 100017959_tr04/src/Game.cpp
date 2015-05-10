@@ -64,7 +64,7 @@ void Game::SeedRandom()
 
 void Game::InitState()
 {
-    state = new State();
+    state = new StageState();
 }
 
 void Game::DestroyState()

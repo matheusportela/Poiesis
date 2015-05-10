@@ -32,6 +32,7 @@ Game::~Game()
     Resources::ClearImages();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    Mix_CloseAudio();
     Mix_Quit();
     IMG_Quit();
     SDL_Quit();
@@ -78,12 +79,22 @@ void Game::InitSDLImage()
 
 void Game::InitSDLAudio()
 {
+    int chunkSize = 1024;
     int flags = MIX_INIT_OGG;
 
     // Initializes only JPG loader. Returns zero when no loader could be loaded.
     if (Mix_Init(flags) != flags)
     {
-        LOG_E("[Game] Could not initialize SDL audio mix. " << SDL_GetError());
+        LOG_E("[Game] Could not initialize SDL mixer library. "
+            << SDL_GetError());
+        exit(1);
+    }
+
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT,
+        MIX_DEFAULT_CHANNELS, chunkSize) != 0)
+    {
+        LOG_E("[Game] Could not initialize SDL audio library. "
+            << SDL_GetError());
         exit(1);
     }
 }

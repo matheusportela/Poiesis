@@ -15,8 +15,8 @@ bool Resources::HasImage(std::string file)
 
 SDL_Texture* Resources::LoadImage(std::string file)
 {
-    SDL_Texture* texture;
-    texture = IMG_LoadTexture(Game::GetInstance()->GetRenderer(), file.c_str());
+    SDL_Texture* texture =
+        IMG_LoadTexture(Game::GetInstance()->GetRenderer(), file.c_str());
 
     if (!texture)
     {

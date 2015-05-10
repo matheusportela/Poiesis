@@ -22,6 +22,7 @@ Game::Game(std::string title, int width, int height) : frameStart(0), dt(0)
     SeedRandom();
     InitSDL();
     InitSDLImage();
+    InitSDLAudio();
     CreateWindow(title, width, height);
     CreateRenderer();
 }
@@ -31,6 +32,7 @@ Game::~Game()
     Resources::ClearImages();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    Mix_Quit();
     IMG_Quit();
     SDL_Quit();
 }
@@ -70,6 +72,18 @@ void Game::InitSDLImage()
     if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) == 0)
     {
         LOG_E("[Game] Could not initialize SDL image. " << SDL_GetError());
+        exit(1);
+    }
+}
+
+void Game::InitSDLAudio()
+{
+    int flags = MIX_INIT_OGG;
+
+    // Initializes only JPG loader. Returns zero when no loader could be loaded.
+    if (Mix_Init(flags) != flags)
+    {
+        LOG_E("[Game] Could not initialize SDL audio mix. " << SDL_GetError());
         exit(1);
     }
 }

@@ -55,9 +55,9 @@ void Minion::Render()
 
 void Minion::CreateExplosionAnimation()
 {
-    std::string sprite = CFG_GETP("ALIEN_EXPLOSION_SPRITE");
-    int numFrames = CFG_GETI("ALIEN_EXPLOSION_NUM_FRAMES");
-    float frameDuration = CFG_GETF("ALIEN_EXPLOSION_FRAME_TIME");
+    std::string sprite = CFG_GETP("MINION_EXPLOSION_SPRITE");
+    int numFrames = CFG_GETI("MINION_EXPLOSION_NUM_FRAMES");
+    float frameDuration = CFG_GETF("MINION_EXPLOSION_FRAME_TIME");
 
     GameObjectFactory::CreateStillAnimation(GetCenter(), sprite, numFrames,
         frameDuration, false);

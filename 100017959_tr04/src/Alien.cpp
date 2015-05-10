@@ -13,6 +13,8 @@ Alien::Alien(const Point& position, int numMinions)
     hp = CFG_GETI("ALIEN_HP");
     angularSpeed = CFG_GETF("ALIEN_ANGULAR_SPEED");
     InitializeMinions(numMinions);
+    explosionSoundEffect = std::unique_ptr<SoundEffect>(
+        new SoundEffect(CFG_GETP("EXPLOSION_SOUND_EFFECT")));
 
     behaviorState = MOVING;
 
@@ -90,6 +92,7 @@ void Alien::CreateExplosionAnimation()
 void Alien::OnDeath()
 {
     CreateExplosionAnimation();
+    explosionSoundEffect->Play(CFG_GETI("EXPLOSION_SOUND_EFFECT_TIMES"));
 }
 
 bool Alien::IsDead()

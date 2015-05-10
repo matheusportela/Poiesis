@@ -18,6 +18,7 @@
 #include "Minion.h"
 #include "MoveAction.h"
 #include "ShootAction.h"
+#include "SoundEffect.h"
 #include "Point.h"
 #include "Timer.h"
 #include "Vector.h"
@@ -97,6 +98,8 @@ class Alien : public GameObject
 
     // Alien's minions references, used with ShootAction.
     std::vector<std::weak_ptr<GameObject>> minionArray;
+
+    std::unique_ptr<SoundEffect> explosionSoundEffect;
 };
 
 #endif // ALIEN_H_

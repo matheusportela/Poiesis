@@ -9,7 +9,7 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
-#include <iostream>
+#include <string>
 
 #include <SDL.h>
 #include <SDL_image.h>

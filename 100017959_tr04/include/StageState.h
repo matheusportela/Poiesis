@@ -21,6 +21,7 @@
 #include "GameObjectFactory.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
+#include "Music.h"
 #include "Sprite.h"
 #include "State.h"
 #include "TileMap.h"
@@ -62,6 +63,9 @@ class StageState : public State
   private:
     // Background sprite.
     std::unique_ptr<Sprite> bg;
+
+    // Background music.
+    std::unique_ptr<Music> background_music;
 
     // Tile management and renderization.
     std::unique_ptr<TileMap> tileMap;

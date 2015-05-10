@@ -26,6 +26,7 @@
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Point.h"
+#include "SoundEffect.h"
 #include "Sprite.h"
 #include "Timer.h"
 #include "Vector.h"
@@ -123,6 +124,8 @@ class Penguins : public GameObject
     std::shared_ptr<Command> slowDownCommand;
     std::shared_ptr<Command> leftRotationCommand;
     std::shared_ptr<Command> rightRotationCommand;
+
+    std::unique_ptr<SoundEffect> explosionSoundEffect;
 };
 
 #endif // PENGUINS_H_

@@ -12,6 +12,7 @@ StageState::StageState()
 {
     quitRequested = false;
     bg = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("STATE_BACKGROUND")));
+    background_music = std::unique_ptr<Music>(new Music(CFG_GETP("STATE_MUSIC")));
     std::unique_ptr<TileSet> tileSet(new TileSet(CFG_GETI("TILE_WIDTH"),
         CFG_GETI("TILE_HEIGHT"), CFG_GETP("TILE_SET")));
     tileMap = std::unique_ptr<TileMap>(new TileMap(CFG_GETP("TILE_MAP"),
@@ -21,6 +22,8 @@ StageState::StageState()
     InitializeAlien();
 
     ConfigureInputCommands();
+
+    background_music->Play();
 }
 
 void StageState::InitializePenguins()

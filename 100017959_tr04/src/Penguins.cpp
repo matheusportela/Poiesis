@@ -17,6 +17,8 @@ Penguins::Penguins(const Point& position) : cannonRotation(0.0)
     maxLinearSpeed = CFG_GETF("PENGUINS_MAX_SPEED");
     cannonSprite = std::unique_ptr<Sprite>(
         new Sprite(CFG_GETP("PENGUINS_CANNON_SPRITE")));
+    explosionSoundEffect = std::unique_ptr<SoundEffect>(
+        new SoundEffect(CFG_GETP("EXPLOSION_SOUND_EFFECT")));
     ConfigureInputCommands();    
 }
 
@@ -110,6 +112,7 @@ void Penguins::CreateExplosionAnimation()
 void Penguins::OnDeath()
 {
     CreateExplosionAnimation();
+    explosionSoundEffect->Play(CFG_GETI("EXPLOSION_SOUND_EFFECT_TIMES"));
 }
 
 bool Penguins::IsDead()

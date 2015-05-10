@@ -11,6 +11,7 @@
 
 #include <ctime>
 #include <cstdlib>
+#include <stack>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -40,20 +41,11 @@ class Game
     // Gets the game renderer. 
     SDL_Renderer* GetRenderer();
 
-    // Gets the game-specific logic instance.
-    State& GetState();
-
     // Gets the amount of time passed since the last frame.
     float GetDeltaTime();
 
     // Seeds random number generator with current time.
     void SeedRandom();
-
-    // Initializes game state.
-    void InitState();
-
-    // Destroys current game state.
-    void DestroyState();
 
     // Initializes SDL engine.
     void InitSDL();
@@ -70,9 +62,18 @@ class Game
     // Runs the game.
     void Run();
 
+    // Adds a new state to the game state container.
+    void AddState(std::unique_ptr<State> state);
+
   private:
+    // Gets the next stacked state.
+    std::unique_ptr<State> GetNextState();
+
     // Updates the amount of time has passed since the last frame.
     void UpdateDeltaTime();
+
+    // Changes state when the current one has finished.
+    void UpdateCurrentState();
 
     // Game singletion instance.
     static Game* instance;
@@ -84,13 +85,16 @@ class Game
     SDL_Renderer* renderer;
 
     // Game-specific logic.
-    State* state;
+    std::unique_ptr<State> currentState;
 
     // Moment when the frame has started (in milliseconds).
     unsigned int frameStart;
 
     // Amount of time passed since the last frame (in seconds).
     float dt;
+
+    // Container for game states.
+    std::stack<std::unique_ptr<State>> stateStack;
 };
 
 #endif // GAME_H_

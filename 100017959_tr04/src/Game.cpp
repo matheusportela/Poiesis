@@ -24,13 +24,11 @@ Game::Game(std::string title, int width, int height) : frameStart(0), dt(0)
     InitSDLImage();
     CreateWindow(title, width, height);
     CreateRenderer();
-    InitState(); // State can only be initialized after initializing the renderer.
 }
 
 Game::~Game()
 {
     Resources::ClearImages();
-    DestroyState();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
@@ -47,11 +45,6 @@ SDL_Renderer* Game::GetRenderer()
     return renderer;
 }
 
-State& Game::GetState()
-{
-    return *state;
-}
-
 float Game::GetDeltaTime()
 {
     return dt;
@@ -60,16 +53,6 @@ float Game::GetDeltaTime()
 void Game::SeedRandom()
 {
     srand(time(NULL));
-}
-
-void Game::InitState()
-{
-    state = new StageState();
-}
-
-void Game::DestroyState()
-{
-    delete state;
 }
 
 void Game::InitSDL()
@@ -121,17 +104,37 @@ void Game::CreateRenderer()
 
 void Game::Run()
 {
-    while (!state->IsQuitRequested())
+    currentState = GetNextState();
+    LOG_I("[Game] Starting game");
+
+    while (currentState && !currentState->IsQuitRequested())
     {
         UpdateDeltaTime();
-        state->Update(dt);
-        state->Render();
+        currentState->Update(dt);
+        currentState->Render();
         SDL_RenderPresent(renderer); // Force image renderizing
+        UpdateCurrentState();
         SDL_Delay(CFG_GETI("GAME_DELAY")); // Arbitrary delay to avoid CPU intense usage
     }
 
-    // Clear everything from memory.
-    Resources::ClearImages();
+    LOG_I("[Game] Exiting game");
+}
+
+std::unique_ptr<State> Game::GetNextState()
+{
+    std::unique_ptr<State> nextState;
+
+    if (!stateStack.empty())
+    {
+        nextState = std::move(stateStack.top());
+        stateStack.pop();
+    }
+    else
+    {
+        nextState = nullptr;
+    }
+
+    return nextState;
 }
 
 void Game::UpdateDeltaTime()
@@ -140,4 +143,15 @@ void Game::UpdateDeltaTime()
     unsigned int delta = ticks - frameStart;
     frameStart = ticks;
     dt = delta/1000.0; // milliseconds to seconds
+}
+
+void Game::UpdateCurrentState()
+{
+    if (currentState->IsFinished())
+        currentState = GetNextState();
+}
+
+void Game::AddState(std::unique_ptr<State> state)
+{
+
 }

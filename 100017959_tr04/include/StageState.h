@@ -43,6 +43,9 @@ class StageState : public State
     // Configures commands for all relevant user input type in the game.
     void ConfigureInputCommands();
 
+    // Checks whether the game must finish.
+    void CheckEndConditions();
+
     // Updates game state after a delta time in seconds.
     void Update(float dt);
 

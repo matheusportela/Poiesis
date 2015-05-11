@@ -19,6 +19,12 @@ std::vector<std::shared_ptr<GameObject>> GameObjectManager::GetObjects()
     return container.GetAllObjects();
 }
 
+std::vector<std::shared_ptr<GameObject>> GameObjectManager::GetObjects(
+    std::string key)
+{
+    return container.GetObjects(key);
+}
+
 std::shared_ptr<GameObject> GameObjectManager::GetObject(std::string key)
 {
     return container.GetObject(key);

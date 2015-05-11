@@ -61,12 +61,31 @@ void StageState::ConfigureInputCommands()
     inputManager.RegisterCommand(cameraRightCommand, InputType::KeyDown, KeyboardButton::ArrowRight);
 }
 
+void StageState::CheckEndConditions()
+{
+    auto penguins = GameObjectManager::GetInstance().GetObjects("player");
+    auto aliens = GameObjectManager::GetInstance().GetObjects("alien");
+    
+    if (penguins.size() == 0)
+    {
+        LOG_I("Lose");
+        SetFinished();
+    }
+
+    if (aliens.size() == 0)
+    {
+        LOG_I("Win");
+        SetFinished();
+    }
+}
+
 void StageState::Update(float dt)
 {
     Camera::Update(dt);
     inputManager.ProcessInputs();
     GameObjectManager::GetInstance().Update(dt);
     CollisionSimulator::Collide();
+    CheckEndConditions();
 }
 
 void StageState::Render()

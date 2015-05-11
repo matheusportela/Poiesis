@@ -28,6 +28,9 @@ class GameObjectManager
     // Gets all GameObject references in vector form.
     std::vector<std::shared_ptr<GameObject>> GetObjects();
 
+    // Gets all GameObjects referenced by the given key.
+    std::vector<std::shared_ptr<GameObject>> GetObjects(std::string key);
+
     // Get a GameObject reference with it's key.
     std::shared_ptr<GameObject> GetObject(std::string key);
 

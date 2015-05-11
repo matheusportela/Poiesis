@@ -15,6 +15,7 @@
 
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 #include "Game.h"
 #include "Logger.h"
@@ -61,11 +62,28 @@ class Resources
     // Remove sound effects from memory.
     static void ClearSoundEffects();
 
+    // Checks whether a font is loaded in memory.
+    static bool HasFont(std::string file);
+
+    // Loads a font into memory.
+    static TTF_Font* LoadFont(std::string file, int size);
+
+    // Get an SDL font from memory, if present, or load it from the given
+    // file and size in the format "file size".
+    static TTF_Font* GetFont(std::string file, int size);
+
+    // Remove fonts from memory.
+    static void ClearFonts();
+
 
   private:
+    // Generates the key used to store a font.
+    static std::string GenerateFontKey(std::string file, int size);
+    
     static std::unordered_map<std::string, SDL_Texture*> imageTable;
     static std::unordered_map<std::string, Mix_Music*> musicTable;
     static std::unordered_map<std::string, Mix_Chunk*> soundEffectTable;
+    static std::unordered_map<std::string, TTF_Font*> fontTable;
 };
 
 #endif // RESOURCES_H_

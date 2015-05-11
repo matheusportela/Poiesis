@@ -75,9 +75,9 @@ class Alien : public GameObject
   private:
     enum State
     {
-        MOVING,
-        SHOOTING,
-        RESTING
+        Moving,
+        Shooting,
+        Resting
     };
 
     // Holds action state for the Alien.

@@ -16,7 +16,7 @@ Alien::Alien(const Point& position, int numMinions)
     explosionSoundEffect = std::unique_ptr<SoundEffect>(
         new SoundEffect(CFG_GETP("EXPLOSION_SOUND_EFFECT")));
 
-    behaviorState = MOVING;
+    behaviorState = Moving;
 
     // Rotation vector is an unitary vector, since we only need it's direction
     rotationVector.Set(1, 0);
@@ -38,13 +38,13 @@ void Alien::RunBehavior()
 {
     switch (behaviorState)
     {
-        case MOVING:
+        case Moving:
             MoveBehavior();
             break;
-        case SHOOTING:
+        case Shooting:
             ShootBehavior();
             break;
-        case RESTING:
+        case Resting:
             RestBehavior();
             break;
     }
@@ -129,7 +129,7 @@ void Alien::MoveBehavior()
     if (actionScheduler.IsQueueEmpty())
     {
         LOG_D("[Alien] Move behavior");
-        behaviorState = SHOOTING;
+        behaviorState = Shooting;
 
         std::shared_ptr<GameObject> playerObject =
             GameObjectManager::GetInstance().GetObject("player");
@@ -148,7 +148,7 @@ void Alien::ShootBehavior()
     if (actionScheduler.IsQueueEmpty())
     {
         LOG_D("[Alien] Shoot behavior");
-        behaviorState = RESTING;
+        behaviorState = Resting;
 
         std::shared_ptr<GameObject> playerObject =
             GameObjectManager::GetInstance().GetObject("player");
@@ -169,6 +169,6 @@ void Alien::RestBehavior()
     if (shootCooldown.IsFinished())
     {
         LOG_D("[Alien] Resting behavior");
-        behaviorState = MOVING;
+        behaviorState = Moving;
     }
 }

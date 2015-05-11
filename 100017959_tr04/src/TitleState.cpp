@@ -8,10 +8,18 @@
 #include "Game.h"
 #include "StageState.h"
 
+
 TitleState::TitleState()
 {
     bg = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("TITLE_BACKGROUND")));
     ConfigureInputCommands();
+    text = std::unique_ptr<Text>(new Text(
+        CFG_GETP("TITLE_FONT_FILE"),
+        CFG_GETI("TITLE_FONT_SIZE"),
+        Text::Blended,
+        CFG_GETS("TITLE_TEXT"),
+        Text::Black,
+        Point(CFG_GETI("TITLE_POSITION_X"), CFG_GETI("TITLE_POSITION_Y"))));
 }
 
 TitleState::~TitleState()
@@ -39,6 +47,7 @@ void TitleState::Update(float dt)
 void TitleState::Render()
 {
     bg->Render(Point(0, 0));
+    text->Render();
 }
 
 void TitleState::Pause()

@@ -62,6 +62,12 @@ void Rect::SetCenter(const Point& centerPoint, float w, float h)
     this->h = h;
 }
 
+void Rect::SetCenter(const Point& centerPoint)
+{
+    this->point.SetX(centerPoint.GetX() - w/2.0);
+    this->point.SetY(centerPoint.GetY() - h/2.0);
+}
+
 Point Rect::GetCenter() const
 {
     Point centerPoint;

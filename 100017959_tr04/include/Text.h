@@ -9,6 +9,7 @@
 
 #include <string>
 
+#include <SDL_image.h>
 #include <SDL_ttf.h>
 
 #include "Point.h"
@@ -26,6 +27,14 @@ class Text
 
     Text(std::string file, int fontSize, TextStyle style, std::string text,
         SDL_Color color, Point position = Point(0, 0));
+    ~Text();
+    void SetPosition(Point position);
+    void SetCenter(Point position);
+    void Render();
+    void RemakeTexture();
+
+    static SDL_Color White;
+    static SDL_Color Black;
 
   private:
     TTF_Font* font;

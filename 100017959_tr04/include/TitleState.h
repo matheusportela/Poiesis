@@ -18,6 +18,7 @@
 #include "InputManager.h"
 #include "Sprite.h"
 #include "State.h"
+#include "Text.h"
 
 class TitleState : public State
 {
@@ -32,6 +33,7 @@ class TitleState : public State
 
   private:
     std::unique_ptr<Sprite> bg;
+    std::unique_ptr<Text> text;
 
     std::shared_ptr<Command> quitCommand;
     std::shared_ptr<Command> finishCommand;

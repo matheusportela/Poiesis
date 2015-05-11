@@ -38,6 +38,7 @@ class Rect
 
     // Sets rectangle with it's center at (centerX, centerY)
     void SetCenter(const Point& centerPoint, float w, float h);
+    void SetCenter(const Point& centerPoint);
     Point GetCenter() const;
 
     // Returns string with rectangle's coordinates and dimensions.

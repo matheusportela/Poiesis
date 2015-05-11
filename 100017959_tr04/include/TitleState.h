@@ -19,6 +19,7 @@
 #include "Sprite.h"
 #include "State.h"
 #include "Text.h"
+#include "Timer.h"
 
 class TitleState : public State
 {
@@ -38,6 +39,8 @@ class TitleState : public State
     std::shared_ptr<Command> quitCommand;
     std::shared_ptr<Command> finishCommand;
 
+    bool showText;
+    Timer textTimer;
     InputManager inputManager;
 };
 

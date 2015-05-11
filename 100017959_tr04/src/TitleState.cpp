@@ -20,6 +20,7 @@ TitleState::TitleState()
         CFG_GETS("TITLE_TEXT"),
         Text::Black,
         Point(CFG_GETI("TITLE_POSITION_X"), CFG_GETI("TITLE_POSITION_Y"))));
+    showText = false;
 }
 
 TitleState::~TitleState()
@@ -42,12 +43,21 @@ void TitleState::ConfigureInputCommands()
 void TitleState::Update(float dt)
 {
     inputManager.ProcessInputs();
+    textTimer.Update(dt);
+
+    if (textTimer.IsFinished())
+    {
+        showText = showText == true ? false : true;
+        textTimer.Set(CFG_GETF("TITLE_TEXT_PERIOD"));
+    }
 }
 
 void TitleState::Render()
 {
     bg->Render(Point(0, 0));
-    text->Render();
+
+    if (showText)
+        text->Render();
 }
 
 void TitleState::Pause()

@@ -16,6 +16,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 #include "ConfigParser.h"
 #include "Logger.h"
@@ -56,6 +57,9 @@ class Game
 
     // Initializes SDL audio engine.
     void InitSDLAudio();
+
+    // Initializes SDL text engine.
+    void InitSDLText();
 
     // Creates game window.
     void CreateWindow(std::string title, int width, int height);

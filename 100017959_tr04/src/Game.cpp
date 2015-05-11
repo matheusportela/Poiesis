@@ -23,6 +23,7 @@ Game::Game(std::string title, int width, int height) : frameStart(0), dt(0)
     InitSDL();
     InitSDLImage();
     InitSDLAudio();
+    InitSDLText();
     CreateWindow(title, width, height);
     CreateRenderer();
 }
@@ -32,6 +33,7 @@ Game::~Game()
     Resources::ClearImages();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     Mix_CloseAudio();
     Mix_Quit();
     IMG_Quit();
@@ -94,6 +96,16 @@ void Game::InitSDLAudio()
         MIX_DEFAULT_CHANNELS, chunkSize) != 0)
     {
         LOG_E("[Game] Could not initialize SDL audio library. "
+            << SDL_GetError());
+        exit(1);
+    }
+}
+
+void Game::InitSDLText()
+{
+    if (TTF_Init() != 0)
+    {
+        LOG_E("[Game] Could not initialize SDL text library. "
             << SDL_GetError());
         exit(1);
     }
@@ -175,7 +187,7 @@ void Game::UpdateCurrentState()
     {
         // Executes the behavior defined in the state destructor
         currentState.reset();
-        
+
         currentState = GetNextState();
     }
 }

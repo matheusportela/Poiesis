@@ -11,7 +11,7 @@ HEADERS = $(addprefix $(INCLUDES_DIR)/,$(notdir $(SOURCES:.cpp=.h)))
 EXECUTABLES = Main
 
 INC = -I./$(INCLUDES_DIR) -I/usr/include/SDL2
-LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer
+LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 .PHONY: all
 all: $(SOURCES) $(EXECUTABLES)

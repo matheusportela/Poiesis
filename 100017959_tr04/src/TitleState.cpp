@@ -8,7 +8,6 @@
 #include "Game.h"
 #include "StageState.h"
 
-
 TitleState::TitleState()
 {
     bg = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("TITLE_BACKGROUND")));

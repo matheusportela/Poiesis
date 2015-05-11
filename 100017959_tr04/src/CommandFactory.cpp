@@ -81,3 +81,15 @@ std::shared_ptr<Command> CommandFactory::CreatePenguinsRightRotationCommand(
         std::make_shared<PenguinsRightRotationCommand>(parent);
     return command;
 }
+
+std::shared_ptr<Command> CommandFactory::CreateRetryCommand(State* parent)
+{
+    std::shared_ptr<Command> command = std::make_shared<RetryCommand>(parent);
+    return command;
+}
+
+std::shared_ptr<Command> CommandFactory::CreateMenuCommand(State* parent)
+{
+    std::shared_ptr<Command> command = std::make_shared<MenuCommand>(parent);
+    return command;
+}

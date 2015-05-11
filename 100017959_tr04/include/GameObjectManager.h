@@ -37,6 +37,9 @@ class GameObjectManager
     // Adds a new game object to be managed.
     void Add(std::shared_ptr<GameObject> object, std::string key);
 
+    // Deletes all game objects that are being manager.
+    void DeleteAllObjects();
+
     // Updates game objects.
     void Update(float dt);
 

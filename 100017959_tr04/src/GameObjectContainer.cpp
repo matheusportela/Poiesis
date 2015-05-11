@@ -129,7 +129,7 @@ void GameObjectContainer::DeleteObjects(std::string key)
     {
         LOG_E("[GameObjectContainer] No GameObject with key \"" << key
             << "\"");
-        exit(1);
+        // exit(1);
     }
 }
 

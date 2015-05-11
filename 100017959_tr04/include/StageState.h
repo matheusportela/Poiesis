@@ -33,6 +33,7 @@ class StageState : public State
   public:
     // Initializes the game state.
     StageState();
+    ~StageState();
 
     // Initialize Penguins game object.
     void InitializePenguins();
@@ -73,6 +74,9 @@ class StageState : public State
     // Tile management and renderization.
     std::unique_ptr<TileMap> tileMap;
 
+    bool win;
+    bool playingMusic;
+    
     // Commands.
     std::shared_ptr<Command> quitCommand;
     std::shared_ptr<Command> cameraUpCommand;

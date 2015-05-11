@@ -145,6 +145,9 @@ class InputManager
     bool IsSupportedKeyboardCode(int SDLCode);
     bool IsSupportedMouseCode(int SDLCode);
 
+    // Clear the entire input manager structure.
+    void Clear();
+
   private:
     // Maps SDL mouse button to InputManager mouse button.
     static std::map<int, int> mouseButtonMap;

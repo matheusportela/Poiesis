@@ -239,3 +239,23 @@ bool InputManager::IsSupportedMouseCode(int SDLCode)
     return (InputManager::mouseButtonMap.find(SDLCode)
         != InputManager::mouseButtonMap.end());
 }
+
+void InputManager::Clear()
+{
+    std::map<int, int>::iterator it;
+    int button;
+
+    commandMap.clear();
+
+    for (it = mouseButtonMap.begin(); it != mouseButtonMap.end(); ++it)
+    {
+        button = it->second;
+        mouseDownMap[button] = false;
+    }
+
+    for (it = keyboardButtonMap.begin(); it != keyboardButtonMap.end(); ++it)
+    {
+        button = it->second;
+        keyDownMap[button] = false;
+    }
+}

@@ -31,7 +31,6 @@ Text::Text(std::string file, int fontSize, TextStyle style, std::string text,
     font = Resources::GetFont(file, fontSize);
     RemakeTexture();
     SetCenter(position);
-    LOG_D("Text box: " << box.ToString());
 }
 
 Text::~Text()
@@ -103,5 +102,4 @@ void Text::RemakeTexture()
     SDL_QueryTexture(texture, NULL, NULL, &width, &height);
     box.SetW(width);
     box.SetH(height);
-    LOG_D("Text size: " << width << " " << height);
 }

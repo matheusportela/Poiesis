@@ -63,6 +63,17 @@ void GameObjectManager::DeleteDeadObjects()
     }
 }
 
+void GameObjectManager::DeleteAllObjects()
+{
+    std::string key;
+    
+    for (auto keyAndObject : container.GetKeysAndObjects())
+    {
+        key = keyAndObject.first;
+        container.DeleteObjects(key);
+    }
+}
+
 void GameObjectManager::UpdateObjects(float dt)
 {
     for (auto object : container.GetAllObjects())

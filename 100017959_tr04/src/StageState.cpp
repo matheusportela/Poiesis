@@ -5,12 +5,15 @@
 // @brief Game level
 
 #include "StageState.h"
+#include "Game.h"
+#include "EndState.h"
 
 InputManager StageState::inputManager;
 
 StageState::StageState()
 {
     quitRequested = false;
+    playingMusic = false;
     bg = std::unique_ptr<Sprite>(new Sprite(CFG_GETP("STATE_BACKGROUND")));
     background_music = std::unique_ptr<Music>(new Music(CFG_GETP("STATE_MUSIC")));
     std::unique_ptr<TileSet> tileSet(new TileSet(CFG_GETI("TILE_WIDTH"),
@@ -22,8 +25,13 @@ StageState::StageState()
     InitializeAlien();
 
     ConfigureInputCommands();
+}
 
-    background_music->Play();
+StageState::~StageState()
+{
+    Game::GetInstance()->AddState(std::unique_ptr<State>(new EndState(win)));
+    GameObjectManager::GetInstance().DeleteAllObjects();
+    inputManager.Clear();
 }
 
 void StageState::InitializePenguins()
@@ -68,19 +76,27 @@ void StageState::CheckEndConditions()
     
     if (penguins.size() == 0)
     {
-        LOG_I("Lose");
+        LOG_I("[StageState] Lose");
+        win = false;
         SetFinished();
     }
 
     if (aliens.size() == 0)
     {
-        LOG_I("Win");
+        LOG_I("[StageState] Win");
+        win = true;
         SetFinished();
     }
 }
 
 void StageState::Update(float dt)
 {
+    if (!playingMusic)
+    {
+        playingMusic = true;
+        background_music->Play();
+    }
+
     Camera::Update(dt);
     inputManager.ProcessInputs();
     GameObjectManager::GetInstance().Update(dt);

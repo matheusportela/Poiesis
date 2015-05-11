@@ -21,6 +21,8 @@
 #include "PenguinsSlowDownCommand.h"
 #include "PenguinsSpeedUpCommand.h"
 #include "QuitCommand.h"
+#include "RetryCommand.h"
+#include "MenuCommand.h"
 
 class Penguins;
 class State;
@@ -54,6 +56,10 @@ class CommandFactory : public Command
 
     static std::shared_ptr<Command> CreatePenguinsRightRotationCommand(
         Penguins* parent);
+
+    static std::shared_ptr<Command> CreateRetryCommand(State* parent);
+
+    static std::shared_ptr<Command> CreateMenuCommand(State* parent);
 };
 
 #endif // COMMAND_FACTORY_H_

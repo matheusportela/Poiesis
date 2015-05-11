@@ -144,7 +144,7 @@ void Game::Run()
     currentState = GetNextState();
     LOG_I("[Game] Starting game");
 
-    while (currentState && !currentState->IsQuitRequested())
+    while (currentState)
     {
         UpdateDeltaTime();
         currentState->Update(dt);
@@ -190,6 +190,9 @@ void Game::UpdateCurrentState()
 
         currentState = GetNextState();
     }
+
+    if (currentState->IsQuitRequested())
+        currentState.reset();
 }
 
 void Game::AddState(std::unique_ptr<State> state)

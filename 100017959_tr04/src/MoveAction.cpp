@@ -29,6 +29,19 @@ Vector MoveAction::CalculateSpeed()
     return speedVector;
 }
 
+void MoveAction::PreExecute()
+{
+    Vector displacement = CalculateDisplacement();
+    float maxMove = CFG_GETF("ALIEN_MAX_MOVE");
+
+    if (displacement.GetMagnitude() > maxMove)
+    {
+        Point center = attachedObject->GetCenter();
+        displacement.Normalize();
+        target = center + displacement*maxMove;
+    }
+}
+
 void MoveAction::Execute()
 {
     Vector speedVector = CalculateSpeed();

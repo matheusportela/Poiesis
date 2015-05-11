@@ -8,6 +8,7 @@
 #define MOVE_ACTION_H_
 
 #include "Action.h"
+#include "ConfigParser.h"
 #include "GameObject.h"
 #include "Point.h"
 #include "Vector.h"
@@ -25,6 +26,9 @@ class MoveAction : public Action
     // Calculates the speed vector necessary to move the object to the target
     // point.
     Vector CalculateSpeed();
+
+    // Adjust target to limit the amount of movement that can be done.
+    void PreExecute();
 
     // Moves the game object to the specified point.
     void Execute();

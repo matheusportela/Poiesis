@@ -22,7 +22,7 @@ StageState::StageState()
         std::move(tileSet)));
 
     InitializePenguins();
-    InitializeAlien();
+    InitializeAliens();
 
     ConfigureInputCommands();
 }
@@ -42,12 +42,33 @@ void StageState::InitializePenguins()
     Camera::Follow(GameObjectManager::GetInstance().GetObject("player"));
 }
 
-void StageState::InitializeAlien()
+void StageState::InitializeAliens()
 {
-    Point position(CFG_GETI("ALIEN_INITIAL_X"),
-        CFG_GETI("ALIEN_INITIAL_Y"));
+    int numAliens = CFG_GETI("NUM_ALIENS");
     int numMinions = CFG_GETI("ALIEN_NUM_MINIONS");
-    GameObjectFactory::CreateAlien(position, numMinions, "alien");
+    int x;
+    int minX = CFG_GETI("ALIEN_MIN_X");
+    int maxX = CFG_GETI("ALIEN_MAX_X");
+    int y;
+    int minY = CFG_GETI("ALIEN_MIN_Y");
+    int maxY = CFG_GETI("ALIEN_MAX_Y");
+    float dt;
+    float minDt = 0;
+    float maxDt = 10;
+    Point position;
+
+    for (int i = 0; i < numAliens; ++i)
+    {
+        x = minX + (rand() % (int)(maxX - minX + 1));
+        y = minY + (rand() % (int)(maxY - minY + 1));
+        GameObjectFactory::CreateAlien(Point(x, y), numMinions, "alien");
+    }
+
+    for (auto alien : GameObjectManager::GetInstance().GetObjects("alien"))
+    {
+        dt = minDt + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX/(maxDt-minDt)));
+        alien->Update(dt);
+    }
 }
 
 void StageState::ConfigureInputCommands()

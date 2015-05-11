@@ -39,7 +39,7 @@ class StageState : public State
     void InitializePenguins();
 
     // Initialize Alien game object.
-    void InitializeAlien();
+    void InitializeAliens();
 
     // Configures commands for all relevant user input type in the game.
     void ConfigureInputCommands();
@@ -76,7 +76,7 @@ class StageState : public State
 
     bool win;
     bool playingMusic;
-    
+
     // Commands.
     std::shared_ptr<Command> quitCommand;
     std::shared_ptr<Command> cameraUpCommand;

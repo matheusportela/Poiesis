@@ -53,6 +53,25 @@ void Penguins::ApplyFriction()
     SetSpeed(speed*speedFactor);
 }
 
+Point Penguins::CalculateLimitedPosition(const Point& position)
+{
+    Point limitedPosition = position;
+
+    if (limitedPosition.GetX() < CFG_GETI("PENGUINS_MIN_X"))
+        limitedPosition.SetX(CFG_GETI("PENGUINS_MIN_X"));
+
+    if (limitedPosition.GetX() > CFG_GETI("PENGUINS_MAX_X"))
+        limitedPosition.SetX(CFG_GETI("PENGUINS_MAX_X"));
+
+    if (limitedPosition.GetY() < CFG_GETI("PENGUINS_MIN_Y"))
+        limitedPosition.SetY(CFG_GETI("PENGUINS_MIN_Y"));
+
+    if (limitedPosition.GetY() > CFG_GETI("PENGUINS_MAX_Y"))
+        limitedPosition.SetY(CFG_GETI("PENGUINS_MAX_Y"));
+
+    return limitedPosition;
+}
+
 void Penguins::UpdatePosition(float dt)
 {
     Vector displacement = GetSpeed();
@@ -61,9 +80,9 @@ void Penguins::UpdatePosition(float dt)
     // Apply the displacement to the penguin front.
     displacement.Rotate(GetRotation());
     
-    Point position = GetCenter();
-    position.Add(displacement);
-    SetCenter(position);
+    Point position = GetCenter() + displacement;
+    Point limitedPosition = CalculateLimitedPosition(position);
+    SetCenter(limitedPosition);
 }
 
 void Penguins::UpdateCannonRotation()

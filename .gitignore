@@ -1,6 +1,8 @@
 # Compilation
 *.o
-Main
+Poiesis
+bin/
+build/
 
 # Sublime
 *.sublime-project

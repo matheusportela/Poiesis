@@ -40,8 +40,8 @@ functionality to the system. These SDKs must always be wrapped by an adapter to
 avoid high coupling of the project and reduce changes costs.
     * STL: Standard Template Library. Default library with C++, provides useful
 generic containers.
-    * SDL: . Provides functionality for low-level graphics, audio, device I/O,
-fonts and timers.
+    * SDL: Simple DirectMedia Layer. Provides functionality for low-level
+graphics, audio, device I/O, fonts and timers.
 
 2) Adapters: This layer is intended to provide a platform independence to the
 system, both from operating system and from third-party libraries. Hence, it

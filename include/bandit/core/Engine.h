@@ -8,12 +8,21 @@
 #define ENGINE_H_
 
 #include <iostream>
+#include <memory>
+
+#include "bandit/adapters/TimerAdapter.h"
 
 class Engine
 {
   public:
-    Engine();
+    Engine(std::shared_ptr<TimerAdapter> timerAdapter);
     ~Engine();
+
+    // Executes the engine main loop.
+    void Run();
+
+  private:
+    std::shared_ptr<TimerAdapter> timerAdapter;
 };
 
 #endif // ENGINE_H_

@@ -9,7 +9,7 @@ CXX ?= g++
 # Extension of source files used in the project
 SRC_EXT = cpp
 # Path to the source directory, relative to the makefile
-SRC_PATH = src/
+SRC_PATH = src
 # Space-separated pkg-config libraries used by this project
 LIBS =
 # General compiler flags
@@ -19,9 +19,9 @@ RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
 DCOMPILE_FLAGS = -D DEBUG
 # Add additional include paths
-INCLUDES = -I include/
+INCLUDES = -I./include/ -I/usr/include/SDL2
 # General linker settings
-LINK_FLAGS = 
+LINK_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 # Additional release-specific linker settings
 RLINK_FLAGS = 
 # Additional debug-specific linker settings

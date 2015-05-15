@@ -7,13 +7,13 @@ Engine::Engine(
     systemAdapter(systemAdapter), timerAdapter(timerAdapter),
     graphicsAdapter(graphicsAdapter)
 {
-    std::cout << "Initializing engine" << std::endl;
+    LOG_D("Initializing engine");
     systemAdapter->Initialize();
 }
 
 Engine::~Engine()
 {
-    std::cout << "Shutting engine down" << std::endl;
+    LOG_D("Shutting engine down");
     systemAdapter->Shutdown();
 }
 
@@ -26,7 +26,6 @@ void Engine::Run()
     {
         graphicsAdapter->RenderImage();
         timerAdapter->Sleep(1);
-        std::cout << "Elapsed time: " << timerAdapter->GetElapsedTime()
-            << std::endl;
+        LOG_D("Elapsed time: " << timerAdapter->GetElapsedTime());
     }
 }

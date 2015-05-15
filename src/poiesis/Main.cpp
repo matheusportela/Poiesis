@@ -8,6 +8,7 @@
 
 int main()
 {
+    LOG_SET_DEBUG();
     Engine engine(std::make_shared<SDLSystemAdapter>(),
         std::make_shared<SDLTimerAdapter>(),
         std::make_shared<SDLGraphicsAdapter>());

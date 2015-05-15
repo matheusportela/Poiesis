@@ -2,6 +2,11 @@
 
 Log::LogLevel Log::level = Log::Info;
 
+void Log::SetLevel(LogLevel level)
+{
+    Log::level = level;
+}
+
 std::string Log::GetLevelString(LogLevel level)
 {
     switch (level)

@@ -11,10 +11,10 @@
 #include <string>
 
 // Configures to display logs with level higher or equal to the given one.
-#define LOG_SET_DEBUG() Log::level = Log::Debug;
-#define LOG_SET_INFO() Log::level = Log::Info;
-#define LOG_SET_WARNING() Log::level = Log::Warning;
-#define LOG_SET_ERROR() Log::level = Log::Error;
+#define LOG_SET_DEBUG() Log::SetLevel(Log::Debug);
+#define LOG_SET_INFO() Log::SetLevel(Log::Info);
+#define LOG_SET_WARNING() Log::SetLevel(Log::Warning);
+#define LOG_SET_ERROR() Log::SetLevel(Log::Error);
 
 // Outputs a log message if it's level is high enough.
 #define LOG(level, message) \
@@ -52,11 +52,7 @@ class Log
     };
 
     // Getters and setters.
-    static LogLevel GetLevel();
     static void SetLevel(LogLevel level);
-
-    // Gets the stream where messages will be displayed.
-    static std::ostream& GetStream() { return std::cerr; };
 
     // Maps log levels to strings for printing purposes.
     static std::string GetLevelString(LogLevel level);

@@ -14,6 +14,8 @@
 #include "bandit/adapters/SystemAdapter.h"
 #include "bandit/adapters/TimerAdapter.h"
 
+#include "bandit/core/Log.h"
+
 class Engine
 {
   public:

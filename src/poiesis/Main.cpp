@@ -9,7 +9,7 @@ int main()
 {
     Engine engine(std::make_shared<SDLSystemAdapter>(),
         std::make_shared<SDLTimerAdapter>());
-    engine.Initialize();
+    
     engine.Run();
     
     return 0;

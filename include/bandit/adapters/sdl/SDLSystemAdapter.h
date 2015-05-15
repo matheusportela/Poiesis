@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include <SDL.h>
+#include <SDL_image.h>
 
 #include "bandit/adapters/SystemAdapter.h"
 
@@ -16,6 +17,12 @@ class SDLSystemAdapter : public SystemAdapter
     ~SDLSystemAdapter();
     void Initialize();
     void Shutdown();
+    
+  private:
+    void InitializeSDL();
+    void InitializeImageSystem();
+    void ShutdownSDL();
+    void ShutdownImageSystem();
 };
 
 #endif // SDL_SYSTEM_ADAPTER_H_

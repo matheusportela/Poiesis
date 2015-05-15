@@ -20,9 +20,6 @@ class Engine
         std::shared_ptr<TimerAdapter> timerAdapter);
     ~Engine();
 
-    // Initializes the system.
-    void Initialize();
-
     // Executes the engine main loop.
     void Run();
 

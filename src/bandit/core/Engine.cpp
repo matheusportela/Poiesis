@@ -6,17 +6,13 @@ Engine::Engine(
     systemAdapter(systemAdapter), timerAdapter(timerAdapter)
 {
     std::cout << "Initializing engine" << std::endl;
+    systemAdapter->Initialize();
 }
 
 Engine::~Engine()
 {
-    std::cout << "Destroying engine" << std::endl;
+    std::cout << "Shutting engine down" << std::endl;
     systemAdapter->Shutdown();
-}
-
-void Engine::Initialize()
-{
-    systemAdapter->Initialize();
 }
 
 void Engine::Run()

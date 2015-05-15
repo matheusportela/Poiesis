@@ -40,19 +40,23 @@ Vector& Vector::operator/=(const Vector &rhs)
     return *this;
 }
 
-const Vector Vector::operator+(const Vector &rhs) const {
+const Vector Vector::operator+(const Vector &rhs) const
+{
     return Vector(*this) += rhs;
 }
 
-const Vector Vector::operator-(const Vector &rhs) const {
+const Vector Vector::operator-(const Vector &rhs) const
+{
     return Vector(*this) -= rhs;
 }
 
-const Vector Vector::operator*(const Vector &rhs) const {
+const Vector Vector::operator*(const Vector &rhs) const
+{
     return Vector(*this) *= rhs;
 }
 
-const Vector Vector::operator/(const Vector &rhs) const {
+const Vector Vector::operator/(const Vector &rhs) const
+{
     return Vector(*this) /= rhs;
 }
 

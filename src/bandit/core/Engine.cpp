@@ -3,9 +3,9 @@
 Engine::Engine(
     std::shared_ptr<SystemAdapter> systemAdapter,
     std::shared_ptr<TimerAdapter> timerAdapter,
-    std::shared_ptr<WindowAdapter> windowAdapter) :
+    std::shared_ptr<GraphicsAdapter> graphicsAdapter) :
     systemAdapter(systemAdapter), timerAdapter(timerAdapter),
-    windowAdapter(windowAdapter)
+    graphicsAdapter(graphicsAdapter)
 {
     std::cout << "Initializing engine" << std::endl;
     systemAdapter->Initialize();
@@ -19,10 +19,12 @@ Engine::~Engine()
 
 void Engine::Run()
 {
-    windowAdapter->CreateWindow();
+    graphicsAdapter->CreateWindow("Poiesis", 1920, 1080);
+    graphicsAdapter->LoadImage("resources/img/ocean.jpg");
 
     while (true)
     {
+        graphicsAdapter->RenderImage();
         timerAdapter->Sleep(1);
         std::cout << "Elapsed time: " << timerAdapter->GetElapsedTime()
             << std::endl;

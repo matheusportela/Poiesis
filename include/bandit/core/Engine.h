@@ -10,16 +10,16 @@
 #include <iostream>
 #include <memory>
 
+#include "bandit/adapters/GraphicsAdapter.h"
 #include "bandit/adapters/SystemAdapter.h"
 #include "bandit/adapters/TimerAdapter.h"
-#include "bandit/adapters/WindowAdapter.h"
 
 class Engine
 {
   public:
     Engine(std::shared_ptr<SystemAdapter> systemAdapter,
         std::shared_ptr<TimerAdapter> timerAdapter,
-        std::shared_ptr<WindowAdapter> windowAdapter);
+        std::shared_ptr<GraphicsAdapter> graphicsAdapter);
     ~Engine();
 
     // Executes the engine main loop.
@@ -28,7 +28,7 @@ class Engine
   private:
     std::shared_ptr<SystemAdapter> systemAdapter;
     std::shared_ptr<TimerAdapter> timerAdapter;
-    std::shared_ptr<WindowAdapter> windowAdapter;
+    std::shared_ptr<GraphicsAdapter> graphicsAdapter;
 };
 
 #endif // ENGINE_H_

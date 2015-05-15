@@ -15,6 +15,7 @@
 #include "bandit/adapters/TimerAdapter.h"
 
 #include "bandit/core/Log.h"
+#include "bandit/core/parser/ConfigParser.h"
 
 class Engine
 {

@@ -26,6 +26,9 @@ class File
     // Reads a single line.
     std::string ReadLine();
 
+    // Joins a path with a file name.
+    static std::string Join(std::string path, std::string filename);
+
   private:
     std::ifstream filestream;
 };

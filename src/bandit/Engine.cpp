@@ -19,6 +19,7 @@ Engine::~Engine()
 
 void Engine::Run()
 {
+    CFG_INIT("Configurations.cfg");
     graphicsAdapter->CreateWindow("Poiesis", 1920, 1080);
     graphicsAdapter->LoadImage("resources/img/ocean.jpg");
 

@@ -7,6 +7,10 @@ Contact: matheus.v.portela@gmail.com
 
 ===============================================================================
 BUILD INSTRUCTIONS:
+First of all, it's necessary to download and install the required libraries.
+Poïesis uses the following libraries:
+    * C++ STL
+    * SDL
 
 Poïesis uses GNU Make for building the project. Simply run the following
 command in your command prompt:
@@ -49,7 +53,7 @@ provides a single point to change when libraries publish newer versions that
 are incompatible to the previous one or even when running in other OS.
     * Collections: Data structures that are used in the entire system, such as
 lists and maps.
-    * Timer: Class to provide clock-like features.
+    * Timer: Timing-related features.
     * Graphic adapter: 
     * Audio adapter: 
     * Font adapter: 

@@ -1,6 +1,7 @@
 #include "bandit/adapters/sdl/SDLTimerAdapter.h"
 
-SDLTimerAdapter::SDLTimerAdapter()
+SDLTimerAdapter::SDLTimerAdapter() :
+    previousTicks(0)
 {
     if (SDL_InitSubSystem(SDL_INIT_TIMER) != 0)
     {

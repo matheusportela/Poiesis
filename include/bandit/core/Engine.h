@@ -10,18 +10,24 @@
 #include <iostream>
 #include <memory>
 
+#include "bandit/adapters/SystemAdapter.h"
 #include "bandit/adapters/TimerAdapter.h"
 
 class Engine
 {
   public:
-    Engine(std::shared_ptr<TimerAdapter> timerAdapter);
+    Engine(std::shared_ptr<SystemAdapter> systemAdapter,
+        std::shared_ptr<TimerAdapter> timerAdapter);
     ~Engine();
+
+    // Initializes the system.
+    void Initialize();
 
     // Executes the engine main loop.
     void Run();
 
   private:
+    std::shared_ptr<SystemAdapter> systemAdapter;
     std::shared_ptr<TimerAdapter> timerAdapter;
 };
 

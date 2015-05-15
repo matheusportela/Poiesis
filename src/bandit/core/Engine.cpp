@@ -2,8 +2,10 @@
 
 Engine::Engine(
     std::shared_ptr<SystemAdapter> systemAdapter,
-    std::shared_ptr<TimerAdapter> timerAdapter) :
-    systemAdapter(systemAdapter), timerAdapter(timerAdapter)
+    std::shared_ptr<TimerAdapter> timerAdapter,
+    std::shared_ptr<WindowAdapter> windowAdapter) :
+    systemAdapter(systemAdapter), timerAdapter(timerAdapter),
+    windowAdapter(windowAdapter)
 {
     std::cout << "Initializing engine" << std::endl;
     systemAdapter->Initialize();
@@ -17,6 +19,8 @@ Engine::~Engine()
 
 void Engine::Run()
 {
+    windowAdapter->CreateWindow();
+
     while (true)
     {
         timerAdapter->Sleep(1);

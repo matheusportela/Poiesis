@@ -8,6 +8,8 @@
 #include <SDL.h>
 
 #include "bandit/adapters/WindowAdapter.h"
+#include "bandit/adapters/ImageAdapter.h"
+#include "bandit/adapters/sdl/SDLImageAdapter.h"
 
 class SDLWindowAdapter : public WindowAdapter
 {
@@ -18,6 +20,10 @@ class SDLWindowAdapter : public WindowAdapter
     void DestroyWindow();
 
   private:
+    void PaintBlack();
+    void CreateRenderer();
+    void DestroyRenderer();
+
     SDL_Window* window;
     SDL_Renderer* renderer;
 };

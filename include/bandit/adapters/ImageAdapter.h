@@ -10,8 +10,8 @@ class ImageAdapter
   public:
     ImageAdapter() : width(0), height(0) {}
     virtual ~ImageAdapter() {}
-    virtual float GetWidth() { return width; };
-    virtual float GetHeight() { return height; };
+    virtual int GetWidth() { return width; };
+    virtual int GetHeight() { return height; };
 
     // Loads an image from a specified file to the memory.
     virtual void Load(std::string file) = 0;
@@ -23,11 +23,11 @@ class ImageAdapter
     virtual bool IsLoaded() = 0;
 
   protected:
-    // Image width in file.
-    float width;
+    // Image file width, in pixels.
+    int width;
 
-    // Image height in file.
-    float height;
+    // Image file height, in pixels.
+    int height;
 };
 
 #endif // IMAGE_ADAPTER_H_

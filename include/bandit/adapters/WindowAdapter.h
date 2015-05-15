@@ -1,9 +1,11 @@
-// Interface to window rendering related methods.
+// Interface to window related methods.
 
 #ifndef WINDOW_ADAPTER_H_
 #define WINDOW_ADAPTER_H_
 
 #include <string>
+
+#include "bandit/adapters/ImageAdapter.h"
 
 class WindowAdapter
 {
@@ -12,12 +14,16 @@ class WindowAdapter
     WindowAdapter(std::string title, float width, float height) :
         title(title), width(width), height(height) {}
     virtual ~WindowAdapter() {}
+    
 
     // Creates a window where images can be rendered.
     virtual void CreateWindow() = 0;
 
-    // Destroys a previously creates window.
+    // Destroys a previously created window.
     virtual void DestroyWindow() = 0;
+
+    // Renders an image in the window.
+    // virtual void Render(ImageAdapter* image) = 0;
 
   protected:
     // Title displayed at the top of the window.

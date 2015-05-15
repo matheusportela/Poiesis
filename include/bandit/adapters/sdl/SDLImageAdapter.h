@@ -15,6 +15,11 @@ class SDLImageAdapter : public ImageAdapter
   public:
     SDLImageAdapter();
     ~SDLImageAdapter();
+    SDL_Surface* GetSurface();
+    SDL_Texture* GetTexture();
+    void SetTextureAndDestroySurface(SDL_Texture* texture);
+    void DestroySurface();
+    void DestroyTexture();
     void Load(std::string file);
     void Unload();
     bool IsLoaded();
@@ -22,6 +27,9 @@ class SDLImageAdapter : public ImageAdapter
   private:
     // SDL surface representing an image.
     SDL_Surface* surface;
+
+    // SDL texture, stored in VRAM and processed by GPU.
+    SDL_Texture* texture;
 };
 
 #endif // SDL_IMAGE_ADAPTER_H_

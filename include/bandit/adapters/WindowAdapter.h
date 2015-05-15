@@ -8,7 +8,7 @@
 class WindowAdapter
 {
   public:
-    WindowAdapter() {}
+    WindowAdapter() : title(""), width(0), height(0) {}
     WindowAdapter(std::string title, float width, float height) :
         title(title), width(width), height(height) {}
     virtual ~WindowAdapter() {}

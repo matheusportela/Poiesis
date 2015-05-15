@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory.h>
 
-#include "bandit/core/Engine.h"
+#include "bandit/Engine.h"
 #include "bandit/adapters/sdl/SDLGraphicsAdapter.h"
 #include "bandit/adapters/sdl/SDLSystemAdapter.h"
 #include "bandit/adapters/sdl/SDLTimerAdapter.h"

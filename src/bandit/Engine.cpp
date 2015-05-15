@@ -1,4 +1,4 @@
-#include "bandit/core/Engine.h"
+#include "bandit/Engine.h"
 
 Engine::Engine(
     std::shared_ptr<SystemAdapter> systemAdapter,

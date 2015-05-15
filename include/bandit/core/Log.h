@@ -54,6 +54,9 @@ class Log
     // Getters and setters.
     static void SetLevel(LogLevel level);
 
+    // Gets the stream where messages will be displayed.
+    static std::ostream& GetStream();
+
     // Maps log levels to strings for printing purposes.
     static std::string GetLevelString(LogLevel level);
 

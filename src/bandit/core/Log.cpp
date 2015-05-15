@@ -7,6 +7,11 @@ void Log::SetLevel(LogLevel level)
     Log::level = level;
 }
 
+std::ostream& Log::GetStream()
+{
+    return std::cerr;
+};
+
 std::string Log::GetLevelString(LogLevel level)
 {
     switch (level)

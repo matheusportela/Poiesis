@@ -6,6 +6,68 @@ Vector::Vector(float x, float y) : x(x), y(y) {}
 
 Vector::Vector(const Vector& other) : x(other.x), y(other.y) {}
 
+Vector& Vector::operator+=(const Vector &rhs)
+{
+    x += rhs.GetX();
+    y += rhs.GetY();
+    return *this;
+}
+
+Vector& Vector::operator-=(const Vector &rhs)
+{
+    x -= rhs.GetX();
+    y -= rhs.GetY();
+    return *this;
+}
+
+Vector& Vector::operator*=(const Vector &rhs)
+{
+    x *= rhs.GetX();
+    y *= rhs.GetY();
+    return *this;
+}
+
+Vector& Vector::operator/=(const Vector &rhs)
+{
+    if (rhs.GetX() == 0 || rhs.GetY() == 0)
+    {
+        LOG_E("[Vector] Division by zero.");
+        exit(1);
+    }
+
+    x /= rhs.GetX();
+    y /= rhs.GetY();
+    return *this;
+}
+
+const Vector Vector::operator+(const Vector &rhs) const {
+    return Vector(*this) += rhs;
+}
+
+const Vector Vector::operator-(const Vector &rhs) const {
+    return Vector(*this) -= rhs;
+}
+
+const Vector Vector::operator*(const Vector &rhs) const {
+    return Vector(*this) *= rhs;
+}
+
+const Vector Vector::operator/(const Vector &rhs) const {
+    return Vector(*this) /= rhs;
+}
+
+bool Vector::operator==(const Vector &rhs) const
+{
+    bool equalX = x == rhs.GetX();
+    bool equalY = y == rhs.GetY();
+    return (equalX && equalY);
+}
+
+bool Vector::operator!=(const Vector &rhs) const
+{
+    return !(*this == rhs);
+}
+
 float Vector::GetX() const
 {
     return x;
@@ -137,4 +199,10 @@ std::string Vector::ToString() const
     std::string stringBuffer = buffer;
 
     return stringBuffer;
+}
+
+std::ostream& operator<<(std::ostream& os, const Vector& vector)
+{
+    os << vector.ToString();
+    return os;
 }

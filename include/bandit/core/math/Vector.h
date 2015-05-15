@@ -5,6 +5,7 @@
 #define VECTOR_H_
 
 #include <cmath>
+#include <iostream>
 #include <string>
 
 #include "bandit/core/Log.h"
@@ -20,6 +21,22 @@ class Vector
 
     // Copy constructor.
     Vector(const Vector& other);
+
+    // Compound assignment operators.
+    Vector& operator+=(const Vector &rhs);
+    Vector& operator-=(const Vector &rhs);
+    Vector& operator*=(const Vector &rhs);
+    Vector& operator/=(const Vector &rhs);
+
+    // Binary arithmetic operators.
+    const Vector operator+(const Vector &rhs) const;
+    const Vector operator-(const Vector &rhs) const;
+    const Vector operator*(const Vector &rhs) const;
+    const Vector operator/(const Vector &rhs) const;
+
+    // Comparison operators.
+    bool operator==(const Vector &rhs) const;
+    bool operator!=(const Vector &rhs) const;
 
     // Getters and setters
     float GetX() const;
@@ -76,28 +93,6 @@ class Vector
     float y;
 };
 
-inline Vector operator+(Vector lhs, const Vector& rhs)
-{
-    lhs.Add(rhs);
-    return lhs;
-}
-
-inline Vector operator-(Vector lhs, const Vector& rhs)
-{
-    lhs.Subtract(rhs);
-    return lhs;
-}
-
-inline Vector operator*(Vector lhs, float rhs)
-{
-    lhs.Multiply(rhs);
-    return lhs;
-}
-
-inline Vector operator/(Vector lhs, float rhs)
-{
-    lhs.Divide(rhs);
-    return lhs;
-}
+std::ostream& operator<<(std::ostream& os, const Vector& vector);
 
 #endif // VECTOR_H_

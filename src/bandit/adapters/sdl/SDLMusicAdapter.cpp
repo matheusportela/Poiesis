@@ -1,18 +1,15 @@
 #include "bandit/adapters/sdl/SDLMusicAdapter.h"
 
-SDLMusicAdapter::SDLMusicAdapter() :
-    music(NULL)
-{
-}
+std::unordered_map<std::string, Mix_Music*> SDLMusicAdapter::musicsTable;
 
 SDLMusicAdapter::~SDLMusicAdapter()
 {
-    Unload();
+    UnloadAllMusics();
 }
 
 void SDLMusicAdapter::Load(std::string file)
 {
-    music = Mix_LoadMUS(file.c_str());
+    Mix_Music* music = Mix_LoadMUS(file.c_str());
 
     if (!music)
     {
@@ -20,32 +17,50 @@ void SDLMusicAdapter::Load(std::string file)
             << "\". " << SDL_GetError() << std::endl;
         exit(1);
     }
+
+    musicsTable[file] = music;
 }
 
-void SDLMusicAdapter::Unload()
+void SDLMusicAdapter::Unload(std::string file)
 {
-    if (IsLoaded())
-        Mix_FreeMusic(music);
+    if (IsLoaded(file))
+    {
+        Mix_FreeMusic(musicsTable[file]);
+        musicsTable.erase(file);
+    }
 }
 
-bool SDLMusicAdapter::IsLoaded()
+void SDLMusicAdapter::UnloadAllMusics()
 {
-    return (music != NULL);
+    for (auto fileAndMusic : musicsTable)
+        Unload(fileAndMusic.first);
 }
 
-void SDLMusicAdapter::Play(int repetitions)
+bool SDLMusicAdapter::IsLoaded(std::string file)
 {
-    if (!music)
+    return (musicsTable.find(file) != musicsTable.end());
+}
+
+void SDLMusicAdapter::Play(std::string file, int repetitions)
+{
+    if (!IsLoaded(file))
     {
         std::cerr << "[SDLMusicAdapter] Cannot play music without loading it "
             << "first." << std::endl;
         exit(1);
     }
 
-    Mix_PlayMusic(music, repetitions);
+    Mix_PlayMusic(musicsTable[file], repetitions);
 }
 
-void SDLMusicAdapter::Stop()
+void SDLMusicAdapter::Stop(std::string file)
 {
+    if (!IsLoaded(file))
+    {
+        std::cerr << "[SDLMusicAdapter] Cannot stop music without loading it "
+            << "first." << std::endl;
+        exit(1);
+    }
+    
     Mix_FadeOutMusic(FADE_OUT_TIME);
 }

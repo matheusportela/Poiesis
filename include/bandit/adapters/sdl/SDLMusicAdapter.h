@@ -6,6 +6,7 @@
 #define SDL_MUSIC_ADAPTER_H_
 
 #include <iostream>
+#include <unordered_map>
 
 #include <SDL_mixer.h>
 
@@ -20,17 +21,18 @@
 class SDLMusicAdapter : public AudioAdapter
 {
   public:
-    SDLMusicAdapter();
     ~SDLMusicAdapter();
     void Load(std::string file);
-    void Unload();
-    bool IsLoaded();
-    void Play(int repetitions = REPEAT_CONTINUOUSLY);
-    void Stop();
+    void Unload(std::string file);
+    bool IsLoaded(std::string file);
+    void Play(std::string file, int repetitions = REPEAT_CONTINUOUSLY);
+    void Stop(std::string file);
 
   private:
-    // Music that will be played.
-    Mix_Music* music;
+    void UnloadAllMusics();
+
+    // Storage for all loaded musics.
+    static std::unordered_map<std::string, Mix_Music*> musicsTable;
 };
 
 #endif // SDL_MUSIC_ADAPTER_H_

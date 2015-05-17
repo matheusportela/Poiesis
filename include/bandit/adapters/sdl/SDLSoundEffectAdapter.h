@@ -6,6 +6,7 @@
 #define SDL_SOUND_EFFECT_ADAPTER_H_
 
 #include <iostream>
+#include <unordered_map>
 
 #include <SDL_mixer.h>
 
@@ -23,20 +24,21 @@
 class SDLSoundEffectAdapter : public AudioAdapter
 {
   public:
-    SDLSoundEffectAdapter();
     ~SDLSoundEffectAdapter();
     void Load(std::string file);
-    void Unload();
-    bool IsLoaded();
-    void Play(int repetitions);
-    void Stop();
+    void Unload(std::string file);
+    bool IsLoaded(std::string file);
+    void Play(std::string file, int repetitions);
+    void Stop(std::string file);
 
   private:
-    // SoundEffect that will be played.
-    Mix_Chunk* soundEffect;
+    void UnloadAllSoundEffects();
 
-    // Channel number for the sound effect to be played.
-    int channel;
+    // Sound effect that are loaded.
+    static std::unordered_map<std::string, Mix_Chunk*> audioTable;
+
+    // Channel number for sound effects.
+    static std::unordered_map<std::string, int> channelTable;
 };
 
 #endif // SDL_SOUND_EFFECT_ADAPTER_H_

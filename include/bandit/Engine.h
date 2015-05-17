@@ -18,6 +18,13 @@
 #include "bandit/core/Log.h"
 #include "bandit/core/parser/ConfigParser.h"
 
+#include "bandit/core/entity/Component.h"
+#include "bandit/core/entity/SpriteComponent.h"
+#include "bandit/core/entity/Entity.h"
+#include "bandit/core/entity/EntityManager.h"
+#include "bandit/core/entity/System.h"
+#include "bandit/core/entity/RenderingSystem.h"
+
 class Engine
 {
   public:
@@ -37,6 +44,8 @@ class Engine
     std::shared_ptr<GraphicsAdapter> graphicsAdapter;
     std::shared_ptr<AudioAdapter> musicAdapter;
     std::shared_ptr<AudioAdapter> soundEffectAdapter;
+
+    std::shared_ptr<EntityManager> entityManager;
 };
 
 #endif // ENGINE_H_

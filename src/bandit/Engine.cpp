@@ -12,6 +12,7 @@ Engine::Engine(
 {
     LOG_D("Initializing engine");
     systemAdapter->Initialize();
+    entityManager = std::make_shared<EntityManager>();
 }
 
 Engine::~Engine()
@@ -27,15 +28,37 @@ void Engine::Run()
     graphicsAdapter->LoadImage("resources/img/ocean.jpg");
 
     musicAdapter->Load("resources/music/stageState.ogg");
-    musicAdapter->Play();
+    musicAdapter->Play("resources/music/stageState.ogg");
 
     soundEffectAdapter->Load("resources/sound_effect/boom.wav");
-    soundEffectAdapter->Play();
+    soundEffectAdapter->Play("resources/sound_effect/boom.wav");
+
+
+    std::shared_ptr<Entity> windowEntity = entityManager->CreateEntity();
+    entityManager->AddComponent(std::make_shared<SpriteComponent>("resources/img/ocean.jpg"), windowEntity);
+
+    std::shared_ptr<Entity> playerEntity = entityManager->CreateEntity();
+    entityManager->AddComponent(std::make_shared<SpriteComponent>("resources/img/penguin.png"), playerEntity);
+
+    std::shared_ptr<System> renderingSystem
+        = std::make_shared<RenderingSystem>(entityManager, graphicsAdapter);
+
+    std::shared_ptr<Entity> newEntity;
+    for (int i = 0; i < 10000; ++i)
+    {
+        newEntity = entityManager->CreateEntity();
+        entityManager->AddComponent(std::make_shared<SpriteComponent>("resources/img/penguin.png"), newEntity);
+    }
+
+    float dt;
 
     while (true)
     {
-        graphicsAdapter->RenderImage();
-        timerAdapter->Sleep(1);
+        dt = timerAdapter->GetElapsedTime();
         LOG_D("Elapsed time: " << timerAdapter->GetElapsedTime());
+
+        renderingSystem->Update(dt);
+
+        timerAdapter->Sleep(1);
     }
 }

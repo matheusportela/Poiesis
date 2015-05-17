@@ -10,6 +10,7 @@
 #include <iostream>
 #include <memory>
 
+#include "bandit/adapters/AudioAdapter.h"
 #include "bandit/adapters/GraphicsAdapter.h"
 #include "bandit/adapters/SystemAdapter.h"
 #include "bandit/adapters/TimerAdapter.h"
@@ -22,7 +23,8 @@ class Engine
   public:
     Engine(std::shared_ptr<SystemAdapter> systemAdapter,
         std::shared_ptr<TimerAdapter> timerAdapter,
-        std::shared_ptr<GraphicsAdapter> graphicsAdapter);
+        std::shared_ptr<GraphicsAdapter> graphicsAdapter,
+        std::shared_ptr<AudioAdapter> soundEffectAdapter);
     ~Engine();
 
     // Executes the engine main loop.
@@ -32,6 +34,7 @@ class Engine
     std::shared_ptr<SystemAdapter> systemAdapter;
     std::shared_ptr<TimerAdapter> timerAdapter;
     std::shared_ptr<GraphicsAdapter> graphicsAdapter;
+    std::shared_ptr<AudioAdapter> soundEffectAdapter;
 };
 
 #endif // ENGINE_H_

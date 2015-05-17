@@ -24,6 +24,7 @@ class Engine
     Engine(std::shared_ptr<SystemAdapter> systemAdapter,
         std::shared_ptr<TimerAdapter> timerAdapter,
         std::shared_ptr<GraphicsAdapter> graphicsAdapter,
+        std::shared_ptr<AudioAdapter> musicAdapter,
         std::shared_ptr<AudioAdapter> soundEffectAdapter);
     ~Engine();
 
@@ -34,6 +35,7 @@ class Engine
     std::shared_ptr<SystemAdapter> systemAdapter;
     std::shared_ptr<TimerAdapter> timerAdapter;
     std::shared_ptr<GraphicsAdapter> graphicsAdapter;
+    std::shared_ptr<AudioAdapter> musicAdapter;
     std::shared_ptr<AudioAdapter> soundEffectAdapter;
 };
 

@@ -1,7 +1,7 @@
 // Implementation of GraphicsAdapter interface using SDL.
 
-#ifndef SDL_IMAGE_ADAPTER_H_
-#define SDL_IMAGE_ADAPTER_H_
+#ifndef SDL_GRAPHICS_ADAPTER_H_
+#define SDL_GRAPHICS_ADAPTER_H_
 
 #include <iostream>
 
@@ -36,4 +36,4 @@ class SDLGraphicsAdapter : public GraphicsAdapter
     SDL_Texture* texture;
 };
 
-#endif // SDL_IMAGE_ADAPTER_H_
+#endif // SDL_GRAPHICS_ADAPTER_H_

@@ -25,7 +25,7 @@ class SDLMusicAdapter : public AudioAdapter
     void Load(std::string file);
     void Unload();
     bool IsLoaded();
-    void Play(int repetitions);
+    void Play(int repetitions = REPEAT_CONTINUOUSLY);
     void Stop();
 
   private:

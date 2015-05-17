@@ -4,6 +4,9 @@ std::shared_ptr<Entity> EntityManager::CreateEntity()
 {
     std::shared_ptr<Entity> entity = std::make_shared<Entity>();
     entities.push_back(entity);
+
+    LOG_D("[EntityManager] Created entity with ID: " << entity->GetId());
+
     return entity;
 }
 
@@ -11,6 +14,8 @@ void EntityManager::DeleteEntity(std::shared_ptr<Entity> entity)
 {
     DeleteEntityComponents(entity);
     DeleteEntityFromContainer(entity);
+
+    LOG_D("[EntityManager] Deleted entity with ID: " << entity->GetId());
 }
 
 void EntityManager::DeleteEntityComponents(std::shared_ptr<Entity> entity)
@@ -40,9 +45,12 @@ void EntityManager::AddComponent(std::shared_ptr<Component> component,
     }
     else
     {
-         std::vector<std::shared_ptr<Component>> componentsArray = { component };
+        std::vector<std::shared_ptr<Component>> componentsArray = { component };
         componentsByEntity[entity->GetId()] = componentsArray;
     }
+
+    LOG_D("[EntityManager] Added component \"" << component->GetComponentClass()
+        << "\" to entity with ID: " << entity->GetId());
 }
 
 bool EntityManager::HasEntity(std::shared_ptr<Entity> entity)

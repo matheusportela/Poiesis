@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "bandit/core/Log.h"
 #include "bandit/core/entity/Component.h"
 #include "bandit/core/entity/Entity.h"
 

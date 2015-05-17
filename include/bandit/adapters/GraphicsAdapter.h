@@ -21,13 +21,13 @@ class GraphicsAdapter
     virtual void LoadImage(std::string file) = 0;
 
     // Unloads a previously loaded image from memory.
-    virtual void UnloadImage() = 0;
+    virtual void UnloadImage(std::string file) = 0;
 
     // Checks whether an image has been loaded with this instance.
-    virtual bool IsLoaded() = 0;
+    virtual bool IsLoaded(std::string file) = 0;
 
     // Renders the image to a previously defined window.
-    virtual void RenderImage() = 0;
+    virtual void RenderImage(std::string file) = 0;
 };
 
 #endif // GRAPHICS_ADAPTER_H_

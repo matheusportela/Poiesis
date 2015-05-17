@@ -4,6 +4,7 @@
 #define SDL_GRAPHICS_ADAPTER_H_
 
 #include <iostream>
+#include <unordered_map>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -13,18 +14,18 @@
 class SDLGraphicsAdapter : public GraphicsAdapter
 {
   public:
-    SDLGraphicsAdapter();
     ~SDLGraphicsAdapter();
     void CreateWindow(std::string title, int width, int height);
     void DestroyWindow();
     void LoadImage(std::string file);
-    void UnloadImage();
-    bool IsLoaded();
-    void RenderImage();
+    void UnloadImage(std::string file);
+    bool IsLoaded(std::string file);
+    void RenderImage(std::string file);
 
   private:
     void CreateRenderer();
     void DestroyRenderer();
+    void UnloadAllTextures();
 
     // SDL window were images will be placed.
     static SDL_Window* window;
@@ -32,8 +33,8 @@ class SDLGraphicsAdapter : public GraphicsAdapter
     // SDL renderer that renderizes images in the window.
     static SDL_Renderer* renderer;
 
-    // SDL texture, stored in VRAM and processed by GPU.
-    SDL_Texture* texture;
+    // Table to provide reusage of loaded textures.
+    static std::unordered_map<std::string, SDL_Texture*> texturesTable;
 };
 
 #endif // SDL_GRAPHICS_ADAPTER_H_

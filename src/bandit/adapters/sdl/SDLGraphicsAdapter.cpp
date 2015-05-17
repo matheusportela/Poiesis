@@ -2,15 +2,11 @@
 
 SDL_Window* SDLGraphicsAdapter::window = NULL;
 SDL_Renderer* SDLGraphicsAdapter::renderer = NULL;
-
-SDLGraphicsAdapter::SDLGraphicsAdapter() :
-    texture(NULL)
-{
-}
+std::unordered_map<std::string, SDL_Texture*> SDLGraphicsAdapter::texturesTable;
 
 SDLGraphicsAdapter::~SDLGraphicsAdapter()
 {
-    UnloadImage();
+    UnloadAllTextures();
 }
 
 void SDLGraphicsAdapter::CreateWindow(std::string title, int width, int height)
@@ -73,7 +69,7 @@ void SDLGraphicsAdapter::LoadImage(std::string file)
         exit(1);
     }
 
-    texture = IMG_LoadTexture(renderer, file.c_str());
+    SDL_Texture* texture = IMG_LoadTexture(renderer, file.c_str());
 
     if (!texture)
     {
@@ -81,27 +77,40 @@ void SDLGraphicsAdapter::LoadImage(std::string file)
             << "\". " << SDL_GetError() << std::endl;
         exit(1);
     }
+
+    texturesTable[file] = texture;
 }
 
-void SDLGraphicsAdapter::UnloadImage()
+void SDLGraphicsAdapter::UnloadImage(std::string file)
 {
-    if (IsLoaded())
-        SDL_DestroyTexture(texture);
+    if (IsLoaded(file))
+    {
+        SDL_DestroyTexture(texturesTable[file]);
+        texturesTable.erase(file);
+    }
 }
 
-bool SDLGraphicsAdapter::IsLoaded()
+void SDLGraphicsAdapter::UnloadAllTextures()
 {
-    return (texture != NULL);
+    for (auto fileAndTexture : texturesTable)
+        UnloadImage(fileAndTexture.first);
 }
 
-void SDLGraphicsAdapter::RenderImage()
+bool SDLGraphicsAdapter::IsLoaded(std::string file)
 {
-    if (!texture)
+    return (texturesTable.find(file) != texturesTable.end());
+}
+
+void SDLGraphicsAdapter::RenderImage(std::string file)
+{
+    if (!IsLoaded(file))
     {
         std::cerr << "[SDLGraphicsAdapter] Cannot render image without loading "
             << "it first." << std::endl;
         exit(1);
     }
+
+    SDL_Texture* texture = texturesTable[file];
 
     // Moves texture to proper GPU memory location.
     // Third argument deals with clipping the image. NULL makes it stretch to

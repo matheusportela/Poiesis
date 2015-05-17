@@ -43,13 +43,6 @@ void Engine::Run()
     std::shared_ptr<System> renderingSystem
         = std::make_shared<RenderingSystem>(entityManager, graphicsAdapter);
 
-    std::shared_ptr<Entity> newEntity;
-    for (int i = 0; i < 10000; ++i)
-    {
-        newEntity = entityManager->CreateEntity();
-        entityManager->AddComponent(std::make_shared<SpriteComponent>("resources/img/penguin.png"), newEntity);
-    }
-
     float dt;
 
     while (true)

@@ -19,11 +19,12 @@
 #include "bandit/core/parser/ConfigParser.h"
 
 #include "bandit/core/entity/Component.h"
-#include "bandit/core/entity/SpriteComponent.h"
 #include "bandit/core/entity/Entity.h"
 #include "bandit/core/entity/EntityManager.h"
 #include "bandit/core/entity/System.h"
-#include "bandit/core/entity/RenderingSystem.h"
+
+#include "bandit/component/SpriteComponent.h"
+#include "bandit/system/RenderingSystem.h"
 
 class Engine
 {

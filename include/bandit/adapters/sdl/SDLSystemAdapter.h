@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 
 #include "bandit/adapters/SystemAdapter.h"
 
@@ -21,8 +22,10 @@ class SDLSystemAdapter : public SystemAdapter
   private:
     void InitializeSDL();
     void InitializeImageSystem();
+    void InitializeAudioSystem();
     void ShutdownSDL();
     void ShutdownImageSystem();
+    void ShutdownAudioSystem();
 };
 
 #endif // SDL_SYSTEM_ADAPTER_H_

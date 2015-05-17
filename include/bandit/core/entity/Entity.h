@@ -18,9 +18,9 @@ class Entity
   private:
     unsigned int id;
 
-    // Tracks the last generated ID in order to properly generate a new ID when
-    // creating a new entity.
-    static unsigned int lastGeneratedId;
+    // Tracks the lowest unassigned ID in order to properly generate a new ID
+    // when creating a new entity.
+    static unsigned int lowestUnassignedId;
 };
 
 #endif // ENTITY_H_

@@ -4,6 +4,7 @@
 #define RENDERING_SYSTEM_H_
 
 #include <memory>
+#include <string>
 
 #include "bandit/adapters/GraphicsAdapter.h"
 #include "bandit/core/Log.h"
@@ -16,6 +17,7 @@ class RenderingSystem : public System
   public:
     RenderingSystem(std::shared_ptr<EntityManager> entityManager,
         std::shared_ptr<GraphicsAdapter> graphicsAdapter);
+    std::string GetName();
     void Update(float dt);
 
   private:

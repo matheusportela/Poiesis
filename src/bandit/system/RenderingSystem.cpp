@@ -6,6 +6,11 @@ RenderingSystem::RenderingSystem(std::shared_ptr<EntityManager> entityManager,
 {
 }
 
+std::string RenderingSystem::GetName()
+{
+    return "RenderingSystem";
+}
+
 void RenderingSystem::Update(float dt)
 {
     LOG_D("[RenderingSystem] Updating");

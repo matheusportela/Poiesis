@@ -22,6 +22,7 @@
 #include "bandit/core/entity/Entity.h"
 #include "bandit/core/entity/EntityManager.h"
 #include "bandit/core/entity/System.h"
+#include "bandit/core/entity/SystemManager.h"
 
 #include "bandit/component/SpriteComponent.h"
 #include "bandit/system/RenderingSystem.h"
@@ -47,6 +48,7 @@ class Engine
     std::shared_ptr<AudioAdapter> soundEffectAdapter;
 
     std::shared_ptr<EntityManager> entityManager;
+    std::shared_ptr<SystemManager> systemManager;
 };
 
 #endif // ENGINE_H_

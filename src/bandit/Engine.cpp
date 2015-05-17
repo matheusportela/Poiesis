@@ -13,6 +13,7 @@ Engine::Engine(
     LOG_D("Initializing engine");
     systemAdapter->Initialize();
     entityManager = std::make_shared<EntityManager>();
+    systemManager = std::make_shared<SystemManager>();
 }
 
 Engine::~Engine()
@@ -42,6 +43,7 @@ void Engine::Run()
 
     std::shared_ptr<System> renderingSystem
         = std::make_shared<RenderingSystem>(entityManager, graphicsAdapter);
+    systemManager->AddSystem(renderingSystem);
 
     float dt;
 
@@ -50,7 +52,7 @@ void Engine::Run()
         dt = timerAdapter->GetElapsedTime();
         LOG_D("Elapsed time: " << timerAdapter->GetElapsedTime());
 
-        renderingSystem->Update(dt);
+        systemManager->Update(dt);
 
         timerAdapter->Sleep(1);
     }

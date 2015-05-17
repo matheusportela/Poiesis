@@ -24,7 +24,7 @@ class EntityManager
     std::vector<std::shared_ptr<Entity>> GetAllEntitiesWithComponentOfClass(
         std::string componentClass);
 
-  // private:
+  private:
     void DeleteEntityComponents(std::shared_ptr<Entity> entity);
     void DeleteEntityFromContainer(std::shared_ptr<Entity> entity);
     bool HasEntity(std::shared_ptr<Entity> entity);

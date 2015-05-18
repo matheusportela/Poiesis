@@ -14,10 +14,8 @@ class SpriteComponent : public Component
     std::string GetComponentClass();
 
     std::string filename;
-    int height;
-    int width;
-    int scaleX;
-    int scaleY;
+    int x;
+    int y;
 };
 
 #endif // SPRITE_COMPONENT_H_

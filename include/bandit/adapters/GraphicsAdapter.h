@@ -26,8 +26,12 @@ class GraphicsAdapter
     // Checks whether an image has been loaded with this instance.
     virtual bool IsLoaded(std::string file) = 0;
 
-    // Renders the image to a previously defined window.
-    virtual void RenderImage(std::string file) = 0;
+    // Renders the image to a previously defined window in the given x, y
+    // coordinates.
+    virtual void RenderImage(std::string file, int x, int y) = 0;
+
+    // Scales the image in X and Y axes.
+    virtual void SetImageScale(std::string file, int scale) = 0;
 };
 
 #endif // GRAPHICS_ADAPTER_H_

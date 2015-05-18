@@ -20,11 +20,21 @@ class SDLGraphicsAdapter : public GraphicsAdapter
     void LoadImage(std::string file);
     void UnloadImage(std::string file);
     bool IsLoaded(std::string file);
-    void RenderImage(std::string file);
+    void RenderImage(std::string file, int x, int y);
+    void SetImageScale(std::string file, int scale);
 
   private:
+    struct TextureSettings
+    {
+        int width;
+        int height;
+        int scale;
+    };
+
     void CreateRenderer();
     void DestroyRenderer();
+    void LoadTexture(std::string file);
+    void UpdateTextureSettings(std::string file);
     void UnloadAllTextures();
 
     // SDL window were images will be placed.
@@ -35,6 +45,9 @@ class SDLGraphicsAdapter : public GraphicsAdapter
 
     // Table to provide reusage of loaded textures.
     static std::unordered_map<std::string, SDL_Texture*> texturesTable;
+
+    // Table to maintain the image dimensions settings.
+    static std::unordered_map<std::string, TextureSettings> texturesSettings;
 };
 
 #endif // SDL_GRAPHICS_ADAPTER_H_

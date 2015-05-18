@@ -13,7 +13,7 @@ std::string RenderingSystem::GetName()
 
 void RenderingSystem::Update(float dt)
 {
-    LOG_D("[RenderingSystem] Updating");
+    LOG_D("[RenderingSystem] Updating " << dt);
 
     std::string componentClass = "SpriteComponent";
     std::vector<std::shared_ptr<Entity>> entities =
@@ -35,9 +35,13 @@ void RenderingSystem::Update(float dt)
                     << "\" for entity with ID: " << entity->GetId());
             }
 
-            graphicsAdapter->RenderImage(spriteComponent->filename);
+            graphicsAdapter->RenderImage(spriteComponent->filename,
+                spriteComponent->x, spriteComponent->y);
             LOG_D("[RenderingSystem] Rendered image \"" << spriteComponent->filename
                     << "\" for entity with ID: " << entity->GetId());
+
+            spriteComponent->x += 10;
+            spriteComponent->y += 10;
         }
     }
 }

@@ -32,8 +32,16 @@ void SDLMusicAdapter::Unload(std::string file)
 
 void SDLMusicAdapter::UnloadAllMusics()
 {
-    for (auto fileAndMusic : musicsTable)
-        Unload(fileAndMusic.first);
+    Mix_Music* music;
+    std::unordered_map<std::string, Mix_Music*>::iterator it;
+
+    while (musicsTable.size() != 0)
+    {
+        it = musicsTable.begin();
+        music = it->second;
+        Mix_FreeMusic(music);
+        musicsTable.erase(it->first);
+    }
 }
 
 bool SDLMusicAdapter::IsLoaded(std::string file)

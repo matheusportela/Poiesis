@@ -54,6 +54,11 @@ void Engine::Run()
         LOG_D("Elapsed time: " << timerAdapter->GetElapsedTime());
 
         inputAdapter->ProcessInputs();
+        if (inputAdapter->CheckInputOccurred(InputType::QuitButtonPress))
+        {
+            LOG_I("Quit requested");
+            break;
+        }
 
         systemManager->Update(dt);
 

@@ -114,8 +114,16 @@ void SDLGraphicsAdapter::UnloadImage(std::string file)
 
 void SDLGraphicsAdapter::UnloadAllTextures()
 {
-    for (auto fileAndTexture : texturesTable)
-        UnloadImage(fileAndTexture.first);
+    SDL_Texture* texture;
+    std::unordered_map<std::string, SDL_Texture*>::iterator it;
+
+    while (texturesTable.size() != 0)
+    {
+        it = texturesTable.begin();
+        texture = it->second;
+        SDL_DestroyTexture(texture);
+        texturesTable.erase(it->first);
+    }
 }
 
 bool SDLGraphicsAdapter::IsLoaded(std::string file)

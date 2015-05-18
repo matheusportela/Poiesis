@@ -35,8 +35,18 @@ void SDLSoundEffectAdapter::Unload(std::string file)
 
 void SDLSoundEffectAdapter::UnloadAllSoundEffects()
 {
-    for (auto fileAndSoundEffect : audioTable)
-        Unload(fileAndSoundEffect.first);
+    Mix_Chunk* soundEffect;
+    std::unordered_map<std::string, Mix_Chunk*>::iterator it;
+
+    while (audioTable.size() != 0)
+    {
+        it = audioTable.begin();
+        soundEffect = it->second;
+        Mix_FreeChunk(soundEffect);
+        audioTable.erase(it->first);
+    }
+
+    channelTable.clear();
 }
 
 bool SDLSoundEffectAdapter::IsLoaded(std::string file)

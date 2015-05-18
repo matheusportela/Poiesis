@@ -5,10 +5,11 @@ Engine::Engine(
     std::shared_ptr<TimerAdapter> timerAdapter,
     std::shared_ptr<GraphicsAdapter> graphicsAdapter,
     std::shared_ptr<AudioAdapter> musicAdapter,
-    std::shared_ptr<AudioAdapter> soundEffectAdapter) :
+    std::shared_ptr<AudioAdapter> soundEffectAdapter,
+    std::shared_ptr<InputAdapter> inputAdapter) :
     systemAdapter(systemAdapter), timerAdapter(timerAdapter),
     graphicsAdapter(graphicsAdapter), musicAdapter(musicAdapter),
-    soundEffectAdapter(soundEffectAdapter)
+    soundEffectAdapter(soundEffectAdapter), inputAdapter(inputAdapter)
 {
     LOG_D("Initializing engine");
     systemAdapter->Initialize();
@@ -51,6 +52,8 @@ void Engine::Run()
     {
         dt = timerAdapter->GetElapsedTime();
         LOG_D("Elapsed time: " << timerAdapter->GetElapsedTime());
+
+        inputAdapter->ProcessInputs();
 
         systemManager->Update(dt);
 

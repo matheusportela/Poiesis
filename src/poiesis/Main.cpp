@@ -3,6 +3,7 @@
 
 #include "bandit/Engine.h"
 #include "bandit/adapters/sdl/SDLGraphicsAdapter.h"
+#include "bandit/adapters/sdl/SDLInputAdapter.h"
 #include "bandit/adapters/sdl/SDLMusicAdapter.h"
 #include "bandit/adapters/sdl/SDLSoundEffectAdapter.h"
 #include "bandit/adapters/sdl/SDLSystemAdapter.h"
@@ -15,7 +16,8 @@ int main()
         std::make_shared<SDLTimerAdapter>(),
         std::make_shared<SDLGraphicsAdapter>(),
         std::make_shared<SDLMusicAdapter>(),
-        std::make_shared<SDLSoundEffectAdapter>());
+        std::make_shared<SDLSoundEffectAdapter>(),
+        std::make_shared<SDLInputAdapter>());
 
     engine.Run();
     

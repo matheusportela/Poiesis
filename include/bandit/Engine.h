@@ -12,6 +12,7 @@
 
 #include "bandit/adapters/AudioAdapter.h"
 #include "bandit/adapters/GraphicsAdapter.h"
+#include "bandit/adapters/InputAdapter.h"
 #include "bandit/adapters/SystemAdapter.h"
 #include "bandit/adapters/TimerAdapter.h"
 
@@ -34,7 +35,8 @@ class Engine
         std::shared_ptr<TimerAdapter> timerAdapter,
         std::shared_ptr<GraphicsAdapter> graphicsAdapter,
         std::shared_ptr<AudioAdapter> musicAdapter,
-        std::shared_ptr<AudioAdapter> soundEffectAdapter);
+        std::shared_ptr<AudioAdapter> soundEffectAdapter,
+        std::shared_ptr<InputAdapter> inputAdapter);
     ~Engine();
 
     // Executes the engine main loop.
@@ -46,6 +48,7 @@ class Engine
     std::shared_ptr<GraphicsAdapter> graphicsAdapter;
     std::shared_ptr<AudioAdapter> musicAdapter;
     std::shared_ptr<AudioAdapter> soundEffectAdapter;
+    std::shared_ptr<InputAdapter> inputAdapter;
 
     std::shared_ptr<EntityManager> entityManager;
     std::shared_ptr<SystemManager> systemManager;

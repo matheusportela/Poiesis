@@ -18,6 +18,9 @@ class RenderingSystem : public System
     RenderingSystem(std::shared_ptr<EntityManager> entityManager,
         std::shared_ptr<GraphicsAdapter> graphicsAdapter);
     std::string GetName();
+    std::string GetComponentClass();
+    void ProcessEntityComponent(std::shared_ptr<Entity> entity,
+        std::shared_ptr<Component> component);
     void Update(float dt);
 
   private:

@@ -62,6 +62,6 @@ void Engine::Run()
 
         systemManager->Update(dt);
 
-        timerAdapter->Sleep(1);
+        timerAdapter->Sleep(0.033);
     }
 }

@@ -25,6 +25,8 @@
 #include "bandit/core/entity/System.h"
 #include "bandit/core/entity/SystemManager.h"
 
+#include "bandit/core/level/LevelManager.h"
+
 #include "bandit/component/SpriteComponent.h"
 #include "bandit/system/RenderingSystem.h"
 
@@ -36,7 +38,9 @@ class Engine
         std::shared_ptr<GraphicsAdapter> graphicsAdapter,
         std::shared_ptr<AudioAdapter> musicAdapter,
         std::shared_ptr<AudioAdapter> soundEffectAdapter,
-        std::shared_ptr<InputAdapter> inputAdapter);
+        std::shared_ptr<InputAdapter> inputAdapter,
+        std::shared_ptr<EntityManager> entityManager,
+        std::shared_ptr<LevelManager> levelManager);
     ~Engine();
 
     // Executes the engine main loop.
@@ -49,8 +53,8 @@ class Engine
     std::shared_ptr<AudioAdapter> musicAdapter;
     std::shared_ptr<AudioAdapter> soundEffectAdapter;
     std::shared_ptr<InputAdapter> inputAdapter;
-
     std::shared_ptr<EntityManager> entityManager;
+    std::shared_ptr<LevelManager> levelManager;
     std::shared_ptr<SystemManager> systemManager;
 };
 

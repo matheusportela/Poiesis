@@ -6,14 +6,16 @@ Engine::Engine(
     std::shared_ptr<GraphicsAdapter> graphicsAdapter,
     std::shared_ptr<AudioAdapter> musicAdapter,
     std::shared_ptr<AudioAdapter> soundEffectAdapter,
-    std::shared_ptr<InputAdapter> inputAdapter) :
+    std::shared_ptr<InputAdapter> inputAdapter,
+    std::shared_ptr<EntityManager> entityManager,
+    std::shared_ptr<LevelManager> levelManager) :
     systemAdapter(systemAdapter), timerAdapter(timerAdapter),
     graphicsAdapter(graphicsAdapter), musicAdapter(musicAdapter),
-    soundEffectAdapter(soundEffectAdapter), inputAdapter(inputAdapter)
+    soundEffectAdapter(soundEffectAdapter), inputAdapter(inputAdapter),
+    entityManager(entityManager), levelManager(levelManager)
 {
     LOG_D("Initializing engine");
     systemAdapter->Initialize();
-    entityManager = std::make_shared<EntityManager>();
     systemManager = std::make_shared<SystemManager>();
 }
 
@@ -25,26 +27,10 @@ Engine::~Engine()
 
 void Engine::Run()
 {
-    CFG_INIT("Configurations.cfg");
     graphicsAdapter->CreateWindow("Poiesis", 1920, 1080);
-    graphicsAdapter->LoadImage("resources/img/ocean.jpg");
 
-    musicAdapter->Load("resources/music/stageState.ogg");
-    musicAdapter->Play("resources/music/stageState.ogg");
-
-    soundEffectAdapter->Load("resources/sound_effect/boom.wav");
-    soundEffectAdapter->Play("resources/sound_effect/boom.wav");
-
-
-    std::shared_ptr<Entity> windowEntity = entityManager->CreateEntity();
-    entityManager->AddComponent(std::make_shared<SpriteComponent>("resources/img/ocean.jpg"), windowEntity);
-
-    std::shared_ptr<Entity> playerEntity = entityManager->CreateEntity();
-    entityManager->AddComponent(std::make_shared<SpriteComponent>("resources/img/penguin.png"), playerEntity);
-
-    std::shared_ptr<System> renderingSystem
-        = std::make_shared<RenderingSystem>(entityManager, graphicsAdapter,
-            inputAdapter);
+    std::shared_ptr<System> renderingSystem = std::make_shared<RenderingSystem>(
+        entityManager, graphicsAdapter, inputAdapter);
     systemManager->AddSystem(renderingSystem);
 
     float dt;
@@ -62,6 +48,7 @@ void Engine::Run()
         }
 
         systemManager->Update(dt);
+        levelManager->Update();
 
         timerAdapter->Sleep(0.033);
     }

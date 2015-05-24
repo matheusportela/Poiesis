@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#include "bandit/Engine.h"
+
 #include "bandit/core/Log.h"
 #include "bandit/core/entity/Entity.h"
 #include "bandit/core/entity/EntityManager.h"
@@ -16,15 +18,9 @@
 class Level1 : public Level
 {
   public:
-    Level1(std::shared_ptr<EntityManager> entityManager,
-        std::shared_ptr<SystemManager> systemManager);
     void Start();
     void Update();
     void Finish();
-
-  private:
-    std::shared_ptr<EntityManager> entityManager;
-    std::shared_ptr<SystemManager> systemManager;
 };
 
 #endif // LEVEL_1_H_

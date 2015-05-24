@@ -1,14 +1,10 @@
 #include "poiesis/level/Level1.h"
 
-Level1::Level1(std::shared_ptr<EntityManager> entityManager,
-    std::shared_ptr<SystemManager> systemManager) :
-    entityManager(entityManager), systemManager(systemManager)
-{
-}
-
 void Level1::Start()
 {
     LOG_I("[Level1] Starting");
+    std::shared_ptr<EntityManager> entityManager = Engine::GetInstance().GetEntityManager();
+
     std::shared_ptr<Entity> windowEntity = entityManager->CreateEntity();
     entityManager->AddComponent(
         std::make_shared<SpriteComponent>("resources/img/black.png"),

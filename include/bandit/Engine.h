@@ -33,7 +33,15 @@
 class Engine
 {
   public:
-    Engine(std::shared_ptr<SystemAdapter> systemAdapter,
+    static Engine& GetInstance();
+
+    std::shared_ptr<EntityManager> GetEntityManager();
+    std::shared_ptr<SystemManager> GetSystemManager();
+    std::shared_ptr<LevelManager> GetLevelManager();
+
+    // Initializes engine adapters and managers.
+    void Initialize(
+        std::shared_ptr<SystemAdapter> systemAdapter,
         std::shared_ptr<TimerAdapter> timerAdapter,
         std::shared_ptr<GraphicsAdapter> graphicsAdapter,
         std::shared_ptr<AudioAdapter> musicAdapter,
@@ -42,12 +50,19 @@ class Engine
         std::shared_ptr<EntityManager> entityManager,
         std::shared_ptr<LevelManager> levelManager,
         std::shared_ptr<SystemManager> systemManager);
-    ~Engine();
+
+    // Shutdown engine adapters and managers.
+    void Shutdown();
 
     // Executes the engine main loop.
     void Run();
 
   private:
+    // Singleton pattern.
+    Engine() {};
+    Engine(const Engine&) = delete;
+    void operator=(const Engine&) = delete;
+
     std::shared_ptr<SystemAdapter> systemAdapter;
     std::shared_ptr<TimerAdapter> timerAdapter;
     std::shared_ptr<GraphicsAdapter> graphicsAdapter;

@@ -20,26 +20,23 @@
 int main()
 {
     LOG_SET_DEBUG();
-    std::shared_ptr<EntityManager> entityManager = std::make_shared<EntityManager>();
-
-    std::shared_ptr<LevelManager> levelManager = std::make_shared<LevelManager>();
-
-    std::shared_ptr<SystemManager> systemManager = std::make_shared<SystemManager>();
-
-    levelManager->SetCurrentLevel(
-        std::make_shared<Level1>(entityManager, systemManager));
-
-    Engine engine(std::make_shared<SDLSystemAdapter>(),
+    Engine::GetInstance().Initialize(
+        std::make_shared<SDLSystemAdapter>(),
         std::make_shared<SDLTimerAdapter>(),
         std::make_shared<SDLGraphicsAdapter>(),
         std::make_shared<SDLMusicAdapter>(),
         std::make_shared<SDLSoundEffectAdapter>(),
         std::make_shared<SDLInputAdapter>(),
-        entityManager,
-        levelManager,
-        systemManager);
+        std::make_shared<EntityManager>(),
+        std::make_shared<LevelManager>(),
+        std::make_shared<SystemManager>());
 
-    engine.Run();
+    std::shared_ptr<LevelManager> levelManager = Engine::GetInstance().GetLevelManager();
+    levelManager->SetCurrentLevel(std::make_shared<Level1>());
+
+    Engine::GetInstance().Run();
+
+    Engine::GetInstance().Shutdown();
     
     return 0;
 }

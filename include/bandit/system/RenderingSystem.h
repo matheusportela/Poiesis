@@ -7,6 +7,7 @@
 #include <string>
 
 #include "bandit/adapters/GraphicsAdapter.h"
+#include "bandit/adapters/InputAdapter.h"
 #include "bandit/core/Log.h"
 #include "bandit/core/entity/EntityManager.h"
 #include "bandit/core/entity/System.h"
@@ -16,7 +17,8 @@ class RenderingSystem : public System
 {
   public:
     RenderingSystem(std::shared_ptr<EntityManager> entityManager,
-        std::shared_ptr<GraphicsAdapter> graphicsAdapter);
+        std::shared_ptr<GraphicsAdapter> graphicsAdapter,
+        std::shared_ptr<InputAdapter> inputAdapter);
     std::string GetName();
     std::string GetComponentClass();
     void ProcessEntityComponent(std::shared_ptr<Entity> entity,
@@ -25,6 +27,7 @@ class RenderingSystem : public System
 
   private:
     std::shared_ptr<GraphicsAdapter> graphicsAdapter;
+    std::shared_ptr<InputAdapter> inputAdapter;
 };
 
 #endif // RENDERING_SYSTEM_H_

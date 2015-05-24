@@ -43,7 +43,8 @@ void Engine::Run()
     entityManager->AddComponent(std::make_shared<SpriteComponent>("resources/img/penguin.png"), playerEntity);
 
     std::shared_ptr<System> renderingSystem
-        = std::make_shared<RenderingSystem>(entityManager, graphicsAdapter);
+        = std::make_shared<RenderingSystem>(entityManager, graphicsAdapter,
+            inputAdapter);
     systemManager->AddSystem(renderingSystem);
 
     float dt;

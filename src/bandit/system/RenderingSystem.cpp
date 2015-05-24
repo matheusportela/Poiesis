@@ -1,8 +1,10 @@
 #include "bandit/system/RenderingSystem.h"
 
 RenderingSystem::RenderingSystem(std::shared_ptr<EntityManager> entityManager,
-    std::shared_ptr<GraphicsAdapter> graphicsAdapter) :
-    System(entityManager), graphicsAdapter(graphicsAdapter)
+    std::shared_ptr<GraphicsAdapter> graphicsAdapter,
+    std::shared_ptr<InputAdapter> inputAdapter) :
+    System(entityManager), graphicsAdapter(graphicsAdapter),
+    inputAdapter(inputAdapter)
 {
 }
 
@@ -34,8 +36,11 @@ void RenderingSystem::ProcessEntityComponent(std::shared_ptr<Entity> entity,
     LOG_D("[RenderingSystem] Rendered image \"" << spriteComponent->filename
             << "\" for entity with ID: " << entity->GetId());
 
-    spriteComponent->x += 10;
-    spriteComponent->y += 10;
+    // spriteComponent->x += 10;
+    // spriteComponent->y += 10;
+
+    if (inputAdapter->CheckInputOccurred(InputType::MousePress))
+        LOG_I("Mouse pressed");
 }
 
 void RenderingSystem::Update(float dt)

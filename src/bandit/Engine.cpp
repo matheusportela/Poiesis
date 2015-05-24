@@ -8,15 +8,16 @@ Engine::Engine(
     std::shared_ptr<AudioAdapter> soundEffectAdapter,
     std::shared_ptr<InputAdapter> inputAdapter,
     std::shared_ptr<EntityManager> entityManager,
-    std::shared_ptr<LevelManager> levelManager) :
+    std::shared_ptr<LevelManager> levelManager,
+    std::shared_ptr<SystemManager> systemManager) :
     systemAdapter(systemAdapter), timerAdapter(timerAdapter),
     graphicsAdapter(graphicsAdapter), musicAdapter(musicAdapter),
     soundEffectAdapter(soundEffectAdapter), inputAdapter(inputAdapter),
-    entityManager(entityManager), levelManager(levelManager)
+    entityManager(entityManager), levelManager(levelManager),
+    systemManager(systemManager)
 {
     LOG_D("Initializing engine");
     systemAdapter->Initialize();
-    systemManager = std::make_shared<SystemManager>();
 }
 
 Engine::~Engine()

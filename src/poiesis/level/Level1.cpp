@@ -1,7 +1,8 @@
 #include "poiesis/level/Level1.h"
 
-Level1::Level1(std::shared_ptr<EntityManager> entityManager) :
-    entityManager(entityManager)
+Level1::Level1(std::shared_ptr<EntityManager> entityManager,
+    std::shared_ptr<SystemManager> systemManager) :
+    entityManager(entityManager), systemManager(systemManager)
 {
 }
 

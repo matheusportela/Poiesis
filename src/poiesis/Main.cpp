@@ -2,6 +2,7 @@
 #include <memory.h>
 
 #include "bandit/Engine.h"
+
 #include "bandit/adapters/sdl/SDLGraphicsAdapter.h"
 #include "bandit/adapters/sdl/SDLInputAdapter.h"
 #include "bandit/adapters/sdl/SDLMusicAdapter.h"
@@ -10,6 +11,8 @@
 #include "bandit/adapters/sdl/SDLTimerAdapter.h"
 
 #include "bandit/core/entity/EntityManager.h"
+#include "bandit/core/entity/SystemManager.h"
+
 #include "bandit/core/level/LevelManager.h"
 
 #include "poiesis/level/Level1.h"
@@ -20,7 +23,11 @@ int main()
     std::shared_ptr<EntityManager> entityManager = std::make_shared<EntityManager>();
 
     std::shared_ptr<LevelManager> levelManager = std::make_shared<LevelManager>();
-    levelManager->SetCurrentLevel(std::make_shared<Level1>(entityManager));
+
+    std::shared_ptr<SystemManager> systemManager = std::make_shared<SystemManager>();
+
+    levelManager->SetCurrentLevel(
+        std::make_shared<Level1>(entityManager, systemManager));
 
     Engine engine(std::make_shared<SDLSystemAdapter>(),
         std::make_shared<SDLTimerAdapter>(),
@@ -29,7 +36,8 @@ int main()
         std::make_shared<SDLSoundEffectAdapter>(),
         std::make_shared<SDLInputAdapter>(),
         entityManager,
-        levelManager);
+        levelManager,
+        systemManager);
 
     engine.Run();
     

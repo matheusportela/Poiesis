@@ -40,7 +40,8 @@ class Engine
         std::shared_ptr<AudioAdapter> soundEffectAdapter,
         std::shared_ptr<InputAdapter> inputAdapter,
         std::shared_ptr<EntityManager> entityManager,
-        std::shared_ptr<LevelManager> levelManager);
+        std::shared_ptr<LevelManager> levelManager,
+        std::shared_ptr<SystemManager> systemManager);
     ~Engine();
 
     // Executes the engine main loop.

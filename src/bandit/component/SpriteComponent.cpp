@@ -1,7 +1,7 @@
 #include "bandit/component/SpriteComponent.h"
 
-SpriteComponent::SpriteComponent(std::string filename) :
-    filename(filename), x(0), y(0)
+SpriteComponent::SpriteComponent(std::string filename, int x, int y) :
+    filename(filename), x(x), y(y)
 {
 }
 

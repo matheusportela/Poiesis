@@ -52,14 +52,53 @@ void Engine::Shutdown()
     systemAdapter->Shutdown();
 }
 
-void Engine::Run()
+void Engine::CreateWindow(std::string title, int height, int width)
 {
-    graphicsAdapter->CreateWindow("Poiesis", 1920, 1080);
+    if (graphicsAdapter == nullptr)
+    {
+        LOG_E("[Engine] Graphics adapter must be initialized before creating "
+            << "an window.");
+        exit(1);
+    }
 
+    if (inputAdapter == nullptr)
+    {
+        LOG_E("[Engine] Input adapter must be initialized before creating an "
+            << "window in order to handle quit requests.");
+        exit(1);
+    }
+
+    graphicsAdapter->CreateWindow(title, height, width);
+
+    // Necessary to display the window.
     std::shared_ptr<System> renderingSystem = std::make_shared<RenderingSystem>(
         entityManager, graphicsAdapter, inputAdapter);
-    systemManager->AddSystem(renderingSystem);
+    AddSystem(renderingSystem);
+}
 
+void Engine::SetCurrentLevel(std::shared_ptr<Level> level)
+{
+    levelManager->SetCurrentLevel(level);
+}
+
+std::shared_ptr<Entity> Engine::CreateEntity()
+{
+    return entityManager->CreateEntity();
+}
+
+void Engine::AddComponent(std::shared_ptr<Component> component,
+    std::shared_ptr<Entity> entity)
+{
+    entityManager->AddComponent(component, entity);
+}
+
+void Engine::AddSystem(std::shared_ptr<System> system)
+{
+    systemManager->AddSystem(system);
+}
+
+void Engine::Run()
+{
     float dt;
 
     while (true)

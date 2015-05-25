@@ -75,12 +75,23 @@ SDLInputAdapter::SDLInputAdapter()
     }
 }
 
+int SDLInputAdapter::GetMouseX()
+{
+    return mouseX;
+}
+int SDLInputAdapter::GetMouseY()
+{
+    return mouseY;
+}
+
 void SDLInputAdapter::ProcessInputs()
 {
     SDL_Event event;
     int button;
 
     occurredInputs.clear();
+
+    UpdateMousePosition();
 
     while (SDL_PollEvent(&event))
     {
@@ -150,6 +161,11 @@ void SDLInputAdapter::ProcessInputs()
         if(keyDownMap[button])
             PushOccurredInput(InputType::KeyDown, button);
     }
+}
+
+void SDLInputAdapter::UpdateMousePosition()
+{
+    SDL_GetMouseState(&mouseX, &mouseY);
 }
 
 bool SDLInputAdapter::IsSupportedKeyboardCode(int SDLCode)

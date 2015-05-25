@@ -88,6 +88,10 @@ class InputAdapter
   public:
     virtual ~InputAdapter() {}
     
+    // Gets current mouse position x and y.
+    virtual int GetMouseX() = 0;
+    virtual int GetMouseY() = 0;
+
     // Processes all inputs that happened since the last invocation of this
     // method.
     virtual void ProcessInputs() = 0;

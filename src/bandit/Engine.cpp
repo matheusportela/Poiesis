@@ -6,6 +6,11 @@ Engine& Engine::GetInstance()
     return instance;
 }
 
+std::shared_ptr<InputAdapter> Engine::GetInputAdapter()
+{
+    return inputAdapter;
+}
+
 std::shared_ptr<EntityManager> Engine::GetEntityManager()
 {
     return entityManager;
@@ -104,7 +109,7 @@ void Engine::Run()
     while (true)
     {
         dt = timerAdapter->GetElapsedTime();
-        LOG_D("Elapsed time: " << timerAdapter->GetElapsedTime());
+        LOG_D("Elapsed time: " << dt);
 
         inputAdapter->ProcessInputs();
         if (inputAdapter->CheckInputOccurred(InputType::QuitButtonPress))

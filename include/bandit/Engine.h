@@ -56,6 +56,7 @@ class Engine
   public:
     static Engine& GetInstance();
 
+    std::shared_ptr<InputAdapter> GetInputAdapter();
     std::shared_ptr<EntityManager> GetEntityManager();
     std::shared_ptr<SystemManager> GetSystemManager();
     std::shared_ptr<LevelManager> GetLevelManager();

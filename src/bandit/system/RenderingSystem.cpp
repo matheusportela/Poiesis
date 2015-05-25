@@ -45,7 +45,8 @@ void RenderingSystem::ProcessEntityComponent(std::shared_ptr<Entity> entity,
 
 void RenderingSystem::Update(float dt)
 {
-    LOG_D("[" << GetName() << "] Updating " << dt);
+    // Avoid warnings for not using dt.
+    LOG_D("[RenderingSystem] Update: " << dt);
 
     std::string componentClass = GetComponentClass();
     std::vector<std::shared_ptr<Entity>> entities =

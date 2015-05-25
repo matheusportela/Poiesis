@@ -12,6 +12,7 @@
 class System
 {
   public:
+    System() {}
     System(std::shared_ptr<EntityManager> entityManager) : entityManager(entityManager) {}
     virtual ~System() {}
 

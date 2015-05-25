@@ -16,6 +16,8 @@ class SDLInputAdapter : public InputAdapter
 {
   public:
     SDLInputAdapter();
+    int GetMouseX();
+    int GetMouseY();
     void ProcessInputs();
     bool CheckInputOccurred(InputType::Type inputType, int button = 0);
 
@@ -25,6 +27,7 @@ class SDLInputAdapter : public InputAdapter
 
     bool IsSupportedKeyboardCode(int SDLCode);
     bool IsSupportedMouseCode(int SDLCode);
+    void UpdateMousePosition();
 
     // Maps SDL mouse button to InputManager mouse button.
     static std::map<int, int> mouseButtonMap;
@@ -40,6 +43,10 @@ class SDLInputAdapter : public InputAdapter
 
     // Inputs that occurred since the last reset.
     std::vector<std::pair<InputType::Type, int>> occurredInputs;
+
+    // Mouse position.
+    int mouseX;
+    int mouseY;
 };
 
 #endif // SDL_INPUT_ADAPTER_H_

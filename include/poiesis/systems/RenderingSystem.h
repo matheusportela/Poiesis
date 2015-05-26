@@ -8,7 +8,7 @@
 
 #include "bandit/Engine.h"
 
-#include "poiesis/components/PositionComponent.h"
+#include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/SpriteComponent.h"
 
 class RenderingSystem : public System

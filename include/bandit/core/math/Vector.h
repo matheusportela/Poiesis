@@ -26,12 +26,14 @@ class Vector
     Vector& operator+=(const Vector &rhs);
     Vector& operator-=(const Vector &rhs);
     Vector& operator*=(const Vector &rhs);
+    Vector& operator*=(float rhs);
     Vector& operator/=(const Vector &rhs);
 
     // Binary arithmetic operators.
     const Vector operator+(const Vector &rhs) const;
     const Vector operator-(const Vector &rhs) const;
     const Vector operator*(const Vector &rhs) const;
+    const Vector operator*(float rhs) const;
     const Vector operator/(const Vector &rhs) const;
 
     // Comparison operators.

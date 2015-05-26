@@ -8,7 +8,9 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/components/SpriteComponent.h"
-#include "poiesis/systems/PlayerMovementSystem.h"
+#include "poiesis/components/ParticleComponent.h"
+
+#include "poiesis/systems/ParticleSystem.h"
 
 class Level1 : public Level
 {

@@ -23,6 +23,8 @@
 #include "bandit/adapters/sdl/SDLTimerAdapter.h"
 
 #include "bandit/core/Log.h"
+#include "bandit/core/math/Rectangle.h"
+#include "bandit/core/math/Vector.h"
 #include "bandit/core/parser/ConfigParser.h"
 
 #include "bandit/entity/Component.h"

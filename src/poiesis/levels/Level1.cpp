@@ -7,15 +7,15 @@ void Level1::Start()
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>("resources/img/black.png"), windowEntity);
     Engine::GetInstance().AddComponent(
-        std::make_shared<PositionComponent>(0, 0), windowEntity);
+        std::make_shared<ParticleComponent>(Vector(0, 0)), windowEntity);
 
     std::shared_ptr<Entity> playerEntity = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>("resources/img/penguin.png"), playerEntity);
     Engine::GetInstance().AddComponent(
-        std::make_shared<PositionComponent>(100, 200, true), playerEntity);
+        std::make_shared<ParticleComponent>(Vector(100, 200), Vector(100, 0), Vector(-10, 0)), playerEntity);
 
-    Engine::GetInstance().AddSystem(std::make_shared<PlayerMovementSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
 }
 
 void Level1::Update()

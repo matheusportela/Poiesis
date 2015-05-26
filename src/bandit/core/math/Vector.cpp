@@ -27,6 +27,13 @@ Vector& Vector::operator*=(const Vector &rhs)
     return *this;
 }
 
+Vector& Vector::operator*=(float rhs)
+{
+    x *= rhs;
+    y *= rhs;
+    return *this;
+}
+
 Vector& Vector::operator/=(const Vector &rhs)
 {
     if (rhs.GetX() == 0 || rhs.GetY() == 0)
@@ -51,6 +58,11 @@ const Vector Vector::operator-(const Vector &rhs) const
 }
 
 const Vector Vector::operator*(const Vector &rhs) const
+{
+    return Vector(*this) *= rhs;
+}
+
+const Vector Vector::operator*(float rhs) const
 {
     return Vector(*this) *= rhs;
 }

@@ -8,26 +8,18 @@ std::string PlayerMovementSystem::GetName()
 void PlayerMovementSystem::Update(float dt)
 {
     // Avoid warnings for not using dt.
-    LOG_D("[RenderingSystem] Update: " << dt);
+    LOG_D("[PlayerMovementSystem] Update: " << dt);
     
-    if (!Engine::GetInstance().GetInputAdapter()->CheckInputOccurred(InputType::MousePress))
+    if (!Engine::GetInstance().GetInputAdapter()->CheckInputOccurred(InputType::MouseDown))
         return;
 
-    int mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
-    int mouseY = Engine::GetInstance().GetInputAdapter()->GetMouseY();
-    std::vector<std::shared_ptr<Entity>> entities =
-        Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("MovementComponent");
-    std::vector<std::shared_ptr<Component>> components;
+    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("PositionComponent");
+    std::shared_ptr<PositionComponent> positionComponent;
 
-    for (std::shared_ptr<Entity> entity : entities)
+    for (auto entity : entities)
     {
-        components = entityManager->GetComponentsOfClass(entity, "PositionComponent");
-        for (std::shared_ptr<Component> component : components)
-        {
-            std::shared_ptr<PositionComponent> positionComponent =
-                std::static_pointer_cast<PositionComponent>(component);
-
-            LOG_D("Position: " << positionComponent->x << " " << positionComponent->y);
-        }
+        positionComponent = std::static_pointer_cast<PositionComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "PositionComponent"));
+        positionComponent->x += 10;
+        LOG_D("Position: " << positionComponent->x << " " << positionComponent->y);
     }
 }

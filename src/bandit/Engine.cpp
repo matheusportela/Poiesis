@@ -6,6 +6,11 @@ Engine& Engine::GetInstance()
     return instance;
 }
 
+std::shared_ptr<GraphicsAdapter> Engine::GetGraphicsAdapter()
+{
+    return graphicsAdapter;
+}
+
 std::shared_ptr<InputAdapter> Engine::GetInputAdapter()
 {
     return inputAdapter;
@@ -74,11 +79,6 @@ void Engine::CreateWindow(std::string title, int height, int width)
     }
 
     graphicsAdapter->CreateWindow(title, height, width);
-
-    // Necessary to display the window.
-    std::shared_ptr<System> renderingSystem = std::make_shared<RenderingSystem>(
-        entityManager, graphicsAdapter, inputAdapter);
-    AddSystem(renderingSystem);
 }
 
 void Engine::SetCurrentLevel(std::shared_ptr<Level> level)

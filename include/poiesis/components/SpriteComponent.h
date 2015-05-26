@@ -10,12 +10,10 @@
 class SpriteComponent : public Component
 {
   public:
-    SpriteComponent(std::string filename, int x, int y);
+    SpriteComponent(std::string filename);
     std::string GetComponentClass();
 
     std::string filename;
-    int x;
-    int y;
 };
 
 #endif // SPRITE_COMPONENT_H_

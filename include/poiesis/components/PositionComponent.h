@@ -10,6 +10,7 @@
 class PositionComponent : public Component
 {
   public:
+    PositionComponent(float x, float y);
     std::string GetComponentClass();
     float x;
     float y;

@@ -33,9 +33,6 @@
 
 #include "bandit/core/level/LevelManager.h"
 
-#include "bandit/component/SpriteComponent.h"
-#include "bandit/system/RenderingSystem.h"
-
 #define BANDIT_ENGINE_INIT() \
     Engine::GetInstance().Initialize( \
         std::make_shared<SDLSystemAdapter>(), \
@@ -56,6 +53,7 @@ class Engine
   public:
     static Engine& GetInstance();
 
+    std::shared_ptr<GraphicsAdapter> GetGraphicsAdapter();
     std::shared_ptr<InputAdapter> GetInputAdapter();
     std::shared_ptr<EntityManager> GetEntityManager();
     std::shared_ptr<SystemManager> GetSystemManager();

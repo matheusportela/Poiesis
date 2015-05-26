@@ -5,13 +5,15 @@ void Level1::Start()
     LOG_I("[Level1] Starting");
     std::shared_ptr<Entity> windowEntity = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>("resources/img/black.png", 0, 0),
-                                          windowEntity);
+        std::make_shared<SpriteComponent>("resources/img/black.png"), windowEntity);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<PositionComponent>(0, 0), windowEntity);
 
     std::shared_ptr<Entity> playerEntity = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>("resources/img/penguin.png", 100, 200),
-                                          playerEntity);
+        std::make_shared<SpriteComponent>("resources/img/penguin.png"), playerEntity);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<PositionComponent>(100, 200), playerEntity);
 
     Engine::GetInstance().AddSystem(std::make_shared<PlayerMovementSystem>());
 }

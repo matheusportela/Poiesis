@@ -6,6 +6,7 @@
 #include "bandit/Engine.h"
 #include "bandit/core/entity/System.h"
 
+#include "poiesis/components/SpriteComponent.h"
 #include "poiesis/components/PositionComponent.h"
 
 class PlayerMovementSystem : public System

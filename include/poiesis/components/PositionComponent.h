@@ -10,10 +10,11 @@
 class PositionComponent : public Component
 {
   public:
-    PositionComponent(float x, float y);
+    PositionComponent(float x, float y, bool movable = false);
     std::string GetComponentClass();
     float x;
     float y;
+    bool movable;
 };
 
 #endif // POSITION_COMPONENT_H_

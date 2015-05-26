@@ -95,22 +95,39 @@ std::vector<std::shared_ptr<Entity>> EntityManager::GetAllEntitiesWithComponentO
 std::shared_ptr<Component> EntityManager::GetSingleComponentOfClass(
     std::shared_ptr<Entity> entity, std::string componentClass)
 {
-    std::vector<std::shared_ptr<Component>> components =
+    std::vector<std::shared_ptr<Component>> componentsArray =
         GetComponentsOfClass(entity, componentClass);
 
-    if (components.size() == 0)
+    if (componentsArray.size() == 0)
     {
         LOG_E("[EntityManager] There is no component of class \""
             << componentClass << "\" in entity " << entity->GetId());
         exit(1);
     }
 
-    if (components.size() > 1)
+    if (componentsArray.size() > 1)
     {
         LOG_W("[EntityManager] Entity " << entity->GetId() << " has more than "
             << "one component of class \"" << componentClass << "\". "
             << "Returning the first one.");
     }
 
-    return components[0];
+    return componentsArray[0];
+}
+
+std::vector<std::shared_ptr<Component>> EntityManager::GetAllComponentsOfClass(
+        std::string componentClass)
+{
+    std::vector<std::shared_ptr<Component>> componentsArray;
+
+    for (auto entity : entities)
+    {
+        for (auto component : componentsByEntity[entity->GetId()])
+        {
+            if (component->GetComponentClass() == componentClass)
+                componentsArray.push_back(component);
+        }
+    }
+
+    return componentsArray;
 }

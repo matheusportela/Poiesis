@@ -13,13 +13,20 @@ void PlayerMovementSystem::Update(float dt)
     if (!Engine::GetInstance().GetInputAdapter()->CheckInputOccurred(InputType::MouseDown))
         return;
 
-    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("PositionComponent");
+    auto mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
+    auto mouseY = Engine::GetInstance().GetInputAdapter()->GetMouseY();
+    auto components = Engine::GetInstance().GetEntityManager()->GetAllComponentsOfClass("PositionComponent");
     std::shared_ptr<PositionComponent> positionComponent;
 
-    for (auto entity : entities)
+    for (auto component : components)
     {
-        positionComponent = std::static_pointer_cast<PositionComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "PositionComponent"));
-        positionComponent->x += 10;
-        LOG_D("Position: " << positionComponent->x << " " << positionComponent->y);
+        positionComponent = std::static_pointer_cast<PositionComponent>(component);
+
+        if (positionComponent->movable)
+        {
+            positionComponent->x = mouseX;
+            positionComponent->y = mouseY;
+            LOG_D("Position: " << positionComponent->x << " " << positionComponent->y);
+        }
     }
 }

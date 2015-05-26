@@ -37,6 +37,10 @@ class EntityManager
     std::shared_ptr<Component> GetSingleComponentOfClass(
         std::shared_ptr<Entity> entity, std::string componentClass);
 
+    // Gets all components from all entities that matches the given class.
+    std::vector<std::shared_ptr<Component>> GetAllComponentsOfClass(
+        std::string componentClass);
+
   private:
     void DeleteEntityComponents(std::shared_ptr<Entity> entity);
     void DeleteEntityFromContainer(std::shared_ptr<Entity> entity);

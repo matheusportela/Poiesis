@@ -13,7 +13,7 @@ void Level1::Start()
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>("resources/img/penguin.png"), playerEntity);
     Engine::GetInstance().AddComponent(
-        std::make_shared<PositionComponent>(100, 200), playerEntity);
+        std::make_shared<PositionComponent>(100, 200, true), playerEntity);
 
     Engine::GetInstance().AddSystem(std::make_shared<PlayerMovementSystem>());
 }

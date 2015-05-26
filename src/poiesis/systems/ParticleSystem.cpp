@@ -7,9 +7,6 @@ std::string ParticleSystem::GetName()
 
 void ParticleSystem::Update(float dt)
 {
-    // Avoid warnings for not using dt.
-    LOG_D("[ParticleSystem] Update: " << dt);
-    
     auto components = Engine::GetInstance().GetEntityManager()->GetAllComponentsOfClass("ParticleComponent");
     std::shared_ptr<ParticleComponent> particleComponent;
     Vector position;

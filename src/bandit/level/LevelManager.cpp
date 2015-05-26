@@ -1,4 +1,4 @@
-#include "bandit/core/level/LevelManager.h"
+#include "bandit/level/LevelManager.h"
 
 void LevelManager::SetCurrentLevel(std::shared_ptr<Level> currentLevel)
 {

@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "bandit/core/Log.h"
-#include "bandit/core/level/Level.h"
+#include "bandit/level/Level.h"
 
 class LevelManager
 {

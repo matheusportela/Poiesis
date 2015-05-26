@@ -1,4 +1,4 @@
-#include "bandit/core/entity/EntityManager.h"
+#include "bandit/entity/EntityManager.h"
 
 std::shared_ptr<Entity> EntityManager::CreateEntity()
 {

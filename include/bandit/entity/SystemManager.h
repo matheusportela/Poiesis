@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "bandit/core/Log.h"
-#include "bandit/core/entity/System.h"
+#include "bandit/entity/System.h"
 
 class SystemManager
 {

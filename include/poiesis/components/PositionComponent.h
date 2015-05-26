@@ -5,7 +5,7 @@
 
 #include <string>
 
-#include "bandit/core/entity/Component.h"
+#include "bandit/Engine.h"
 
 class PositionComponent : public Component
 {

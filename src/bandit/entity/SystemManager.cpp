@@ -1,4 +1,4 @@
-#include "bandit/core/entity/SystemManager.h"
+#include "bandit/entity/SystemManager.h"
 
 void SystemManager::AddSystem(std::shared_ptr<System> system)
 {

@@ -4,7 +4,6 @@
 #define PLAYER_MOVEMENT_SYSTEM_H_
 
 #include "bandit/Engine.h"
-#include "bandit/core/entity/System.h"
 
 #include "poiesis/components/SpriteComponent.h"
 #include "poiesis/components/PositionComponent.h"

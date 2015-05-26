@@ -1,4 +1,4 @@
-#include "bandit/core/entity/Entity.h"
+#include "bandit/entity/Entity.h"
 
 unsigned int Entity::lowestUnassignedId = 0;
 

@@ -25,13 +25,13 @@
 #include "bandit/core/Log.h"
 #include "bandit/core/parser/ConfigParser.h"
 
-#include "bandit/core/entity/Component.h"
-#include "bandit/core/entity/Entity.h"
-#include "bandit/core/entity/EntityManager.h"
-#include "bandit/core/entity/System.h"
-#include "bandit/core/entity/SystemManager.h"
+#include "bandit/entity/Component.h"
+#include "bandit/entity/Entity.h"
+#include "bandit/entity/EntityManager.h"
+#include "bandit/entity/System.h"
+#include "bandit/entity/SystemManager.h"
 
-#include "bandit/core/level/LevelManager.h"
+#include "bandit/level/LevelManager.h"
 
 #define BANDIT_ENGINE_INIT() \
     Engine::GetInstance().Initialize( \

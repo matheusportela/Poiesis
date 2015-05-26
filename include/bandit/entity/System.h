@@ -7,7 +7,7 @@
 #include <memory>
 #include <string>
 
-#include "bandit/core/entity/EntityManager.h"
+#include "bandit/entity/EntityManager.h"
 
 class System
 {

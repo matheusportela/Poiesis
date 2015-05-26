@@ -9,8 +9,8 @@
 #include <vector>
 
 #include "bandit/core/Log.h"
-#include "bandit/core/entity/Component.h"
-#include "bandit/core/entity/Entity.h"
+#include "bandit/entity/Component.h"
+#include "bandit/entity/Entity.h"
 
 class EntityManager
 {

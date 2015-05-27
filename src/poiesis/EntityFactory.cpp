@@ -16,7 +16,7 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(float inverseMass,
 {
     std::shared_ptr<Entity> cell = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>("resources/img/cell.png", true, 2), cell);
+        std::make_shared<SpriteComponent>("resources/img/cell.png"), cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), cell);
     Engine::GetInstance().AddComponent(

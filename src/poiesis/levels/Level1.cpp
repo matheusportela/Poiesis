@@ -8,6 +8,7 @@ void Level1::Start()
     EntityFactory::CreateCell(1, Vector(400, 300));
     EntityFactory::CreateFood(Vector(700, 300));
 
+    Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());

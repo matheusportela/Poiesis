@@ -7,6 +7,7 @@ void Level1::Start()
     EntityFactory::CreateBackground();
     EntityFactory::CreateCell(1, Vector(400, 300));
 
+    Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
 }

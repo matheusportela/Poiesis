@@ -22,5 +22,7 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(float inverseMass,
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(inverseMass, position, Vector(0, 0),
             Vector(0, 0), 0.9), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<GrowthComponent>(), cell);
     return cell;
 }

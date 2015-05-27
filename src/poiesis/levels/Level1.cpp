@@ -8,6 +8,16 @@ void Level1::Start()
     EntityFactory::CreateCell(1, Vector(400, 300));
     EntityFactory::CreateFood(Vector(700, 300));
 
+    Random r;
+    float x;
+    float y;
+    for (int i = 0; i < 250; ++i)
+    {
+        x = r.GenerateFloat(0, 720);
+        y = r.GenerateFloat(0, 1280);
+        EntityFactory::CreateCell(1, Vector(x, y));
+    }
+
     Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());

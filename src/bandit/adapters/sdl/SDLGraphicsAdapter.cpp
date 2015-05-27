@@ -162,9 +162,6 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y, float scale
     // Fourth argument deals with displaying the image in the proper position.
     // NULL makes it show at the current window position.
     SDL_RenderCopy(renderer, texture, &clipRect, &dstRect);
-
-    // Forces rendering the image.
-    SDL_RenderPresent(renderer);
 }
 
 void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
@@ -181,4 +178,10 @@ void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
 
     RenderImage(file, x - scale*settings.width/2, y - scale*settings.height/2,
         scale);
+}
+
+void SDLGraphicsAdapter::RenderBatch()
+{
+    // Forces rendering images at the GPU.
+    SDL_RenderPresent(renderer);
 }

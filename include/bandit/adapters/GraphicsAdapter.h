@@ -33,6 +33,10 @@ class GraphicsAdapter
     // Renders the image with respect to the center position given by the x, y
     // coordinates.
     virtual void RenderCenteredImage(std::string file, int x, int y, float scale = 1) = 0;
+
+    // Makes the GPU properly render all images that has been requested to be
+    // presented by using RenderImage methods.
+    virtual void RenderBatch() = 0;
 };
 
 #endif // GRAPHICS_ADAPTER_H_

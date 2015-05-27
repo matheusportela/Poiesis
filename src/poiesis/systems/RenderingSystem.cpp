@@ -36,4 +36,6 @@ void RenderingSystem::Update(float dt)
             Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
         LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
     }
+
+    Engine::GetInstance().GetGraphicsAdapter()->RenderBatch();
 }

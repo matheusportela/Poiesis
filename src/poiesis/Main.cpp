@@ -8,8 +8,8 @@
 
 int main()
 {
-    LOG_SET_DEBUG();
     BANDIT_ENGINE_INIT();
+    LOG_SET_INFO();
     Engine::GetInstance().CreateWindow("Poiesis", 1280, 720);
 
     // Necessary to display the window.

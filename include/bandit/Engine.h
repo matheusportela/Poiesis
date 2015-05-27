@@ -93,6 +93,10 @@ class Engine
     Engine(const Engine&) = delete;
     void operator=(const Engine&) = delete;
 
+    // Calculates the amount of time the engine can sleep in this frame in
+    // order to maintain a constant frame rate.
+    float CalculateSleepTime(float currentFrameRate);
+
     std::shared_ptr<SystemAdapter> systemAdapter;
     std::shared_ptr<TimerAdapter> timerAdapter;
     std::shared_ptr<GraphicsAdapter> graphicsAdapter;

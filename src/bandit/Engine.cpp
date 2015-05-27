@@ -102,13 +102,39 @@ void Engine::AddSystem(std::shared_ptr<System> system)
     systemManager->AddSystem(system);
 }
 
+float Engine::CalculateSleepTime(float currentFrameRate)
+{
+    static const float DESIRED_FRAME_RATE = 30;
+    static const float DECREASE_FACTOR = 2;
+    static const float INCREASE_FACTOR = 0.001;
+    static float sleepDuration = 1/DESIRED_FRAME_RATE;
+
+    // AIMD control law:
+    // Additive when increasing sleep duration (hence, reducing frame rate).
+    // This is important to get better PC performance by returning control to
+    // the CPU.
+    // Multiplicative when decreasing sleep duration (hence, increasing frame
+    // rate) to quickly recover from frame rate drop.
+    if (currentFrameRate < DESIRED_FRAME_RATE)
+        sleepDuration /= DECREASE_FACTOR;
+    else if (currentFrameRate > DESIRED_FRAME_RATE)
+        sleepDuration += INCREASE_FACTOR;
+
+    return sleepDuration;
+}
+
 void Engine::Run()
 {
     float dt;
+    float currentFrameRate;
+    float sleepDuration;
 
     while (true)
     {
         dt = timerAdapter->GetElapsedTime();
+        currentFrameRate = 1/dt;
+        
+        LOG_I("Frame rate: " << currentFrameRate);
         LOG_D("Elapsed time: " << dt);
 
         inputAdapter->ProcessInputs();
@@ -121,6 +147,8 @@ void Engine::Run()
         systemManager->Update(dt);
         levelManager->Update();
 
-        timerAdapter->Sleep(0.033);
+        sleepDuration = CalculateSleepTime(currentFrameRate);
+        LOG_D("Sleep duration: " << sleepDuration);
+        timerAdapter->Sleep(sleepDuration);
     }
 }

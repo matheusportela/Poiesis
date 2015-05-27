@@ -35,7 +35,7 @@ void InputSystem::Update(float dt)
             distance = particlePosition.CalculateDistance(mousePosition);
             inputForce = mousePosition - particlePosition;
             inputForce.Normalize();
-            inputForce *= -100000/(1 + distance);
+            inputForce *= -100000/(1 + distance); // Summing with 1 to avoid division by zero.
             resultantForce = inputForce + particleComponent->GetForce();
             particleComponent->SetForce(resultantForce);
 

@@ -7,10 +7,7 @@
 
 #include "bandit/Engine.h"
 
-#include "poiesis/components/MoveableComponent.h"
-#include "poiesis/components/SpriteComponent.h"
-#include "poiesis/components/ParticleComponent.h"
-
+#include "poiesis/EntityFactory.h"
 #include "poiesis/systems/InputSystem.h"
 #include "poiesis/systems/ParticleSystem.h"
 

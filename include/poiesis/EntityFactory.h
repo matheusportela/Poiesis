@@ -20,6 +20,9 @@ class EntityFactory
     // Creates cell: a sprite than can move with user input.
     static std::shared_ptr<Entity> CreateCell(float inverseMass,
         Vector position);
+
+    // Creates food: a sprite that can mvoe with user input.
+    static std::shared_ptr<Entity> CreateFood(Vector position);
 };
 
 #endif // ENTITY_FACTORY_H_

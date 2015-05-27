@@ -28,14 +28,11 @@ class GraphicsAdapter
 
     // Renders the image to a previously defined window in the given x, y
     // coordinates.
-    virtual void RenderImage(std::string file, int x, int y) = 0;
+    virtual void RenderImage(std::string file, int x, int y, float scale = 1) = 0;
 
     // Renders the image with respect to the center position given by the x, y
     // coordinates.
-    virtual void RenderCenteredImage(std::string file, int x, int y) = 0;
-
-    // Scales the image in X and Y axes.
-    virtual void SetImageScale(std::string file, int scale) = 0;
+    virtual void RenderCenteredImage(std::string file, int x, int y, float scale = 1) = 0;
 };
 
 #endif // GRAPHICS_ADAPTER_H_

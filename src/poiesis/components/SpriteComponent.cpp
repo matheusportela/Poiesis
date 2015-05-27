@@ -1,7 +1,8 @@
 #include "poiesis/components/SpriteComponent.h"
 
-SpriteComponent::SpriteComponent(std::string filename, bool centered) :
-    filename(filename), centered(centered)
+SpriteComponent::SpriteComponent(std::string filename, bool centered,
+    float scale) :
+    filename(filename), centered(centered), scale(scale)
 {
 }
 
@@ -28,4 +29,14 @@ bool SpriteComponent::GetCentered()
 void SpriteComponent::SetCentered(bool centered)
 {
     this->centered = centered;
+}
+
+float SpriteComponent::GetScale()
+{
+    return scale;
+}
+
+void SpriteComponent::SetScale(float scale)
+{
+    this->scale = scale;
 }

@@ -93,8 +93,7 @@ void SDLGraphicsAdapter::UpdateTextureSettings(std::string file)
     TextureSettings settings =
     {
         .width = 0,
-        .height = 0,
-        .scale = 1
+        .height = 0
     };
 
     SDL_QueryTexture(texturesTable[file], NULL, NULL, &settings.width,
@@ -131,7 +130,7 @@ bool SDLGraphicsAdapter::IsLoaded(std::string file)
     return (texturesTable.find(file) != texturesTable.end());
 }
 
-void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y)
+void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y, float scale)
 {
     if (!IsLoaded(file))
     {
@@ -153,8 +152,8 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y)
     {
         .x = x,
         .y = y,
-        .w = settings.width*settings.scale,
-        .h = settings.height*settings.scale
+        .w = (int)(settings.width*scale),
+        .h = (int)(settings.height*scale)
     };
 
     // Moves texture to proper GPU memory location.
@@ -168,7 +167,8 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y)
     SDL_RenderPresent(renderer);
 }
 
-void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y)
+void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
+    float scale)
 {
     if (!IsLoaded(file))
     {
@@ -179,17 +179,6 @@ void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y)
 
     TextureSettings settings = texturesSettings[file];
 
-    RenderImage(file, x - settings.width/2, y - settings.height/2);
-}
-
-void SDLGraphicsAdapter::SetImageScale(std::string file, int scale)
-{
-    if (!IsLoaded(file))
-    {
-        std::cerr << "[SDLGraphicsAdapter] Cannot scale image without loading "
-            << "it first." << std::endl;
-        exit(1);
-    }
-
-    texturesSettings[file].scale = scale;
+    RenderImage(file, x - scale*settings.width/2, y - scale*settings.height/2,
+        scale);
 }

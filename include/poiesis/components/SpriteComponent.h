@@ -10,7 +10,7 @@
 class SpriteComponent : public Component
 {
   public:
-    SpriteComponent(std::string filename, bool centered = true);
+    SpriteComponent(std::string filename, bool centered = true, float scale = 1);
     std::string GetComponentClass();
 
     std::string GetFilename();
@@ -19,12 +19,17 @@ class SpriteComponent : public Component
     bool GetCentered();
     void SetCentered(bool centered);
 
+    float GetScale();
+    void SetScale(float scale);
+
   private:
     // Holds the file containing the image to be displayed.
     std::string filename;
 
     // Holds whether the image should be displayed centered.
     bool centered;
+
+    float scale;
 };
 
 #endif // SPRITE_COMPONENT_H_

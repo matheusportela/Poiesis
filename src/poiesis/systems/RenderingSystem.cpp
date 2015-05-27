@@ -31,9 +31,9 @@ void RenderingSystem::Update(float dt)
         position = particleComponent->GetPosition();
 
         if (spriteComponent->GetCentered())
-            Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY());
+            Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
         else
-            Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY());
+            Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
         LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
     }
 }

@@ -39,6 +39,9 @@ void GrowthSystem::Update(float dt)
                 << "grown to level " << level);
         }
 
+        if (level > 3)
+            level = 3;
+
         growthComponent->SetPower(power);
         growthComponent->SetLevel(level);
         spriteComponent->SetScale(level);

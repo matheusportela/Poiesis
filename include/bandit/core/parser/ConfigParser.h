@@ -27,6 +27,7 @@
 #include <sstream>
 #include <string>
 
+#include "bandit/adapters/File.h"
 #include "bandit/core/Log.h"
 #include "bandit/core/parser/Parser.h"
 

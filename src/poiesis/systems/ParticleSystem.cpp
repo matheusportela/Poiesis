@@ -27,6 +27,7 @@ void ParticleSystem::Update(float dt)
         velocity = particleComponent->GetVelocity();
         acceleration = particleComponent->GetAcceleration();
 
+        // Updating particle with kinects equations.
         position = position + velocity*dt + acceleration*dt*dt*0.5;
         velocity = velocity*damping + acceleration*dt;
         acceleration = force*inverseMass;

@@ -8,9 +8,12 @@
 
 int main()
 {
+    LOG_SET_DEBUG();
     BANDIT_ENGINE_INIT();
-    LOG_SET_INFO();
-    Engine::GetInstance().CreateWindow("Poiesis", 1280, 720);
+    CFG_INIT("Configurations.cfg");
+
+    Engine::GetInstance().CreateWindow(CFG_GETS("WINDOW_TITLE"),
+        CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"));
 
     // Necessary to display the window.
     Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());

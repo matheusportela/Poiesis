@@ -3,7 +3,7 @@
 #ifndef ENTITY_MANAGER_H_
 #define ENTITY_MANAGER_H_
 
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -47,7 +47,7 @@ class EntityManager
     bool HasEntity(std::shared_ptr<Entity> entity);
 
     std::vector<std::shared_ptr<Entity>> entities;
-    std::map<unsigned int, std::vector<std::shared_ptr<Component>>>
+    std::unordered_map<unsigned int, std::vector<std::shared_ptr<Component>>>
         componentsByEntity;
 };
 

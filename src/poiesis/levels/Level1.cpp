@@ -7,15 +7,23 @@ void Level1::Start()
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>("resources/img/black.png"), windowEntity);
     Engine::GetInstance().AddComponent(
-        std::make_shared<ParticleComponent>(Vector(0, 0)), windowEntity);
+        std::make_shared<ParticleComponent>(), windowEntity);
 
     std::shared_ptr<Entity> playerEntity = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>("resources/img/penguin.png"), playerEntity);
+        std::make_shared<SpriteComponent>("resources/img/cell.png"), playerEntity);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), playerEntity);
     Engine::GetInstance().AddComponent(
-        std::make_shared<ParticleComponent>(Vector(100, 200), Vector(100, 0), Vector(-10, 0)), playerEntity);
+        std::make_shared<ParticleComponent>(1, Vector(100, 200), Vector(0, 0), Vector(0, 0), 0.9), playerEntity);
+
+    playerEntity = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>("resources/img/cell.png"), playerEntity);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<MoveableComponent>(), playerEntity);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(1, Vector(400, 300), Vector(0, 0), Vector(0, 0), 0.9), playerEntity);
 
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());

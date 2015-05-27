@@ -18,6 +18,11 @@ void InputSystem::Update(float dt)
     std::shared_ptr<ParticleComponent> particleComponent;
     float mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
     float mouseY = Engine::GetInstance().GetInputAdapter()->GetMouseY();
+    Vector mousePosition(mouseX, mouseY);
+    Vector particlePosition;
+    Vector inputForce;
+    Vector resultantForce;
+    float distance;
 
     for (auto entity : entities)
     {
@@ -25,6 +30,20 @@ void InputSystem::Update(float dt)
         particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
 
         if (moveableComponent->GetActive())
-            particleComponent->SetPosition(Vector(mouseX, mouseY));
+        {
+            particlePosition = particleComponent->GetPosition();
+            distance = particlePosition.CalculateDistance(mousePosition);
+            inputForce = mousePosition - particlePosition;
+            inputForce.Normalize();
+            inputForce *= -100000/(1 + distance);
+            resultantForce = inputForce + particleComponent->GetForce();
+            particleComponent->SetForce(resultantForce);
+
+            LOG_D("Particle position: " << particlePosition);
+            LOG_D("Mouse position: " << mousePosition);
+            LOG_D("Distance: " << distance);
+            LOG_D("Force: " << inputForce);
+            LOG_D("Resultant force: " << resultantForce);
+        }
     }
 }

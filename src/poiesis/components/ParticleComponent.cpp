@@ -1,9 +1,15 @@
 #include "poiesis/components/ParticleComponent.h"
 
-ParticleComponent::ParticleComponent(Vector position, Vector velocity,
-    Vector acceleration) :
-    position(position), velocity(velocity), acceleration(acceleration)
+ParticleComponent::ParticleComponent(float inverseMass, Vector position,
+    Vector velocity, Vector acceleration, float damping) :
+    inverseMass(inverseMass), position(position), velocity(velocity),
+    acceleration(acceleration), damping(damping)
 {
+}
+
+float ParticleComponent::GetInverseMass()
+{
+    return inverseMass;
 }
 
 std::string ParticleComponent::GetComponentClass()
@@ -42,4 +48,24 @@ Vector ParticleComponent::GetAcceleration()
 void ParticleComponent::SetAcceleration(Vector acceleration)
 {
     this->acceleration = acceleration;
+}
+
+float ParticleComponent::GetDamping()
+{
+    return damping;
+}
+
+void ParticleComponent::SetDamping(float damping)
+{
+    this->damping = damping;
+}
+
+Vector ParticleComponent::GetForce()
+{
+    return force;
+}
+
+void ParticleComponent::SetForce(Vector force)
+{
+    this->force = force;
 }

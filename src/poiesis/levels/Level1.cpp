@@ -5,7 +5,7 @@ void Level1::Start()
     LOG_I("[Level1] Starting");
     std::shared_ptr<Entity> windowEntity = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>("resources/img/black.png"), windowEntity);
+        std::make_shared<SpriteComponent>("resources/img/black.png", false), windowEntity);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(), windowEntity);
 

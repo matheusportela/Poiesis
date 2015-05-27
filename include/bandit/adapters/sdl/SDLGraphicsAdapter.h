@@ -21,6 +21,7 @@ class SDLGraphicsAdapter : public GraphicsAdapter
     void UnloadImage(std::string file);
     bool IsLoaded(std::string file);
     void RenderImage(std::string file, int x, int y);
+    void RenderCenteredImage(std::string file, int x, int y);
     void SetImageScale(std::string file, int scale);
 
   private:

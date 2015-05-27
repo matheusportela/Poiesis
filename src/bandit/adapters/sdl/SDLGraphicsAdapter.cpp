@@ -168,6 +168,20 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y)
     SDL_RenderPresent(renderer);
 }
 
+void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y)
+{
+    if (!IsLoaded(file))
+    {
+        std::cerr << "[SDLGraphicsAdapter] Cannot render image without loading "
+            << "it first." << std::endl;
+        exit(1);
+    }
+
+    TextureSettings settings = texturesSettings[file];
+
+    RenderImage(file, x - settings.width/2, y - settings.height/2);
+}
+
 void SDLGraphicsAdapter::SetImageScale(std::string file, int scale)
 {
     if (!IsLoaded(file))

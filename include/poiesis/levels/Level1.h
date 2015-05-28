@@ -8,6 +8,7 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/EntityFactory.h"
+#include "poiesis/systems/CollisionSystem.h"
 #include "poiesis/systems/FoodSpawningSystem.h"
 #include "poiesis/systems/GrowthSystem.h"
 #include "poiesis/systems/InputSystem.h"

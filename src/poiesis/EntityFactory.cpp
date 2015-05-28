@@ -24,6 +24,9 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(float inverseMass,
             Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")), cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<GrowthComponent>(), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("CELL_COLLIDER_RADIUS")),
+        cell);
     return cell;
 }
 

@@ -12,7 +12,7 @@ void Level1::Start()
     Random r;
     float x;
     float y;
-    for (int i = 0; i < 0; ++i)
+    for (int i = 0; i < 100; ++i)
     {
         x = r.GenerateFloat(0, 1000);
         y = r.GenerateFloat(0, 1000);

@@ -5,6 +5,7 @@
 
 #include "bandit/Engine.h"
 
+#include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 
 class CollisionSystem : public System
@@ -13,6 +14,8 @@ class CollisionSystem : public System
     std::string GetName();
     void Update(float dt);
     bool IsColliding(std::shared_ptr<Entity> entity1,
+        std::shared_ptr<Entity> entity2);
+    void SolveCollision(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
 };
 

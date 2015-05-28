@@ -13,7 +13,6 @@ class System
 {
   public:
     System() {}
-    System(std::shared_ptr<EntityManager> entityManager) : entityManager(entityManager) {}
     virtual ~System() {}
 
     // Gets human-readable system name.
@@ -21,9 +20,6 @@ class System
 
     // Processes entities and components.
     virtual void Update(float dt) = 0;
-
-  protected:
-    std::shared_ptr<EntityManager> entityManager;
 };
 
 #endif // SYSTEM_H_

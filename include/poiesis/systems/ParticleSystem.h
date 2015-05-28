@@ -12,6 +12,9 @@ class ParticleSystem : public System
   public:
     std::string GetName();
     void Update(float dt);
+    void UpdateParticleProperties(
+        std::shared_ptr<ParticleComponent> particleComponent, float dt);
+    Vector GenerateRandomForce();
 };
 
 #endif // PARTICLE_SYSTEM_H_

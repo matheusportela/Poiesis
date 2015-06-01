@@ -13,6 +13,7 @@ void GrowthSystem::Update(float dt)
     auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("GrowthComponent");
     std::shared_ptr<GrowthComponent> growthComponent;
     std::shared_ptr<SpriteComponent> spriteComponent;
+    int max_level = CFG_GETI("GROWTH_LEVEL_LIMIT");
     int level;
     int power;
     int threshold;
@@ -34,8 +35,8 @@ void GrowthSystem::Update(float dt)
                 << "grown to level " << level);
         }
 
-        // if (level > 3)
-        //     level = 3;
+        if (level > max_level)
+            level = max_level;
 
         growthComponent->SetPower(power);
         growthComponent->SetLevel(level);

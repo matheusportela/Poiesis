@@ -13,8 +13,6 @@ void GrowthSystem::Update(float dt)
     auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("GrowthComponent");
     std::shared_ptr<GrowthComponent> growthComponent;
     std::shared_ptr<SpriteComponent> spriteComponent;
-    Random random;
-    float growthChance = CFG_GETF("GROWTH_CHANCE");
     int level;
     int power;
     int threshold;
@@ -26,10 +24,7 @@ void GrowthSystem::Update(float dt)
 
         power = growthComponent->GetPower();
         level = growthComponent->GetLevel();
-        threshold = growthComponent->GetThreshold();
-
-        if (random.GenerateFloat() < growthChance)
-            power += 1;
+        threshold = 0;
 
         if (power > threshold)
         {
@@ -39,8 +34,8 @@ void GrowthSystem::Update(float dt)
                 << "grown to level " << level);
         }
 
-        if (level > 3)
-            level = 3;
+        // if (level > 3)
+        //     level = 3;
 
         growthComponent->SetPower(power);
         growthComponent->SetLevel(level);

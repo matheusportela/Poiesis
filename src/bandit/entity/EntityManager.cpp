@@ -131,3 +131,12 @@ std::vector<std::shared_ptr<Component>> EntityManager::GetAllComponentsOfClass(
 
     return componentsArray;
 }
+
+bool EntityManager::HasComponent(std::shared_ptr<Entity> entity,
+        std::string componentClass)
+{
+    std::vector<std::shared_ptr<Component>> componentsArray =
+        GetComponentsOfClass(entity, componentClass);
+
+    return (componentsArray.size() > 0);
+}

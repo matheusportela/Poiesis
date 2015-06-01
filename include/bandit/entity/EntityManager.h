@@ -41,6 +41,10 @@ class EntityManager
     std::vector<std::shared_ptr<Component>> GetAllComponentsOfClass(
         std::string componentClass);
 
+    // Checks whether an entity has at least one component of the given class.
+    bool HasComponent(std::shared_ptr<Entity> entity,
+        std::string componentClass);
+
   private:
     void DeleteEntityComponents(std::shared_ptr<Entity> entity);
     void DeleteEntityFromContainer(std::shared_ptr<Entity> entity);

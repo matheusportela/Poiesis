@@ -41,5 +41,10 @@ std::shared_ptr<Entity> EntityFactory::CreateFood(Vector position)
         std::make_shared<ParticleComponent>(CFG_GETF("FOOD_INVERSE_MASS"),
             position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")),
         food);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<EatableComponent>(), food);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("FOOD_COLLIDER_RADIUS")),
+        food);
     return food;
 }

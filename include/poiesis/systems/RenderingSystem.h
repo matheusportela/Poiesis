@@ -8,6 +8,7 @@
 
 #include "bandit/Engine.h"
 
+#include "poiesis/components/CameraComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/SpriteComponent.h"
 

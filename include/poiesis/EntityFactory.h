@@ -6,6 +6,8 @@
 #include <memory>
 
 #include "bandit/Engine.h"
+#include "poiesis/components/CameraComponent.h"
+#include "poiesis/components/CameraFollowComponent.h"
 #include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/EatableComponent.h"
 #include "poiesis/components/GrowthComponent.h"
@@ -23,8 +25,14 @@ class EntityFactory
     static std::shared_ptr<Entity> CreateCell(float inverseMass,
         Vector position);
 
-    // Creates food: a sprite that can mvoe with user input.
+    // Creates player: a cell that is followed by the camera.
+    static std::shared_ptr<Entity> CreatePlayer();
+
+    // Creates food: a sprite that can move with user input.
     static std::shared_ptr<Entity> CreateFood(Vector position);
+
+    // Creates camera: a position for rendering images.
+    static std::shared_ptr<Entity> CreateCamera();
 };
 
 #endif // ENTITY_FACTORY_H_

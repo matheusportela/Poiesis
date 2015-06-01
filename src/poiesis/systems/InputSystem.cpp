@@ -14,6 +14,7 @@ void InputSystem::Update(float dt)
         return;
 
     auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("MoveableComponent");
+    auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
     std::shared_ptr<MoveableComponent> moveableComponent;
     std::shared_ptr<ParticleComponent> particleComponent;
     float mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
@@ -23,6 +24,17 @@ void InputSystem::Update(float dt)
     Vector inputForce;
     Vector resultantForce;
     float distance;
+
+    Vector cameraOffset;
+
+    if (cameraEntities.size() > 0)
+    {
+        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
+        Vector screenOffset = Vector(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"))*0.5;
+        cameraOffset = cameraComponent->GetPosition() - screenOffset;
+    }
+
+    mousePosition += cameraOffset;
 
     for (auto entity : entities)
     {

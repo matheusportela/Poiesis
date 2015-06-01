@@ -5,7 +5,8 @@ void Level1::Start()
     LOG_I("[Level1] Starting");
     
     EntityFactory::CreateBackground();
-    EntityFactory::CreateCell(1, Vector(400, 300));
+    EntityFactory::CreateCamera();
+    EntityFactory::CreatePlayer();
     EntityFactory::CreateCell(1, Vector(410, 310));
     EntityFactory::CreateFood(Vector(700, 300));
 
@@ -24,6 +25,7 @@ void Level1::Start()
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
 }
 
 void Level1::Update()

@@ -1,19 +1,19 @@
-// Gets input from the user.
+// Updates camera positioning.
 
-#ifndef INPUT_SYSTEM_H_
-#define INPUT_SYSTEM_H_
+#ifndef CAMERA_SYSTEM_H_
+#define CAMERA_SYSTEM_H_
 
 #include "bandit/Engine.h"
 
 #include "poiesis/components/CameraComponent.h"
-#include "poiesis/components/MoveableComponent.h"
+#include "poiesis/components/CameraFollowComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 
-class InputSystem : public System
+class CameraSystem : public System
 {
   public:
     std::string GetName();
     void Update(float dt);
 };
 
-#endif // INPUT_SYSTEM_H_
+#endif // CAMERA_SYSTEM_H_

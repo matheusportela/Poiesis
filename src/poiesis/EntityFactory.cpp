@@ -30,6 +30,14 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(float inverseMass,
     return cell;
 }
 
+std::shared_ptr<Entity> EntityFactory::CreatePlayer()
+{
+    std::shared_ptr<Entity> player = CreateCell(1, Vector(400, 300));
+    Engine::GetInstance().AddComponent(
+        std::make_shared<CameraFollowComponent>(), player);
+    return player;
+}
+
 std::shared_ptr<Entity> EntityFactory::CreateFood(Vector position)
 {
     std::shared_ptr<Entity> food = Engine::GetInstance().CreateEntity();
@@ -47,4 +55,12 @@ std::shared_ptr<Entity> EntityFactory::CreateFood(Vector position)
         std::make_shared<ColliderComponent>(CFG_GETF("FOOD_COLLIDER_RADIUS")),
         food);
     return food;
+}
+
+std::shared_ptr<Entity> EntityFactory::CreateCamera()
+{
+    std::shared_ptr<Entity> camera = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<CameraComponent>(), camera);
+    return camera;
 }

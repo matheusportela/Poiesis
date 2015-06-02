@@ -4,10 +4,12 @@ SDL_Window* SDLGraphicsAdapter::window = NULL;
 SDL_Renderer* SDLGraphicsAdapter::renderer = NULL;
 std::unordered_map<std::string, SDL_Texture*> SDLGraphicsAdapter::texturesTable;
 std::unordered_map<std::string, SDLGraphicsAdapter::TextureSettings> SDLGraphicsAdapter::texturesSettings;
+std::unordered_map<std::string, TTF_Font*> SDLGraphicsAdapter::fontTable;
 
 SDLGraphicsAdapter::~SDLGraphicsAdapter()
 {
     UnloadAllTextures();
+    UnloadAllFonts();
 }
 
 void SDLGraphicsAdapter::CreateWindow(std::string title, int width, int height)
@@ -130,6 +132,48 @@ bool SDLGraphicsAdapter::IsLoaded(std::string file)
     return (texturesTable.find(file) != texturesTable.end());
 }
 
+void SDLGraphicsAdapter::LoadFont(std::string fontFile, int size)
+{
+    TTF_Font* font = TTF_OpenFont(fontFile.c_str(), size);
+
+    if (!font)
+    {
+        std::cerr << "[SDLGraphicsAdapter] Could not load font \"" << fontFile
+            << "\". " << SDL_GetError();
+        exit(1);
+    }
+
+    fontTable[fontFile] = font;
+}
+
+void SDLGraphicsAdapter::UnloadFont(std::string fontFile)
+{
+    if (IsFontLoaded(fontFile))
+    {
+        TTF_CloseFont(fontTable[fontFile]);
+        fontTable.erase(fontFile);
+    }
+}
+
+bool SDLGraphicsAdapter::IsFontLoaded(std::string fontFile)
+{
+    return (fontTable.find(fontFile) != fontTable.end());
+}
+
+void SDLGraphicsAdapter::UnloadAllFonts()
+{
+    TTF_Font* font;
+    std::unordered_map<std::string, TTF_Font*>::iterator it;
+
+    while (fontTable.size() != 0)
+    {
+        it = fontTable.begin();
+        font = it->second;
+        TTF_CloseFont(font);
+        fontTable.erase(it->first);
+    }
+}
+
 void SDLGraphicsAdapter::InitRendering()
 {
     // Select the black color for drawing.
@@ -188,6 +232,42 @@ void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
 
     RenderImage(file, x - scale*settings.width/2, y - scale*settings.height/2,
         scale);
+}
+
+void SDLGraphicsAdapter::Write(std::string text, std::string fontFile, int x, int y)
+{
+    int width;
+    int height;
+    SDL_Color color =
+    {
+        .r = 255,
+        .g = 255,
+        .b = 255,
+        .a = 0      
+    };
+    TTF_Font* font = fontTable[fontFile];
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    SDL_Rect clipRect =
+    {
+        .x = 0,
+        .y = 0,
+        .w = width,
+        .h = height
+    };
+
+    SDL_Rect dstRect =
+    {
+        .x = x,
+        .y = y,
+        .w = width,
+        .h = height
+    };
+
+    SDL_RenderCopy(renderer, texture, &clipRect, &dstRect);
+    SDL_DestroyTexture(texture);
 }
 
 void SDLGraphicsAdapter::FinishRendering()

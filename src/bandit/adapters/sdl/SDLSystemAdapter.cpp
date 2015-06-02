@@ -33,6 +33,13 @@ void SDLSystemAdapter::InitializeImageSystem()
             << SDL_GetError() << std::endl;
         exit(1);
     }
+
+    if (TTF_Init() != 0)
+    {
+        std::cerr << "[Game] Could not initialize SDL text library. "
+            << SDL_GetError();
+        exit(1);
+    }
 }
 
 void SDLSystemAdapter::InitializeAudioSystem()

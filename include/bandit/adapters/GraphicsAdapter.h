@@ -26,6 +26,15 @@ class GraphicsAdapter
     // Checks whether an image has been loaded with this instance.
     virtual bool IsLoaded(std::string file) = 0;
 
+    // Loads a font with the given size to the memory.
+    virtual void LoadFont(std::string fontFile, int size) = 0;
+
+    // Unloads a previously loaded font.
+    virtual void UnloadFont(std::string fontFile) = 0;
+
+    // Checks whether a font has been loaded with this instance.
+    virtual bool IsFontLoaded(std::string fontFile) = 0;
+
     // GPU and rendering related initializations that must be executed every
     // rendering cycle.
     virtual void InitRendering() = 0;
@@ -37,6 +46,10 @@ class GraphicsAdapter
     // Renders the image with respect to the center position given by the x, y
     // coordinates.
     virtual void RenderCenteredImage(std::string file, int x, int y, float scale = 1) = 0;
+
+    // Writes an text given a font file to a previously defined window in the
+    // given x, y coordinates.
+    virtual void Write(std::string text, std::string fontFile, int x, int y) = 0;
 
     // GPU and rendering related finalizations that must be executed every
     // rendering cycle.

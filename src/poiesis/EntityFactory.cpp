@@ -4,7 +4,7 @@ std::shared_ptr<Entity> EntityFactory::CreateBackground()
 {
     std::shared_ptr<Entity> background = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("BACKGROUND_IMAGE"), false),
+        std::make_shared<SpriteComponent>(CFG_GETP("BACKGROUND_IMAGE"), true),
         background);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(), background);

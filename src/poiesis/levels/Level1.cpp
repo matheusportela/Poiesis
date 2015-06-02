@@ -11,7 +11,7 @@ void Level1::Start()
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
 
-    for (int i = 0; i < 5; ++i)
+    for (int i = 0; i < 10; ++i)
     {
         x = r.GenerateFloat(-2000, 2000);
         y = r.GenerateFloat(-2000, 2000);
@@ -27,7 +27,7 @@ void Level1::Start()
     EntityFactory::CreateFood(Vector(700, 300));
 
     
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < 50; ++i)
     {
         x = r.GenerateFloat(-2000, 2000);
         y = r.GenerateFloat(-2000, 2000);

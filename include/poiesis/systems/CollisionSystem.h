@@ -8,6 +8,7 @@
 #include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/ParticleComponent.h"
+#include "poiesis/components/SlowerComponent.h"
 
 class CollisionSystem : public System
 {
@@ -22,6 +23,8 @@ class CollisionSystem : public System
         std::shared_ptr<Entity> entity2);
     void EatEntity(std::shared_ptr<Entity> eaterEntity,
         std::shared_ptr<Entity> eatableEntity);
+    void SlowEntity(std::shared_ptr<Entity> slowingEntity,
+        std::shared_ptr<Entity> movingEntity);
 
   private:
     std::vector<std::shared_ptr<Entity>> collidableEntities;

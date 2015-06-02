@@ -75,5 +75,7 @@ std::shared_ptr<Entity> EntityFactory::CreateSlowArea(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<ColliderComponent>(CFG_GETF("SLOW_AREA_COLLIDER_RADIUS")),
         area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SlowerComponent>(CFG_GETF("SLOW_AREA_MAGNITUDE")), area);
     return area;
 }

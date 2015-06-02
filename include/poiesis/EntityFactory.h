@@ -12,8 +12,9 @@
 #include "poiesis/components/EatableComponent.h"
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/MoveableComponent.h"
-#include "poiesis/components/SpriteComponent.h"
 #include "poiesis/components/ParticleComponent.h"
+#include "poiesis/components/SlowerComponent.h"
+#include "poiesis/components/SpriteComponent.h"
 
 class EntityFactory
 {

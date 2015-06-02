@@ -55,6 +55,10 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "GrowthComponent") && 
         Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "EatableComponent"))
         EatEntity(entity2, entity1);
+    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "SlowerComponent"))
+        SlowEntity(entity1, entity2);
+    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "SlowerComponent"))
+        SlowEntity(entity2, entity1);
     else
         CollideBodies(entity1, entity2);
 }
@@ -117,4 +121,10 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
             break;
         }
     }
+}
+
+void CollisionSystem::SlowEntity(std::shared_ptr<Entity> slowingEntity,
+    std::shared_ptr<Entity> movingEntity)
+{
+    
 }

@@ -55,9 +55,11 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "GrowthComponent") && 
         Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "EatableComponent"))
         EatEntity(entity2, entity1);
-    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "SlowingComponent"))
+    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "SlowingComponent") && 
+        Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "ParticleComponent"))
         SlowEntity(entity1, entity2);
-    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "SlowingComponent"))
+    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "SlowingComponent") && 
+        Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "ParticleComponent"))
         SlowEntity(entity2, entity1);
     else
         CollideBodies(entity1, entity2);
@@ -126,5 +128,13 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
 void CollisionSystem::SlowEntity(std::shared_ptr<Entity> slowingEntity,
     std::shared_ptr<Entity> movingEntity)
 {
+    auto slowingComponent = std::static_pointer_cast<SlowingComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(slowingEntity, "SlowingComponent"));
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(movingEntity, "ParticleComponent"));
 
+    float magnitude = slowingComponent->GetMagnitude();
+    Vector velocity = particleComponent->GetVelocity();
+
+    velocity *= magnitude;
+
+    particleComponent->SetVelocity(velocity);
 }

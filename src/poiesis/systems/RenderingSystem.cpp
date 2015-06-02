@@ -25,6 +25,8 @@ void RenderingSystem::Update(float dt)
         cameraOffset = cameraComponent->GetPosition() - screenOffset;
     }
 
+    Engine::GetInstance().GetGraphicsAdapter()->InitRendering();
+
     for (auto entity : entities)
     {
         spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "SpriteComponent"));
@@ -46,5 +48,5 @@ void RenderingSystem::Update(float dt)
         LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
     }
 
-    Engine::GetInstance().GetGraphicsAdapter()->RenderBatch();
+    Engine::GetInstance().GetGraphicsAdapter()->FinishRendering();
 }

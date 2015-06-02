@@ -130,6 +130,16 @@ bool SDLGraphicsAdapter::IsLoaded(std::string file)
     return (texturesTable.find(file) != texturesTable.end());
 }
 
+void SDLGraphicsAdapter::InitRendering()
+{
+    // Select the black color for drawing.
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+    // Clear the entire screen with the selected color.
+    SDL_RenderClear(renderer);
+
+}
+
 void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y, float scale)
 {
     if (!IsLoaded(file))
@@ -180,7 +190,7 @@ void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
         scale);
 }
 
-void SDLGraphicsAdapter::RenderBatch()
+void SDLGraphicsAdapter::FinishRendering()
 {
     // Forces rendering images at the GPU.
     SDL_RenderPresent(renderer);

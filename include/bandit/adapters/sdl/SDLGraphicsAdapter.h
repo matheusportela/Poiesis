@@ -20,9 +20,10 @@ class SDLGraphicsAdapter : public GraphicsAdapter
     void LoadImage(std::string file);
     void UnloadImage(std::string file);
     bool IsLoaded(std::string file);
+    void InitRendering();
     void RenderImage(std::string file, int x, int y, float scale);
     void RenderCenteredImage(std::string file, int x, int y, float scale);
-    void RenderBatch();
+    void FinishRendering();
 
   private:
     struct TextureSettings

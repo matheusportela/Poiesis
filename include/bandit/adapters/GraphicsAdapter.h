@@ -26,6 +26,10 @@ class GraphicsAdapter
     // Checks whether an image has been loaded with this instance.
     virtual bool IsLoaded(std::string file) = 0;
 
+    // GPU and rendering related initializations that must be executed every
+    // rendering cycle.
+    virtual void InitRendering() = 0;
+
     // Renders the image to a previously defined window in the given x, y
     // coordinates.
     virtual void RenderImage(std::string file, int x, int y, float scale = 1) = 0;
@@ -34,9 +38,9 @@ class GraphicsAdapter
     // coordinates.
     virtual void RenderCenteredImage(std::string file, int x, int y, float scale = 1) = 0;
 
-    // Makes the GPU properly render all images that has been requested to be
-    // presented by using RenderImage methods.
-    virtual void RenderBatch() = 0;
+    // GPU and rendering related finalizations that must be executed every
+    // rendering cycle.
+    virtual void FinishRendering() = 0;
 };
 
 #endif // GRAPHICS_ADAPTER_H_

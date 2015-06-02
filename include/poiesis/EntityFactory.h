@@ -37,6 +37,9 @@ class EntityFactory
 
     // Creates slow area: a region with reduces entities speed.
     static std::shared_ptr<Entity> CreateSlowArea(Vector position);
+
+    // Creates slow area: a region with increases entities speed.
+    static std::shared_ptr<Entity> CreateFastArea(Vector position);
 };
 
 #endif // ENTITY_FACTORY_H_

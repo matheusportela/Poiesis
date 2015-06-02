@@ -4,20 +4,33 @@ void Level1::Start()
 {
     LOG_I("[Level1] Starting");
     
+    Random r;
+    float x;
+    float y;
+
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
-    EntityFactory::CreateSlowArea(Vector(-100, -100));
+
+    for (int i = 0; i < 5; ++i)
+    {
+        x = r.GenerateFloat(-2000, 2000);
+        y = r.GenerateFloat(-2000, 2000);
+        EntityFactory::CreateSlowArea(Vector(x, y));
+
+        x = r.GenerateFloat(-2000, 2000);
+        y = r.GenerateFloat(-2000, 2000);
+        EntityFactory::CreateFastArea(Vector(x, y));
+    }
+
     EntityFactory::CreatePlayer();
     EntityFactory::CreateCell(1, Vector(410, 310));
     EntityFactory::CreateFood(Vector(700, 300));
 
-    Random r;
-    float x;
-    float y;
+    
     for (int i = 0; i < 100; ++i)
     {
-        x = r.GenerateFloat(0, 1000);
-        y = r.GenerateFloat(0, 1000);
+        x = r.GenerateFloat(-2000, 2000);
+        y = r.GenerateFloat(-2000, 2000);
         EntityFactory::CreateCell(1, Vector(x, y));
     }
 

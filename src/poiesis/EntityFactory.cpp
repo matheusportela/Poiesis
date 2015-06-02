@@ -79,3 +79,18 @@ std::shared_ptr<Entity> EntityFactory::CreateSlowArea(Vector position)
         std::make_shared<SlowingComponent>(CFG_GETF("SLOW_AREA_MAGNITUDE")), area);
     return area;
 }
+
+std::shared_ptr<Entity> EntityFactory::CreateFastArea(Vector position)
+{
+    std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("FAST_AREA_IMAGE")), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(0, position), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("FAST_AREA_COLLIDER_RADIUS")),
+        area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SlowingComponent>(CFG_GETF("FAST_AREA_MAGNITUDE")), area);
+    return area;
+}

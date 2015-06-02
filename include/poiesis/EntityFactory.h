@@ -33,6 +33,9 @@ class EntityFactory
 
     // Creates camera: a position for rendering images.
     static std::shared_ptr<Entity> CreateCamera();
+
+    // Creates slow area: a region with reduces entities speed.
+    static std::shared_ptr<Entity> CreateSlowArea(Vector position);
 };
 
 #endif // ENTITY_FACTORY_H_

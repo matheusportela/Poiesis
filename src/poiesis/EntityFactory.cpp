@@ -64,3 +64,16 @@ std::shared_ptr<Entity> EntityFactory::CreateCamera()
         std::make_shared<CameraComponent>(), camera);
     return camera;
 }
+
+std::shared_ptr<Entity> EntityFactory::CreateSlowArea(Vector position)
+{
+    std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("SLOW_AREA_IMAGE")), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(0, position), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("SLOW_AREA_COLLIDER_RADIUS")),
+        area);
+    return area;
+}

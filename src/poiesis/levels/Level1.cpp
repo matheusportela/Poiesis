@@ -9,6 +9,7 @@ void Level1::Start()
     EntityFactory::CreatePlayer();
     EntityFactory::CreateCell(1, Vector(410, 310));
     EntityFactory::CreateFood(Vector(700, 300));
+    EntityFactory::CreateSlowArea(Vector(-100, -100));
 
     Random r;
     float x;

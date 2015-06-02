@@ -40,6 +40,7 @@ void Level1::Start()
     Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<DebugSystem>());
 }
 
 void Level1::Update()

@@ -5,6 +5,8 @@ SDL_Renderer* SDLGraphicsAdapter::renderer = NULL;
 std::unordered_map<std::string, SDL_Texture*> SDLGraphicsAdapter::texturesTable;
 std::unordered_map<std::string, SDLGraphicsAdapter::TextureSettings> SDLGraphicsAdapter::texturesSettings;
 std::unordered_map<std::string, TTF_Font*> SDLGraphicsAdapter::fontTable;
+std::vector<SDLGraphicsAdapter::TextSettings> SDLGraphicsAdapter::textSettings;
+std::vector<SDL_Texture*> SDLGraphicsAdapter::textTextures;
 
 SDLGraphicsAdapter::~SDLGraphicsAdapter()
 {
@@ -250,28 +252,55 @@ void SDLGraphicsAdapter::Write(std::string text, std::string fontFile, int x, in
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     SDL_QueryTexture(texture, NULL, NULL, &width, &height);
-    SDL_Rect clipRect =
-    {
-        .x = 0,
-        .y = 0,
-        .w = width,
-        .h = height
-    };
-
-    SDL_Rect dstRect =
+    TextSettings settings =
     {
         .x = x,
         .y = y,
-        .w = width,
-        .h = height
+        .width = width,
+        .height = height
     };
 
-    SDL_RenderCopy(renderer, texture, &clipRect, &dstRect);
-    SDL_DestroyTexture(texture);
+    textSettings.push_back(settings);
+    textTextures.push_back(texture);
+}
+
+void SDLGraphicsAdapter::RenderTexts()
+{
+    SDL_Texture* texture;
+    TextSettings settings;
+    SDL_Rect clipRect;
+    SDL_Rect dstRect;
+
+    for (unsigned int i = 0; i < textTextures.size(); ++i)
+    {
+        texture = textTextures[i];
+        settings = textSettings[i];
+        clipRect =
+        {
+            .x = 0,
+            .y = 0,
+            .w = settings.width,
+            .h = settings.height
+        };
+        dstRect =
+        {
+            .x = settings.x,
+            .y = settings.y,
+            .w = settings.width,
+            .h = settings.height
+        };
+        SDL_RenderCopy(renderer, texture, &clipRect, &dstRect);
+        SDL_DestroyTexture(texture);
+    }
+
+    textTextures.clear();
+    textSettings.clear();
 }
 
 void SDLGraphicsAdapter::FinishRendering()
 {
+    RenderTexts();
+
     // Forces rendering images at the GPU.
     SDL_RenderPresent(renderer);
 }

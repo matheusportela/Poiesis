@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -39,12 +40,21 @@ class SDLGraphicsAdapter : public GraphicsAdapter
         int height;
     };
 
+    struct TextSettings
+    {
+        int x;
+        int y;
+        int width;
+        int height;
+    };
+
     void CreateRenderer();
     void DestroyRenderer();
     void LoadTexture(std::string file);
     void UpdateTextureSettings(std::string file);
     void UnloadAllTextures();
     void UnloadAllFonts();
+    void RenderTexts();
 
     // SDL window were images will be placed.
     static SDL_Window* window;
@@ -60,6 +70,12 @@ class SDLGraphicsAdapter : public GraphicsAdapter
 
     // Table to provide reusage of loaded fonts.
     static std::unordered_map<std::string, TTF_Font*> fontTable;
+
+    // Table to maintain the text dimensions and positioning settings.
+    static std::vector<TextSettings> textSettings;
+
+    // Table to store texts in a rendering cycle.
+    static std::vector<SDL_Texture*> textTextures;
 };
 
 #endif // SDL_GRAPHICS_ADAPTER_H_

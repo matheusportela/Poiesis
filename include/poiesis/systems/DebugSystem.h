@@ -12,7 +12,11 @@ class DebugSystem : public System
   public:
     std::string GetName();
     void Update(float dt);
-    void WriteFPS(float dt);
+    std::string GenerateFPSMessage(float dt);
+
+  private:
+    float accumulatedTime;
+    std::string fpsMessage;
 };
 
 #endif // DEBUG_SYSTEM_H_

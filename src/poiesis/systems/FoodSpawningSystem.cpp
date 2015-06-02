@@ -15,7 +15,8 @@ void FoodSpawningSystem::Update(float dt)
 
     accumulatedTime += dt;
 
-    if (accumulatedTime > 5 && random.GenerateFloat() < foodSpawningChance)
+    if (accumulatedTime > CFG_GETF("FOOD_SPAWNING_PERIOD")
+        && random.GenerateFloat() < foodSpawningChance)
     {
         accumulatedTime = 0;
         float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));

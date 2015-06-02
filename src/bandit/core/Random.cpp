@@ -7,7 +7,11 @@ Random::Random()
 
 void Random::SeedRandomNumberGenerator()
 {
-    srand(time(NULL));
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+
+    // using nano-seconds instead of seconds
+    srand((time_t)ts.tv_nsec);
 }
 
 int Random::GenerateInt()

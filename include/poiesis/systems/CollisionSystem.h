@@ -8,7 +8,7 @@
 #include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/ParticleComponent.h"
-#include "poiesis/components/SlowerComponent.h"
+#include "poiesis/components/SlowingComponent.h"
 
 class CollisionSystem : public System
 {

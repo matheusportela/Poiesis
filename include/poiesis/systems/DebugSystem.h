@@ -4,19 +4,23 @@
 #define DEBUG_SYSTEM_H_
 
 #include <string>
+#include <vector>
 
 #include "bandit/Engine.h"
+
+#include "poiesis/components/CameraComponent.h"
 
 class DebugSystem : public System
 {
   public:
     std::string GetName();
     void Update(float dt);
-    std::string GenerateFPSMessage(float dt);
+    void GenerateFPSMessage(float dt);
+    void GeneratePlayerPositionMessage();
 
   private:
     float accumulatedTime;
-    std::string fpsMessage;
+    std::vector<std::string> messages;
 };
 
 #endif // DEBUG_SYSTEM_H_

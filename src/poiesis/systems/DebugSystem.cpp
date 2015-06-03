@@ -38,6 +38,10 @@ void DebugSystem::GenerateFPSMessage(float dt)
 void DebugSystem::GeneratePlayerMessage()
 {
     auto followEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
+
+    if (followEntities.size() == 0)
+        return;
+
     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "ParticleComponent"));
     auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
     messages.push_back("Player");

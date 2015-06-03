@@ -21,6 +21,8 @@ void GrowthSystem::Update(float dt)
     int lowerThreshold = CFG_GETI("GROWTH_LOWER_THRESHOLD");
     float collisionRadius;
 
+    accumulatedDt += dt;
+
     for (auto entity : entities)
     {
         growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "GrowthComponent"));
@@ -29,6 +31,12 @@ void GrowthSystem::Update(float dt)
 
         energy = growthComponent->GetEnergy();
         level = growthComponent->GetLevel();
+
+        if (accumulatedDt > CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"))
+        {
+            accumulatedDt = 0;
+            energy -= 1;
+        }
 
         if (energy >= upperThreshold)
         {
@@ -47,6 +55,11 @@ void GrowthSystem::Update(float dt)
 
         if (level > max_level)
             level = max_level;
+        else if (level <= 0)
+        {
+            Engine::GetInstance().GetEntityManager()->DeleteEntity(entity);
+            continue;
+        }
 
         collisionRadius = level*colliderComponent->GetInitRadius();
 

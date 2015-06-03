@@ -17,7 +17,8 @@ void GrowthSystem::Update(float dt)
     int max_level = CFG_GETI("GROWTH_LEVEL_LIMIT");
     int level;
     int energy;
-    int threshold;
+    int upperThreshold = CFG_GETI("GROWTH_UPPER_THRESHOLD");
+    int lowerThreshold = CFG_GETI("GROWTH_LOWER_THRESHOLD");
     float collisionRadius;
 
     for (auto entity : entities)
@@ -28,23 +29,26 @@ void GrowthSystem::Update(float dt)
 
         energy = growthComponent->GetEnergy();
         level = growthComponent->GetLevel();
-        collisionRadius = colliderComponent->GetRadius();
-        threshold = 0;
 
-        if (energy > threshold)
+        if (energy >= upperThreshold)
         {
             energy = 0;
             level += 1;
-            collisionRadius = level*colliderComponent->GetInitRadius();
             LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has "
                 << "grown to level " << level);
         }
+        else if (energy <= lowerThreshold)
+        {
+            energy = 0;
+            level -= 1;
+            LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has "
+                << "shrunk to level " << level);
+        }
 
         if (level > max_level)
-        {
             level = max_level;
-            collisionRadius = level*colliderComponent->GetInitRadius();
-        }
+
+        collisionRadius = level*colliderComponent->GetInitRadius();
 
         growthComponent->SetEnergy(energy);
         growthComponent->SetLevel(level);

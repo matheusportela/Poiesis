@@ -20,7 +20,7 @@ void DebugSystem::Update(float dt)
         accumulatedTime = 0;
         messages.clear();
         GenerateFPSMessage(dt);
-        GeneratePlayerPositionMessage();
+        GeneratePlayerMessage();
     }
 
     for (unsigned int i = 0; i < messages.size(); ++i)
@@ -35,10 +35,13 @@ void DebugSystem::GenerateFPSMessage(float dt)
     messages.push_back("FPS: " + std::to_string(fps));
 }
 
-void DebugSystem::GeneratePlayerPositionMessage()
+void DebugSystem::GeneratePlayerMessage()
 {
-    auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
-    auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
-    Vector position = cameraComponent->GetPosition();
-    messages.push_back("Camera: " + position.ToString());
+    auto followEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "ParticleComponent"));
+    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
+    messages.push_back("Player");
+    messages.push_back("Position: " + particleComponent->GetPosition().ToString());
+    messages.push_back("Velocity: " + std::to_string(particleComponent->GetVelocity().GetMagnitude()) + " " + std::to_string(particleComponent->GetVelocity().GetDirection()*180.0/M_PI));
+    messages.push_back("Growth: " + std::to_string(growthComponent->GetLevel()));
 }

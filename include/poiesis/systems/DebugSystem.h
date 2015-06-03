@@ -8,7 +8,8 @@
 
 #include "bandit/Engine.h"
 
-#include "poiesis/components/CameraComponent.h"
+#include "poiesis/components/GrowthComponent.h"
+#include "poiesis/components/ParticleComponent.h"
 
 class DebugSystem : public System
 {
@@ -16,7 +17,7 @@ class DebugSystem : public System
     std::string GetName();
     void Update(float dt);
     void GenerateFPSMessage(float dt);
-    void GeneratePlayerPositionMessage();
+    void GeneratePlayerMessage();
 
   private:
     float accumulatedTime;

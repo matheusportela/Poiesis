@@ -140,3 +140,8 @@ bool EntityManager::HasComponent(std::shared_ptr<Entity> entity,
 
     return (componentsArray.size() > 0);
 }
+
+unsigned int EntityManager::GetNumberOfEntities()
+{
+    return entities.size();
+}

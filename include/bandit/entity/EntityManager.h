@@ -45,6 +45,9 @@ class EntityManager
     bool HasComponent(std::shared_ptr<Entity> entity,
         std::string componentClass);
 
+    // Gets the number of entities currently managed.
+    unsigned int GetNumberOfEntities();
+
   private:
     void DeleteEntityComponents(std::shared_ptr<Entity> entity);
     void DeleteEntityFromContainer(std::shared_ptr<Entity> entity);

@@ -10,6 +10,7 @@ void DebugSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[DebugSystem] Update: " << dt);
 
+    currentTime += dt;
     accumulatedTime += dt;
 
     if (!Engine::GetInstance().GetGraphicsAdapter()->IsFontLoaded(CFG_GETP("FONT_FILE")))
@@ -19,7 +20,9 @@ void DebugSystem::Update(float dt)
     {
         accumulatedTime = 0;
         messages.clear();
+        GenerateTimeMessage();
         GenerateFPSMessage(dt);
+        GenerateEngineMessage();
         GeneratePlayerMessage();
     }
 
@@ -29,10 +32,22 @@ void DebugSystem::Update(float dt)
             CFG_GETI("DEBUG_MESSAGE_Y") + i*CFG_GETI("DEBUG_MESSAGE_SIZE"));
 }
 
+void DebugSystem::GenerateTimeMessage()
+{
+    int displayTime = currentTime;
+    messages.push_back("Time: " + std::to_string(displayTime) + " s");
+}
+
 void DebugSystem::GenerateFPSMessage(float dt)
 {
     int fps = 1/dt;
     messages.push_back("FPS: " + std::to_string(fps));
+}
+
+void DebugSystem::GenerateEngineMessage()
+{
+    messages.push_back("Engine");
+    messages.push_back("Entities: " + std::to_string(Engine::GetInstance().GetEntityManager()->GetNumberOfEntities()));
 }
 
 void DebugSystem::GeneratePlayerMessage()

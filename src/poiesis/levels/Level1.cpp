@@ -11,28 +11,39 @@ void Level1::Start()
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
 
-    for (int i = 0; i < 10; ++i)
+    // Creating areas.
+    for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_SLOW_AREAS"); ++i)
     {
         x = r.GenerateFloat(-2000, 2000);
         y = r.GenerateFloat(-2000, 2000);
         EntityFactory::CreateSlowArea(Vector(x, y));
+    }
 
+    for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_FAST_AREAS"); ++i)
+    {
         x = r.GenerateFloat(-2000, 2000);
         y = r.GenerateFloat(-2000, 2000);
         EntityFactory::CreateFastArea(Vector(x, y));
     }
 
+    // Cells and food must be created after areas to be rendered above them.
     EntityFactory::CreatePlayer();
-    // EntityFactory::CreateCell(1, Vector(410, 310));
-    // EntityFactory::CreateFood(Vector(700, 300));
 
-    // for (int i = 0; i < 50; ++i)
-    // {
-    //     x = r.GenerateFloat(-2000, 2000);
-    //     y = r.GenerateFloat(-2000, 2000);
-    //     EntityFactory::CreateCell(1, Vector(x, y));
-    // }
+    for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_CELLS"); ++i)
+    {
+        x = r.GenerateFloat(-2000, 2000);
+        y = r.GenerateFloat(-2000, 2000);
+        EntityFactory::CreateCell(1, Vector(x, y));
+    }
 
+    for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_FOOD"); ++i)
+    {
+        x = r.GenerateFloat(-2000, 2000);
+        y = r.GenerateFloat(-2000, 2000);
+        EntityFactory::CreateFood(Vector(x, y));
+    }
+
+    // Creating systems.
     Engine::GetInstance().AddSystem(std::make_shared<CellSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
@@ -58,7 +69,7 @@ void Level1::Update()
     {
         auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
 
-        if (growthComponent->GetLevel() == 3)
+        if (growthComponent->GetLevel() == CFG_GETI("LEVEL_1_GOAL_SIZE"))
         {
             win = true;
             SetFinished();

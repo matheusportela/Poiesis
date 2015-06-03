@@ -46,9 +46,17 @@ void Level1::Start()
 void Level1::Update()
 {
     LOG_D("[Level1] Updating");
+
+    auto followEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
+
+    if (followEntities.size() == 0)
+        SetFinished();
 }
 
 void Level1::Finish()
 {
     LOG_I("[Level1] Finishing");
+    Engine::GetInstance().GetGraphicsAdapter()->Write("You lost",
+        CFG_GETP("FONT_FILE"), CFG_GETI("WINDOW_WIDTH")/2,
+        CFG_GETI("WINDOW_HEIGHT")/2);
 }

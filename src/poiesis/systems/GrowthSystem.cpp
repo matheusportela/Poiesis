@@ -16,7 +16,7 @@ void GrowthSystem::Update(float dt)
     std::shared_ptr<ColliderComponent> colliderComponent;
     int max_level = CFG_GETI("GROWTH_LEVEL_LIMIT");
     int level;
-    int power;
+    int energy;
     int threshold;
     float collisionRadius;
 
@@ -26,14 +26,14 @@ void GrowthSystem::Update(float dt)
         spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "SpriteComponent"));
         colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ColliderComponent"));
 
-        power = growthComponent->GetPower();
+        energy = growthComponent->GetEnergy();
         level = growthComponent->GetLevel();
         collisionRadius = colliderComponent->GetRadius();
         threshold = 0;
 
-        if (power > threshold)
+        if (energy > threshold)
         {
-            power = 0;
+            energy = 0;
             level += 1;
             collisionRadius = level*colliderComponent->GetInitRadius();
             LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has "
@@ -46,7 +46,7 @@ void GrowthSystem::Update(float dt)
             collisionRadius = level*colliderComponent->GetInitRadius();
         }
 
-        growthComponent->SetPower(power);
+        growthComponent->SetEnergy(energy);
         growthComponent->SetLevel(level);
         spriteComponent->SetScale(level);
         colliderComponent->SetRadius(collisionRadius);

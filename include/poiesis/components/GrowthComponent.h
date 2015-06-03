@@ -19,8 +19,8 @@ class GrowthComponent : public Component
     int GetLevel();
     void SetLevel(int level);
 
-    int GetPower();
-    void SetPower(int power);
+    int GetEnergy();
+    void SetEnergy(int power);
 
   private:
     // Holds the amount of power that is necessary to increase the growth level.
@@ -29,8 +29,8 @@ class GrowthComponent : public Component
     // Holds the current growth level.
     int level;
 
-    // Holds the amount of power accumulated since the last growth.
-    int power;
+    // Holds the amount of energy accumulated by the entity.
+    int energy;
 };
 
 #endif // GROWTH_COMPONENT_H_

@@ -107,9 +107,9 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
     LOG_D("[CollisionSystem] Entity " << eatableEntity->GetId() << " is eating entity " << eatableEntity->GetId());
 
     auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(eaterEntity, "GrowthComponent"));
-    auto power = growthComponent->GetPower();
-    ++power;
-    growthComponent->SetPower(power);
+    auto energy = growthComponent->GetEnergy();
+    ++energy;
+    growthComponent->SetEnergy(energy);
 
     // Delete food entity.
     Engine::GetInstance().GetEntityManager()->DeleteEntity(eatableEntity);

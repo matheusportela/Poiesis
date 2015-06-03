@@ -9,6 +9,7 @@
 
 #include "poiesis/EntityFactory.h"
 #include "poiesis/systems/CameraSystem.h"
+#include "poiesis/systems/CellSpawningSystem.h"
 #include "poiesis/systems/CollisionSystem.h"
 #include "poiesis/systems/DebugSystem.h"
 #include "poiesis/systems/FoodSpawningSystem.h"
@@ -22,6 +23,9 @@ class Level1 : public Level
     void Start();
     void Update();
     void Finish();
+
+  private:
+    bool win;
 };
 
 #endif // LEVEL_1_H_

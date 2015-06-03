@@ -23,17 +23,17 @@ void Level1::Start()
     }
 
     EntityFactory::CreatePlayer();
-    EntityFactory::CreateCell(1, Vector(410, 310));
-    EntityFactory::CreateFood(Vector(700, 300));
+    // EntityFactory::CreateCell(1, Vector(410, 310));
+    // EntityFactory::CreateFood(Vector(700, 300));
 
-    
-    for (int i = 0; i < 50; ++i)
-    {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
-        EntityFactory::CreateCell(1, Vector(x, y));
-    }
+    // for (int i = 0; i < 50; ++i)
+    // {
+    //     x = r.GenerateFloat(-2000, 2000);
+    //     y = r.GenerateFloat(-2000, 2000);
+    //     EntityFactory::CreateCell(1, Vector(x, y));
+    // }
 
+    Engine::GetInstance().AddSystem(std::make_shared<CellSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
@@ -50,13 +50,36 @@ void Level1::Update()
     auto followEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
 
     if (followEntities.size() == 0)
+    {
+        win = false;
         SetFinished();
+    }
+    else
+    {
+        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
+
+        if (growthComponent->GetLevel() == 3)
+        {
+            win = true;
+            SetFinished();
+        }
+    }
 }
 
 void Level1::Finish()
 {
     LOG_I("[Level1] Finishing");
-    Engine::GetInstance().GetGraphicsAdapter()->Write("You lost",
+
+    if (win)
+    {
+        Engine::GetInstance().GetGraphicsAdapter()->Write("You win",
         CFG_GETP("FONT_FILE"), CFG_GETI("WINDOW_WIDTH")/2,
         CFG_GETI("WINDOW_HEIGHT")/2);
+    }
+    else
+    {
+        Engine::GetInstance().GetGraphicsAdapter()->Write("You lost",
+        CFG_GETP("FONT_FILE"), CFG_GETI("WINDOW_WIDTH")/2,
+        CFG_GETI("WINDOW_HEIGHT")/2);
+    }
 }

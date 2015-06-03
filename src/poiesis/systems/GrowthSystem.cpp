@@ -20,8 +20,15 @@ void GrowthSystem::Update(float dt)
     int upperThreshold = CFG_GETI("GROWTH_UPPER_THRESHOLD");
     int lowerThreshold = CFG_GETI("GROWTH_LOWER_THRESHOLD");
     float collisionRadius;
-
+    Random r;
+    bool canConsumeEnergy = false;
     accumulatedDt += dt;
+
+    if (accumulatedDt > CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"))
+    {
+        accumulatedDt = 0;
+        canConsumeEnergy = true;
+    }
 
     for (auto entity : entities)
     {
@@ -32,10 +39,10 @@ void GrowthSystem::Update(float dt)
         energy = growthComponent->GetEnergy();
         level = growthComponent->GetLevel();
 
-        if (accumulatedDt > CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"))
+        if (canConsumeEnergy)
         {
-            accumulatedDt = 0;
-            energy -= 1;
+            if (r.GenerateFloat() < CFG_GETF("GROWTH_ENERGY_CONSUMING_CHANCE"))
+                energy -= 1;
         }
 
         if (energy >= upperThreshold)

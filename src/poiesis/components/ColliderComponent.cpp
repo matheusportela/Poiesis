@@ -1,7 +1,7 @@
 #include "poiesis/components/ColliderComponent.h"
 
 ColliderComponent::ColliderComponent(float radius) :
-    radius(radius)
+    radius(radius), initRadius(radius)
 {
 }
 
@@ -18,4 +18,9 @@ float ColliderComponent::GetRadius()
 void ColliderComponent::SetRadius(float radius)
 {
     this->radius = radius;
+}
+
+float ColliderComponent::GetInitRadius()
+{
+    return initRadius;
 }

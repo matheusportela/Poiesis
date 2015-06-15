@@ -20,8 +20,7 @@ void EntityManager::DeleteEntity(std::shared_ptr<Entity> entity)
 
 void EntityManager::DeleteEntityComponents(std::shared_ptr<Entity> entity)
 {
-    componentsByEntity[entity->GetId()].clear();
-    componentsByEntity.erase(entity->GetId());
+    entityToComponents.erase(entity->GetId());
 }
 
 void EntityManager::DeleteEntityFromContainer(std::shared_ptr<Entity> entity)
@@ -39,15 +38,7 @@ void EntityManager::DeleteEntityFromContainer(std::shared_ptr<Entity> entity)
 void EntityManager::AddComponent(std::shared_ptr<Component> component,
     std::shared_ptr<Entity> entity)
 {
-    if (HasEntity(entity))
-    {
-        componentsByEntity[entity->GetId()].push_back(component);
-    }
-    else
-    {
-        std::vector<std::shared_ptr<Component>> componentsArray = { component };
-        componentsByEntity[entity->GetId()] = componentsArray;
-    }
+    entityToComponents.insert(std::make_pair(entity->GetId(), component));
 
     LOG_D("[EntityManager] Added component \"" << component->GetComponentClass()
         << "\" to entity with ID: " << entity->GetId());
@@ -55,7 +46,7 @@ void EntityManager::AddComponent(std::shared_ptr<Component> component,
 
 bool EntityManager::HasEntity(std::shared_ptr<Entity> entity)
 {
-    return (componentsByEntity.find(entity->GetId()) != componentsByEntity.end());
+    return (entityToComponents.find(entity->GetId()) != entityToComponents.end());
 }
 
 std::vector<std::shared_ptr<Component>> EntityManager::GetComponentsOfClass(
@@ -63,8 +54,13 @@ std::vector<std::shared_ptr<Component>> EntityManager::GetComponentsOfClass(
 {
     std::vector<std::shared_ptr<Component>> componentsArray;
 
-    for (auto component : componentsByEntity[entity->GetId()])
+    std::shared_ptr<Component> component;
+    std::pair<std::multimap<unsigned int, std::shared_ptr<Component>>::iterator,
+        std::multimap<unsigned int, std::shared_ptr<Component>>::iterator> ret =
+        entityToComponents.equal_range(entity->GetId());
+    for (auto it = ret.first; it != ret.second; ++it)
     {
+        component = it->second;
         if (component->GetComponentClass() == componentClass)
             componentsArray.push_back(component);
     }
@@ -79,8 +75,13 @@ std::vector<std::shared_ptr<Entity>> EntityManager::GetAllEntitiesWithComponentO
 
     for (auto entity : entities)
     {
-        for (auto component : componentsByEntity[entity->GetId()])
+        std::shared_ptr<Component> component;
+        std::pair<std::multimap<unsigned int, std::shared_ptr<Component>>::iterator,
+            std::multimap<unsigned int, std::shared_ptr<Component>>::iterator> ret =
+            entityToComponents.equal_range(entity->GetId());
+        for (auto it = ret.first; it != ret.second; ++it)
         {
+            component = it->second;
             if (component->GetComponentClass() == componentClass)
             {
                 entitiesArray.push_back(entity);
@@ -108,7 +109,8 @@ std::shared_ptr<Component> EntityManager::GetSingleComponentOfClass(
     if (componentsArray.size() > 1)
     {
         LOG_W("[EntityManager] Entity " << entity->GetId() << " has more than "
-            << "one component of class \"" << componentClass << "\". "
+            << "one component of class \"" << componentClass << "\" (number of "
+            << "components: " << componentsArray.size() << "). "
             << "Returning the first one.");
     }
 
@@ -122,8 +124,13 @@ std::vector<std::shared_ptr<Component>> EntityManager::GetAllComponentsOfClass(
 
     for (auto entity : entities)
     {
-        for (auto component : componentsByEntity[entity->GetId()])
+        std::shared_ptr<Component> component;
+        std::pair<std::multimap<unsigned int, std::shared_ptr<Component>>::iterator,
+            std::multimap<unsigned int, std::shared_ptr<Component>>::iterator> ret =
+            entityToComponents.equal_range(entity->GetId());
+        for (auto it = ret.first; it != ret.second; ++it)
         {
+            component = it->second;
             if (component->GetComponentClass() == componentClass)
                 componentsArray.push_back(component);
         }

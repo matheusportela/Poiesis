@@ -4,6 +4,7 @@
 #define ENTITY_MANAGER_H_
 
 #include <unordered_map>
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -53,9 +54,14 @@ class EntityManager
     void DeleteEntityFromContainer(std::shared_ptr<Entity> entity);
     bool HasEntity(std::shared_ptr<Entity> entity);
 
+    // All entities in the game.
     std::vector<std::shared_ptr<Entity>> entities;
-    std::unordered_map<unsigned int, std::vector<std::shared_ptr<Component>>>
-        componentsByEntity;
+
+    // Stores all components attached to a given entity.
+    std::multimap<unsigned int, std::shared_ptr<Component>> entityToComponents;
+
+    // Stores all entities that have a given component type.
+    std::multimap<std::string, std::shared_ptr<Entity>> componentToEntities;
 };
 
 #endif // ENTITY_MANAGER_H_

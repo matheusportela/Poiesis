@@ -27,6 +27,7 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(float inverseMass,
     Engine::GetInstance().AddComponent(
         std::make_shared<ColliderComponent>(CFG_GETF("CELL_COLLIDER_RADIUS")),
         cell);
+    Engine::GetInstance().AddComponent(std::make_shared<AIComponent>(), cell);
     return cell;
 }
 

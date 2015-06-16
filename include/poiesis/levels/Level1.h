@@ -8,6 +8,7 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/EntityFactory.h"
+#include "poiesis/systems/AISystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CellSpawningSystem.h"
 #include "poiesis/systems/CollisionSystem.h"

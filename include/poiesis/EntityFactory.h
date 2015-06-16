@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "bandit/Engine.h"
+#include "poiesis/components/AIComponent.h"
 #include "poiesis/components/CameraComponent.h"
 #include "poiesis/components/CameraFollowComponent.h"
 #include "poiesis/components/ColliderComponent.h"

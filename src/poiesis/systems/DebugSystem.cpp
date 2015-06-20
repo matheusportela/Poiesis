@@ -1,5 +1,11 @@
 #include "poiesis/systems/DebugSystem.h"
 
+DebugSystem::DebugSystem()
+{
+    timer.SetPeriod(CFG_GETF("DEBUG_MESSAGE_PERIOD"));
+    timer.SetCallback(std::bind(&DebugSystem::GenerateDebugMessages, this));
+}
+
 std::string DebugSystem::GetName()
 {
     return "DebugSystem";
@@ -11,25 +17,26 @@ void DebugSystem::Update(float dt)
     LOG_D("[DebugSystem] Update: " << dt);
 
     currentTime += dt;
-    accumulatedTime += dt;
+    currentFps = 1/dt;
 
     if (!Engine::GetInstance().GetGraphicsAdapter()->IsFontLoaded(CFG_GETP("FONT_FILE")))
         Engine::GetInstance().GetGraphicsAdapter()->LoadFont(CFG_GETP("FONT_FILE"), CFG_GETI("DEBUG_MESSAGE_SIZE"));
 
-    if (accumulatedTime > CFG_GETF("DEBUG_MESSAGE_PERIOD"))
-    {
-        accumulatedTime = 0;
-        messages.clear();
-        GenerateTimeMessage();
-        GenerateFPSMessage(dt);
-        GenerateEngineMessage();
-        GeneratePlayerMessage();
-    }
+    timer.Update(dt);
 
     for (unsigned int i = 0; i < messages.size(); ++i)
         Engine::GetInstance().GetGraphicsAdapter()->Write(messages[i],
             CFG_GETP("FONT_FILE"), CFG_GETI("DEBUG_MESSAGE_X"),
             CFG_GETI("DEBUG_MESSAGE_Y") + i*CFG_GETI("DEBUG_MESSAGE_SIZE"));
+}
+
+void DebugSystem::GenerateDebugMessages()
+{
+    messages.clear();
+    GenerateTimeMessage();
+    GenerateFPSMessage();
+    GenerateEngineMessage();
+    GeneratePlayerMessage();
 }
 
 void DebugSystem::GenerateTimeMessage()
@@ -38,10 +45,9 @@ void DebugSystem::GenerateTimeMessage()
     messages.push_back("Time: " + std::to_string(displayTime) + " s");
 }
 
-void DebugSystem::GenerateFPSMessage(float dt)
+void DebugSystem::GenerateFPSMessage()
 {
-    int fps = 1/dt;
-    messages.push_back("FPS: " + std::to_string(fps));
+    messages.push_back("FPS: " + std::to_string(currentFps));
 }
 
 void DebugSystem::GenerateEngineMessage()

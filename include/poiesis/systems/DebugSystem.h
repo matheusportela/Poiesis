@@ -14,16 +14,19 @@
 class DebugSystem : public System
 {
   public:
+    DebugSystem();
     std::string GetName();
     void Update(float dt);
+    void GenerateDebugMessages();
     void GenerateTimeMessage();
-    void GenerateFPSMessage(float dt);
+    void GenerateFPSMessage();
     void GenerateEngineMessage();
     void GeneratePlayerMessage();
 
   private:
+    Timer timer;
     float currentTime;
-    float accumulatedTime;
+    float currentFps;
     std::vector<std::string> messages;
 };
 

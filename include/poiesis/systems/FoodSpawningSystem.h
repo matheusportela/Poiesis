@@ -10,11 +10,13 @@
 class FoodSpawningSystem : public System
 {
   public:
+    FoodSpawningSystem();
     std::string GetName();
     void Update(float dt);
+    void SpawnFood();
 
   private:
-    float accumulatedTime;
+    Timer timer;
 };
 
 #endif // FOOD_SPAWNING_SYSTEM_H_

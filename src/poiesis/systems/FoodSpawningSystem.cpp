@@ -1,5 +1,11 @@
 #include "poiesis/systems/FoodSpawningSystem.h"
 
+FoodSpawningSystem::FoodSpawningSystem()
+{
+    timer.SetPeriod(CFG_GETF("FOOD_SPAWNING_PERIOD"));
+    timer.SetCallback(std::bind(&FoodSpawningSystem::SpawnFood, this));
+}
+
 std::string FoodSpawningSystem::GetName()
 {
     return "FoodSpawningSystem";
@@ -7,18 +13,16 @@ std::string FoodSpawningSystem::GetName()
 
 void FoodSpawningSystem::Update(float dt)
 {
-    // Avoid warnings for not using dt.
-    LOG_D("[FoodSpawningSystem] Update: " << dt);
+    timer.Update(dt);
+}
 
+void FoodSpawningSystem::SpawnFood()
+{
     Random random;
     float foodSpawningChance = CFG_GETF("FOOD_SPAWNING_CHANCE");
 
-    accumulatedTime += dt;
-
-    if (accumulatedTime > CFG_GETF("FOOD_SPAWNING_PERIOD")
-        && random.GenerateFloat() < foodSpawningChance)
+    if (random.GenerateFloat() < foodSpawningChance)
     {
-        accumulatedTime = 0;
         float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));
         float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT")); 
         EntityFactory::CreateFood(Vector(x, y));

@@ -26,6 +26,7 @@ void AISystem::Update(float dt)
     Vector closestPosition;
     Vector inputForce;
     Vector resultantForce;
+    Random r;
 
     for (auto aiEntity : aiEntities)
     {
@@ -49,7 +50,7 @@ void AISystem::Update(float dt)
 
         inputForce = closestPosition - aiParticlePosition;
         inputForce.Normalize();
-        inputForce *= CFG_GETF("AI_DRIVING_FORCE")/(1 + distance); // Summing with 1 to avoid division by zero.
+        inputForce *= r.GenerateFloat(CFG_GETF("AI_MIN_DRIVING_FORCE"), CFG_GETF("AI_MAX_DRIVING_FORCE"));
         resultantForce = inputForce + aiParticleComponent->GetForce();
         aiParticleComponent->SetForce(resultantForce);
     }

@@ -1,5 +1,11 @@
 #include "poiesis/systems/CellSpawningSystem.h"
 
+CellSpawningSystem::CellSpawningSystem()
+{
+    timer.SetPeriod(CFG_GETF("CELL_SPAWNING_PERIOD"));
+    timer.SetCallback(std::bind(&CellSpawningSystem::SpawnCell, this));
+}
+
 std::string CellSpawningSystem::GetName()
 {
     return "CellSpawningSystem";
@@ -7,18 +13,16 @@ std::string CellSpawningSystem::GetName()
 
 void CellSpawningSystem::Update(float dt)
 {
-    // Avoid warnings for not using dt.
-    LOG_D("[CellSpawningSystem] Update: " << dt);
+    timer.Update(dt);
+}
 
+void CellSpawningSystem::SpawnCell()
+{
     Random random;
     float cellSpawningChance = CFG_GETF("CELL_SPAWNING_CHANCE");
 
-    accumulatedTime += dt;
-
-    if (accumulatedTime > CFG_GETF("CELL_SPAWNING_PERIOD")
-        && random.GenerateFloat() < cellSpawningChance)
+    if (random.GenerateFloat() < cellSpawningChance)
     {
-        accumulatedTime = 0;
         float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));
         float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT")); 
         EntityFactory::CreateCell(1, Vector(x, y));

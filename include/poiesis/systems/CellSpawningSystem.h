@@ -10,11 +10,13 @@
 class CellSpawningSystem : public System
 {
   public:
+    CellSpawningSystem();
     std::string GetName();
     void Update(float dt);
+    void SpawnCell();
 
   private:
-    float accumulatedTime;
+    Timer timer;
 };
 
 #endif // CELL_SPAWNING_SYSTEM_H_

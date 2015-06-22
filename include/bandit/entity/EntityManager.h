@@ -59,6 +59,8 @@ class EntityManager
 
     // Stores all components attached to a given entity.
     std::multimap<unsigned int, std::shared_ptr<Component>> entityToComponents;
+    std::unordered_map<unsigned int, std::vector<std::shared_ptr<Component>>>
+        componentsByEntity;
 
     // Stores all entities that have a given component type.
     std::multimap<std::string, std::shared_ptr<Entity>> componentToEntities;

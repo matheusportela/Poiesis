@@ -16,13 +16,15 @@ void RenderingSystem::Update(float dt)
     std::shared_ptr<ParticleComponent> particleComponent;
     Vector position;
     std::string filename;
+    Vector cameraPosition;
     Vector cameraOffset;
 
     if (cameraEntities.size() > 0)
     {
         auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
         Vector screenOffset = Vector(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"))*0.5;
-        cameraOffset = cameraComponent->GetPosition() - screenOffset;
+        cameraPosition = cameraComponent->GetPosition();
+        cameraOffset = cameraPosition - screenOffset;
     }
 
     Engine::GetInstance().GetGraphicsAdapter()->InitRendering();
@@ -32,6 +34,10 @@ void RenderingSystem::Update(float dt)
         spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "SpriteComponent"));
         particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
         filename = spriteComponent->GetFilename();
+
+        // Skip rendering entities that are too far from the screen.
+        if (particleComponent->GetPosition().CalculateDistance(cameraPosition) > CFG_GETF("RENDERING_MAX_DISTANCE"))
+            continue;
 
         if (!Engine::GetInstance().GetGraphicsAdapter()->IsLoaded(filename))
         {

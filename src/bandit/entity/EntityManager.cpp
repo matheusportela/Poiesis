@@ -20,7 +20,8 @@ void EntityManager::DeleteEntity(std::shared_ptr<Entity> entity)
 
 void EntityManager::DeleteEntityComponents(std::shared_ptr<Entity> entity)
 {
-    entityToComponents.erase(entity->GetId());
+    componentsByEntity[entity->GetId()].clear();
+    componentsByEntity.erase(entity->GetId());
 }
 
 void EntityManager::DeleteEntityFromContainer(std::shared_ptr<Entity> entity)
@@ -38,7 +39,15 @@ void EntityManager::DeleteEntityFromContainer(std::shared_ptr<Entity> entity)
 void EntityManager::AddComponent(std::shared_ptr<Component> component,
     std::shared_ptr<Entity> entity)
 {
-    entityToComponents.insert(std::make_pair(entity->GetId(), component));
+    if (HasEntity(entity))
+    {
+        componentsByEntity[entity->GetId()].push_back(component);
+    }
+    else
+    {
+        std::vector<std::shared_ptr<Component>> componentsArray = { component };
+        componentsByEntity[entity->GetId()] = componentsArray;
+    }
 
     LOG_D("[EntityManager] Added component \"" << component->GetComponentClass()
         << "\" to entity with ID: " << entity->GetId());
@@ -46,7 +55,7 @@ void EntityManager::AddComponent(std::shared_ptr<Component> component,
 
 bool EntityManager::HasEntity(std::shared_ptr<Entity> entity)
 {
-    return (entityToComponents.find(entity->GetId()) != entityToComponents.end());
+    return (componentsByEntity.find(entity->GetId()) != componentsByEntity.end());
 }
 
 std::vector<std::shared_ptr<Component>> EntityManager::GetComponentsOfClass(
@@ -54,13 +63,8 @@ std::vector<std::shared_ptr<Component>> EntityManager::GetComponentsOfClass(
 {
     std::vector<std::shared_ptr<Component>> componentsArray;
 
-    std::shared_ptr<Component> component;
-    std::pair<std::multimap<unsigned int, std::shared_ptr<Component>>::iterator,
-        std::multimap<unsigned int, std::shared_ptr<Component>>::iterator> ret =
-        entityToComponents.equal_range(entity->GetId());
-    for (auto it = ret.first; it != ret.second; ++it)
+    for (auto component : componentsByEntity[entity->GetId()])
     {
-        component = it->second;
         if (component->GetComponentClass() == componentClass)
             componentsArray.push_back(component);
     }
@@ -75,13 +79,8 @@ std::vector<std::shared_ptr<Entity>> EntityManager::GetAllEntitiesWithComponentO
 
     for (auto entity : entities)
     {
-        std::shared_ptr<Component> component;
-        std::pair<std::multimap<unsigned int, std::shared_ptr<Component>>::iterator,
-            std::multimap<unsigned int, std::shared_ptr<Component>>::iterator> ret =
-            entityToComponents.equal_range(entity->GetId());
-        for (auto it = ret.first; it != ret.second; ++it)
+        for (auto component : componentsByEntity[entity->GetId()])
         {
-            component = it->second;
             if (component->GetComponentClass() == componentClass)
             {
                 entitiesArray.push_back(entity);
@@ -124,13 +123,8 @@ std::vector<std::shared_ptr<Component>> EntityManager::GetAllComponentsOfClass(
 
     for (auto entity : entities)
     {
-        std::shared_ptr<Component> component;
-        std::pair<std::multimap<unsigned int, std::shared_ptr<Component>>::iterator,
-            std::multimap<unsigned int, std::shared_ptr<Component>>::iterator> ret =
-            entityToComponents.equal_range(entity->GetId());
-        for (auto it = ret.first; it != ret.second; ++it)
+        for (auto component : componentsByEntity[entity->GetId()])
         {
-            component = it->second;
             if (component->GetComponentClass() == componentClass)
                 componentsArray.push_back(component);
         }

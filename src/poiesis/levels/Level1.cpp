@@ -47,7 +47,8 @@ void Level1::Start()
     Engine::GetInstance().AddSystem(std::make_shared<CellSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
-    // Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<CombatPowerSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());

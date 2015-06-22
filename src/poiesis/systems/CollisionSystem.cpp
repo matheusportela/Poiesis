@@ -60,6 +60,9 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "GrowthComponent") && 
         Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "EatableComponent"))
         EatEntity(entity2, entity1);
+    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "CombatComponent") && 
+        Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "CombatComponent"))
+        CombatEntities(entity1, entity2);
     else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "SlowingComponent") && 
         Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "ParticleComponent"))
         SlowEntity(entity1, entity2);
@@ -104,6 +107,37 @@ void CollisionSystem::CollideBodies(std::shared_ptr<Entity> entity1,
 
     particleComponent1->SetPosition(position1);
     particleComponent2->SetPosition(position2);
+}
+
+void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
+        std::shared_ptr<Entity> entity2)
+{
+    auto combatComponent1 = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "CombatComponent"));
+    auto combatComponent2 = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "CombatComponent"));
+
+    int power1 = combatComponent1->GetPower();
+    int power2 = combatComponent2->GetPower();
+
+    LOG_W("[CollisionSystem] Combat between entity " << entity1->GetId()
+        << " and " << entity2->GetId());
+
+    if (power1 > power2)
+    {
+        LOG_W("[CollisionSystem] Entity " << entity1->GetId()
+            << " wins the combat");
+        EatEntity(entity1, entity2);
+    }
+    else if (power2 > power1)
+    {
+        LOG_W("[CollisionSystem] Entity " << entity2->GetId()
+            << " wins the combat");
+        EatEntity(entity2, entity1);
+    }
+    else
+    {
+        LOG_W("[CollisionSystem] Tied combat");
+        CollideBodies(entity1, entity2);
+    }
 }
 
 void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,

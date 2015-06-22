@@ -6,6 +6,7 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/components/ColliderComponent.h"
+#include "poiesis/components/CombatComponent.h"
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/SlowingComponent.h"
@@ -21,6 +22,8 @@ class CollisionSystem : public System
     void SolveCollision(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
     void CollideBodies(std::shared_ptr<Entity> entity1,
+        std::shared_ptr<Entity> entity2);
+    void CombatEntities(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
     void EatEntity(std::shared_ptr<Entity> eaterEntity,
         std::shared_ptr<Entity> eatableEntity);

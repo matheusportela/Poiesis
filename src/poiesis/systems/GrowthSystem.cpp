@@ -22,11 +22,12 @@ void GrowthSystem::Update(float dt)
     float collisionRadius;
     Random r;
     bool canConsumeEnergy = false;
-    accumulatedDt += dt;
 
-    if (accumulatedDt > CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"))
+    timer.Update(dt);
+
+    if (timer.HasFired())
     {
-        accumulatedDt = 0;
+        timer.SetTime(CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"));
         canConsumeEnergy = true;
     }
 

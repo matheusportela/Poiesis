@@ -9,7 +9,12 @@ void CollisionSystem::Update(float dt)
 {
     // Avoid warnings for not using dt.
     LOG_D("[CollisionSystem] Update: " << dt);
+    
+    CheckCollisions();
+}
 
+void CollisionSystem::CheckCollisions()
+{
     collidableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ColliderComponent");
     std::shared_ptr<Entity> entity1;
     std::shared_ptr<Entity> entity2;

@@ -15,6 +15,7 @@ class CollisionSystem : public System
   public:
     std::string GetName();
     void Update(float dt);
+    void CheckCollisions();
     bool IsColliding(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
     void SolveCollision(std::shared_ptr<Entity> entity1,

@@ -16,7 +16,7 @@ class GrowthSystem : public System
     void Update(float dt);
 
   private:
-    float accumulatedDt;
+    Timer timer;
 };
 
 #endif // GROWTH_SYSTEM_H_

@@ -24,7 +24,7 @@ class DebugSystem : public System
     void GeneratePlayerMessage();
 
   private:
-    Timer timer;
+    PeriodicTimer timer;
     float currentTime;
     float currentFps;
     std::vector<std::string> messages;

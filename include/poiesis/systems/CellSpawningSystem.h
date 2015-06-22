@@ -16,7 +16,7 @@ class CellSpawningSystem : public System
     void SpawnCell();
 
   private:
-    Timer timer;
+    PeriodicTimer timer;
 };
 
 #endif // CELL_SPAWNING_SYSTEM_H_

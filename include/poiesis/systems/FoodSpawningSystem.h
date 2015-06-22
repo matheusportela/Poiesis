@@ -16,7 +16,7 @@ class FoodSpawningSystem : public System
     void SpawnFood();
 
   private:
-    Timer timer;
+    PeriodicTimer timer;
 };
 
 #endif // FOOD_SPAWNING_SYSTEM_H_

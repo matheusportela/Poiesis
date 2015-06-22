@@ -27,6 +27,7 @@
 #include "bandit/core/math/Rectangle.h"
 #include "bandit/core/math/Vector.h"
 #include "bandit/core/parser/ConfigParser.h"
+#include "bandit/core/time/PeriodicTimer.h"
 #include "bandit/core/time/Timer.h"
 
 #include "bandit/entity/Component.h"

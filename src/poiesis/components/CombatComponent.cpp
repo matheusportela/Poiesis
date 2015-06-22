@@ -5,7 +5,7 @@ CombatComponent::CombatComponent() :
 {
 }
 
-CombatComponent::CombatComponent(float power) :
+CombatComponent::CombatComponent(int power) :
     power(power)
 {
 }
@@ -15,12 +15,12 @@ std::string CombatComponent::GetComponentClass()
     return "CombatComponent";
 }
 
-float CombatComponent::GetPower()
+int CombatComponent::GetPower()
 {
     return power;
 }
 
-void CombatComponent::SetPower(float power)
+void CombatComponent::SetPower(int power)
 {
     this->power = power;
 }

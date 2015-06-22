@@ -65,9 +65,11 @@ void DebugSystem::GeneratePlayerMessage()
 
     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "ParticleComponent"));
     auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
+    auto combatComponent = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "CombatComponent"));
     messages.push_back("Player");
     messages.push_back("Position: " + particleComponent->GetPosition().ToString());
     messages.push_back("Velocity: " + std::to_string(particleComponent->GetVelocity().GetMagnitude()) + " " + std::to_string(particleComponent->GetVelocity().GetDirection()*180.0/M_PI));
     messages.push_back("Growth: " + std::to_string(growthComponent->GetLevel()));
     messages.push_back("Energy: " + std::to_string(growthComponent->GetEnergy()));
+    messages.push_back("Combat power: " + std::to_string(combatComponent->GetPower()));
 }

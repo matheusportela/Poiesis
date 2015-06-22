@@ -11,16 +11,16 @@ class CombatComponent : public Component
 {
   public:
     CombatComponent();
-    CombatComponent(float power);
+    CombatComponent(int power);
 
     std::string GetComponentClass();
 
-    float GetPower();
-    void SetPower(float power);
+    int GetPower();
+    void SetPower(int power);
 
   private:
     // Holds the entity's combat power.
-    float power;
+    int power;
 };
 
 #endif // COMBAT_COMPONENT_H_

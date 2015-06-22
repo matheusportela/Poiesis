@@ -14,6 +14,7 @@
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/MoveableComponent.h"
 #include "poiesis/components/ParticleComponent.h"
+#include "poiesis/components/PlayerComponent.h"
 #include "poiesis/components/SlowingComponent.h"
 #include "poiesis/components/SpriteComponent.h"
 

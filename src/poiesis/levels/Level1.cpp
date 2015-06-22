@@ -47,7 +47,7 @@ void Level1::Start()
     Engine::GetInstance().AddSystem(std::make_shared<CellSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
-    Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
+    // Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
@@ -59,16 +59,16 @@ void Level1::Update()
 {
     LOG_D("[Level1] Updating");
 
-    auto followEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
+    auto playerEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("PlayerComponent");
 
-    if (followEntities.size() == 0)
+    if (playerEntities.size() == 0)
     {
         win = false;
         SetFinished();
     }
     else
     {
-        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
+        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntities[0], "GrowthComponent"));
 
         if (growthComponent->GetLevel() == CFG_GETI("LEVEL_1_GOAL_SIZE"))
         {

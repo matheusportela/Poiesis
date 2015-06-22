@@ -35,6 +35,8 @@ std::shared_ptr<Entity> EntityFactory::CreatePlayer()
 {
     std::shared_ptr<Entity> player = CreateCell(1, Vector(400, 300));
     Engine::GetInstance().AddComponent(
+        std::make_shared<PlayerComponent>(), player);
+    Engine::GetInstance().AddComponent(
         std::make_shared<CameraFollowComponent>(), player);
     return player;
 }

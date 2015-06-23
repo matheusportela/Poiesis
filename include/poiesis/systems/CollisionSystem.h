@@ -9,6 +9,7 @@
 
 #include "poiesis/Quadtree.h"
 
+#include "poiesis/components/CameraComponent.h"
 #include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/CombatComponent.h"
 #include "poiesis/components/GrowthComponent.h"
@@ -36,7 +37,6 @@ class CollisionSystem : public System
 
   private:
     std::vector<std::shared_ptr<Entity>> collidableEntities;
-    std::vector<std::shared_ptr<Entity>> quadtreeEntities;
     std::vector<unsigned int> deletedEntities;
 };
 

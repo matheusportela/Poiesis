@@ -10,39 +10,64 @@ void CollisionSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[CollisionSystem] Update: " << dt);
     
-    // Quadtree<std::shared_ptr<Entity>> quadtree(-1000, -1000, 2000, 2000, 0, 10);
-    // collidableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ColliderComponent");
+    int initialLevel = 0;
+    int maxLevels = 4;
+    int maxObjects = 20;
+    Quadtree<std::shared_ptr<Entity>> quadtree(-2500, -2500, 5000, 5000,
+        initialLevel, maxLevels, maxObjects);
+    auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
+    collidableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ColliderComponent");
 
-    // for (auto entity : collidableEntities)
-    // {
-    //     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
-    //     auto position = particleComponent->GetPosition();
-    //     quadtree.Add(entity, position.GetX(), position.GetY());
-    // }
+    std::shared_ptr<Entity> cameraEntity;
+    if (cameraEntities.size() > 0)
+        cameraEntity = cameraEntities[0];
 
-    // for (unsigned int i = 0; i < collidableEntities.size(); ++i)
-    // {
-    //     auto entity = collidableEntities[i];
-    //     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
-    //     auto position = particleComponent->GetPosition();
-    //     quadtreeEntities = quadtree.Get(position.GetX(), position.GetY());
+    deletedEntities.clear();
 
-    //     for (unsigned int j = 0; j < quadtreeEntities.size(); ++j)
-    //     {
-    //         auto otherEntity = quadtreeEntities[j];
+    for (auto entity : collidableEntities)
+    {
+        auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+        auto position = particleComponent->GetPosition();
 
-    //         if (std::find(deletedEntities.begin(), deletedEntities.end(),  otherEntity->GetId()) != deletedEntities.end())
-    //             continue;
+        // Ignore collision from things that aren't visible.
+        if (cameraEntity)
+        {
+            auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
+            auto cameraPosition = cameraComponent->GetPosition();
 
-    //         if (entity->GetId() != otherEntity->GetId()
-    //             && IsColliding(entity, otherEntity))
-    //         {
-    //             SolveCollision(entity, otherEntity);
-    //         }
-    //     }
-    // }
+            float maxDistance = 2000;
+            if (cameraPosition.CalculateDistance(position) > maxDistance)
+                continue;
+            else
+                quadtree.Add(entity, position.GetX(), position.GetY());
+        }
+        else
+        {
+            quadtree.Add(entity, position.GetX(), position.GetY());
+        }
+    }
 
-    CheckCollisions();
+    for (unsigned int i = 0; i < collidableEntities.size(); ++i)
+    {
+        auto entity = collidableEntities[i];
+        auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+        auto position = particleComponent->GetPosition();
+        auto quadtreeEntities = quadtree.Get(position.GetX(), position.GetY());
+
+        for (unsigned int j = 0; j < quadtreeEntities.size(); ++j)
+        {
+            auto otherEntity = quadtreeEntities[j];
+
+            if (std::find(deletedEntities.begin(), deletedEntities.end(),  otherEntity->GetId()) != deletedEntities.end())
+                continue;
+
+            if (entity->GetId() != otherEntity->GetId()
+                && IsColliding(entity, otherEntity))
+                SolveCollision(entity, otherEntity);
+        }
+    }
+
+    // CheckCollisions();
 }
 
 void CollisionSystem::CheckCollisions()
@@ -110,10 +135,10 @@ void CollisionSystem::CollideBodies(std::shared_ptr<Entity> entity1,
 {
     LOG_D("[CollisionSystem] Colliding entities: " << entity1->GetId() << " and " << entity2->GetId());
 
-    auto colliderComponent1 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "ColliderComponent"));
-    auto colliderComponent2 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "ColliderComponent"));
     auto particleComponent1 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "ParticleComponent"));
     auto particleComponent2 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "ParticleComponent"));
+    auto colliderComponent1 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "ColliderComponent"));
+    auto colliderComponent2 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "ColliderComponent"));
     float radius1 = colliderComponent1->GetRadius();
     float radius2 = colliderComponent2->GetRadius();
     Vector position1 = particleComponent1->GetPosition();

@@ -1,5 +1,7 @@
 // Quad-tree for space partitioning.
-// Base code at https://github.com/veeableful/Quadtree_Minimal
+// References:
+// https://github.com/veeableful/Quadtree_Minimal
+// http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
 
 #ifndef QUAD_TREE_H_
 #define QUAD_TREE_H_
@@ -99,34 +101,6 @@ void Quadtree<T>::Add(T object, float x, float y)
 
         objects.clear();
     }
-
-    // if (level == maxLevel)
-    // {
-    //     objects.push_back(object);
-    // }
-    // else
-    // {
-    //     if (Contains(nw, x, y))
-    //     {
-    //         nw->Add(object, x, y);
-    //     }
-    //     else if (Contains(ne, x, y))
-    //     {
-    //         ne->Add(object, x, y);
-    //     }
-    //     else if (Contains(sw, x, y))
-    //     {
-    //         sw->Add(object, x, y);
-    //     }
-    //     else if (Contains(se, x, y))
-    //     {
-    //         se->Add(object, x, y);
-    //     }
-    //     else
-    //     {
-    //         // qobjects.push_back(object);
-    //     }
-    // }
 }
 
 template <typename T>
@@ -183,9 +157,6 @@ std::vector<T> Quadtree<T>::Get(float x, float y)
             returnObjects = nw->Get(x, y);
         }
     }
-
-    // if (!objects.empty())
-    //     returnObjects.insert(returnObjects.end(), objects.begin(), objects.end());
 
     return returnObjects;
 }

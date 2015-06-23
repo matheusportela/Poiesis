@@ -9,7 +9,11 @@ void CollisionSystem::Update(float dt)
 {
     // Avoid warnings for not using dt.
     LOG_D("[CollisionSystem] Update: " << dt);
-    
+    CheckCollisions();
+}
+
+void CollisionSystem::CheckCollisions()
+{
     int initialLevel = 0;
     int maxLevels = 4;
     int maxObjects = 20;
@@ -64,28 +68,6 @@ void CollisionSystem::Update(float dt)
             if (entity->GetId() != otherEntity->GetId()
                 && IsColliding(entity, otherEntity))
                 SolveCollision(entity, otherEntity);
-        }
-    }
-
-    // CheckCollisions();
-}
-
-void CollisionSystem::CheckCollisions()
-{
-    collidableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ColliderComponent");
-    std::shared_ptr<Entity> entity1;
-    std::shared_ptr<Entity> entity2;
-
-    // This collision detection is a shame: O(n^2) complexity!
-    for (unsigned int i = 0; i < collidableEntities.size() - 1; ++i)
-    {
-        for (unsigned int j = i + 1; j < collidableEntities.size(); ++j)
-        {
-            entity1 = collidableEntities[i];
-            entity2 = collidableEntities[j];
-
-            if (IsColliding(entity1, entity2))
-                SolveCollision(entity1, entity2);
         }
     }
 }

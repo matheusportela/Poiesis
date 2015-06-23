@@ -3,7 +3,11 @@
 #ifndef COLLISION_SYSTEM_H_
 #define COLLISION_SYSTEM_H_
 
+#include <algorithm>
+
 #include "bandit/Engine.h"
+
+#include "poiesis/Quadtree.h"
 
 #include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/CombatComponent.h"
@@ -32,6 +36,8 @@ class CollisionSystem : public System
 
   private:
     std::vector<std::shared_ptr<Entity>> collidableEntities;
+    std::vector<std::shared_ptr<Entity>> quadtreeEntities;
+    std::vector<unsigned int> deletedEntities;
 };
 
 #endif // COLLISION_SYSTEM_H_

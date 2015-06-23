@@ -105,7 +105,7 @@ void Engine::AddSystem(std::shared_ptr<System> system)
 float Engine::CalculateSleepTime(float currentFrameRate)
 {
     static const float DESIRED_FRAME_RATE = 30;
-    static const float DECREASE_FACTOR = 2;
+    static const float DECREASE_FACTOR = 5;
     static const float INCREASE_FACTOR = 0.001;
     static float sleepDuration = 1/DESIRED_FRAME_RATE;
 

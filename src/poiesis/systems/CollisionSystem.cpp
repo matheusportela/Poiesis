@@ -10,6 +10,38 @@ void CollisionSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[CollisionSystem] Update: " << dt);
     
+    // Quadtree<std::shared_ptr<Entity>> quadtree(-1000, -1000, 2000, 2000, 0, 10);
+    // collidableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ColliderComponent");
+
+    // for (auto entity : collidableEntities)
+    // {
+    //     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+    //     auto position = particleComponent->GetPosition();
+    //     quadtree.Add(entity, position.GetX(), position.GetY());
+    // }
+
+    // for (unsigned int i = 0; i < collidableEntities.size(); ++i)
+    // {
+    //     auto entity = collidableEntities[i];
+    //     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+    //     auto position = particleComponent->GetPosition();
+    //     quadtreeEntities = quadtree.Get(position.GetX(), position.GetY());
+
+    //     for (unsigned int j = 0; j < quadtreeEntities.size(); ++j)
+    //     {
+    //         auto otherEntity = quadtreeEntities[j];
+
+    //         if (std::find(deletedEntities.begin(), deletedEntities.end(),  otherEntity->GetId()) != deletedEntities.end())
+    //             continue;
+
+    //         if (entity->GetId() != otherEntity->GetId()
+    //             && IsColliding(entity, otherEntity))
+    //         {
+    //             SolveCollision(entity, otherEntity);
+    //         }
+    //     }
+    // }
+
     CheckCollisions();
 }
 
@@ -162,6 +194,8 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
             break;
         }
     }
+
+    deletedEntities.push_back(eatableEntity->GetId());
 }
 
 void CollisionSystem::SlowEntity(std::shared_ptr<Entity> slowingEntity,

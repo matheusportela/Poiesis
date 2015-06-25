@@ -10,11 +10,15 @@
 class SpriteComponent : public Component
 {
   public:
-    SpriteComponent(std::string filename, bool centered = true, float scale = 1);
+    SpriteComponent(std::string filename, Vector position = Vector(0, 0),
+        bool centered = true, float scale = 1);
     std::string GetComponentClass();
 
     std::string GetFilename();
     void SetFilename(std::string filename);
+
+    Vector GetPosition();
+    void SetPosition(Vector position);
 
     bool GetCentered();
     void SetCentered(bool centered);
@@ -25,6 +29,9 @@ class SpriteComponent : public Component
   private:
     // Holds the file containing the image to be displayed.
     std::string filename;
+
+    // Holds the position relative to the entity to render the sprite.
+    Vector position;
 
     // Holds whether the image should be displayed centered.
     bool centered;

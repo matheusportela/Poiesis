@@ -64,6 +64,8 @@ std::shared_ptr<Entity> EntityFactory::CreatePlayer()
         std::make_shared<PlayerComponent>(), player);
     Engine::GetInstance().AddComponent(
         std::make_shared<CameraFollowComponent>(), player);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("FOOD_IMAGE")), player);
     return player;
 }
 

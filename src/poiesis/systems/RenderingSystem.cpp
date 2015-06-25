@@ -31,27 +31,32 @@ void RenderingSystem::Update(float dt)
 
     for (auto entity : entities)
     {
-        spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "SpriteComponent"));
+        auto spriteComponents = Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent");
         particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
-        filename = spriteComponent->GetFilename();
 
-        // Skip rendering entities that are too far from the screen.
-        if (particleComponent->GetPosition().CalculateDistance(cameraPosition) > CFG_GETF("RENDERING_MAX_DISTANCE"))
-            continue;
-
-        if (!Engine::GetInstance().GetGraphicsAdapter()->IsLoaded(filename))
+        for (auto component : spriteComponents)
         {
-            Engine::GetInstance().GetGraphicsAdapter()->LoadImage(filename);
-            LOG_D("[RenderingSystem] Loaded image \"" << filename << "\" for entity with ID: " << entity->GetId());
+            spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
+            filename = spriteComponent->GetFilename();
+
+            // Skip rendering entities that are too far from the screen.
+            if (particleComponent->GetPosition().CalculateDistance(cameraPosition) > CFG_GETF("RENDERING_MAX_DISTANCE"))
+                continue;
+
+            if (!Engine::GetInstance().GetGraphicsAdapter()->IsLoaded(filename))
+            {
+                Engine::GetInstance().GetGraphicsAdapter()->LoadImage(filename);
+                LOG_D("[RenderingSystem] Loaded image \"" << filename << "\" for entity with ID: " << entity->GetId());
+            }
+
+            position = particleComponent->GetPosition() - cameraOffset;
+
+            if (spriteComponent->GetCentered())
+                Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
+            else
+                Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
+            LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
         }
-
-        position = particleComponent->GetPosition() - cameraOffset;
-
-        if (spriteComponent->GetCentered())
-            Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
-        else
-            Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
-        LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
     }
 
     Engine::GetInstance().GetGraphicsAdapter()->FinishRendering();

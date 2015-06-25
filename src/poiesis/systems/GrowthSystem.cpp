@@ -34,7 +34,7 @@ void GrowthSystem::Update(float dt)
     for (auto entity : entities)
     {
         growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "GrowthComponent"));
-        spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "SpriteComponent"));
+        auto spriteComponents = Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent");
         colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ColliderComponent"));
 
         energy = growthComponent->GetEnergy();
@@ -73,7 +73,13 @@ void GrowthSystem::Update(float dt)
 
         growthComponent->SetEnergy(energy);
         growthComponent->SetLevel(level);
-        spriteComponent->SetScale(level);
+
+        for (auto component : spriteComponents)
+        {
+            spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
+            spriteComponent->SetScale(level);
+        }
+        
         colliderComponent->SetRadius(collisionRadius);
     }
 }

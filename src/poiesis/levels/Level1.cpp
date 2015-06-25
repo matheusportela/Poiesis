@@ -7,6 +7,7 @@ void Level1::Start()
     Random r;
     float x;
     float y;
+    int type;
 
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
@@ -33,7 +34,8 @@ void Level1::Start()
     {
         x = r.GenerateFloat(-2000, 2000);
         y = r.GenerateFloat(-2000, 2000);
-        EntityFactory::CreateCell(1, Vector(x, y));
+        type = r.GenerateInt(1, 6);
+        EntityFactory::CreateCell(type, Vector(x, y));
     }
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_FOOD"); ++i)

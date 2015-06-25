@@ -11,17 +11,18 @@ std::shared_ptr<Entity> EntityFactory::CreateBackground()
     return background;
 }
 
-std::shared_ptr<Entity> EntityFactory::CreateCell(float inverseMass,
+std::shared_ptr<Entity> EntityFactory::CreateCell(std::string image,
     Vector position)
 {
     std::shared_ptr<Entity> cell = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("CELL_IMAGE")), cell);
+        std::make_shared<SpriteComponent>(image), cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), cell);
     Engine::GetInstance().AddComponent(
-        std::make_shared<ParticleComponent>(inverseMass, position, Vector(0, 0),
-            Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")), cell);
+        std::make_shared<ParticleComponent>(CFG_GETF("CELL_INVERSE_MASS"),
+            position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")),
+            cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<GrowthComponent>(), cell);
     Engine::GetInstance().AddComponent(
@@ -33,6 +34,27 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(float inverseMass,
     Engine::GetInstance().AddComponent(
         std::make_shared<CombatComponent>(), cell);
     return cell;
+}
+
+std::shared_ptr<Entity> EntityFactory::CreateCell(int type,
+    Vector position)
+{
+    switch (type)
+    {
+        case 1:
+            return CreateCell(CFG_GETP("CELL_1_IMAGE"), position);
+        case 2:
+            return CreateCell(CFG_GETP("CELL_2_IMAGE"), position);
+        case 3:
+            return CreateCell(CFG_GETP("CELL_3_IMAGE"), position);
+        case 4:
+            return CreateCell(CFG_GETP("CELL_4_IMAGE"), position);
+        case 5:
+            return CreateCell(CFG_GETP("CELL_5_IMAGE"), position);
+        default:
+            LOG_E("[EntityFactory] Unknown cell type: " << type);
+            exit(1);
+    }
 }
 
 std::shared_ptr<Entity> EntityFactory::CreatePlayer()

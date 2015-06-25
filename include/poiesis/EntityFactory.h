@@ -26,7 +26,9 @@ class EntityFactory
     static std::shared_ptr<Entity> CreateBackground();
 
     // Creates cell: a sprite than can move with user input.
-    static std::shared_ptr<Entity> CreateCell(float inverseMass,
+    static std::shared_ptr<Entity> CreateCell(std::string image,
+        Vector position);
+    static std::shared_ptr<Entity> CreateCell(int type,
         Vector position);
 
     // Creates player: a cell that is followed by the camera.

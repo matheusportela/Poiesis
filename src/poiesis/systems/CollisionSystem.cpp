@@ -66,19 +66,11 @@ void CollisionSystem::CheckCollisions()
         {
             auto otherEntity = quadtreeEntities[j];
 
-            LOG_D("Analysing collision between " << entity->GetId() << " and " << otherEntity->GetId());
-
             if (std::find(deletedEntities.begin(), deletedEntities.end(),  entity->GetId()) != deletedEntities.end())
-            {
-                LOG_D("Ignoring deleted entity: " << entity->GetId());
                 continue;
-            }
 
             if (std::find(deletedEntities.begin(), deletedEntities.end(),  otherEntity->GetId()) != deletedEntities.end())
-            {
-                LOG_D("Ignoring deleted entity: " << otherEntity->GetId());
                 continue;
-            }
 
             if (entity->GetId() != otherEntity->GetId()
                 && IsColliding(entity, otherEntity))

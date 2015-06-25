@@ -49,7 +49,7 @@ void RenderingSystem::Update(float dt)
                 LOG_D("[RenderingSystem] Loaded image \"" << filename << "\" for entity with ID: " << entity->GetId());
             }
 
-            position = particleComponent->GetPosition() - cameraOffset;
+            position = spriteComponent->GetPosition() + particleComponent->GetPosition() - cameraOffset;
 
             if (spriteComponent->GetCentered())
                 Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());

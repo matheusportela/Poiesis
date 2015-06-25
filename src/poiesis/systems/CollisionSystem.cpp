@@ -17,17 +17,20 @@ void CollisionSystem::CheckCollisions()
     int initialLevel = 0;
     int maxLevels = 4;
     int maxObjects = 20;
+    float maxDistance = 2000;
     Quadtree<std::shared_ptr<Entity>> quadtree(-2500, -2500, 5000, 5000,
         initialLevel, maxLevels, maxObjects);
     auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
     collidableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ColliderComponent");
 
+    // Clear deleted entities from last iteration.
+    deletedEntities.clear();
+
     std::shared_ptr<Entity> cameraEntity;
     if (cameraEntities.size() > 0)
         cameraEntity = cameraEntities[0];
 
-    deletedEntities.clear();
-
+    // Build quadtree for close enough entities.
     for (auto entity : collidableEntities)
     {
         auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
@@ -39,7 +42,6 @@ void CollisionSystem::CheckCollisions()
             auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
             auto cameraPosition = cameraComponent->GetPosition();
 
-            float maxDistance = 2000;
             if (cameraPosition.CalculateDistance(position) > maxDistance)
                 continue;
             else
@@ -51,9 +53,11 @@ void CollisionSystem::CheckCollisions()
         }
     }
 
+    // Detect and solve collisions.
     for (unsigned int i = 0; i < collidableEntities.size(); ++i)
     {
         auto entity = collidableEntities[i];
+
         auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
         auto position = particleComponent->GetPosition();
         auto quadtreeEntities = quadtree.Get(position.GetX(), position.GetY());
@@ -62,8 +66,19 @@ void CollisionSystem::CheckCollisions()
         {
             auto otherEntity = quadtreeEntities[j];
 
-            if (std::find(deletedEntities.begin(), deletedEntities.end(),  otherEntity->GetId()) != deletedEntities.end())
+            LOG_D("Analysing collision between " << entity->GetId() << " and " << otherEntity->GetId());
+
+            if (std::find(deletedEntities.begin(), deletedEntities.end(),  entity->GetId()) != deletedEntities.end())
+            {
+                LOG_D("Ignoring deleted entity: " << entity->GetId());
                 continue;
+            }
+
+            if (std::find(deletedEntities.begin(), deletedEntities.end(),  otherEntity->GetId()) != deletedEntities.end())
+            {
+                LOG_D("Ignoring deleted entity: " << otherEntity->GetId());
+                continue;
+            }
 
             if (entity->GetId() != otherEntity->GetId()
                 && IsColliding(entity, otherEntity))
@@ -182,7 +197,7 @@ void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
 void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
     std::shared_ptr<Entity> eatableEntity)
 {
-    LOG_D("[CollisionSystem] Entity " << eatableEntity->GetId() << " is eating entity " << eatableEntity->GetId());
+    LOG_D("[CollisionSystem] Entity " << eaterEntity->GetId() << " is eating entity " << eatableEntity->GetId());
 
     auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(eaterEntity, "GrowthComponent"));
     auto energy = growthComponent->GetEnergy();
@@ -192,16 +207,18 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
     // Delete food entity.
     Engine::GetInstance().GetEntityManager()->DeleteEntity(eatableEntity);
 
-    // Delete also from the entities to be collided.
     for (unsigned int i = 0; i < collidableEntities.size(); ++i)
     {
-        if (collidableEntities[i]->GetId() == eatableEntity->GetId())
+        auto entity = collidableEntities[i];
+
+        if (entity->GetId() == eatableEntity->GetId())
         {
             collidableEntities.erase(collidableEntities.begin() + i);
-            break;
+            --i;
         }
     }
 
+    // Delete also from the entities to be collided.
     deletedEntities.push_back(eatableEntity->GetId());
 }
 

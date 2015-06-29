@@ -60,19 +60,11 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(int type,
 
 std::shared_ptr<Entity> EntityFactory::CreatePlayer()
 {
-    std::shared_ptr<Entity> player = CreateCell(1, Vector(400, 300));
+    std::shared_ptr<Entity> player = CreateCell(1, Vector(0, 0));
     Engine::GetInstance().AddComponent(
         std::make_shared<PlayerComponent>(), player);
     Engine::GetInstance().AddComponent(
         std::make_shared<CameraFollowComponent>(), player);
-    Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("CELL_2_IMAGE"), Vector(50, 0)), player);
-    Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("CELL_3_IMAGE"), Vector(0, 50)), player);
-    Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("CELL_4_IMAGE"), Vector(-50, 0)), player);
-    Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("CELL_5_IMAGE"), Vector(0, -50)), player);
     return player;
 }
 

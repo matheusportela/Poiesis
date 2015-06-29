@@ -20,6 +20,7 @@ int main()
 
     Engine::GetInstance().SetCurrentLevel(std::make_shared<Level1>());
     Engine::GetInstance().Run();
+
     BANDIT_ENGINE_SHUTDOWN();
     
     return 0;

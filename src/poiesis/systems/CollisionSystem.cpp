@@ -164,24 +164,24 @@ void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
     int power1 = combatComponent1->GetPower();
     int power2 = combatComponent2->GetPower();
 
-    LOG_W("[CollisionSystem] Combat between entity " << entity1->GetId()
+    LOG_D("[CollisionSystem] Combat between entity " << entity1->GetId()
         << " and " << entity2->GetId());
 
     if (power1 > power2)
     {
-        LOG_W("[CollisionSystem] Entity " << entity1->GetId()
+        LOG_D("[CollisionSystem] Entity " << entity1->GetId()
             << " wins the combat");
         EatEntity(entity1, entity2);
     }
     else if (power2 > power1)
     {
-        LOG_W("[CollisionSystem] Entity " << entity2->GetId()
+        LOG_D("[CollisionSystem] Entity " << entity2->GetId()
             << " wins the combat");
         EatEntity(entity2, entity1);
     }
     else
     {
-        LOG_W("[CollisionSystem] Tied combat");
+        LOG_D("[CollisionSystem] Tied combat");
         CollideBodies(entity1, entity2);
     }
 }

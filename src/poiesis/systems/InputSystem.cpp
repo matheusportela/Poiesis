@@ -13,19 +13,43 @@ void InputSystem::Update(float dt)
     if (!Engine::GetInstance().GetInputAdapter()->CheckInputOccurred(InputType::MousePress))
         return;
 
+    float mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
+    float mouseY = Engine::GetInstance().GetInputAdapter()->GetMouseY();
+    Vector mousePosition(mouseX, mouseY);
+
+    ButtonClick(mousePosition);
+    ParticleForceInput(mousePosition);
+}
+
+void InputSystem::ButtonClick(Vector mousePosition)
+{
+    Rectangle rectangle;
+    std::shared_ptr<ButtonComponent> buttonComponent;
+    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ButtonComponent");
+
+    for (auto entity : entities)
+    {
+        buttonComponent = std::static_pointer_cast<ButtonComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ButtonComponent"));
+        rectangle = buttonComponent->GetRectangle();
+
+        if (rectangle.IsInside(mousePosition))
+        {
+            LOG_I("[InputSystem] Clicked on button " << entity->GetId());
+        }
+    }
+}
+
+void InputSystem::ParticleForceInput(Vector mousePosition)
+{
     auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("MoveableComponent");
     auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
     std::shared_ptr<MoveableComponent> moveableComponent;
     std::shared_ptr<ParticleComponent> particleComponent;
-    float mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
-    float mouseY = Engine::GetInstance().GetInputAdapter()->GetMouseY();
-    Vector mousePosition(mouseX, mouseY);
+    Vector cameraOffset;
     Vector particlePosition;
     Vector inputForce;
     Vector resultantForce;
     float distance;
-
-    Vector cameraOffset;
 
     if (cameraEntities.size() > 0)
     {

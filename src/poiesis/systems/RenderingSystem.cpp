@@ -90,7 +90,7 @@ void RenderingSystem::RenderGUI(std::shared_ptr<Entity> entity)
     for (auto component : spriteComponents)
     {
         spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
-        position = spriteComponent->GetPosition() + buttonComponent->GetRectangle().GetTopLeft();
+        position = spriteComponent->GetPosition() + buttonComponent->GetRectangle().GetCenter();
         RenderSprite(entity, spriteComponent, position);
     }
 }

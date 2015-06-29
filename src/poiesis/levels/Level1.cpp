@@ -12,7 +12,7 @@ void Level1::Start()
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
 
-    EntityFactory::CreateButton(Rectangle(200, 200, 150, 100));
+    EntityFactory::CreateButton(Rectangle(200, 200, 150, 50));
 
     // Creating areas.
     for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_SLOW_AREAS"); ++i)

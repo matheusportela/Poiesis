@@ -25,6 +25,7 @@
 #include "bandit/core/Log.h"
 #include "bandit/core/Random.h"
 #include "bandit/core/math/Circle.h"
+#include "bandit/core/math/LineSegment.h"
 #include "bandit/core/math/Rectangle.h"
 #include "bandit/core/math/Vector.h"
 #include "bandit/core/parser/ConfigParser.h"

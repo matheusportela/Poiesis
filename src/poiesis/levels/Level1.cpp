@@ -12,8 +12,8 @@ void Level1::Start()
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
 
-    EntityFactory::CreateButton(Rectangle(200, 200, 150, 50),
-        std::bind(&Level1::SetFinished, this));
+    EntityFactory::CreateButton(Rectangle(1700, 10, 150, 50),
+        std::bind(&Level1::ExitButtonCallback, this));
 
     // Creating areas.
     for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_SLOW_AREAS"); ++i)
@@ -100,4 +100,10 @@ void Level1::Finish()
         CFG_GETP("FONT_FILE"), CFG_GETI("WINDOW_WIDTH")/2,
         CFG_GETI("WINDOW_HEIGHT")/2);
     }
+}
+
+void Level1::ExitButtonCallback()
+{
+    LOG_I("[Level1] Clicked on exit button.");
+    SetFinished();
 }

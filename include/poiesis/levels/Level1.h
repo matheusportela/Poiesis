@@ -25,6 +25,7 @@ class Level1 : public Level
     void Start();
     void Update();
     void Finish();
+    void ExitButtonCallback();
 
   private:
     bool win;

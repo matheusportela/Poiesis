@@ -35,6 +35,8 @@ void InputSystem::ButtonClick(Vector mousePosition)
         if (rectangle.IsInside(mousePosition))
         {
             LOG_I("[InputSystem] Clicked on button " << entity->GetId());
+            auto callback = buttonComponent->GetCallback();
+            callback();
         }
     }
 }

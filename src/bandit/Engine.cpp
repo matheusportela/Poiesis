@@ -42,7 +42,7 @@ void Engine::Initialize(
     std::shared_ptr<LevelManager> levelManager,
     std::shared_ptr<SystemManager> systemManager)
 {
-    LOG_D("Initializing engine");
+    LOG_D("[Engine] Initializing engine");
     this->systemAdapter = systemAdapter;
     this->timerAdapter = timerAdapter;
     this->graphicsAdapter = graphicsAdapter;
@@ -58,7 +58,7 @@ void Engine::Initialize(
 
 void Engine::Shutdown()
 {
-    LOG_D("Shutting engine down");
+    LOG_D("[Engine] Shutting engine down");
     systemAdapter->Shutdown();
 }
 
@@ -134,18 +134,24 @@ void Engine::Run()
         dt = timerAdapter->GetElapsedTime();
         currentFrameRate = 1/dt;
         
-        LOG_I("Frame rate: " << currentFrameRate);
-        LOG_D("Elapsed time: " << dt);
+        LOG_I("[Engine] Frame rate: " << currentFrameRate);
+        LOG_D("[Engine] Elapsed time: " << dt);
 
         inputAdapter->ProcessInputs();
         if (inputAdapter->CheckInputOccurred(InputType::QuitButtonPress))
         {
-            LOG_I("Quit requested");
+            LOG_I("[Engine] Quit requested");
             break;
         }
 
         systemManager->Update(dt);
         levelManager->Update();
+
+        if (levelManager->HasFinished())
+        {
+            LOG_I("[Engine] Finished game");
+            break;
+        }
 
         sleepDuration = CalculateSleepTime(currentFrameRate);
         LOG_D("Sleep duration: " << sleepDuration);

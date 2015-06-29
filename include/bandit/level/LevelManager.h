@@ -13,6 +13,7 @@ class LevelManager
   public:
     void SetCurrentLevel(std::shared_ptr<Level> currentLevel);
     void Update();
+    bool HasFinished();
 
   private:
     std::shared_ptr<Level> currentLevel;

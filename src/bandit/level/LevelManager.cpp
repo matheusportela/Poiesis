@@ -24,9 +24,15 @@ void LevelManager::Update()
     else if (currentLevel->IsFinished())
     {
         currentLevel->Finish();
+        currentLevel = nullptr;
     }
     else
     {
         currentLevel->Update();
     }
+}
+
+bool LevelManager::HasFinished()
+{
+    return (currentLevel == nullptr);
 }

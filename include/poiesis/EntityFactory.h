@@ -3,6 +3,7 @@
 #ifndef ENTITY_FACTORY_H_
 #define ENTITY_FACTORY_H_
 
+#include <functional>
 #include <memory>
 
 #include "bandit/Engine.h"
@@ -48,7 +49,8 @@ class EntityFactory
     static std::shared_ptr<Entity> CreateFastArea(Vector position);
 
     // Creates button: a region with an sprite and responds to clicks.
-    static std::shared_ptr<Entity> CreateButton(Rectangle rectangle);
+    static std::shared_ptr<Entity> CreateButton(Rectangle rectangle,
+        std::function<void()> callback);
 };
 
 #endif // ENTITY_FACTORY_H_

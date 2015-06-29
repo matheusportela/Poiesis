@@ -124,3 +124,16 @@ std::shared_ptr<Entity> EntityFactory::CreateFastArea(Vector position)
         std::make_shared<SlowingComponent>(CFG_GETF("FAST_AREA_MAGNITUDE")), area);
     return area;
 }
+
+std::shared_ptr<Entity> EntityFactory::CreateButton(Rectangle rectangle)
+{
+    std::shared_ptr<Entity> buttom = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(0, rectangle.GetCenter()), buttom);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("BUTTON_IMAGE")), buttom);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ButtonComponent>(rectangle), buttom);
+    return buttom;
+}
+

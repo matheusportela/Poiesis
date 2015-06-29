@@ -7,6 +7,7 @@
 
 #include "bandit/Engine.h"
 #include "poiesis/components/AIComponent.h"
+#include "poiesis/components/ButtonComponent.h"
 #include "poiesis/components/CameraComponent.h"
 #include "poiesis/components/CameraFollowComponent.h"
 #include "poiesis/components/ColliderComponent.h"
@@ -45,6 +46,9 @@ class EntityFactory
 
     // Creates slow area: a region with increases entities speed.
     static std::shared_ptr<Entity> CreateFastArea(Vector position);
+
+    // Creates button: a region with an sprite and responds to clicks.
+    static std::shared_ptr<Entity> CreateButton(Rectangle rectangle);
 };
 
 #endif // ENTITY_FACTORY_H_

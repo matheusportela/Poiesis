@@ -122,17 +122,9 @@ void Level1::Finish()
     LOG_I("[Level1] Finishing");
 
     if (win)
-    {
-        Engine::GetInstance().GetGraphicsAdapter()->Write("You win",
-        CFG_GETP("FONT_FILE"), CFG_GETI("WINDOW_WIDTH")/2,
-        CFG_GETI("WINDOW_HEIGHT")/2);
-    }
+        Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
     else
-    {
-        Engine::GetInstance().GetGraphicsAdapter()->Write("You lost",
-        CFG_GETP("FONT_FILE"), CFG_GETI("WINDOW_WIDTH")/2,
-        CFG_GETI("WINDOW_HEIGHT")/2);
-    }
+        Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
 
     Engine::GetInstance().ClearEntities();
     Engine::GetInstance().ClearSystems();

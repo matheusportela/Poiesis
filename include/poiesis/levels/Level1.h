@@ -9,6 +9,8 @@
 
 #include "poiesis/EntityFactory.h"
 #include "poiesis/levels/EntryLevel.h"
+#include "poiesis/levels/LoseLevel.h"
+#include "poiesis/levels/WinLevel.h"
 #include "poiesis/systems/AISystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CellSpawningSystem.h"

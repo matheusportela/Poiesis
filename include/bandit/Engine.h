@@ -88,6 +88,8 @@ class Engine
     void AddComponent(std::shared_ptr<Component> component,
         std::shared_ptr<Entity> entity);
     void AddSystem(std::shared_ptr<System> system);
+    void ClearEntities();
+    void ClearSystems();
 
     // Executes the engine main loop.
     void Run();

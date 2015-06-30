@@ -15,9 +15,6 @@ int main()
     Engine::GetInstance().CreateWindow(CFG_GETS("WINDOW_TITLE"),
         CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"));
 
-    // Necessary to display the window.
-    Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
-
     Engine::GetInstance().SetCurrentLevel(std::make_shared<EntryLevel>());
     Engine::GetInstance().Run();
 

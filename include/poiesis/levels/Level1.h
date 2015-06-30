@@ -18,6 +18,7 @@
 #include "poiesis/systems/GrowthSystem.h"
 #include "poiesis/systems/InputSystem.h"
 #include "poiesis/systems/ParticleSystem.h"
+#include "poiesis/systems/RenderingSystem.h"
 
 class Level1 : public Level
 {

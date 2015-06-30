@@ -107,6 +107,16 @@ void Engine::AddSystem(std::shared_ptr<System> system)
     systemManager->AddSystem(system);
 }
 
+void Engine::ClearEntities()
+{
+    entityManager->Clear();
+}
+
+void Engine::ClearSystems()
+{
+    systemManager->Clear();
+}
+
 float Engine::CalculateSleepTime(float currentFrameRate)
 {
     static const float DESIRED_FRAME_RATE = 30;

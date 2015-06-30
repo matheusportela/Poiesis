@@ -10,6 +10,13 @@ std::shared_ptr<Entity> EntityManager::CreateEntity()
     return entity;
 }
 
+void EntityManager::Clear()
+{
+    entities.clear();
+    componentsByEntity.clear();
+    componentToEntities.clear();
+}
+
 void EntityManager::DeleteEntity(std::shared_ptr<Entity> entity)
 {
     DeleteEntityComponents(entity);

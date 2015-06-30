@@ -50,6 +50,7 @@ void Level1::Start()
     }
 
     // Creating systems.
+    Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CellSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());

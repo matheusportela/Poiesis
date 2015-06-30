@@ -9,6 +9,7 @@ void EntryLevel::Start()
         std::bind(&EntryLevel::StartButtonCallback, this));
 
     // Creating systems.
+    Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<DebugSystem>());
 }
@@ -21,6 +22,8 @@ void EntryLevel::Finish()
 {
     LOG_I("[EntryLevel] Finishing");
     Engine::GetInstance().SetNextLevel(std::make_shared<Level1>());
+    Engine::GetInstance().ClearEntities();
+    Engine::GetInstance().ClearSystems();
 }
 
 void EntryLevel::StartButtonCallback()

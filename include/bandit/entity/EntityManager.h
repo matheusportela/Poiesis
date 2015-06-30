@@ -19,6 +19,9 @@ class EntityManager
     // Creates a new entity.
     std::shared_ptr<Entity> CreateEntity();
 
+    // Clears everything from entity manager.
+    void Clear();
+
     // Deletes an entity from the management.
     void DeleteEntity(std::shared_ptr<Entity> entity);
 

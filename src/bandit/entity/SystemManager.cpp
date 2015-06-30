@@ -14,3 +14,8 @@ void SystemManager::Update(float dt)
         system->Update(dt);
     }
 }
+
+void SystemManager::Clear()
+{
+    systems.clear();
+}

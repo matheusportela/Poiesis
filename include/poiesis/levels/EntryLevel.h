@@ -9,6 +9,7 @@
 #include "poiesis/levels/Level1.h"
 #include "poiesis/systems/DebugSystem.h"
 #include "poiesis/systems/InputSystem.h"
+#include "poiesis/systems/RenderingSystem.h"
 
 class EntryLevel : public Level
 {

@@ -13,6 +13,7 @@ class SystemManager
   public:
     void AddSystem(std::shared_ptr<System> system);
     void Update(float dt);
+    void Clear();
 
   private:
     std::vector<std::shared_ptr<System>> systems;

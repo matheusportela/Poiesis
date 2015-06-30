@@ -8,6 +8,7 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/EntityFactory.h"
+#include "poiesis/levels/EntryLevel.h"
 #include "poiesis/systems/AISystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CellSpawningSystem.h"
@@ -26,7 +27,7 @@ class Level1 : public Level
     void Start();
     void Update();
     void Finish();
-    void ExitButtonCallback();
+    void MenuButtonCallback();
 
   private:
     bool win;

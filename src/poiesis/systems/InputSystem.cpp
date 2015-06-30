@@ -76,11 +76,11 @@ void InputSystem::ParticleForceInput(Vector mousePosition)
             resultantForce = inputForce + particleComponent->GetForce();
             particleComponent->SetForce(resultantForce);
 
-            LOG_D("Particle position: " << particlePosition);
-            LOG_D("Mouse position: " << mousePosition);
-            LOG_D("Distance: " << distance);
-            LOG_D("Force: " << inputForce);
-            LOG_D("Resultant force: " << resultantForce);
+            LOG_D("[InputSystem] Particle position: " << particlePosition);
+            LOG_D("[InputSystem] Mouse position: " << mousePosition);
+            LOG_D("[InputSystem] Distance: " << distance);
+            LOG_D("[InputSystem] Force: " << inputForce);
+            LOG_D("[InputSystem] Resultant force: " << resultantForce);
         }
     }
 }

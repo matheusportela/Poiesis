@@ -4,6 +4,7 @@
 #define SYSTEM_MANAGER_H_
 
 #include <memory>
+#include <string>
 
 #include "bandit/core/Log.h"
 #include "bandit/entity/System.h"
@@ -12,6 +13,7 @@ class SystemManager
 {
   public:
     void AddSystem(std::shared_ptr<System> system);
+    void DeleteSystem(std::string name);
     void Update(float dt);
     void Clear();
 

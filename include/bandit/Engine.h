@@ -88,6 +88,7 @@ class Engine
     void AddComponent(std::shared_ptr<Component> component,
         std::shared_ptr<Entity> entity);
     void AddSystem(std::shared_ptr<System> system);
+    void DeleteSystem(std::string name);
     void ClearEntities();
     void ClearSystems();
 

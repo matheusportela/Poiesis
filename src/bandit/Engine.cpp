@@ -107,6 +107,11 @@ void Engine::AddSystem(std::shared_ptr<System> system)
     systemManager->AddSystem(system);
 }
 
+void Engine::DeleteSystem(std::string name)
+{
+    systemManager->DeleteSystem(name);
+}
+
 void Engine::ClearEntities()
 {
     entityManager->Clear();

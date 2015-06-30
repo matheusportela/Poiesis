@@ -25,12 +25,18 @@ class Level1 : public Level
 {
   public:
     void Start();
+    void CreateAllSystems();
+    void CreateEssentialSystems();
+    void CreateAccessorySystems();
+    void DeleteAccessorySystems();
     void Update();
     void Finish();
     void MenuButtonCallback();
+    void PauseButtonCallback();
 
   private:
     bool win;
+    bool paused;
 };
 
 #endif // LEVEL_1_H_

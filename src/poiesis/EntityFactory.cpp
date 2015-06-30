@@ -30,8 +30,6 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(std::string image,
         std::make_shared<ColliderComponent>(CFG_GETF("CELL_COLLIDER_RADIUS")),
         cell);
     Engine::GetInstance().AddComponent(std::make_shared<AIComponent>(), cell);
-
-    Random r;
     Engine::GetInstance().AddComponent(
         std::make_shared<CombatComponent>(), cell);
     return cell;
@@ -40,10 +38,30 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(std::string image,
 std::shared_ptr<Entity> EntityFactory::CreateCell(int type,
     Vector position)
 {
+    std::shared_ptr<Entity> cell;
+
     switch (type)
     {
         case 1:
-            return CreateCell(CFG_GETP("CELL_1_IMAGE"), position);
+            // return CreateCell(CFG_GETP("CELL_1_IMAGE"), position);
+            cell = Engine::GetInstance().CreateEntity();
+            Engine::GetInstance().AddComponent(
+                std::make_shared<SpriteComponent>(CFG_GETP("CELL_1_ANIMATION"), Vector(0, 0), true, 1, CFG_GETI("CELL_1_ANIMATION_NUM_FRAMES"), CFG_GETI("CELL_1_ANIMATION_FRAME_DURATION"), true), cell);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<MoveableComponent>(), cell);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<ParticleComponent>(CFG_GETF("CELL_INVERSE_MASS"),
+                    position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")),
+                    cell);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<GrowthComponent>(), cell);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<ColliderComponent>(CFG_GETF("CELL_COLLIDER_RADIUS")),
+                cell);
+            Engine::GetInstance().AddComponent(std::make_shared<AIComponent>(), cell);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<CombatComponent>(), cell);
+            return cell;
         case 2:
             return CreateCell(CFG_GETP("CELL_2_IMAGE"), position);
         case 3:

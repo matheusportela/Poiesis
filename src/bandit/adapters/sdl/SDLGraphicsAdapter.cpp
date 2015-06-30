@@ -200,7 +200,7 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y,
     TextureSettings settings = texturesSettings[file];
     SDL_Rect clipRect
     {
-        .x = settings.width*currentFrame,
+        .x = settings.width*currentFrame/numFrames,
         .y = 0,
         .w = settings.width/numFrames,
         .h = settings.height
@@ -209,8 +209,8 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y,
     {
         .x = x,
         .y = y,
-        .w = (int)(settings.width*scale),
-        .h = (int)(settings.height*scale)
+        .w = (int)(clipRect.w*scale),
+        .h = (int)(clipRect.h*scale)
     };
 
     std::cerr << "[SDLGraphicsAdapter] Current frame: " << currentFrame << std::endl;

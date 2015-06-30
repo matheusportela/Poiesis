@@ -85,6 +85,7 @@ class Engine
     void SetCurrentLevel(std::shared_ptr<Level> level);
     void SetNextLevel(std::shared_ptr<Level> level);
     std::shared_ptr<Entity> CreateEntity();
+    void DeleteEntity(std::shared_ptr<Entity> entity);
     void AddComponent(std::shared_ptr<Component> component,
         std::shared_ptr<Entity> entity);
     void AddSystem(std::shared_ptr<System> system);

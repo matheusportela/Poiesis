@@ -140,23 +140,33 @@ void Level1::Finish()
 
 void Level1::MenuButtonCallback()
 {
-    LOG_I("[Level1] Clicked on menu button.");
+    LOG_I("[Level1] Clicked on menu button");
     SetFinished();
     Engine::GetInstance().SetNextLevel(std::make_shared<EntryLevel>());
 }
 
 void Level1::PauseButtonCallback()
 {
-    LOG_I("[Level1] Clicked on pause button.");
+    LOG_I("[Level1] Clicked on pause button");
 
     if (paused)
     {
         paused = false;
         CreateAccessorySystems();
+        Engine::GetInstance().DeleteEntity(pauseMenuExitButton);
     }
     else
     {
         paused = true;
         DeleteAccessorySystems();
+        pauseMenuExitButton = EntityFactory::CreateButton(
+            CFG_GETP("EXIT_BUTTON_IMAGE"), Rectangle(800, 500, 150, 50),
+            std::bind(&Level1::ExitButtonCallback, this));
     }
+}
+
+void Level1::ExitButtonCallback()
+{
+    LOG_I("[Level1] Clicked on exit button");
+    SetFinished();
 }

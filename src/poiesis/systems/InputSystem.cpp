@@ -29,6 +29,9 @@ void InputSystem::ButtonClick(Vector mousePosition)
 
     for (auto entity : entities)
     {
+        if (!Engine::GetInstance().GetEntityManager()->HasComponent(entity, "ButtonComponent"))
+            continue;
+
         buttonComponent = std::static_pointer_cast<ButtonComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ButtonComponent"));
         rectangle = buttonComponent->GetRectangle();
 

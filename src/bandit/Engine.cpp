@@ -96,6 +96,11 @@ std::shared_ptr<Entity> Engine::CreateEntity()
     return entityManager->CreateEntity();
 }
 
+void Engine::DeleteEntity(std::shared_ptr<Entity> entity)
+{
+    entityManager->DeleteEntity(entity);
+}
+
 void Engine::AddComponent(std::shared_ptr<Component> component,
     std::shared_ptr<Entity> entity)
 {

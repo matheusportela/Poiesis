@@ -33,10 +33,13 @@ class Level1 : public Level
     void Finish();
     void MenuButtonCallback();
     void PauseButtonCallback();
+    void ExitButtonCallback();
 
   private:
     bool win;
     bool paused;
+
+    std::shared_ptr<Entity> pauseMenuExitButton;
 };
 
 #endif // LEVEL_1_H_

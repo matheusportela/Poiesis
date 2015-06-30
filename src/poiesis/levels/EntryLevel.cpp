@@ -8,6 +8,10 @@ void EntryLevel::Start()
         Rectangle(800, 500, 150, 50),
         std::bind(&EntryLevel::StartButtonCallback, this));
 
+    EntityFactory::CreateButton(CFG_GETP("EXIT_BUTTON_IMAGE"),
+        Rectangle(800, 600, 150, 50),
+        std::bind(&EntryLevel::ExitButtonCallback, this));
+
     // Creating systems.
     Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
@@ -21,7 +25,6 @@ void EntryLevel::Update()
 void EntryLevel::Finish()
 {
     LOG_I("[EntryLevel] Finishing");
-    Engine::GetInstance().SetNextLevel(std::make_shared<Level1>());
     Engine::GetInstance().ClearEntities();
     Engine::GetInstance().ClearSystems();
 }
@@ -29,5 +32,12 @@ void EntryLevel::Finish()
 void EntryLevel::StartButtonCallback()
 {
     LOG_I("[EntryLevel] Clicked on start button");
+    SetFinished();
+    Engine::GetInstance().SetNextLevel(std::make_shared<Level1>());
+}
+
+void EntryLevel::ExitButtonCallback()
+{
+    LOG_I("[EntryLevel] Clicked on exit button");
     SetFinished();
 }

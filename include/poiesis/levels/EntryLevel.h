@@ -18,6 +18,7 @@ class EntryLevel : public Level
     void Update();
     void Finish();
     void StartButtonCallback();
+    void ExitButtonCallback();
 };
 
 #endif // ENTRY_LEVEL_H_

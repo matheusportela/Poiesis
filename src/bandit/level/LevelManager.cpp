@@ -6,6 +6,11 @@ void LevelManager::SetCurrentLevel(std::shared_ptr<Level> currentLevel)
     newLevel = true;
 }
 
+void LevelManager::SetNextLevel(std::shared_ptr<Level> nextLevel)
+{
+    this->nextLevel = nextLevel;
+}
+
 void LevelManager::Update()
 {
     LOG_D("[LevelManager] Updating levels");
@@ -24,7 +29,9 @@ void LevelManager::Update()
     else if (currentLevel->IsFinished())
     {
         currentLevel->Finish();
-        currentLevel = nullptr;
+        currentLevel = nextLevel;
+        nextLevel = nullptr;
+        newLevel = true;
     }
     else
     {

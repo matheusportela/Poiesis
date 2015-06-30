@@ -12,11 +12,13 @@ class LevelManager
 {
   public:
     void SetCurrentLevel(std::shared_ptr<Level> currentLevel);
+    void SetNextLevel(std::shared_ptr<Level> nextLevel);
     void Update();
     bool HasFinished();
 
   private:
     std::shared_ptr<Level> currentLevel;
+    std::shared_ptr<Level> nextLevel;
     bool newLevel;
 };
 

@@ -83,6 +83,7 @@ class Engine
 
     void CreateWindow(std::string title, int height, int width);
     void SetCurrentLevel(std::shared_ptr<Level> level);
+    void SetNextLevel(std::shared_ptr<Level> level);
     std::shared_ptr<Entity> CreateEntity();
     void AddComponent(std::shared_ptr<Component> component,
         std::shared_ptr<Entity> entity);

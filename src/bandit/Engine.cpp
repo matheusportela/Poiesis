@@ -86,6 +86,11 @@ void Engine::SetCurrentLevel(std::shared_ptr<Level> level)
     levelManager->SetCurrentLevel(level);
 }
 
+void Engine::SetNextLevel(std::shared_ptr<Level> level)
+{
+    levelManager->SetNextLevel(level);
+}
+
 std::shared_ptr<Entity> Engine::CreateEntity()
 {
     return entityManager->CreateEntity();

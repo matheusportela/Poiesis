@@ -4,7 +4,7 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/systems/RenderingSystem.h"
-#include "poiesis/levels/Level1.h"
+#include "poiesis/levels/EntryLevel.h"
 
 int main()
 {
@@ -18,7 +18,7 @@ int main()
     // Necessary to display the window.
     Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
 
-    Engine::GetInstance().SetCurrentLevel(std::make_shared<Level1>());
+    Engine::GetInstance().SetCurrentLevel(std::make_shared<EntryLevel>());
     Engine::GetInstance().Run();
 
     BANDIT_ENGINE_SHUTDOWN();

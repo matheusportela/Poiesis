@@ -12,7 +12,8 @@ void Level1::Start()
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
 
-    EntityFactory::CreateButton(Rectangle(1700, 10, 150, 50),
+    EntityFactory::CreateButton(CFG_GETP("EXIT_BUTTON_IMAGE"),
+        Rectangle(1700, 10, 150, 50),
         std::bind(&Level1::ExitButtonCallback, this));
 
     // Creating areas.

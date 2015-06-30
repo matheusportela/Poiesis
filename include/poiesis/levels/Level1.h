@@ -1,4 +1,4 @@
-// First level consists of a penguin that moves around the world.
+// First level consists of a cell that must grow in order to survive.
 
 #ifndef LEVEL_1_H_
 #define LEVEL_1_H_

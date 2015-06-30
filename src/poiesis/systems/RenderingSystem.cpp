@@ -19,6 +19,32 @@ void RenderingSystem::Update(float dt)
     Vector cameraOffset = CalculateCameraOffset();
     Vector cameraPosition = cameraOffset + CalculateScreenOffset();
 
+    for (auto entity : entities)
+    {
+        auto spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "SpriteComponent"));
+        auto elapsedTime = spriteComponent->GetElapsedTime();
+        auto frameDuration = spriteComponent->GetFrameDuration();
+        auto currentFrame = spriteComponent->GetCurrentFrame();
+        auto repeat = spriteComponent->GetRepeat();
+        auto numFrames = spriteComponent->GetNumFrames();
+
+        elapsedTime += dt;
+
+        if (elapsedTime >= frameDuration)
+        {
+            elapsedTime = 0;
+            ++currentFrame;
+
+            if (repeat)
+                currentFrame = currentFrame >= numFrames ? 0 : currentFrame;
+            else
+                currentFrame = currentFrame >= numFrames ? numFrames-1 : currentFrame;
+        }
+
+        spriteComponent->SetElapsedTime(elapsedTime);
+        spriteComponent->SetCurrentFrame(currentFrame);
+    }
+
     Engine::GetInstance().GetGraphicsAdapter()->InitRendering();
 
     for (auto entity : entities)
@@ -106,8 +132,8 @@ void RenderingSystem::RenderSprite(std::shared_ptr<Entity> entity, std::shared_p
     }
 
     if (spriteComponent->GetCentered())
-        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale(), spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
     else
-        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale(), spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
     LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
 }

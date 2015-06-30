@@ -28,8 +28,8 @@ class SDLGraphicsAdapter : public GraphicsAdapter
     void UnloadFont(std::string fontFile);
     bool IsFontLoaded(std::string fontFile);
     void InitRendering();
-    void RenderImage(std::string file, int x, int y, float scale);
-    void RenderCenteredImage(std::string file, int x, int y, float scale);
+    void RenderImage(std::string file, int x, int y, float scale, int currentFrame, int numFrames);
+    void RenderCenteredImage(std::string file, int x, int y, float scale, int currentFrame, int numFrames);
     void Write(std::string text, std::string fontFile, int x, int y);
     void FinishRendering();
 

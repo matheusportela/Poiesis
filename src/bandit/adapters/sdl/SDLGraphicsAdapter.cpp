@@ -186,7 +186,8 @@ void SDLGraphicsAdapter::InitRendering()
 
 }
 
-void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y, float scale)
+void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y,
+    float scale, int currentFrame, int numFrames)
 {
     if (!IsLoaded(file))
     {
@@ -199,9 +200,9 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y, float scale
     TextureSettings settings = texturesSettings[file];
     SDL_Rect clipRect
     {
-        .x = 0,
+        .x = settings.width*currentFrame,
         .y = 0,
-        .w = settings.width,
+        .w = settings.width/numFrames,
         .h = settings.height
     };
     SDL_Rect dstRect
@@ -212,6 +213,11 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y, float scale
         .h = (int)(settings.height*scale)
     };
 
+    std::cerr << "[SDLGraphicsAdapter] Current frame: " << currentFrame << std::endl;
+    std::cerr << "[SDLGraphicsAdapter] Number of frames: " << numFrames << std::endl;
+    std::cerr << "[SDLGraphicsAdapter] X: " << clipRect.x << std::endl;
+    std::cerr << "[SDLGraphicsAdapter] Width: " << clipRect.w << std::endl;
+
     // Moves texture to proper GPU memory location.
     // Third argument deals with clipping the image. NULL makes it stretch to
     // fill the window.
@@ -221,7 +227,7 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y, float scale
 }
 
 void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
-    float scale)
+    float scale, int currentFrame, int numFrames)
 {
     if (!IsLoaded(file))
     {
@@ -233,7 +239,7 @@ void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
     TextureSettings settings = texturesSettings[file];
 
     RenderImage(file, x - scale*settings.width/2, y - scale*settings.height/2,
-        scale);
+        scale, currentFrame, numFrames);
 }
 
 void SDLGraphicsAdapter::Write(std::string text, std::string fontFile, int x, int y)

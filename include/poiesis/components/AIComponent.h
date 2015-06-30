@@ -12,8 +12,6 @@ class AIComponent : public Component
   public:
     AIComponent();
     std::string GetComponentClass();
-
-  private:
 };
 
 #endif // AI_COMPONENT_H_

@@ -30,6 +30,8 @@ class EntityFactory
     // Creates cell: a sprite than can move with user input.
     static std::shared_ptr<Entity> CreateCell(std::string image,
         Vector position);
+    static std::shared_ptr<Entity> CreateAnimatedCell(std::string image,
+        int numFrames, float frameDuration, Vector position);
     static std::shared_ptr<Entity> CreateCell(int type,
         Vector position);
 
@@ -51,6 +53,9 @@ class EntityFactory
     // Creates button: a region with an sprite and responds to clicks.
     static std::shared_ptr<Entity> CreateButton(std::string image,
         Rectangle rectangle, std::function<void()> callback);
+
+  private:
+    static std::shared_ptr<Entity> CreateCellWithoutSprite(Vector position);
 };
 
 #endif // ENTITY_FACTORY_H_

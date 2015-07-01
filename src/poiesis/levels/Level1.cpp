@@ -102,7 +102,7 @@ void Level1::Update()
 
     if (playerEntities.size() == 0)
     {
-        win = false;
+        Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
         SetFinished();
     }
     else
@@ -111,7 +111,7 @@ void Level1::Update()
 
         if (growthComponent->GetLevel() == CFG_GETI("LEVEL_1_GOAL_SIZE"))
         {
-            win = true;
+            Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
             SetFinished();
         }
     }
@@ -120,11 +120,6 @@ void Level1::Update()
 void Level1::Finish()
 {
     LOG_I("[Level1] Finishing");
-
-    if (win)
-        Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
-    else
-        Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
 
     Engine::GetInstance().ClearEntities();
     Engine::GetInstance().ClearSystems();

@@ -3,9 +3,15 @@
 SpriteComponent::SpriteComponent(std::string filename, Vector position,
     bool centered, float scale, int numFrames, float frameDuration, bool repeat) :
     filename(filename), position(position), centered(centered), scale(scale),
-    currentFrame(1), numFrames(numFrames), frameDuration(frameDuration),
-    repeat(repeat), elapsedTime(0.0)
+    numFrames(numFrames), frameDuration(frameDuration), repeat(repeat)
 {
+    Random r;
+
+    if (frameDuration > 0)
+        elapsedTime = r.GenerateFloat(0, frameDuration);
+
+    if (numFrames > 1)
+        currentFrame = r.GenerateInt(0, numFrames);
 }
 
 std::string SpriteComponent::GetComponentClass()

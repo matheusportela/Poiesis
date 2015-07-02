@@ -63,13 +63,21 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(int type,
                 CFG_GETI("CELL_1_ANIMATION_NUM_FRAMES"),
                 CFG_GETF("CELL_1_ANIMATION_FRAME_DURATION"), position);
         case 2:
-            return CreateCell(CFG_GETP("CELL_2_IMAGE"), position);
+            return CreateAnimatedCell(CFG_GETP("CELL_2_ANIMATION"),
+                CFG_GETI("CELL_2_ANIMATION_NUM_FRAMES"),
+                CFG_GETF("CELL_2_ANIMATION_FRAME_DURATION"), position);
         case 3:
-            return CreateCell(CFG_GETP("CELL_3_IMAGE"), position);
+            return CreateAnimatedCell(CFG_GETP("CELL_3_ANIMATION"),
+                CFG_GETI("CELL_3_ANIMATION_NUM_FRAMES"),
+                CFG_GETF("CELL_3_ANIMATION_FRAME_DURATION"), position);
         case 4:
-            return CreateCell(CFG_GETP("CELL_4_IMAGE"), position);
+            return CreateAnimatedCell(CFG_GETP("CELL_4_ANIMATION"),
+                CFG_GETI("CELL_4_ANIMATION_NUM_FRAMES"),
+                CFG_GETF("CELL_4_ANIMATION_FRAME_DURATION"), position);
         case 5:
-            return CreateCell(CFG_GETP("CELL_5_IMAGE"), position);
+            return CreateAnimatedCell(CFG_GETP("CELL_5_ANIMATION"),
+                CFG_GETI("CELL_5_ANIMATION_NUM_FRAMES"),
+                CFG_GETF("CELL_5_ANIMATION_FRAME_DURATION"), position);
         default:
             LOG_E("[EntityFactory] Unknown cell type: " << type);
             exit(1);

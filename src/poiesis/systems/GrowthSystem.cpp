@@ -83,11 +83,11 @@ void GrowthSystem::UpdateGrowthPower(std::shared_ptr<GrowthComponent> growthComp
 void GrowthSystem::GrowOrShrink(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    int energy = growthComponent->GetEnergy();
+    int growthPower = growthComponent->GetGrowthPower();
 
-    if (energy >= CFG_GETI("GROWTH_UPPER_THRESHOLD"))
+    if (growthPower >= CFG_GETI("GROWTH_UPPER_THRESHOLD"))
         Grow(entity, growthComponent);
-    else if (energy <= CFG_GETI("GROWTH_LOWER_THRESHOLD"))
+    else if (growthPower <= CFG_GETI("GROWTH_LOWER_THRESHOLD"))
         Shrink(entity, growthComponent);
 }
 
@@ -95,14 +95,17 @@ void GrowthSystem::Grow(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
     int energy = growthComponent->GetEnergy();
+    int growthPower = growthComponent->GetGrowthPower();
     int level = growthComponent->GetLevel();
 
     energy = 0;
+    growthPower = 0;
     level += 1;
     LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has grown to "
         << "level " << level);
 
     growthComponent->SetEnergy(energy);
+    growthComponent->SetGrowthPower(growthPower);
     growthComponent->SetLevel(level);
 }
 
@@ -110,14 +113,17 @@ void GrowthSystem::Shrink(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
     int energy = growthComponent->GetEnergy();
+    int growthPower = growthComponent->GetGrowthPower();
     int level = growthComponent->GetLevel();
 
     energy = 0;
+    growthPower = 0;
     level -= 1;
     LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has shrunk "
         << "to level " << level);
 
     growthComponent->SetEnergy(energy);
+    growthComponent->SetGrowthPower(growthPower);
     growthComponent->SetLevel(level);
 }
 

@@ -10,76 +10,120 @@ void GrowthSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[GrowthSystem] Update: " << dt);
 
-    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("GrowthComponent");
     std::shared_ptr<GrowthComponent> growthComponent;
     std::shared_ptr<SpriteComponent> spriteComponent;
     std::shared_ptr<ColliderComponent> colliderComponent;
-    int max_level = CFG_GETI("GROWTH_LEVEL_LIMIT");
-    int level;
-    int energy;
-    int upperThreshold = CFG_GETI("GROWTH_UPPER_THRESHOLD");
-    int lowerThreshold = CFG_GETI("GROWTH_LOWER_THRESHOLD");
-    float collisionRadius;
-    Random r;
-    bool canConsumeEnergy = false;
+    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("GrowthComponent");
 
     timer.Update(dt);
 
-    if (timer.HasFired())
-    {
-        timer.SetTime(CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"));
-        canConsumeEnergy = true;
-    }
-
     for (auto entity : entities)
     {
+        // Load entity's data
         growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "GrowthComponent"));
-        auto spriteComponents = Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent");
         colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ColliderComponent"));
 
-        energy = growthComponent->GetEnergy();
-        level = growthComponent->GetLevel();
+        // Execute growth logic
+        ConsumeEnergy(growthComponent);
+        GrowOrShrink(entity, growthComponent);
+        SaturateLevel(growthComponent);
 
-        if (canConsumeEnergy)
-        {
-            if (r.GenerateFloat() < CFG_GETF("GROWTH_ENERGY_CONSUMING_CHANCE"))
-                energy -= 1;
-        }
-
-        if (energy >= upperThreshold)
-        {
-            energy = 0;
-            level += 1;
-            LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has "
-                << "grown to level " << level);
-        }
-        else if (energy <= lowerThreshold)
-        {
-            energy = 0;
-            level -= 1;
-            LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has "
-                << "shrunk to level " << level);
-        }
-
-        if (level > max_level)
-            level = max_level;
-        else if (level <= 0)
-        {
-            Engine::GetInstance().GetEntityManager()->DeleteEntity(entity);
+        if (KillSmallEntity(entity, growthComponent))
             continue;
-        }
 
-        collisionRadius = level*colliderComponent->GetInitRadius();
+        CalculateCollisionRadius(growthComponent, colliderComponent);
 
-        growthComponent->SetEnergy(energy);
-        growthComponent->SetLevel(level);
-
-        for (auto component : spriteComponents)
+        // Save entity's data
+        for (auto component : Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent"))
         {
             spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
-            spriteComponent->SetScale(level);
+            spriteComponent->SetScale(growthComponent->GetLevel());
         }
-        
-        colliderComponent->SetRadius(collisionRadius);
     }
+
+    if (timer.HasFired())
+        timer.SetTime(CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"));
+}
+
+void GrowthSystem::ConsumeEnergy(std::shared_ptr<GrowthComponent> growthComponent)
+{
+    Random r;
+    float energy = growthComponent->GetEnergy();
+
+    if (timer.HasFired() && (r.GenerateFloat() < CFG_GETF("GROWTH_ENERGY_CONSUMING_CHANCE")))
+        --energy;
+
+    growthComponent->SetEnergy(energy);
+}
+
+void GrowthSystem::GrowOrShrink(std::shared_ptr<Entity> entity,
+    std::shared_ptr<GrowthComponent> growthComponent)
+{
+    float energy = growthComponent->GetEnergy();
+    
+    if (energy >= CFG_GETI("GROWTH_UPPER_THRESHOLD"))
+        Grow(entity, growthComponent);
+    else if (energy <= CFG_GETI("GROWTH_LOWER_THRESHOLD"))
+        Shrink(entity, growthComponent);
+}
+
+void GrowthSystem::Grow(std::shared_ptr<Entity> entity,
+    std::shared_ptr<GrowthComponent> growthComponent)
+{
+    float energy = growthComponent->GetEnergy();
+    float level = growthComponent->GetLevel();
+
+    energy = 0;
+    level += 1;
+    LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has grown to "
+        << "level " << level);
+
+    growthComponent->SetEnergy(energy);
+    growthComponent->SetLevel(level);
+}
+
+void GrowthSystem::Shrink(std::shared_ptr<Entity> entity,
+    std::shared_ptr<GrowthComponent> growthComponent)
+{
+    float energy = growthComponent->GetEnergy();
+    float level = growthComponent->GetLevel();
+
+    energy = 0;
+    level -= 1;
+    LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has shrunk "
+        << "to level " << level);
+
+    growthComponent->SetEnergy(energy);
+    growthComponent->SetLevel(level);
+}
+
+void GrowthSystem::SaturateLevel(std::shared_ptr<GrowthComponent> growthComponent)
+{
+    int level = growthComponent->GetLevel();
+    int maxLevel = CFG_GETI("GROWTH_LEVEL_LIMIT");
+
+    if (level > maxLevel)
+        level = maxLevel;
+    
+    growthComponent->SetLevel(level);
+}
+
+bool GrowthSystem::KillSmallEntity(std::shared_ptr<Entity> entity,
+    std::shared_ptr<GrowthComponent> growthComponent)
+{
+    if (growthComponent->GetLevel() <= 0)
+    {
+        Engine::GetInstance().GetEntityManager()->DeleteEntity(entity);
+        return true;
+    }
+
+    return false;
+}
+
+void GrowthSystem::CalculateCollisionRadius(
+    std::shared_ptr<GrowthComponent> growthComponent,
+    std::shared_ptr<ColliderComponent> colliderComponent)
+{
+    float radius = growthComponent->GetLevel()*colliderComponent->GetInitRadius();
+    colliderComponent->SetRadius(radius);
 }

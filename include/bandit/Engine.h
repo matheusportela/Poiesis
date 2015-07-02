@@ -111,6 +111,9 @@ class Engine
     void DeleteSystem(std::string name);
     void ClearSystems();
 
+    bool CheckInputOccurred(InputType::Type inputType, int button = 0);
+    Vector GetMousePosition();
+
     // Executes the engine main loop.
     void Run();
 

@@ -10,20 +10,17 @@ void InputSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[RenderingSystem] Update: " << dt);
 
-    if (!Engine::GetInstance().GetInputAdapter()->CheckInputOccurred(InputType::MousePress))
-        return;
-
-    float mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
-    float mouseY = Engine::GetInstance().GetInputAdapter()->GetMouseY();
-    Vector mousePosition(mouseX, mouseY);
-
-    ButtonClick(mousePosition);
-    ExecutePlayerImpulse(mousePosition);
-    // ParticleForceInput(mousePosition);
+    ProcessButtonClick();
+    ProcessPlayerImpulse();
+    // ProcessParticleForceInput();
 }
 
-void InputSystem::ButtonClick(Vector mousePosition)
+void InputSystem::ProcessButtonClick()
 {
+    if (!Engine::GetInstance().CheckInputOccurred(InputType::MousePress))
+        return;
+
+    Vector mousePosition = Engine::GetInstance().GetMousePosition();
     Rectangle rectangle;
     std::shared_ptr<ButtonComponent> buttonComponent;
     auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("ButtonComponent");
@@ -44,10 +41,15 @@ void InputSystem::ButtonClick(Vector mousePosition)
     }
 }
 
-void InputSystem::ExecutePlayerImpulse(Vector mousePosition)
+void InputSystem::ProcessPlayerImpulse()
 {
     if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
         return;
+
+    auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+    auto colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ColliderComponent"));
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ParticleComponent"));
+    auto mousePosition = Engine::GetInstance().GetMousePosition();
 
     Vector cameraOffset;
 
@@ -59,14 +61,39 @@ void InputSystem::ExecutePlayerImpulse(Vector mousePosition)
         cameraOffset = cameraComponent->GetPosition() - screenOffset;
     }
 
-    auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
-    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ParticleComponent"));
+    Vector worldClickPosition = mousePosition + cameraOffset;
 
-    particleComponent->SetPosition(mousePosition + cameraOffset);
+    if (Engine::GetInstance().CheckInputOccurred(InputType::MousePress) and
+        worldClickPosition.CalculateDistance(particleComponent->GetPosition()) < colliderComponent->GetRadius())
+    {
+        LOG_W("[InputSystem] Impulse begin");
+        impulseBegin = mousePosition;
+        processingImpulse = true;
+    }
+    else if (processingImpulse and
+        Engine::GetInstance().CheckInputOccurred(InputType::MouseRelease))
+    {
+        LOG_W("[InputSystem] Impulse end");
+        impulseEnd = mousePosition;
+
+        // particleComponent->SetPosition(mousePosition + cameraOffset);
+        Vector force = particleComponent->GetForce();
+        force += (impulseEnd - impulseBegin)*100.0;
+        particleComponent->SetForce(force);
+        processingImpulse = false;
+    }
+    else
+    {
+        return;
+    }
 }
 
-void InputSystem::ParticleForceInput(Vector mousePosition)
+void InputSystem::ProcessParticleForceInput()
 {
+    if (!Engine::GetInstance().CheckInputOccurred(InputType::MousePress))
+        return;
+
+    Vector mousePosition = Engine::GetInstance().GetMousePosition();
     auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("MoveableComponent");
     auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
     std::shared_ptr<MoveableComponent> moveableComponent;

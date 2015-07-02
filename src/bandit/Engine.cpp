@@ -173,6 +173,18 @@ void Engine::ClearSystems()
     systemManager->Clear();
 }
 
+bool Engine::CheckInputOccurred(InputType::Type inputType, int button)
+{
+    return inputAdapter->CheckInputOccurred(inputType, button);
+}
+
+Vector Engine::GetMousePosition()
+{
+    float mouseX = Engine::GetInstance().GetInputAdapter()->GetMouseX();
+    float mouseY = Engine::GetInstance().GetInputAdapter()->GetMouseY();
+    return Vector(mouseX, mouseY);
+}
+
 float Engine::CalculateSleepTime(float currentFrameRate)
 {
     static const float DESIRED_FRAME_RATE = 30;

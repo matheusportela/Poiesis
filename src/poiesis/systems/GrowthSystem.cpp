@@ -10,15 +10,15 @@ void GrowthSystem::Update(float dt)
     std::shared_ptr<GrowthComponent> growthComponent;
     std::shared_ptr<SpriteComponent> spriteComponent;
     std::shared_ptr<ColliderComponent> colliderComponent;
-    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("GrowthComponent");
+    auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("GrowthComponent");
 
     timer.Update(dt);
 
     for (auto entity : entities)
     {
         // Load entity's data
-        growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "GrowthComponent"));
-        colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ColliderComponent"));
+        growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "GrowthComponent"));
+        colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ColliderComponent"));
 
         // Execute growth logic
         ConsumeEnergy(growthComponent);
@@ -32,7 +32,7 @@ void GrowthSystem::Update(float dt)
         UpdateCollisionRadius(growthComponent, colliderComponent);
 
         // Save entity's data
-        for (auto component : Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent"))
+        for (auto component : Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent"))
         {
             spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
             UpdateSpriteSize(spriteComponent, growthComponent);
@@ -136,7 +136,7 @@ bool GrowthSystem::KillSmallEntity(std::shared_ptr<Entity> entity,
 {
     if (growthComponent->GetLevel() <= 0)
     {
-        Engine::GetInstance().GetEntityManager()->DeleteEntity(entity);
+        Engine::GetInstance().DeleteEntity(entity);
         return true;
     }
 

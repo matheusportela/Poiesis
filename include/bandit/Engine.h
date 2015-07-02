@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <memory>
+#include <string>
 
 #include "bandit/adapters/AudioAdapter.h"
 #include "bandit/adapters/GraphicsAdapter.h"
@@ -84,13 +85,27 @@ class Engine
     void CreateWindow(std::string title, int height, int width);
     void SetCurrentLevel(std::shared_ptr<Level> level);
     void SetNextLevel(std::shared_ptr<Level> level);
+
     std::shared_ptr<Entity> CreateEntity();
     void DeleteEntity(std::shared_ptr<Entity> entity);
+    void ClearEntities();
+    std::vector<std::shared_ptr<Entity>> GetAllEntitiesWithComponentOfClass(
+        std::string componentClass);
+    unsigned int GetNumberOfEntities();
+
     void AddComponent(std::shared_ptr<Component> component,
         std::shared_ptr<Entity> entity);
+    std::vector<std::shared_ptr<Component>> GetComponentsOfClass(
+        std::shared_ptr<Entity> entity, std::string componentClass);
+    std::shared_ptr<Component> GetSingleComponentOfClass(
+        std::shared_ptr<Entity> entity, std::string componentClass);
+    std::vector<std::shared_ptr<Component>> GetAllComponentsOfClass(
+        std::string componentClass);
+    bool HasComponent(std::shared_ptr<Entity> entity,
+        std::string componentClass);
+
     void AddSystem(std::shared_ptr<System> system);
     void DeleteSystem(std::string name);
-    void ClearEntities();
     void ClearSystems();
 
     // Executes the engine main loop.

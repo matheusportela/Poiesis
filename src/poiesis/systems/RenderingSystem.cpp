@@ -10,8 +10,8 @@ void RenderingSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[RenderingSystem] Update: " << dt);
 
-    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("SpriteComponent");
-    auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
+    auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("SpriteComponent");
+    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
     std::shared_ptr<SpriteComponent> spriteComponent;
     std::shared_ptr<ParticleComponent> particleComponent;
     std::shared_ptr<ButtonComponent> buttonComponent;
@@ -21,7 +21,7 @@ void RenderingSystem::Update(float dt)
 
     for (auto entity : entities)
     {
-        auto spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "SpriteComponent"));
+        auto spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "SpriteComponent"));
         auto elapsedTime = spriteComponent->GetElapsedTime();
         auto frameDuration = spriteComponent->GetFrameDuration();
         auto currentFrame = spriteComponent->GetCurrentFrame();
@@ -49,11 +49,11 @@ void RenderingSystem::Update(float dt)
 
     for (auto entity : entities)
     {
-        if (Engine::GetInstance().GetEntityManager()->HasComponent(entity, "ButtonComponent"))
+        if (Engine::GetInstance().HasComponent(entity, "ButtonComponent"))
         {
             RenderGUI(entity);
         }
-        else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity, "ParticleComponent"))
+        else if (Engine::GetInstance().HasComponent(entity, "ParticleComponent"))
         {
             RenderParticle(entity, cameraOffset, cameraPosition);
         }
@@ -75,11 +75,11 @@ Vector RenderingSystem::CalculateScreenOffset()
 Vector RenderingSystem::CalculateCameraOffset()
 {
     Vector cameraOffset;
-    auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
+    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
 
     if (cameraEntities.size() > 0)
     {
-        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
+        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
         Vector screenOffset = CalculateScreenOffset();
         cameraOffset = cameraComponent->GetPosition() - screenOffset;
     }
@@ -91,8 +91,8 @@ void RenderingSystem::RenderParticle(std::shared_ptr<Entity> entity, Vector came
 {
     Vector position;
     std::shared_ptr<SpriteComponent> spriteComponent;
-    auto spriteComponents = Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent");
-    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+    auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
             
     // Skip rendering entities that are too far from the screen.
     if (particleComponent->GetPosition().CalculateDistance(cameraPosition) > CFG_GETF("RENDERING_MAX_DISTANCE"))
@@ -110,8 +110,8 @@ void RenderingSystem::RenderGUI(std::shared_ptr<Entity> entity)
 {
     Vector position;
     std::shared_ptr<SpriteComponent> spriteComponent;
-    auto spriteComponents = Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent");
-    std::shared_ptr<ButtonComponent> buttonComponent = std::static_pointer_cast<ButtonComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ButtonComponent"));
+    auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
+    std::shared_ptr<ButtonComponent> buttonComponent = std::static_pointer_cast<ButtonComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ButtonComponent"));
 
     for (auto component : spriteComponents)
     {

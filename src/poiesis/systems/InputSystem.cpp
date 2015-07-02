@@ -25,14 +25,14 @@ void InputSystem::ButtonClick(Vector mousePosition)
 {
     Rectangle rectangle;
     std::shared_ptr<ButtonComponent> buttonComponent;
-    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ButtonComponent");
+    auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("ButtonComponent");
 
     for (auto entity : entities)
     {
-        if (!Engine::GetInstance().GetEntityManager()->HasComponent(entity, "ButtonComponent"))
+        if (!Engine::GetInstance().HasComponent(entity, "ButtonComponent"))
             continue;
 
-        buttonComponent = std::static_pointer_cast<ButtonComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ButtonComponent"));
+        buttonComponent = std::static_pointer_cast<ButtonComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ButtonComponent"));
         rectangle = buttonComponent->GetRectangle();
 
         if (rectangle.IsInside(mousePosition))
@@ -45,8 +45,8 @@ void InputSystem::ButtonClick(Vector mousePosition)
 
 void InputSystem::ParticleForceInput(Vector mousePosition)
 {
-    auto entities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("MoveableComponent");
-    auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
+    auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("MoveableComponent");
+    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
     std::shared_ptr<MoveableComponent> moveableComponent;
     std::shared_ptr<ParticleComponent> particleComponent;
     Vector cameraOffset;
@@ -57,7 +57,7 @@ void InputSystem::ParticleForceInput(Vector mousePosition)
 
     if (cameraEntities.size() > 0)
     {
-        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
+        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
         Vector screenOffset = Vector(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"))*0.5;
         cameraOffset = cameraComponent->GetPosition() - screenOffset;
     }
@@ -66,8 +66,8 @@ void InputSystem::ParticleForceInput(Vector mousePosition)
 
     for (auto entity : entities)
     {
-        moveableComponent = std::static_pointer_cast<MoveableComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "MoveableComponent"));
-        particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+        moveableComponent = std::static_pointer_cast<MoveableComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "MoveableComponent"));
+        particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
 
         if (moveableComponent->GetActive())
         {

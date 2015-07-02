@@ -101,10 +101,50 @@ void Engine::DeleteEntity(std::shared_ptr<Entity> entity)
     entityManager->DeleteEntity(entity);
 }
 
+void Engine::ClearEntities()
+{
+    entityManager->Clear();
+}
+
+std::vector<std::shared_ptr<Entity>> Engine::GetAllEntitiesWithComponentOfClass(
+        std::string componentClass)
+{
+    return entityManager->GetAllEntitiesWithComponentOfClass(componentClass);
+}
+
+unsigned int Engine::GetNumberOfEntities()
+{
+    return entityManager->GetNumberOfEntities();
+}
+
 void Engine::AddComponent(std::shared_ptr<Component> component,
     std::shared_ptr<Entity> entity)
 {
     entityManager->AddComponent(component, entity);
+}
+
+std::vector<std::shared_ptr<Component>> Engine::GetComponentsOfClass(
+        std::shared_ptr<Entity> entity, std::string componentClass)
+{
+    return entityManager->GetComponentsOfClass(entity, componentClass);
+}
+
+std::shared_ptr<Component> Engine::GetSingleComponentOfClass(
+    std::shared_ptr<Entity> entity, std::string componentClass)
+{
+    return entityManager->GetSingleComponentOfClass(entity, componentClass);
+}
+
+std::vector<std::shared_ptr<Component>> Engine::GetAllComponentsOfClass(
+        std::string componentClass)
+{
+    return entityManager->GetAllComponentsOfClass(componentClass);
+}
+
+bool Engine::HasComponent(std::shared_ptr<Entity> entity,
+    std::string componentClass)
+{
+    return entityManager->HasComponent(entity, componentClass);
 }
 
 void Engine::AddSystem(std::shared_ptr<System> system)
@@ -115,11 +155,6 @@ void Engine::AddSystem(std::shared_ptr<System> system)
 void Engine::DeleteSystem(std::string name)
 {
     systemManager->DeleteSystem(name);
-}
-
-void Engine::ClearEntities()
-{
-    entityManager->Clear();
 }
 
 void Engine::ClearSystems()

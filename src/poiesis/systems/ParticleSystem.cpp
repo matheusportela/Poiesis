@@ -7,7 +7,7 @@ std::string ParticleSystem::GetName()
 
 void ParticleSystem::Update(float dt)
 {
-    auto components = Engine::GetInstance().GetEntityManager()->GetAllComponentsOfClass("ParticleComponent");
+    auto components = Engine::GetInstance().GetAllComponentsOfClass("ParticleComponent");
     std::shared_ptr<ParticleComponent> particleComponent;
 
     for (auto component : components)

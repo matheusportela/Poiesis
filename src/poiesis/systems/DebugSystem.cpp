@@ -53,19 +53,19 @@ void DebugSystem::GenerateFPSMessage()
 void DebugSystem::GenerateEngineMessage()
 {
     messages.push_back("Engine");
-    messages.push_back("Entities: " + std::to_string(Engine::GetInstance().GetEntityManager()->GetNumberOfEntities()));
+    messages.push_back("Entities: " + std::to_string(Engine::GetInstance().GetNumberOfEntities()));
 }
 
 void DebugSystem::GeneratePlayerMessage()
 {
-    auto followEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
+    auto followEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
 
     if (followEntities.size() == 0)
         return;
 
-    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "ParticleComponent"));
-    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
-    auto combatComponent = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(followEntities[0], "CombatComponent"));
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(followEntities[0], "ParticleComponent"));
+    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
+    auto combatComponent = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetSingleComponentOfClass(followEntities[0], "CombatComponent"));
     messages.push_back("Player");
     messages.push_back("Position: " + particleComponent->GetPosition().ToString());
     messages.push_back("Velocity: " + std::to_string(particleComponent->GetVelocity().GetMagnitude()) + " " + std::to_string(particleComponent->GetVelocity().GetDirection()*180.0/M_PI));

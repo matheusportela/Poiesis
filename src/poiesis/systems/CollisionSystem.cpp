@@ -20,8 +20,8 @@ void CollisionSystem::CheckCollisions()
     float maxDistance = 2000;
     Quadtree<std::shared_ptr<Entity>> quadtree(-2500, -2500, 5000, 5000,
         initialLevel, maxLevels, maxObjects);
-    auto cameraEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("CameraComponent");
-    collidableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("ColliderComponent");
+    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
+    collidableEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("ColliderComponent");
 
     // Clear deleted entities from last iteration.
     deletedEntities.clear();
@@ -33,13 +33,13 @@ void CollisionSystem::CheckCollisions()
     // Build quadtree for close enough entities.
     for (auto entity : collidableEntities)
     {
-        auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+        auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
         auto position = particleComponent->GetPosition();
 
         // Ignore collision from things that aren't visible.
         if (cameraEntity)
         {
-            auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
+            auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
             auto cameraPosition = cameraComponent->GetPosition();
 
             if (cameraPosition.CalculateDistance(position) > maxDistance)
@@ -58,7 +58,7 @@ void CollisionSystem::CheckCollisions()
     {
         auto entity = collidableEntities[i];
 
-        auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity, "ParticleComponent"));
+        auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
         auto position = particleComponent->GetPosition();
         auto quadtreeEntities = quadtree.Get(position.GetX(), position.GetY());
 
@@ -82,10 +82,10 @@ void CollisionSystem::CheckCollisions()
 bool CollisionSystem::IsColliding(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
-    auto colliderComponent1 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "ColliderComponent"));
-    auto colliderComponent2 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "ColliderComponent"));
-    auto particleComponent1 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "ParticleComponent"));
-    auto particleComponent2 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "ParticleComponent"));
+    auto colliderComponent1 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity1, "ColliderComponent"));
+    auto colliderComponent2 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity2, "ColliderComponent"));
+    auto particleComponent1 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity1, "ParticleComponent"));
+    auto particleComponent2 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity2, "ParticleComponent"));
     float radius1 = colliderComponent1->GetRadius();
     float radius2 = colliderComponent2->GetRadius();
     Vector position1 = particleComponent1->GetPosition();
@@ -100,20 +100,20 @@ bool CollisionSystem::IsColliding(std::shared_ptr<Entity> entity1,
 void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
-    if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "GrowthComponent") && 
-        Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "EatableComponent"))
+    if (Engine::GetInstance().HasComponent(entity1, "GrowthComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "EatableComponent"))
         EatEntity(entity1, entity2);
-    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "GrowthComponent") && 
-        Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "EatableComponent"))
+    else if (Engine::GetInstance().HasComponent(entity2, "GrowthComponent") && 
+        Engine::GetInstance().HasComponent(entity1, "EatableComponent"))
         EatEntity(entity2, entity1);
-    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "CombatComponent") && 
-        Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "CombatComponent"))
+    else if (Engine::GetInstance().HasComponent(entity1, "CombatComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "CombatComponent"))
         CombatEntities(entity1, entity2);
-    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "SlowingComponent") && 
-        Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "ParticleComponent"))
+    else if (Engine::GetInstance().HasComponent(entity1, "SlowingComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "ParticleComponent"))
         SlowEntity(entity1, entity2);
-    else if (Engine::GetInstance().GetEntityManager()->HasComponent(entity2, "SlowingComponent") && 
-        Engine::GetInstance().GetEntityManager()->HasComponent(entity1, "ParticleComponent"))
+    else if (Engine::GetInstance().HasComponent(entity2, "SlowingComponent") && 
+        Engine::GetInstance().HasComponent(entity1, "ParticleComponent"))
         SlowEntity(entity2, entity1);
     else
         CollideBodies(entity1, entity2);
@@ -124,10 +124,10 @@ void CollisionSystem::CollideBodies(std::shared_ptr<Entity> entity1,
 {
     LOG_D("[CollisionSystem] Colliding entities: " << entity1->GetId() << " and " << entity2->GetId());
 
-    auto particleComponent1 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "ParticleComponent"));
-    auto particleComponent2 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "ParticleComponent"));
-    auto colliderComponent1 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "ColliderComponent"));
-    auto colliderComponent2 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "ColliderComponent"));
+    auto particleComponent1 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity1, "ParticleComponent"));
+    auto particleComponent2 = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity2, "ParticleComponent"));
+    auto colliderComponent1 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity1, "ColliderComponent"));
+    auto colliderComponent2 = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity2, "ColliderComponent"));
     float radius1 = colliderComponent1->GetRadius();
     float radius2 = colliderComponent2->GetRadius();
     Vector position1 = particleComponent1->GetPosition();
@@ -158,8 +158,8 @@ void CollisionSystem::CollideBodies(std::shared_ptr<Entity> entity1,
 void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2)
 {
-    auto combatComponent1 = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity1, "CombatComponent"));
-    auto combatComponent2 = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(entity2, "CombatComponent"));
+    auto combatComponent1 = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity1, "CombatComponent"));
+    auto combatComponent2 = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity2, "CombatComponent"));
 
     int power1 = combatComponent1->GetPower();
     int power2 = combatComponent2->GetPower();
@@ -191,13 +191,13 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
 {
     LOG_D("[CollisionSystem] Entity " << eaterEntity->GetId() << " is eating entity " << eatableEntity->GetId());
 
-    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(eaterEntity, "GrowthComponent"));
+    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(eaterEntity, "GrowthComponent"));
     auto energy = growthComponent->GetEnergy();
     ++energy;
     growthComponent->SetEnergy(energy);
 
     // Delete food entity.
-    Engine::GetInstance().GetEntityManager()->DeleteEntity(eatableEntity);
+    Engine::GetInstance().DeleteEntity(eatableEntity);
 
     for (unsigned int i = 0; i < collidableEntities.size(); ++i)
     {
@@ -217,8 +217,8 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
 void CollisionSystem::SlowEntity(std::shared_ptr<Entity> slowingEntity,
     std::shared_ptr<Entity> movingEntity)
 {
-    auto slowingComponent = std::static_pointer_cast<SlowingComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(slowingEntity, "SlowingComponent"));
-    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(movingEntity, "ParticleComponent"));
+    auto slowingComponent = std::static_pointer_cast<SlowingComponent>(Engine::GetInstance().GetSingleComponentOfClass(slowingEntity, "SlowingComponent"));
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(movingEntity, "ParticleComponent"));
 
     float magnitude = slowingComponent->GetMagnitude();
     Vector velocity = particleComponent->GetVelocity();

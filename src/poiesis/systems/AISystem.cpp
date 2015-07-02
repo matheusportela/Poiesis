@@ -10,8 +10,8 @@ void AISystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[AISystem] Update: " << dt);
 
-    auto aiEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("AIComponent");
-    auto eatableEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("EatableComponent");
+    auto aiEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("AIComponent");
+    auto eatableEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("EatableComponent");
 
     if (aiEntities.size() == 0 || eatableEntities.size() == 0)
         return;
@@ -30,12 +30,12 @@ void AISystem::Update(float dt)
 
     for (auto aiEntity : aiEntities)
     {
-        aiParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(aiEntity, "ParticleComponent"));
+        aiParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(aiEntity, "ParticleComponent"));
         aiParticlePosition = aiParticleComponent->GetPosition();
 
         for (auto eatableEntity : eatableEntities)
         {
-            eatableParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(eatableEntity, "ParticleComponent"));
+            eatableParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(eatableEntity, "ParticleComponent"));
             eatableParticlePosition = eatableParticleComponent->GetPosition();
 
             distance = eatableParticlePosition.CalculateDistance(aiParticlePosition);

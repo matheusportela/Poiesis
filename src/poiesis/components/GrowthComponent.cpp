@@ -1,7 +1,7 @@
 #include "poiesis/components/GrowthComponent.h"
 
 GrowthComponent::GrowthComponent(int threshold) :
-    threshold(threshold), level(1), energy(0)
+    threshold(threshold), level(1), energy(0), growthPower(0)
 {
 }
 
@@ -40,4 +40,14 @@ int GrowthComponent::GetEnergy()
 void GrowthComponent::SetEnergy(int energy)
 {
     this->energy = energy;
+}
+
+int GrowthComponent::GetGrowthPower()
+{
+    return growthPower;
+}
+
+void GrowthComponent::SetGrowthPower(int growthPower)
+{
+    this->growthPower = growthPower;
 }

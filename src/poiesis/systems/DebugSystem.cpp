@@ -71,5 +71,6 @@ void DebugSystem::GeneratePlayerMessage()
     messages.push_back("Velocity: " + std::to_string(particleComponent->GetVelocity().GetMagnitude()) + " " + std::to_string(particleComponent->GetVelocity().GetDirection()*180.0/M_PI));
     messages.push_back("Growth: " + std::to_string(growthComponent->GetLevel()));
     messages.push_back("Energy: " + std::to_string(growthComponent->GetEnergy()));
+    messages.push_back("Growth power: " + std::to_string(growthComponent->GetGrowthPower()));
     messages.push_back("Combat power: " + std::to_string(combatComponent->GetPower()));
 }

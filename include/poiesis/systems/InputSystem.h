@@ -16,6 +16,7 @@ class InputSystem : public System
     std::string GetName();
     void Update(float dt);
     void ButtonClick(Vector mousePosition);
+    void ExecutePlayerImpulse(Vector mousePosition);
     void ParticleForceInput(Vector mousePosition);
 };
 

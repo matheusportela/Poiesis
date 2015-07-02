@@ -18,7 +18,8 @@ void InputSystem::Update(float dt)
     Vector mousePosition(mouseX, mouseY);
 
     ButtonClick(mousePosition);
-    ParticleForceInput(mousePosition);
+    ExecutePlayerImpulse(mousePosition);
+    // ParticleForceInput(mousePosition);
 }
 
 void InputSystem::ButtonClick(Vector mousePosition)
@@ -41,6 +42,27 @@ void InputSystem::ButtonClick(Vector mousePosition)
             callback();
         }
     }
+}
+
+void InputSystem::ExecutePlayerImpulse(Vector mousePosition)
+{
+    if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
+        return;
+
+    Vector cameraOffset;
+
+    if (Engine::GetInstance().HasEntityWithComponentOfClass("CameraComponent"))
+    {
+        auto cameraEntity = Engine::GetInstance().GetEntityWithComponentOfClass("CameraComponent");
+        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
+        Vector screenOffset = Vector(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"))*0.5;
+        cameraOffset = cameraComponent->GetPosition() - screenOffset;
+    }
+
+    auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ParticleComponent"));
+
+    particleComponent->SetPosition(mousePosition + cameraOffset);
 }
 
 void InputSystem::ParticleForceInput(Vector mousePosition)

@@ -16,9 +16,12 @@ class InputSystem : public System
   public:
     std::string GetName();
     void Update(float dt);
-    void ProcessButtonClick();
-    void ProcessPlayerImpulse();
-    void ProcessParticleForceInput();
+    bool ProcessButtonClick();
+    bool ProcessPlayerImpulse();
+    bool HasClickedOnPlayer(Vector mousePosition);
+    Vector ConvertWindowToWorldPosition(Vector windowPosition);
+    Vector GetCameraOffset();
+    bool ProcessParticleForceInput();
 
   private:
     Vector impulse;

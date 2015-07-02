@@ -10,16 +10,19 @@ void InputSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[RenderingSystem] Update: " << dt);
 
-    ProcessButtonClick();
-    ProcessPlayerImpulse();
-    // ProcessParticleForceInput();
+    if (!ProcessButtonClick())
+    {
+        if (!ProcessPlayerImpulse())
+            ProcessParticleForceInput();
+    }
 }
 
-void InputSystem::ProcessButtonClick()
+bool InputSystem::ProcessButtonClick()
 {
     if (!Engine::GetInstance().CheckInputOccurred(InputType::MousePress))
-        return;
+        return false;
 
+    bool processed = false;
     Vector mousePosition = Engine::GetInstance().GetMousePosition();
     Rectangle rectangle;
     std::shared_ptr<ButtonComponent> buttonComponent;
@@ -35,22 +38,69 @@ void InputSystem::ProcessButtonClick()
 
         if (rectangle.IsInside(mousePosition))
         {
+            LOG_I("[InputType] Clicked on button " << entity->GetId());
             auto callback = buttonComponent->GetCallback();
             callback();
+            processed = true;
         }
     }
+
+    return processed;
 }
 
-void InputSystem::ProcessPlayerImpulse()
+bool InputSystem::ProcessPlayerImpulse()
 {
     if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
-        return;
+        return false;
 
     auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
     auto colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ColliderComponent"));
     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ParticleComponent"));
     auto mousePosition = Engine::GetInstance().GetMousePosition();
 
+    if (Engine::GetInstance().CheckInputOccurred(InputType::MousePress) and
+        HasClickedOnPlayer(mousePosition))
+    {
+        LOG_I("[InputSystem] Impulse begin");
+        impulseBegin = mousePosition;
+        processingImpulse = true;
+        return true;
+    }
+    else if (processingImpulse and
+        Engine::GetInstance().CheckInputOccurred(InputType::MouseRelease))
+    {
+        LOG_I("[InputSystem] Impulse end");
+        impulseEnd = mousePosition;
+
+        Vector resultantForce = particleComponent->GetForce();
+        resultantForce += (impulseEnd - impulseBegin)*100.0;
+        particleComponent->SetForce(resultantForce);
+        processingImpulse = false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool InputSystem::HasClickedOnPlayer(Vector mousePosition)
+{
+    auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+    auto colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ColliderComponent"));
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ParticleComponent"));
+    auto playerPosition = particleComponent->GetPosition();
+    Vector worldClickPosition = ConvertWindowToWorldPosition(mousePosition);
+    return worldClickPosition.CalculateDistance(playerPosition) <= colliderComponent->GetRadius();
+}
+
+Vector InputSystem::ConvertWindowToWorldPosition(Vector windowPosition)
+{
+    return (windowPosition + GetCameraOffset());
+}
+
+Vector InputSystem::GetCameraOffset()
+{
     Vector cameraOffset;
 
     if (Engine::GetInstance().HasEntityWithComponentOfClass("CameraComponent"))
@@ -61,57 +111,25 @@ void InputSystem::ProcessPlayerImpulse()
         cameraOffset = cameraComponent->GetPosition() - screenOffset;
     }
 
-    Vector worldClickPosition = mousePosition + cameraOffset;
-
-    if (Engine::GetInstance().CheckInputOccurred(InputType::MousePress) and
-        worldClickPosition.CalculateDistance(particleComponent->GetPosition()) < colliderComponent->GetRadius())
-    {
-        LOG_W("[InputSystem] Impulse begin");
-        impulseBegin = mousePosition;
-        processingImpulse = true;
-    }
-    else if (processingImpulse and
-        Engine::GetInstance().CheckInputOccurred(InputType::MouseRelease))
-    {
-        LOG_W("[InputSystem] Impulse end");
-        impulseEnd = mousePosition;
-
-        // particleComponent->SetPosition(mousePosition + cameraOffset);
-        Vector force = particleComponent->GetForce();
-        force += (impulseEnd - impulseBegin)*100.0;
-        particleComponent->SetForce(force);
-        processingImpulse = false;
-    }
-    else
-    {
-        return;
-    }
+    return cameraOffset;
 }
 
-void InputSystem::ProcessParticleForceInput()
+bool InputSystem::ProcessParticleForceInput()
 {
     if (!Engine::GetInstance().CheckInputOccurred(InputType::MousePress))
-        return;
+        return false;
 
     Vector mousePosition = Engine::GetInstance().GetMousePosition();
+    Vector worldPosition = ConvertWindowToWorldPosition(mousePosition);
     auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("MoveableComponent");
-    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
     std::shared_ptr<MoveableComponent> moveableComponent;
     std::shared_ptr<ParticleComponent> particleComponent;
-    Vector cameraOffset;
     Vector particlePosition;
     Vector inputForce;
     Vector resultantForce;
     float distance;
 
-    if (cameraEntities.size() > 0)
-    {
-        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
-        Vector screenOffset = Vector(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"))*0.5;
-        cameraOffset = cameraComponent->GetPosition() - screenOffset;
-    }
-
-    mousePosition += cameraOffset;
+    LOG_I("[InputSystem] Applying force to particles");
 
     for (auto entity : entities)
     {
@@ -121,18 +139,14 @@ void InputSystem::ProcessParticleForceInput()
         if (moveableComponent->GetActive())
         {
             particlePosition = particleComponent->GetPosition();
-            distance = particlePosition.CalculateDistance(mousePosition);
-            inputForce = mousePosition - particlePosition;
+            distance = particlePosition.CalculateDistance(worldPosition);
+            inputForce = worldPosition - particlePosition;
             inputForce.Normalize();
             inputForce *= -CFG_GETF("INPUT_FORCE")/(1 + distance); // Summing with 1 to avoid division by zero.
             resultantForce = inputForce + particleComponent->GetForce();
             particleComponent->SetForce(resultantForce);
-
-            LOG_D("[InputSystem] Particle position: " << particlePosition);
-            LOG_D("[InputSystem] Mouse position: " << mousePosition);
-            LOG_D("[InputSystem] Distance: " << distance);
-            LOG_D("[InputSystem] Force: " << inputForce);
-            LOG_D("[InputSystem] Resultant force: " << resultantForce);
         }
     }
+
+    return true;
 }

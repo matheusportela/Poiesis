@@ -25,6 +25,7 @@ void GrowthSystem::Update(float dt)
 
         // Execute growth logic
         ConsumeEnergy(growthComponent);
+        UpdateGrowthPower(growthComponent);
         GrowOrShrink(entity, growthComponent);
         SaturateLevel(growthComponent);
 
@@ -48,7 +49,7 @@ void GrowthSystem::Update(float dt)
 void GrowthSystem::ConsumeEnergy(std::shared_ptr<GrowthComponent> growthComponent)
 {
     Random r;
-    float energy = growthComponent->GetEnergy();
+    int energy = growthComponent->GetEnergy();
 
     if (timer.HasFired() && (r.GenerateFloat() < CFG_GETF("GROWTH_ENERGY_CONSUMING_CHANCE")))
         --energy;
@@ -56,11 +57,34 @@ void GrowthSystem::ConsumeEnergy(std::shared_ptr<GrowthComponent> growthComponen
     growthComponent->SetEnergy(energy);
 }
 
+void GrowthSystem::UpdateGrowthPower(std::shared_ptr<GrowthComponent> growthComponent)
+{
+    int energy = growthComponent->GetEnergy();
+    int growthPower = growthComponent->GetGrowthPower();
+    int growthAmount = 1;
+    int growthSpeed;
+
+    if (energy <= -2)
+        growthSpeed = -2;
+    else if (energy == -1)
+        growthSpeed = -1;
+    else if (energy == 0)
+        growthSpeed = 0;
+    else if (energy == 1)
+        growthSpeed = 1;
+    else if (energy >= 2)
+        growthSpeed = 2;
+
+    growthPower += growthAmount*growthSpeed;
+
+    growthComponent->SetGrowthPower(growthPower);
+}
+
 void GrowthSystem::GrowOrShrink(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    float energy = growthComponent->GetEnergy();
-    
+    int energy = growthComponent->GetEnergy();
+
     if (energy >= CFG_GETI("GROWTH_UPPER_THRESHOLD"))
         Grow(entity, growthComponent);
     else if (energy <= CFG_GETI("GROWTH_LOWER_THRESHOLD"))
@@ -70,8 +94,8 @@ void GrowthSystem::GrowOrShrink(std::shared_ptr<Entity> entity,
 void GrowthSystem::Grow(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    float energy = growthComponent->GetEnergy();
-    float level = growthComponent->GetLevel();
+    int energy = growthComponent->GetEnergy();
+    int level = growthComponent->GetLevel();
 
     energy = 0;
     level += 1;
@@ -85,8 +109,8 @@ void GrowthSystem::Grow(std::shared_ptr<Entity> entity,
 void GrowthSystem::Shrink(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    float energy = growthComponent->GetEnergy();
-    float level = growthComponent->GetLevel();
+    int energy = growthComponent->GetEnergy();
+    int level = growthComponent->GetLevel();
 
     energy = 0;
     level -= 1;

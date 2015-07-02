@@ -59,25 +59,28 @@ void GrowthSystem::ConsumeEnergy(std::shared_ptr<GrowthComponent> growthComponen
 
 void GrowthSystem::UpdateGrowthPower(std::shared_ptr<GrowthComponent> growthComponent)
 {
-    int energy = growthComponent->GetEnergy();
     int growthPower = growthComponent->GetGrowthPower();
-    int growthAmount = 1;
-    int growthSpeed;
-
-    if (energy <= -2)
-        growthSpeed = -2;
-    else if (energy == -1)
-        growthSpeed = -1;
-    else if (energy == 0)
-        growthSpeed = 0;
-    else if (energy == 1)
-        growthSpeed = 1;
-    else if (energy >= 2)
-        growthSpeed = 2;
-
-    growthPower += growthAmount*growthSpeed;
-
+    growthPower += CalculateGrowthDelta(growthComponent);
     growthComponent->SetGrowthPower(growthPower);
+}
+
+int GrowthSystem::CalculateGrowthDelta(std::shared_ptr<GrowthComponent> growthComponent)
+{
+    int energy = growthComponent->GetEnergy();
+    int delta;
+
+    if (energy <= CFG_GETI("GROWTH_ENERGY_LEVEL_FAST_SHRINK"))
+        delta = CFG_GETI("GROWTH_DELTA_FAST_SHRINK");
+    else if (energy <= CFG_GETI("GROWTH_ENERGY_LEVEL_SHRINK"))
+        delta = CFG_GETI("GROWTH_DELTA_SHRINK");
+    else if (energy <= CFG_GETI("GROWTH_ENERGY_LEVEL_STAGNATION"))
+        delta = CFG_GETI("GROWTH_DELTA_STAGNATION");
+    else if (energy <= CFG_GETI("GROWTH_ENERGY_LEVEL_GROW"))
+        delta = CFG_GETI("GROWTH_DELTA_GROW");
+    else if (energy <= CFG_GETI("GROWTH_ENERGY_LEVEL_FAST_GROW"))
+        delta = CFG_GETI("GROWTH_DELTA_FAST_GROW");
+
+    return delta;
 }
 
 void GrowthSystem::GrowOrShrink(std::shared_ptr<Entity> entity,

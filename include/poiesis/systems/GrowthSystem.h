@@ -16,6 +16,7 @@ class GrowthSystem : public System
     void Update(float dt);
     void ConsumeEnergy(std::shared_ptr<GrowthComponent> growthComponent);
     void UpdateGrowthPower(std::shared_ptr<GrowthComponent> growthComponent);
+    int CalculateGrowthDelta(std::shared_ptr<GrowthComponent> growthComponent);
     void GrowOrShrink(std::shared_ptr<Entity> entity,
         std::shared_ptr<GrowthComponent> growthComponent);
     void Grow(std::shared_ptr<Entity> entity,

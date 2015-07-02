@@ -94,6 +94,7 @@ class Engine
     std::shared_ptr<Entity> GetEntityWithComponentOfClass(
         std::string componentClass);
     unsigned int GetNumberOfEntities();
+    bool HasEntityWithComponentOfClass(std::string componentClass);
 
     void AddComponent(std::shared_ptr<Component> component,
         std::shared_ptr<Entity> entity);

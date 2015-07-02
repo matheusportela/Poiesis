@@ -123,6 +123,11 @@ unsigned int Engine::GetNumberOfEntities()
     return entityManager->GetNumberOfEntities();
 }
 
+bool Engine::HasEntityWithComponentOfClass(std::string componentClass)
+{
+    return entityManager->HasEntityWithComponentOfClass(componentClass);
+}
+
 void Engine::AddComponent(std::shared_ptr<Component> component,
     std::shared_ptr<Entity> entity)
 {

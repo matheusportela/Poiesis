@@ -42,6 +42,9 @@ class EntityManager
     std::shared_ptr<Entity> GetEntityWithComponentOfClass(
         std::string componentClass);
 
+    // Checks whether at least one entity has a component of the given class.
+    bool HasEntityWithComponentOfClass(std::string componentClass);
+
     // Gets a single component of a given class from an entity.
     std::shared_ptr<Component> GetSingleComponentOfClass(
         std::shared_ptr<Entity> entity, std::string componentClass);

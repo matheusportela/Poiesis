@@ -122,6 +122,11 @@ std::shared_ptr<Entity> EntityManager::GetEntityWithComponentOfClass(
     return entitiesArray[0];
 }
 
+bool EntityManager::HasEntityWithComponentOfClass(std::string componentClass)
+{
+    return (GetAllEntitiesWithComponentOfClass(componentClass).size() > 0);
+}
+
 std::shared_ptr<Component> EntityManager::GetSingleComponentOfClass(
     std::shared_ptr<Entity> entity, std::string componentClass)
 {

@@ -32,7 +32,7 @@ void GrowthSystem::Update(float dt)
         if (KillSmallEntity(entity, growthComponent))
             continue;
 
-        CalculateCollisionRadius(growthComponent, colliderComponent);
+        UpdateCollisionRadius(growthComponent, colliderComponent);
 
         // Save entity's data
         for (auto component : Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent"))
@@ -144,7 +144,7 @@ bool GrowthSystem::KillSmallEntity(std::shared_ptr<Entity> entity,
     return false;
 }
 
-void GrowthSystem::CalculateCollisionRadius(
+void GrowthSystem::UpdateCollisionRadius(
     std::shared_ptr<GrowthComponent> growthComponent,
     std::shared_ptr<ColliderComponent> colliderComponent)
 {

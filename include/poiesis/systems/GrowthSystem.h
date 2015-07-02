@@ -25,7 +25,7 @@ class GrowthSystem : public System
     void SaturateLevel(std::shared_ptr<GrowthComponent> growthComponent); // This should be moved to Math
     bool KillSmallEntity(std::shared_ptr<Entity> entity,
         std::shared_ptr<GrowthComponent> growthComponent);
-    void CalculateCollisionRadius(
+    void UpdateCollisionRadius(
         std::shared_ptr<GrowthComponent> growthComponent,
         std::shared_ptr<ColliderComponent> colliderComponent);
 

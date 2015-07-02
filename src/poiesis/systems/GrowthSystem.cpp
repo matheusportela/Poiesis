@@ -7,9 +7,6 @@ std::string GrowthSystem::GetName()
 
 void GrowthSystem::Update(float dt)
 {
-    // Avoid warnings for not using dt.
-    LOG_D("[GrowthSystem] Update: " << dt);
-
     std::shared_ptr<GrowthComponent> growthComponent;
     std::shared_ptr<SpriteComponent> spriteComponent;
     std::shared_ptr<ColliderComponent> colliderComponent;
@@ -38,19 +35,8 @@ void GrowthSystem::Update(float dt)
         for (auto component : Engine::GetInstance().GetEntityManager()->GetComponentsOfClass(entity, "SpriteComponent"))
         {
             spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
-            spriteComponent->SetScale(growthComponent->GetLevel());
-
-            float growthPower = growthComponent->GetGrowthPower();
-            float duration;
-
-            if (growthPower > CFG_GETI("GROWTH_UPPER_THRESHOLD")/2)
-                duration = 0.01;
-            else if (growthPower < CFG_GETI("GROWTH_LOWER_THRESHOLD")/2)
-                duration = 0.3;
-            else
-                duration = 0.1;
-
-            spriteComponent->SetFrameDuration(duration);
+            UpdateSpriteSize(spriteComponent, growthComponent);
+            UpdateSpriteFrameDuration(spriteComponent, growthComponent);
         }
     }
 
@@ -89,7 +75,7 @@ int GrowthSystem::CalculateGrowthDelta(std::shared_ptr<GrowthComponent> growthCo
         delta = CFG_GETI("GROWTH_DELTA_STAGNATION");
     else if (energy <= CFG_GETI("GROWTH_ENERGY_LEVEL_GROW"))
         delta = CFG_GETI("GROWTH_DELTA_GROW");
-    else if (energy <= CFG_GETI("GROWTH_ENERGY_LEVEL_FAST_GROW"))
+    else
         delta = CFG_GETI("GROWTH_DELTA_FAST_GROW");
 
     return delta;
@@ -109,36 +95,28 @@ void GrowthSystem::GrowOrShrink(std::shared_ptr<Entity> entity,
 void GrowthSystem::Grow(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    int energy = growthComponent->GetEnergy();
-    int growthPower = growthComponent->GetGrowthPower();
     int level = growthComponent->GetLevel();
 
-    energy = 0;
-    growthPower = 0;
     level += 1;
     LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has grown to "
         << "level " << level);
 
-    growthComponent->SetEnergy(energy);
-    growthComponent->SetGrowthPower(growthPower);
+    growthComponent->SetEnergy(0);
+    growthComponent->SetGrowthPower(0);
     growthComponent->SetLevel(level);
 }
 
 void GrowthSystem::Shrink(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    int energy = growthComponent->GetEnergy();
-    int growthPower = growthComponent->GetGrowthPower();
     int level = growthComponent->GetLevel();
 
-    energy = 0;
-    growthPower = 0;
     level -= 1;
     LOG_I("[GrowthSystem] Entity \"" << entity->GetId() << "\" has shrunk "
         << "to level " << level);
 
-    growthComponent->SetEnergy(energy);
-    growthComponent->SetGrowthPower(growthPower);
+    growthComponent->SetEnergy(0);
+    growthComponent->SetGrowthPower(0);
     growthComponent->SetLevel(level);
 }
 
@@ -171,4 +149,26 @@ void GrowthSystem::UpdateCollisionRadius(
 {
     float radius = growthComponent->GetLevel()*colliderComponent->GetInitRadius();
     colliderComponent->SetRadius(radius);
+}
+
+void GrowthSystem::UpdateSpriteSize(std::shared_ptr<SpriteComponent> spriteComponent,
+    std::shared_ptr<GrowthComponent> growthComponent)
+{
+    spriteComponent->SetScale(growthComponent->GetLevel());
+}
+
+void GrowthSystem::UpdateSpriteFrameDuration(std::shared_ptr<SpriteComponent> spriteComponent,
+    std::shared_ptr<GrowthComponent> growthComponent)
+{
+    float growthPower = growthComponent->GetGrowthPower();
+    float duration;
+
+    if (growthPower > CFG_GETI("GROWTH_UPPER_THRESHOLD")/3)
+        duration = 0.01;
+    else if (growthPower < CFG_GETI("GROWTH_LOWER_THRESHOLD")/3)
+        duration = 0.5;
+    else
+        duration = 0.1;
+
+    spriteComponent->SetFrameDuration(duration);
 }

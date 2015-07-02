@@ -29,6 +29,11 @@ class GrowthSystem : public System
     void UpdateCollisionRadius(
         std::shared_ptr<GrowthComponent> growthComponent,
         std::shared_ptr<ColliderComponent> colliderComponent);
+    void UpdateSpriteSize(std::shared_ptr<SpriteComponent> spriteComponent,
+        std::shared_ptr<GrowthComponent> growthComponent);
+    void UpdateSpriteFrameDuration(
+        std::shared_ptr<SpriteComponent> spriteComponent,
+        std::shared_ptr<GrowthComponent> growthComponent);
 
   private:
     Timer timer;

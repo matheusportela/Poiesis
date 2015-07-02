@@ -91,6 +91,8 @@ class Engine
     void ClearEntities();
     std::vector<std::shared_ptr<Entity>> GetAllEntitiesWithComponentOfClass(
         std::string componentClass);
+    std::shared_ptr<Entity> GetEntityWithComponentOfClass(
+        std::string componentClass);
     unsigned int GetNumberOfEntities();
 
     void AddComponent(std::shared_ptr<Component> component,

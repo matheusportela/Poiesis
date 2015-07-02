@@ -107,9 +107,15 @@ void Engine::ClearEntities()
 }
 
 std::vector<std::shared_ptr<Entity>> Engine::GetAllEntitiesWithComponentOfClass(
-        std::string componentClass)
+    std::string componentClass)
 {
     return entityManager->GetAllEntitiesWithComponentOfClass(componentClass);
+}
+
+std::shared_ptr<Entity> Engine::GetEntityWithComponentOfClass(
+    std::string componentClass)
+{
+    return entityManager->GetEntityWithComponentOfClass(componentClass);
 }
 
 unsigned int Engine::GetNumberOfEntities()
@@ -124,7 +130,7 @@ void Engine::AddComponent(std::shared_ptr<Component> component,
 }
 
 std::vector<std::shared_ptr<Component>> Engine::GetComponentsOfClass(
-        std::shared_ptr<Entity> entity, std::string componentClass)
+    std::shared_ptr<Entity> entity, std::string componentClass)
 {
     return entityManager->GetComponentsOfClass(entity, componentClass);
 }
@@ -136,7 +142,7 @@ std::shared_ptr<Component> Engine::GetSingleComponentOfClass(
 }
 
 std::vector<std::shared_ptr<Component>> Engine::GetAllComponentsOfClass(
-        std::string componentClass)
+    std::string componentClass)
 {
     return entityManager->GetAllComponentsOfClass(componentClass);
 }

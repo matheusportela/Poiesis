@@ -33,8 +33,13 @@ class EntityManager
     std::vector<std::shared_ptr<Component>> GetComponentsOfClass(
         std::shared_ptr<Entity> entity, std::string componentClass);
 
-    // Gets all entities that has an specific component class attached to it.
+    // Gets all entities that has a specific component class attached to it.
     std::vector<std::shared_ptr<Entity>> GetAllEntitiesWithComponentOfClass(
+        std::string componentClass);
+
+    // Gets a single component that has a specific component class attached to
+    // it.
+    std::shared_ptr<Entity> GetEntityWithComponentOfClass(
         std::string componentClass);
 
     // Gets a single component of a given class from an entity.

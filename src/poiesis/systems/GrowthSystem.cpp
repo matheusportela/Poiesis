@@ -39,6 +39,18 @@ void GrowthSystem::Update(float dt)
         {
             spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
             spriteComponent->SetScale(growthComponent->GetLevel());
+
+            float growthPower = growthComponent->GetGrowthPower();
+            float duration;
+
+            if (growthPower > CFG_GETI("GROWTH_UPPER_THRESHOLD")/2)
+                duration = 0.01;
+            else if (growthPower < CFG_GETI("GROWTH_LOWER_THRESHOLD")/2)
+                duration = 0.3;
+            else
+                duration = 0.1;
+
+            spriteComponent->SetFrameDuration(duration);
         }
     }
 

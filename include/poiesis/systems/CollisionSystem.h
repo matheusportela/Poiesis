@@ -15,6 +15,7 @@
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/SlowingComponent.h"
+#include "poiesis/components/VitaminComponent.h"
 
 class CollisionSystem : public System
 {
@@ -34,6 +35,8 @@ class CollisionSystem : public System
         std::shared_ptr<Entity> eatableEntity);
     void SlowEntity(std::shared_ptr<Entity> slowingEntity,
         std::shared_ptr<Entity> movingEntity);
+    void VitaminateEntity(std::shared_ptr<Entity> vitamineEntity,
+        std::shared_ptr<Entity> growingEntity);
 
   private:
     std::vector<std::shared_ptr<Entity>> collidableEntities;

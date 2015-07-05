@@ -35,6 +35,13 @@ void Level1::Start()
         EntityFactory::CreateFastArea(Vector(x, y));
     }
 
+    for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_VITAMIN_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(-2000, 2000);
+        y = r.GenerateFloat(-2000, 2000);
+        EntityFactory::CreateVitaminArea(Vector(x, y));
+    }
+
     // Cells and food must be created after areas to be rendered above them.
     EntityFactory::CreatePlayer();
 

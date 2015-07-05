@@ -20,6 +20,7 @@
 #include "poiesis/components/PlayerComponent.h"
 #include "poiesis/components/SlowingComponent.h"
 #include "poiesis/components/SpriteComponent.h"
+#include "poiesis/components/VitaminComponent.h"
 
 class EntityFactory
 {
@@ -44,13 +45,16 @@ class EntityFactory
     // Creates camera: a position for rendering images.
     static std::shared_ptr<Entity> CreateCamera();
 
-    // Creates slow area: a region with reduces entities speed.
+    // Creates slow area: a region which reduces entities speed.
     static std::shared_ptr<Entity> CreateSlowArea(Vector position);
 
-    // Creates slow area: a region with increases entities speed.
+    // Creates fast area: a region which increases entities speed.
     static std::shared_ptr<Entity> CreateFastArea(Vector position);
 
-    // Creates button: a region with an sprite and responds to clicks.
+    // Creates vitamin area: a region which increases entities growth.
+    static std::shared_ptr<Entity> CreateVitaminArea(Vector position);
+
+    // Creates button: a region which an sprite and responds to clicks.
     static std::shared_ptr<Entity> CreateButton(std::string image,
         Rectangle rectangle, std::function<void()> callback);
 

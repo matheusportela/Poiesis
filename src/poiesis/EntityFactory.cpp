@@ -151,6 +151,22 @@ std::shared_ptr<Entity> EntityFactory::CreateFastArea(Vector position)
     return area;
 }
 
+std::shared_ptr<Entity> EntityFactory::CreateVitaminArea(Vector position)
+{
+    std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("VITAMIN_AREA_IMAGE")), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(0, position), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("VITAMIN_AREA_COLLIDER_RADIUS")),
+        area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<VitaminComponent>(CFG_GETF("VITAMIN_AREA_GROWTH_FACTOR")),
+        area);
+    return area;
+}
+
 std::shared_ptr<Entity> EntityFactory::CreateButton(std::string image,
     Rectangle rectangle, std::function<void()> callback)
 {

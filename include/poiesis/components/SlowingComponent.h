@@ -1,4 +1,4 @@
-// Stores whether the entity can be eaten.
+// Stores data for areas that modify cell speed.
 
 #ifndef SLOWING_COMPONENT_H_
 #define SLOWING_COMPONENT_H_

@@ -115,6 +115,12 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     else if (Engine::GetInstance().HasComponent(entity2, "SlowingComponent") && 
         Engine::GetInstance().HasComponent(entity1, "ParticleComponent"))
         SlowEntity(entity2, entity1);
+    else if (Engine::GetInstance().HasComponent(entity1, "VitaminComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "GrowthComponent"))
+        VitaminateEntity(entity1, entity2);
+    else if (Engine::GetInstance().HasComponent(entity2, "VitaminComponent") && 
+        Engine::GetInstance().HasComponent(entity1, "GrowthComponent"))
+        VitaminateEntity(entity2, entity1);
     else
         CollideBodies(entity1, entity2);
 }
@@ -226,4 +232,18 @@ void CollisionSystem::SlowEntity(std::shared_ptr<Entity> slowingEntity,
     velocity *= magnitude;
 
     particleComponent->SetVelocity(velocity);
+}
+
+void CollisionSystem::VitaminateEntity(std::shared_ptr<Entity> vitaminEntity,
+    std::shared_ptr<Entity> growingEntity)
+{
+    auto vitaminComponent = std::static_pointer_cast<VitaminComponent>(Engine::GetInstance().GetSingleComponentOfClass(vitaminEntity, "VitaminComponent"));
+    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(growingEntity, "GrowthComponent"));
+
+    auto growthFactor = vitaminComponent->GetGrowthFactor();
+    auto growthPower = growthComponent->GetGrowthPower();
+
+    growthPower += growthFactor;
+
+    growthComponent->SetGrowthPower(growthPower);
 }

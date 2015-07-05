@@ -20,11 +20,13 @@ class RenderingSystem : public System
     void Update(float dt);
     Vector CalculateScreenOffset();
     Vector CalculateCameraOffset();
-    void RenderParticle(std::shared_ptr<Entity> entity, Vector cameraOffset,
-        Vector cameraPosition);
+    float GetCameraHeight();
+    void RenderParticle(std::shared_ptr<Entity> entity, Vector cameraPosition,
+        float cameraHeight);
     void RenderGUI(std::shared_ptr<Entity> entity);
     void RenderSprite(std::shared_ptr<Entity> entity,
-        std::shared_ptr<SpriteComponent> spriteComponent, Vector position);
+        std::shared_ptr<SpriteComponent> spriteComponent, Vector position,
+        float height = 1);
 };
 
 #endif // RENDERING_SYSTEM_H_

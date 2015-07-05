@@ -18,6 +18,7 @@ void RenderingSystem::Update(float dt)
     Vector position;
     Vector cameraOffset = CalculateCameraOffset();
     Vector cameraPosition = cameraOffset + CalculateScreenOffset();
+    float cameraHeight = GetCameraHeight();
 
     for (auto entity : entities)
     {
@@ -55,7 +56,7 @@ void RenderingSystem::Update(float dt)
         }
         else if (Engine::GetInstance().HasComponent(entity, "ParticleComponent"))
         {
-            RenderParticle(entity, cameraOffset, cameraPosition);
+            RenderParticle(entity, cameraPosition, cameraHeight);
         }
         else
         {
@@ -87,7 +88,21 @@ Vector RenderingSystem::CalculateCameraOffset()
     return cameraOffset;
 }
 
-void RenderingSystem::RenderParticle(std::shared_ptr<Entity> entity, Vector cameraOffset, Vector cameraPosition)
+float RenderingSystem::GetCameraHeight()
+{
+    float cameraHeight = 1;
+    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
+
+    if (cameraEntities.size() > 0)
+    {
+        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
+        cameraHeight = cameraComponent->GetHeight();
+    }
+
+    return cameraHeight;
+}
+
+void RenderingSystem::RenderParticle(std::shared_ptr<Entity> entity, Vector cameraPosition, float cameraHeight)
 {
     Vector position;
     std::shared_ptr<SpriteComponent> spriteComponent;
@@ -101,8 +116,8 @@ void RenderingSystem::RenderParticle(std::shared_ptr<Entity> entity, Vector came
     for (auto component : spriteComponents)
     {
         spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
-        position = spriteComponent->GetPosition() + particleComponent->GetPosition() - cameraOffset;
-        RenderSprite(entity, spriteComponent, position);
+        position = CalculateScreenOffset() - (cameraPosition - (spriteComponent->GetPosition() + particleComponent->GetPosition()))*(1/cameraHeight);
+        RenderSprite(entity, spriteComponent, position, cameraHeight);
     }
 }
 
@@ -121,7 +136,7 @@ void RenderingSystem::RenderGUI(std::shared_ptr<Entity> entity)
     }
 }
 
-void RenderingSystem::RenderSprite(std::shared_ptr<Entity> entity, std::shared_ptr<SpriteComponent> spriteComponent, Vector position)
+void RenderingSystem::RenderSprite(std::shared_ptr<Entity> entity, std::shared_ptr<SpriteComponent> spriteComponent, Vector position, float height)
 {
     std::string filename = spriteComponent->GetFilename();
 
@@ -132,8 +147,8 @@ void RenderingSystem::RenderSprite(std::shared_ptr<Entity> entity, std::shared_p
     }
 
     if (spriteComponent->GetCentered())
-        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale(), spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
     else
-        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale(), spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
     LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
 }

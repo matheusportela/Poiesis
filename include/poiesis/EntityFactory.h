@@ -42,6 +42,8 @@ class EntityFactory
     // Creates food: a sprite that can move with user input.
     static std::shared_ptr<Entity> CreateFood(Vector position);
 
+    static std::shared_ptr<Entity> CreateVirus(Vector position);
+
     // Creates camera: a position for rendering images.
     static std::shared_ptr<Entity> CreateCamera();
 

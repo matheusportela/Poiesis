@@ -14,10 +14,13 @@ void CombatPowerSystem::Update(float dt)
 
     for (auto entity : combatEntities)
     {
-        auto combatComponent = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "CombatComponent"));
-        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "GrowthComponent"));
+        if (Engine::GetInstance().HasComponent(entity, "GrowthComponent"))
+        {
+            auto combatComponent = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "CombatComponent"));
+            auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "GrowthComponent"));
 
-        int power = growthComponent->GetLevel();
-        combatComponent->SetPower(power);
+            int power = growthComponent->GetLevel();
+            combatComponent->SetPower(power);
+        }
     }
 }

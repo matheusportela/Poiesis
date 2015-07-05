@@ -177,13 +177,21 @@ void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
     {
         LOG_D("[CollisionSystem] Entity " << entity1->GetId()
             << " wins the combat");
-        EatEntity(entity1, entity2);
+
+        if (Engine::GetInstance().HasComponent(entity1, "GrowthComponent"))
+            EatEntity(entity1, entity2);
+        else
+            DestroyEntity(entity2);
     }
     else if (power2 > power1)
     {
         LOG_D("[CollisionSystem] Entity " << entity2->GetId()
             << " wins the combat");
-        EatEntity(entity2, entity1);
+
+        if (Engine::GetInstance().HasComponent(entity2, "GrowthComponent"))
+            EatEntity(entity2, entity1);
+        else
+            DestroyEntity(entity1);
     }
     else
     {
@@ -201,15 +209,18 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
     auto energy = growthComponent->GetEnergy();
     ++energy;
     growthComponent->SetEnergy(energy);
+    DestroyEntity(eatableEntity);
+}
 
-    // Delete food entity.
-    Engine::GetInstance().DeleteEntity(eatableEntity);
+void CollisionSystem::DestroyEntity(std::shared_ptr<Entity> entity)
+{
+    Engine::GetInstance().DeleteEntity(entity);
 
     for (unsigned int i = 0; i < collidableEntities.size(); ++i)
     {
         auto entity = collidableEntities[i];
 
-        if (entity->GetId() == eatableEntity->GetId())
+        if (entity->GetId() == entity->GetId())
         {
             collidableEntities.erase(collidableEntities.begin() + i);
             --i;
@@ -217,7 +228,7 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
     }
 
     // Delete also from the entities to be collided.
-    deletedEntities.push_back(eatableEntity->GetId());
+    deletedEntities.push_back(entity->GetId());
 }
 
 void CollisionSystem::SlowEntity(std::shared_ptr<Entity> slowingEntity,

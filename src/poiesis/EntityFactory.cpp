@@ -113,6 +113,26 @@ std::shared_ptr<Entity> EntityFactory::CreateFood(Vector position)
     return food;
 }
 
+std::shared_ptr<Entity> EntityFactory::CreateVirus(Vector position)
+{
+    std::shared_ptr<Entity> virus = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("VIRUS_IMAGE")), virus);
+    // Engine::GetInstance().AddComponent(
+    //     std::make_shared<MoveableComponent>(), virus);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(CFG_GETF("VIRUS_INVERSE_MASS"),
+            position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")),
+        virus);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("VIRUS_COLLIDER_RADIUS")),
+        virus);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<CombatComponent>(CFG_GETI("VIRUS_COMBAT_POWER")),
+        virus);
+    return virus;
+}
+
 std::shared_ptr<Entity> EntityFactory::CreateCamera()
 {
     std::shared_ptr<Entity> camera = Engine::GetInstance().CreateEntity();

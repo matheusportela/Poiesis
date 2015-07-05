@@ -67,6 +67,13 @@ void Level1::Start()
         EntityFactory::CreateFood(Vector(x, y));
     }
 
+    for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_VIRUSES"); ++i)
+    {
+        x = r.GenerateFloat(-2000, 2000);
+        y = r.GenerateFloat(-2000, 2000);
+        EntityFactory::CreateVirus(Vector(x, y));
+    }
+
     // Creating systems.
     CreateAllSystems();
 }

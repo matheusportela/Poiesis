@@ -54,6 +54,9 @@ class EntityFactory
     // Creates vitamin area: a region which increases entities growth.
     static std::shared_ptr<Entity> CreateVitaminArea(Vector position);
 
+    // Creates acid area: a region which decreases entities growth.
+    static std::shared_ptr<Entity> CreateAcidArea(Vector position);
+
     // Creates button: a region which an sprite and responds to clicks.
     static std::shared_ptr<Entity> CreateButton(std::string image,
         Rectangle rectangle, std::function<void()> callback);

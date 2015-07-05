@@ -167,6 +167,22 @@ std::shared_ptr<Entity> EntityFactory::CreateVitaminArea(Vector position)
     return area;
 }
 
+std::shared_ptr<Entity> EntityFactory::CreateAcidArea(Vector position)
+{
+    std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("ACID_AREA_IMAGE")), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(0, position), area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("ACID_AREA_COLLIDER_RADIUS")),
+        area);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<VitaminComponent>(CFG_GETF("ACID_AREA_GROWTH_FACTOR")),
+        area);
+    return area;
+}
+
 std::shared_ptr<Entity> EntityFactory::CreateButton(std::string image,
     Rectangle rectangle, std::function<void()> callback)
 {

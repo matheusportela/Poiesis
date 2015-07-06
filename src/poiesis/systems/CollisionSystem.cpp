@@ -100,7 +100,13 @@ bool CollisionSystem::IsColliding(std::shared_ptr<Entity> entity1,
 void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
-    if (Engine::GetInstance().HasComponent(entity1, "GrowthComponent") && 
+    if (Engine::GetInstance().HasComponent(entity1, "CellComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "CellParticleComponent"))
+        IncorporateEntity(entity1, entity2);
+    else if (Engine::GetInstance().HasComponent(entity2, "CellComponent") && 
+        Engine::GetInstance().HasComponent(entity1, "CellParticleComponent"))
+        IncorporateEntity(entity2, entity1);
+    else if (Engine::GetInstance().HasComponent(entity1, "GrowthComponent") && 
         Engine::GetInstance().HasComponent(entity2, "EatableComponent"))
         EatEntity(entity1, entity2);
     else if (Engine::GetInstance().HasComponent(entity2, "GrowthComponent") && 
@@ -198,6 +204,18 @@ void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
         LOG_D("[CollisionSystem] Tied combat");
         CollideBodies(entity1, entity2);
     }
+}
+
+void CollisionSystem::IncorporateEntity(std::shared_ptr<Entity> eaterEntity,
+    std::shared_ptr<Entity> eatableEntity)
+{
+    LOG_D("[CollisionSystem] Entity " << eaterEntity->GetId()
+        << " is incorporating entity " << eatableEntity->GetId());
+
+    auto spriteComponent = Engine::GetInstance().GetSingleComponentOfClass(
+        eatableEntity, "SpriteComponent");
+    Engine::GetInstance().AddComponent(spriteComponent, eaterEntity);
+    DestroyEntity(eatableEntity);
 }
 
 void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,

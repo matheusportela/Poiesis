@@ -214,7 +214,15 @@ void CollisionSystem::IncorporateEntity(std::shared_ptr<Entity> eaterEntity,
 
     auto spriteComponent = Engine::GetInstance().GetSingleComponentOfClass(
         eatableEntity, "SpriteComponent");
+    auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(
+        Engine::GetInstance().GetSingleComponentOfClass(eaterEntity, "ComplexityComponent"));
+
     Engine::GetInstance().AddComponent(spriteComponent, eaterEntity);
+
+    auto complexity = complexityComponent->GetComplexity();
+    complexity += 1;
+    complexityComponent->SetComplexity(complexity);
+
     DestroyEntity(eatableEntity);
 }
 

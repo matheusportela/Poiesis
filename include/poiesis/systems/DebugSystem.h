@@ -9,6 +9,7 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/components/CombatComponent.h"
+#include "poiesis/components/ComplexityComponent.h"
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 

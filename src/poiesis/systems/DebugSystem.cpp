@@ -58,14 +58,15 @@ void DebugSystem::GenerateEngineMessage()
 
 void DebugSystem::GeneratePlayerMessage()
 {
-    auto followEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraFollowComponent");
-
-    if (followEntities.size() == 0)
+    if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
         return;
 
-    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(followEntities[0], "ParticleComponent"));
-    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(followEntities[0], "GrowthComponent"));
-    auto combatComponent = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetSingleComponentOfClass(followEntities[0], "CombatComponent"));
+    auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ParticleComponent"));
+    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "GrowthComponent"));
+    auto combatComponent = std::static_pointer_cast<CombatComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "CombatComponent"));
+    auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ComplexityComponent"));
     messages.push_back("Player");
     messages.push_back("Position: " + particleComponent->GetPosition().ToString());
     messages.push_back("Velocity: " + std::to_string(particleComponent->GetVelocity().GetMagnitude()) + " " + std::to_string(particleComponent->GetVelocity().GetDirection()*180.0/M_PI));
@@ -73,4 +74,5 @@ void DebugSystem::GeneratePlayerMessage()
     messages.push_back("Energy: " + std::to_string(growthComponent->GetEnergy()));
     messages.push_back("Growth power: " + std::to_string(growthComponent->GetGrowthPower()));
     messages.push_back("Combat power: " + std::to_string(combatComponent->GetPower()));
+    messages.push_back("Complexity: " + std::to_string(complexityComponent->GetComplexity()));
 }

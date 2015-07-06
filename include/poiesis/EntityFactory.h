@@ -11,6 +11,7 @@
 #include "poiesis/components/ButtonComponent.h"
 #include "poiesis/components/CameraComponent.h"
 #include "poiesis/components/CameraFollowComponent.h"
+#include "poiesis/components/CellParticleComponent.h"
 #include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/CombatComponent.h"
 #include "poiesis/components/EatableComponent.h"
@@ -42,6 +43,8 @@ class EntityFactory
 
     // Creates food: a sprite that can move with user input.
     static std::shared_ptr<Entity> CreateFood(Vector position);
+
+    static std::shared_ptr<Entity> CreateCellParticle(Vector position);
 
     static std::shared_ptr<Entity> CreateVirus(Vector position);
 

@@ -10,6 +10,7 @@
 enum SpawningType
 {
     CellSpawning,
+    CellParticleSpawning,
     FoodSpawning
 };
 
@@ -22,6 +23,7 @@ class SpawningSystem : public System
     void Update(float dt);
     void Spawn();
     void SpawnCell();
+    void SpawnCellParticle();
     void SpawnFood();
 
   private:

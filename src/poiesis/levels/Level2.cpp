@@ -67,6 +67,10 @@ void Level2::CreateEssentialSystems()
 
 void Level2::CreateAccessorySystems()
 {
+    Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
+        CellParticleSpawning,
+        CFG_GETF("CELL_PARTICLE_SPAWNING_CHANCE"),
+        CFG_GETF("CELL_PARTICLE_SPAWNING_PERIOD")));
     Engine::GetInstance().AddSystem(std::make_shared<CombatPowerSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
@@ -75,7 +79,7 @@ void Level2::CreateAccessorySystems()
 
 void Level2::DeleteAccessorySystems()
 {
-    Engine::GetInstance().DeleteSystem("CellSpawningSystem");
+    Engine::GetInstance().DeleteSystem("SpawningSystem");
     Engine::GetInstance().DeleteSystem("CombatPowerSystem");
     Engine::GetInstance().DeleteSystem("CollisionSystem");
     Engine::GetInstance().DeleteSystem("ParticleSystem");

@@ -27,6 +27,9 @@ void SpawningSystem::Spawn()
             case CellSpawning:
                 SpawnCell();
                 break;
+            case CellParticleSpawning:
+                SpawnCellParticle();
+                break;
             case FoodSpawning:
                 SpawnFood();
                 break;
@@ -40,6 +43,14 @@ void SpawningSystem::SpawnCell()
     float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT"));
     EntityFactory::CreateRandomCell(Vector(x, y));
     LOG_I("[SpawningSystem] Spawning new cell at " << x << ", " << y);
+}
+
+void SpawningSystem::SpawnCellParticle()
+{
+    float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));
+    float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT"));
+    EntityFactory::CreateCellParticle(Vector(x, y));
+    LOG_I("[SpawningSystem] Spawning new cell particle at " << x << ", " << y);
 }
 
 void SpawningSystem::SpawnFood()

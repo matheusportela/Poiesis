@@ -11,7 +11,7 @@ void Level1::Start()
 void Level1::CreateAllEntities()
 {
     EntityFactory::CreateBackground();
-    EntityFactory::CreateCamera();
+    EntityFactory::CreateCamera(CFG_GETF("LEVEL_1_CAMERA_HEIGHT"));
 
     CreateButtons();
     CreateAreas();
@@ -27,11 +27,17 @@ void Level1::CreateAllEntities()
 void Level1::CreateButtons()
 {
     EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
-        Rectangle(1700, 10, 150, 50),
+        Rectangle(CFG_GETF("LEVEL_1_MENU_BUTTON_X"),
+            CFG_GETF("LEVEL_1_MENU_BUTTON_Y"),
+            CFG_GETF("LEVEL_1_MENU_BUTTON_WIDTH"),
+            CFG_GETF("LEVEL_1_MENU_BUTTON_HEIGHT")),
         std::bind(&Level1::MenuButtonCallback, this));
 
     EntityFactory::CreateButton(CFG_GETP("PAUSE_BUTTON_IMAGE"),
-        Rectangle(1700, 110, 150, 50),
+        Rectangle(CFG_GETF("LEVEL_1_PAUSE_BUTTON_X"),
+            CFG_GETF("LEVEL_1_PAUSE_BUTTON_Y"),
+            CFG_GETF("LEVEL_1_PAUSE_BUTTON_WIDTH"),
+            CFG_GETF("LEVEL_1_PAUSE_BUTTON_HEIGHT")),
         std::bind(&Level1::PauseButtonCallback, this));
 }
 
@@ -43,29 +49,29 @@ void Level1::CreateAreas()
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_SLOW_AREAS"); ++i)
     {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
+        x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
         EntityFactory::CreateSlowArea(Vector(x, y));
     }
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_FAST_AREAS"); ++i)
     {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
+        x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
         EntityFactory::CreateFastArea(Vector(x, y));
     }
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_VITAMIN_AREAS"); ++i)
     {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
+        x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
         EntityFactory::CreateVitaminArea(Vector(x, y));
     }
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_ACID_AREAS"); ++i)
     {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
+        x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
         EntityFactory::CreateAcidArea(Vector(x, y));
     }
 }
@@ -79,8 +85,8 @@ void Level1::CreateCells()
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_CELLS"); ++i)
     {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
+        x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
         type = r.GenerateInt(1, 6);
         EntityFactory::CreateCell(type, Vector(x, y));
     }
@@ -94,8 +100,8 @@ void Level1::CreateFood()
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_FOOD"); ++i)
     {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
+        x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
         EntityFactory::CreateFood(Vector(x, y));
     }
 }
@@ -108,8 +114,8 @@ void Level1::CreateViruses()
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_VIRUSES"); ++i)
     {
-        x = r.GenerateFloat(-2000, 2000);
-        y = r.GenerateFloat(-2000, 2000);
+        x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
         EntityFactory::CreateVirus(Vector(x, y));
     }
 }
@@ -155,16 +161,15 @@ void Level1::Update()
 {
     LOG_D("[Level1] Updating");
 
-    auto playerEntities = Engine::GetInstance().GetEntityManager()->GetAllEntitiesWithComponentOfClass("PlayerComponent");
-
-    if (playerEntities.size() == 0)
+    if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
     {
         Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
         SetFinished();
     }
     else
     {
-        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntities[0], "GrowthComponent"));
+        auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "GrowthComponent"));
 
         if (growthComponent->GetLevel() == CFG_GETI("LEVEL_1_GOAL_SIZE"))
         {
@@ -204,7 +209,11 @@ void Level1::PauseButtonCallback()
         paused = true;
         DeleteAccessorySystems();
         pauseMenuExitButton = EntityFactory::CreateButton(
-            CFG_GETP("EXIT_BUTTON_IMAGE"), Rectangle(800, 500, 150, 50),
+            CFG_GETP("EXIT_BUTTON_IMAGE"),
+            Rectangle(CFG_GETF("LEVEL_1_PAUSE_MENU_EXIT_BUTTON_X"),
+                CFG_GETF("LEVEL_1_PAUSE_MENU_EXIT_BUTTON_Y"),
+                CFG_GETF("LEVEL_1_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
+                CFG_GETF("LEVEL_1_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
             std::bind(&Level1::ExitButtonCallback, this));
     }
 }

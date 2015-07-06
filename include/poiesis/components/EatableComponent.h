@@ -12,8 +12,6 @@ class EatableComponent : public Component
   public:
     EatableComponent();
     std::string GetComponentClass();
-
-  private:
 };
 
 #endif // EATABLE_COMPONENT_H_

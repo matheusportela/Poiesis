@@ -133,11 +133,11 @@ std::shared_ptr<Entity> EntityFactory::CreateVirus(Vector position)
     return virus;
 }
 
-std::shared_ptr<Entity> EntityFactory::CreateCamera()
+std::shared_ptr<Entity> EntityFactory::CreateCamera(float height)
 {
     std::shared_ptr<Entity> camera = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<CameraComponent>(), camera);
+        std::make_shared<CameraComponent>(Vector(0, 0), height), camera);
     return camera;
 }
 

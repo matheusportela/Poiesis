@@ -12,11 +12,6 @@ void Level1::Start()
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
 
-    // Set camera height
-    auto camera = Engine::GetInstance().GetEntityWithComponentOfClass("CameraComponent");
-    auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(camera, "CameraComponent"));
-    cameraComponent->SetHeight(1);
-
     EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
         Rectangle(1700, 10, 150, 50),
         std::bind(&Level1::MenuButtonCallback, this));

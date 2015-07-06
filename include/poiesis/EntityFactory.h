@@ -45,7 +45,7 @@ class EntityFactory
     static std::shared_ptr<Entity> CreateVirus(Vector position);
 
     // Creates camera: a position for rendering images.
-    static std::shared_ptr<Entity> CreateCamera();
+    static std::shared_ptr<Entity> CreateCamera(float height = 1);
 
     // Creates slow area: a region which reduces entities speed.
     static std::shared_ptr<Entity> CreateSlowArea(Vector position);

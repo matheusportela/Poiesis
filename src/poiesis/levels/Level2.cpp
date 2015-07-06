@@ -19,6 +19,7 @@ void Level2::CreateAllEntities()
     EntityFactory::CreatePlayer();
 
     CreateCells();
+    CreateCellParticles();
 }
 
 void Level2::CreateButtons()
@@ -49,6 +50,20 @@ void Level2::CreateCells()
         x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
         EntityFactory::CreateRandomCell(Vector(x, y));
+    }
+}
+
+void Level2::CreateCellParticles()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_2_INITIAL_NUM_CELL_PARTICLES"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
+        EntityFactory::CreateCellParticle(Vector(x, y));
     }
 }
 

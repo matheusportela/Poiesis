@@ -26,6 +26,7 @@ class Level2 : public Level
     void CreateAllEntities();
     void CreateButtons();
     void CreateCells();
+    void CreateCellParticles();
     void CreateAllSystems();
     void CreateEssentialSystems();
     void CreateAccessorySystems();

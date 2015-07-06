@@ -67,7 +67,6 @@ void Level2::CreateEssentialSystems()
 
 void Level2::CreateAccessorySystems()
 {
-    Engine::GetInstance().AddSystem(std::make_shared<CellSpawningSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CombatPowerSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());

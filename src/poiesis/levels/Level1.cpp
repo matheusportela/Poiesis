@@ -133,8 +133,14 @@ void Level1::CreateEssentialSystems()
 
 void Level1::CreateAccessorySystems()
 {
-    Engine::GetInstance().AddSystem(std::make_shared<CellSpawningSystem>());
-    Engine::GetInstance().AddSystem(std::make_shared<FoodSpawningSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
+            CellSpawning,
+            CFG_GETF("CELL_SPAWNING_CHANCE"),
+            CFG_GETF("CELL_SPAWNING_PERIOD")));
+    Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
+            FoodSpawning,
+            CFG_GETF("FOOD_SPAWNING_CHANCE"),
+            CFG_GETF("FOOD_SPAWNING_PERIOD")));
     Engine::GetInstance().AddSystem(std::make_shared<GrowthSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CombatPowerSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
@@ -145,8 +151,7 @@ void Level1::CreateAccessorySystems()
 
 void Level1::DeleteAccessorySystems()
 {
-    Engine::GetInstance().DeleteSystem("CellSpawningSystem");
-    Engine::GetInstance().DeleteSystem("FoodSpawningSystem");
+    Engine::GetInstance().DeleteSystem("SpawningSystem");
     Engine::GetInstance().DeleteSystem("GrowthSystem");
     Engine::GetInstance().DeleteSystem("CombatPowerSystem");
     Engine::GetInstance().DeleteSystem("AISystem");

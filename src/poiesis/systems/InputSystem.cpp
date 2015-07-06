@@ -96,22 +96,39 @@ bool InputSystem::HasClickedOnPlayer(Vector mousePosition)
 
 Vector InputSystem::ConvertWindowToWorldPosition(Vector windowPosition)
 {
-    return (windowPosition + GetCameraOffset());
+    Vector screenOffset = Vector(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"))*0.5;
+    Vector cameraPosition = GetCameraPosition();
+    float cameraHeight = GetCameraHeight();
+    Vector worldPosition = cameraPosition + (windowPosition - screenOffset)*cameraHeight;
+    return worldPosition;
 }
 
-Vector InputSystem::GetCameraOffset()
+Vector InputSystem::GetCameraPosition()
 {
-    Vector cameraOffset;
+    Vector cameraPosition;
 
     if (Engine::GetInstance().HasEntityWithComponentOfClass("CameraComponent"))
     {
         auto cameraEntity = Engine::GetInstance().GetEntityWithComponentOfClass("CameraComponent");
         auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
-        Vector screenOffset = Vector(CFG_GETI("WINDOW_WIDTH"), CFG_GETI("WINDOW_HEIGHT"))*0.5;
-        cameraOffset = cameraComponent->GetPosition() - screenOffset;
+        cameraPosition = cameraComponent->GetPosition();
     }
 
-    return cameraOffset;
+    return cameraPosition;
+}
+
+float InputSystem::GetCameraHeight()
+{
+    float cameraHeight = 1;
+    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
+
+    if (cameraEntities.size() > 0)
+    {
+        auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntities[0], "CameraComponent"));
+        cameraHeight = cameraComponent->GetHeight();
+    }
+
+    return cameraHeight;
 }
 
 bool InputSystem::ProcessParticleForceInput()

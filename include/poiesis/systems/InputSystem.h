@@ -20,7 +20,8 @@ class InputSystem : public System
     bool ProcessPlayerImpulse();
     bool HasClickedOnPlayer(Vector mousePosition);
     Vector ConvertWindowToWorldPosition(Vector windowPosition);
-    Vector GetCameraOffset();
+    Vector GetCameraPosition();
+    float GetCameraHeight();
     bool ProcessParticleForceInput();
 
   private:

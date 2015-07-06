@@ -100,10 +100,10 @@ bool CollisionSystem::IsColliding(std::shared_ptr<Entity> entity1,
 void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
-    if (Engine::GetInstance().HasComponent(entity1, "CellComponent") && 
+    if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
         Engine::GetInstance().HasComponent(entity2, "CellParticleComponent"))
         IncorporateEntity(entity1, entity2);
-    else if (Engine::GetInstance().HasComponent(entity2, "CellComponent") && 
+    else if (Engine::GetInstance().HasComponent(entity2, "ComplexityComponent") && 
         Engine::GetInstance().HasComponent(entity1, "CellParticleComponent"))
         IncorporateEntity(entity2, entity1);
     else if (Engine::GetInstance().HasComponent(entity1, "GrowthComponent") && 

@@ -15,6 +15,7 @@
 #include "poiesis/components/CellParticleComponent.h"
 #include "poiesis/components/ColliderComponent.h"
 #include "poiesis/components/CombatComponent.h"
+#include "poiesis/components/ComplexityComponent.h"
 #include "poiesis/components/EatableComponent.h"
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/MoveableComponent.h"

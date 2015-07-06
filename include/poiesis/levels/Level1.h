@@ -28,6 +28,12 @@ class Level1 : public Level
 {
   public:
     void Start();
+    void CreateAllEntities();
+    void CreateButtons();
+    void CreateAreas();
+    void CreateCells();
+    void CreateFood();
+    void CreateViruses();
     void CreateAllSystems();
     void CreateEssentialSystems();
     void CreateAccessorySystems();

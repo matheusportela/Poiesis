@@ -4,14 +4,28 @@ void Level1::Start()
 {
     LOG_I("[Level1] Starting");
     
-    Random r;
-    float x;
-    float y;
-    int type;
+    CreateAllEntities();
+    CreateAllSystems();
+}
 
+void Level1::CreateAllEntities()
+{
     EntityFactory::CreateBackground();
     EntityFactory::CreateCamera();
 
+    CreateButtons();
+    CreateAreas();
+
+    // Cells and food must be created after areas to be rendered above them.
+    EntityFactory::CreatePlayer();
+
+    CreateCells();
+    CreateFood();
+    CreateViruses();
+}
+
+void Level1::CreateButtons()
+{
     EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
         Rectangle(1700, 10, 150, 50),
         std::bind(&Level1::MenuButtonCallback, this));
@@ -19,8 +33,14 @@ void Level1::Start()
     EntityFactory::CreateButton(CFG_GETP("PAUSE_BUTTON_IMAGE"),
         Rectangle(1700, 110, 150, 50),
         std::bind(&Level1::PauseButtonCallback, this));
+}
 
-    // Creating areas.
+void Level1::CreateAreas()
+{
+    Random r;
+    float x;
+    float y;
+
     for (int i = 0; i < CFG_GETI("LEVEL_1_NUM_SLOW_AREAS"); ++i)
     {
         x = r.GenerateFloat(-2000, 2000);
@@ -48,9 +68,14 @@ void Level1::Start()
         y = r.GenerateFloat(-2000, 2000);
         EntityFactory::CreateAcidArea(Vector(x, y));
     }
+}
 
-    // Cells and food must be created after areas to be rendered above them.
-    EntityFactory::CreatePlayer();
+void Level1::CreateCells()
+{
+    Random r;
+    float x;
+    float y;
+    int type;
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_CELLS"); ++i)
     {
@@ -59,6 +84,13 @@ void Level1::Start()
         type = r.GenerateInt(1, 6);
         EntityFactory::CreateCell(type, Vector(x, y));
     }
+}
+
+void Level1::CreateFood()
+{
+    Random r;
+    float x;
+    float y;
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_FOOD"); ++i)
     {
@@ -66,6 +98,13 @@ void Level1::Start()
         y = r.GenerateFloat(-2000, 2000);
         EntityFactory::CreateFood(Vector(x, y));
     }
+}
+
+void Level1::CreateViruses()
+{
+    Random r;
+    float x;
+    float y;
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_VIRUSES"); ++i)
     {
@@ -73,9 +112,6 @@ void Level1::Start()
         y = r.GenerateFloat(-2000, 2000);
         EntityFactory::CreateVirus(Vector(x, y));
     }
-
-    // Creating systems.
-    CreateAllSystems();
 }
 
 void Level1::CreateAllSystems()

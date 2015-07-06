@@ -18,6 +18,8 @@ std::shared_ptr<Entity> EntityFactory::CreateCellWithoutSprite(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), cell);
     Engine::GetInstance().AddComponent(
+        std::make_shared<CellComponent>(), cell);
+    Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(CFG_GETF("CELL_INVERSE_MASS"),
             position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")),
             cell);
@@ -126,6 +128,8 @@ std::shared_ptr<Entity> EntityFactory::CreateCellParticle(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>(CFG_GETP("CELL_PARTICLE_IMAGE")),
         cellParticle);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<MoveableComponent>(), cellParticle);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(
             CFG_GETF("CELL_PARTICLE_INVERSE_MASS"),

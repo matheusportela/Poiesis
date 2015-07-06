@@ -35,6 +35,7 @@ class EntityFactory
         int numFrames, float frameDuration, Vector position);
     static std::shared_ptr<Entity> CreateCell(int type,
         Vector position);
+    static std::shared_ptr<Entity> CreateRandomCell(Vector position);
 
     // Creates player: a cell that is followed by the camera.
     static std::shared_ptr<Entity> CreatePlayer();

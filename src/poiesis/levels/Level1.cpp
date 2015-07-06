@@ -81,14 +81,12 @@ void Level1::CreateCells()
     Random r;
     float x;
     float y;
-    int type;
 
     for (int i = 0; i < CFG_GETI("LEVEL_1_INITIAL_NUM_CELLS"); ++i)
     {
         x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
-        type = r.GenerateInt(1, 6);
-        EntityFactory::CreateCell(type, Vector(x, y));
+        EntityFactory::CreateRandomCell(Vector(x, y));
     }
 }
 

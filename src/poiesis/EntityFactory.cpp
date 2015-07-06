@@ -84,6 +84,13 @@ std::shared_ptr<Entity> EntityFactory::CreateCell(int type,
     }
 }
 
+std::shared_ptr<Entity> EntityFactory::CreateRandomCell(Vector position)
+{
+    Random r;
+    int type = r.GenerateInt(1, 6);
+    return CreateCell(type, position);
+}
+
 std::shared_ptr<Entity> EntityFactory::CreatePlayer()
 {
     std::shared_ptr<Entity> player = CreateCell(1, Vector(0, 0));

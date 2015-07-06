@@ -1,7 +1,7 @@
 #include "poiesis/components/ComplexityComponent.h"
 
-ComplexityComponent::ComplexityComponent() :
-    complexity(0)
+ComplexityComponent::ComplexityComponent(int maxComplexity) :
+    complexity(0), maxComplexity(maxComplexity)
 {
 }
 
@@ -19,4 +19,14 @@ int ComplexityComponent::GetComplexity()
 void ComplexityComponent::SetComplexity(int complexity)
 {
     this->complexity = complexity;
+}
+
+int ComplexityComponent::GetMaxComplexity()
+{
+    return maxComplexity;
+}
+
+void ComplexityComponent::SetMaxComplexity(int maxComplexity)
+{
+    this->maxComplexity = maxComplexity;
 }

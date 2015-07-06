@@ -10,15 +10,21 @@
 class ComplexityComponent : public Component
 {
   public:
-    ComplexityComponent();
+    ComplexityComponent(int maxComplexity);
     std::string GetComponentClass();
 
     int GetComplexity();
     void SetComplexity(int complexity);
 
+    int GetMaxComplexity();
+    void SetMaxComplexity(int maxComplexity);
+
   private:
-    // Holds current entity complexity;
+    // Holds current entity complexity.
     int complexity;
+
+    // Holds the entity's maximum complexity.
+    int maxComplexity;
 };
 
 #endif // COMPLEXITY_COMPONENT_H_

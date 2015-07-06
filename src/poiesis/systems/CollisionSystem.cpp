@@ -212,18 +212,28 @@ void CollisionSystem::IncorporateEntity(std::shared_ptr<Entity> eaterEntity,
     LOG_D("[CollisionSystem] Entity " << eaterEntity->GetId()
         << " is incorporating entity " << eatableEntity->GetId());
 
-    auto spriteComponent = Engine::GetInstance().GetSingleComponentOfClass(
-        eatableEntity, "SpriteComponent");
+    auto spriteComponent = std::static_pointer_cast<SpriteComponent>(
+        Engine::GetInstance().GetSingleComponentOfClass(
+            eatableEntity, "SpriteComponent"));
     auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(
         Engine::GetInstance().GetSingleComponentOfClass(eaterEntity, "ComplexityComponent"));
 
-    Engine::GetInstance().AddComponent(spriteComponent, eaterEntity);
-
+    auto maxComplexity = complexityComponent->GetMaxComplexity();
     auto complexity = complexityComponent->GetComplexity();
-    complexity += 1;
-    complexityComponent->SetComplexity(complexity);
 
-    DestroyEntity(eatableEntity);
+    if (complexity < maxComplexity)
+    {
+        complexity += 1;
+
+        Vector position;
+        position.SetPolar(50, 2*M_PI*complexity/maxComplexity);
+        
+        complexityComponent->SetComplexity(complexity);
+        spriteComponent->SetPosition(position);
+        Engine::GetInstance().AddComponent(spriteComponent, eaterEntity);
+
+        DestroyEntity(eatableEntity);
+    }
 }
 
 void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,

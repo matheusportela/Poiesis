@@ -9,9 +9,13 @@ SpriteComponent::SpriteComponent(std::string filename, Vector position,
 
     if (frameDuration > 0)
         elapsedTime = r.GenerateFloat(0, frameDuration);
+    else
+        elapsedTime = 0;
 
     if (numFrames > 1)
         currentFrame = r.GenerateInt(0, numFrames);
+    else
+        currentFrame = 0;
 }
 
 std::string SpriteComponent::GetComponentClass()

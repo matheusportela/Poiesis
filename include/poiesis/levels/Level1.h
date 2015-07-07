@@ -13,6 +13,7 @@
 #include "poiesis/levels/LoseLevel.h"
 #include "poiesis/levels/WinLevel.h"
 #include "poiesis/systems/AISystem.h"
+#include "poiesis/systems/AnimationSystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CollisionSystem.h"
 #include "poiesis/systems/CombatPowerSystem.h"

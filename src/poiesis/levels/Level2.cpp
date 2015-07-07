@@ -90,6 +90,7 @@ void Level2::CreateAccessorySystems()
     Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<AnimationSystem>());
 }
 
 void Level2::DeleteAccessorySystems()
@@ -99,6 +100,7 @@ void Level2::DeleteAccessorySystems()
     Engine::GetInstance().DeleteSystem("CollisionSystem");
     Engine::GetInstance().DeleteSystem("ParticleSystem");
     Engine::GetInstance().DeleteSystem("CameraSystem");
+    Engine::GetInstance().DeleteSystem("AnimationSystem");
 }
 
 void Level2::Update()

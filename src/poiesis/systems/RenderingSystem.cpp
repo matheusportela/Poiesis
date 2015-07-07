@@ -11,40 +11,9 @@ void RenderingSystem::Update(float dt)
     LOG_D("[RenderingSystem] Update: " << dt);
 
     auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("SpriteComponent");
-    auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
-    std::shared_ptr<SpriteComponent> spriteComponent;
-    std::shared_ptr<ParticleComponent> particleComponent;
-    std::shared_ptr<ButtonComponent> buttonComponent;
-    Vector position;
     Vector cameraOffset = CalculateCameraOffset();
     Vector cameraPosition = cameraOffset + CalculateScreenOffset();
     float cameraHeight = GetCameraHeight();
-
-    for (auto entity : entities)
-    {
-        auto spriteComponent = std::static_pointer_cast<SpriteComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "SpriteComponent"));
-        auto elapsedTime = spriteComponent->GetElapsedTime();
-        auto frameDuration = spriteComponent->GetFrameDuration();
-        auto currentFrame = spriteComponent->GetCurrentFrame();
-        auto repeat = spriteComponent->GetRepeat();
-        auto numFrames = spriteComponent->GetNumFrames();
-
-        elapsedTime += dt;
-
-        if (elapsedTime >= frameDuration)
-        {
-            elapsedTime = 0;
-            ++currentFrame;
-
-            if (repeat)
-                currentFrame = currentFrame >= numFrames ? 0 : currentFrame;
-            else
-                currentFrame = currentFrame >= numFrames ? numFrames-1 : currentFrame;
-        }
-
-        spriteComponent->SetElapsedTime(elapsedTime);
-        spriteComponent->SetCurrentFrame(currentFrame);
-    }
 
     Engine::GetInstance().GetGraphicsAdapter()->InitRendering();
 

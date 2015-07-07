@@ -86,6 +86,7 @@ void RenderingSystem::RenderParticle(std::shared_ptr<Entity> entity, Vector came
     {
         spriteComponent = std::static_pointer_cast<SpriteComponent>(component);
         Vector spritePosition = spriteComponent->GetPosition();
+        spritePosition.Rotate(particleComponent->GetAngle());
         Vector particlePosition = particleComponent->GetPosition();
         position = CalculateScreenOffset() - (cameraPosition - (spritePosition + particlePosition))*(1/cameraHeight);
         RenderSprite(entity, spriteComponent, position, cameraHeight);

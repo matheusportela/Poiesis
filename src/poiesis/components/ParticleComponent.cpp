@@ -1,9 +1,11 @@
 #include "poiesis/components/ParticleComponent.h"
 
 ParticleComponent::ParticleComponent(float inverseMass, Vector position,
-    Vector velocity, Vector acceleration, float damping) :
+    Vector velocity, Vector acceleration, float damping, float angle,
+    float angularVelocity) :
     inverseMass(inverseMass), position(position), velocity(velocity),
-    acceleration(acceleration), damping(damping)
+    acceleration(acceleration), damping(damping), angle(angle),
+    angularVelocity(angularVelocity)
 {
 }
 
@@ -68,4 +70,24 @@ Vector ParticleComponent::GetForce()
 void ParticleComponent::SetForce(Vector force)
 {
     this->force = force;
+}
+
+float ParticleComponent::GetAngle()
+{
+    return angle;
+}
+
+void ParticleComponent::SetAngle(float angle)
+{
+    this->angle = angle;
+}
+
+float ParticleComponent::GetAngularVelocity()
+{
+    return angularVelocity;
+}
+
+void ParticleComponent::SetAngularVelocity(float angularVelocity)
+{
+    this->angularVelocity = angularVelocity;
 }

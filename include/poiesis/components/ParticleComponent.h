@@ -12,7 +12,7 @@ class ParticleComponent : public Component
   public:
     ParticleComponent(float inverseMass = 0, Vector position = Vector(0, 0),
         Vector velocity = Vector(0, 0), Vector acceleration = Vector(0, 0),
-        float damping = 1);
+        float damping = 1, float angle = 0, float angularVelocity = 0);
     std::string GetComponentClass();
 
     float GetInverseMass();
@@ -31,6 +31,12 @@ class ParticleComponent : public Component
 
     Vector GetForce();
     void SetForce(Vector force);
+
+    float GetAngle();
+    void SetAngle(float angle);
+
+    float GetAngularVelocity();
+    void SetAngularVelocity(float angularVelocity);
 
   private:
     // Holds the inverse mass of a particle, which provides inertial
@@ -53,6 +59,12 @@ class ParticleComponent : public Component
 
     // Holds the force applied to the particle in the current instant.
     Vector force;
+
+    // Holds the angle of a particle in the world.
+    float angle;
+
+    // Holds the angular velocity of a particle in the world.
+    float angularVelocity;
 };
 
 #endif // PARTICLE_COMPONENT_H_

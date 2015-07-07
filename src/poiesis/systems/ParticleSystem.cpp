@@ -30,6 +30,8 @@ void ParticleSystem::UpdateParticleProperties(
     Vector position = particleComponent->GetPosition();
     Vector velocity = particleComponent->GetVelocity();
     Vector acceleration = particleComponent->GetAcceleration();
+    float angle = particleComponent->GetAngle();
+    float angularVelocity = particleComponent->GetAngularVelocity();
     Vector randomVector = GenerateRandomForce();
 
     force += randomVector;
@@ -37,10 +39,16 @@ void ParticleSystem::UpdateParticleProperties(
     velocity = velocity*damping + acceleration*dt;
     acceleration = force*inverseMass;
 
+    Vector angleVector(1, 0);
+    angleVector.Rotate(angle + angularVelocity*dt);
+    angle = angleVector.GetDirection();
+
     particleComponent->SetPosition(position);
     particleComponent->SetVelocity(velocity);
     particleComponent->SetAcceleration(acceleration);
     particleComponent->SetForce(force);
+    particleComponent->SetAngle(angle);
+    particleComponent->SetAngularVelocity(angularVelocity);
 }
 
 Vector ParticleSystem::GenerateRandomForce()

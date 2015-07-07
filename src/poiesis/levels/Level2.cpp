@@ -25,17 +25,17 @@ void Level2::CreateAllEntities()
 void Level2::CreateButtons()
 {
     EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
-        Rectangle(CFG_GETF("LEVEL_2_MENU_BUTTON_X"),
-            CFG_GETF("LEVEL_2_MENU_BUTTON_Y"),
-            CFG_GETF("LEVEL_2_MENU_BUTTON_WIDTH"),
-            CFG_GETF("LEVEL_2_MENU_BUTTON_HEIGHT")),
+        Rectangle(CFG_GETF("LEVEL_COMMON_MENU_BUTTON_X"),
+            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_Y"),
+            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_WIDTH"),
+            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_HEIGHT")),
         std::bind(&Level2::MenuButtonCallback, this));
 
     EntityFactory::CreateButton(CFG_GETP("PAUSE_BUTTON_IMAGE"),
-        Rectangle(CFG_GETF("LEVEL_2_PAUSE_BUTTON_X"),
-            CFG_GETF("LEVEL_2_PAUSE_BUTTON_Y"),
-            CFG_GETF("LEVEL_2_PAUSE_BUTTON_WIDTH"),
-            CFG_GETF("LEVEL_2_PAUSE_BUTTON_HEIGHT")),
+        Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_X"),
+            CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_Y"),
+            CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_WIDTH"),
+            CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_HEIGHT")),
         std::bind(&Level2::PauseButtonCallback, this));
 }
 
@@ -156,10 +156,10 @@ void Level2::PauseButtonCallback()
         DeleteAccessorySystems();
         pauseMenuExitButton = EntityFactory::CreateButton(
             CFG_GETP("EXIT_BUTTON_IMAGE"),
-            Rectangle(CFG_GETF("LEVEL_2_PAUSE_MENU_EXIT_BUTTON_X"),
-                CFG_GETF("LEVEL_2_PAUSE_MENU_EXIT_BUTTON_Y"),
-                CFG_GETF("LEVEL_2_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
-                CFG_GETF("LEVEL_2_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
+            Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_X"),
+                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_Y"),
+                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
+                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
             std::bind(&Level2::ExitButtonCallback, this));
     }
 }

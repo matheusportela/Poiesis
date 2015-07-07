@@ -1,4 +1,4 @@
-// First level consists of a cell that must complexify in order to survive.
+// Second level consists of a cell that must complexify in order to survive.
 
 #ifndef LEVEL_2_H_
 #define LEVEL_2_H_

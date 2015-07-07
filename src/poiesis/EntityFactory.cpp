@@ -4,8 +4,7 @@ std::shared_ptr<Entity> EntityFactory::CreateBackground()
 {
     std::shared_ptr<Entity> background = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("BACKGROUND_IMAGE"),
-            Vector(0, 0), true),
+        std::make_shared<SpriteComponent>(CFG_GETP("BACKGROUND_IMAGE")),
         background);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(), background);
@@ -49,7 +48,7 @@ std::shared_ptr<Entity> EntityFactory::CreateAnimatedCell(std::string image,
 {
     std::shared_ptr<Entity> cell = CreateCellWithoutSprite(position);
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(image, Vector(0, 0), true, 1,
+        std::make_shared<SpriteComponent>(image, Vector(0, 0), 0, 0, true, 1,
             numFrames, frameDuration, true), cell);
     return cell;
 }
@@ -152,8 +151,8 @@ std::shared_ptr<Entity> EntityFactory::CreateVirus(Vector position)
     std::shared_ptr<Entity> virus = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>(CFG_GETP("VIRUS_IMAGE")), virus);
-    // Engine::GetInstance().AddComponent(
-    //     std::make_shared<MoveableComponent>(), virus);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<MoveableComponent>(), virus);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(CFG_GETF("VIRUS_INVERSE_MASS"),
             position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")),

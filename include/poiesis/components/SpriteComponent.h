@@ -11,8 +11,9 @@ class SpriteComponent : public Component
 {
   public:
     SpriteComponent(std::string filename, Vector position = Vector(0, 0),
-        bool centered = true, float scale = 1, int numFrames = 1,
-        float frameDuration = 0, bool repeat = true);
+        float rotation = 0, float rotationSpeed = 0, bool centered = true,
+        float scale = 1, int numFrames = 1, float frameDuration = 0,
+        bool repeat = true);
     std::string GetComponentClass();
 
     std::string GetFilename();
@@ -20,6 +21,12 @@ class SpriteComponent : public Component
 
     Vector GetPosition();
     void SetPosition(Vector position);
+
+    float GetRotation();
+    void SetRotation(float rotation);
+
+    float GetRotationSpeed();
+    void SetRotationSpeed(float rotationSpeed);
 
     bool GetCentered();
     void SetCentered(bool centered);
@@ -48,6 +55,12 @@ class SpriteComponent : public Component
 
     // Holds the position relative to the entity to render the sprite.
     Vector position;
+
+    // Holds the rotation, in radians, the image must be displayed.
+    float rotation;
+
+    // Holds the speed, in radians/second, with which the image must be rotated.
+    float rotationSpeed;
 
     // Holds whether the image should be displayed centered.
     bool centered;

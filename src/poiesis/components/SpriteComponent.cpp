@@ -1,8 +1,10 @@
 #include "poiesis/components/SpriteComponent.h"
 
 SpriteComponent::SpriteComponent(std::string filename, Vector position,
-    bool centered, float scale, int numFrames, float frameDuration, bool repeat) :
-    filename(filename), position(position), centered(centered), scale(scale),
+    float rotation, float rotationSpeed, bool centered, float scale,
+    int numFrames, float frameDuration, bool repeat) :
+    filename(filename), position(position), rotation(rotation),
+    rotationSpeed(rotationSpeed), centered(centered), scale(scale),
     numFrames(numFrames), frameDuration(frameDuration), repeat(repeat)
 {
     Random r;
@@ -41,6 +43,26 @@ Vector SpriteComponent::GetPosition()
 void SpriteComponent::SetPosition(Vector position)
 {
     this->position = position;
+}
+
+float SpriteComponent::GetRotation()
+{
+    return rotation;
+}
+
+void SpriteComponent::SetRotation(float rotation)
+{
+    this->rotation = rotation;
+}
+
+float SpriteComponent::GetRotationSpeed()
+{
+    return rotationSpeed;
+}
+
+void SpriteComponent::SetRotationSpeed(float rotationSpeed)
+{
+    this->rotationSpeed = rotationSpeed;
 }
 
 bool SpriteComponent::GetCentered()

@@ -10,6 +10,8 @@ void InputSystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[RenderingSystem] Update: " << dt);
 
+    particleForceTimer.Update(dt);
+
     if (!ProcessButtonClick())
     {
         if (!ProcessPlayerImpulse())
@@ -135,6 +137,11 @@ bool InputSystem::ProcessParticleForceInput()
 {
     if (!Engine::GetInstance().CheckInputOccurred(InputType::MousePress))
         return false;
+        
+    if (!particleForceTimer.HasFired())
+        return false;
+
+    particleForceTimer.SetTime(CFG_GETF("INPUT_PERIOD"));
 
     Vector mousePosition = Engine::GetInstance().GetMousePosition();
     Vector worldPosition = ConvertWindowToWorldPosition(mousePosition);

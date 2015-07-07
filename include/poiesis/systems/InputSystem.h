@@ -29,6 +29,7 @@ class InputSystem : public System
     Vector impulseBegin;
     Vector impulseEnd;
     bool processingImpulse;
+    Timer particleForceTimer;
 };
 
 #endif // INPUT_SYSTEM_H_

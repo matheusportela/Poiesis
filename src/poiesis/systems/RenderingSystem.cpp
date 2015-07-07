@@ -116,8 +116,8 @@ void RenderingSystem::RenderSprite(std::shared_ptr<Entity> entity, std::shared_p
     }
 
     if (spriteComponent->GetCentered())
-        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetRotation(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
     else
-        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetRotation(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
     LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
 }

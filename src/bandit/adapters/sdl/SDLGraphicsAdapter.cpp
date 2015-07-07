@@ -187,7 +187,7 @@ void SDLGraphicsAdapter::InitRendering()
 }
 
 void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y,
-    float scale, int currentFrame, int numFrames)
+    float rotation, float scale, int currentFrame, int numFrames)
 {
     if (!IsLoaded(file))
     {
@@ -218,11 +218,15 @@ void SDLGraphicsAdapter::RenderImage(std::string file, int x, int y,
     // fill the window.
     // Fourth argument deals with displaying the image in the proper position.
     // NULL makes it show at the current window position.
-    SDL_RenderCopy(renderer, texture, &clipRect, &dstRect);
+    // Fifth argument deals with rotating the sprite an amount of degrees.
+    // Since the entire project uses international units, the given rotation is
+    // in radians and must be converted.
+    SDL_RenderCopyEx(renderer, texture, &clipRect, &dstRect, rotation*180.0/M_PI, NULL,
+        SDL_FLIP_NONE);
 }
 
 void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
-    float scale, int currentFrame, int numFrames)
+    float rotation, float scale, int currentFrame, int numFrames)
 {
     if (!IsLoaded(file))
     {
@@ -234,7 +238,7 @@ void SDLGraphicsAdapter::RenderCenteredImage(std::string file, int x, int y,
     TextureSettings settings = texturesSettings[file];
 
     RenderImage(file, x - scale*settings.width/(2*numFrames), y - scale*settings.height/2,
-        scale, currentFrame, numFrames);
+        rotation, scale, currentFrame, numFrames);
 }
 
 void SDLGraphicsAdapter::Write(std::string text, std::string fontFile, int x, int y)

@@ -21,6 +21,13 @@ void AnimationSystem::Update(float dt)
             auto repeat = spriteComponent->GetRepeat();
             auto numFrames = spriteComponent->GetNumFrames();
 
+            auto rotation = spriteComponent->GetRotation();
+            auto rotationSpeed = spriteComponent->GetRotationSpeed();
+
+            Vector rotationVector(1, 0);
+            rotationVector.Rotate(rotation + rotationSpeed*dt);
+            rotation = rotationVector.GetDirection();
+
             elapsedTime += dt;
 
             if (elapsedTime >= frameDuration)
@@ -36,6 +43,7 @@ void AnimationSystem::Update(float dt)
 
             spriteComponent->SetElapsedTime(elapsedTime);
             spriteComponent->SetCurrentFrame(currentFrame);
+            spriteComponent->SetRotation(rotation);
         }
     }
 }

@@ -106,6 +106,23 @@ void Level2::DeleteAccessorySystems()
 void Level2::Update()
 {
     LOG_D("[Level2] Updating");
+
+    if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
+    {
+        Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
+        SetFinished();
+    }
+    else
+    {
+        auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+        auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "ComplexityComponent"));
+
+        if (complexityComponent->GetComplexity() == CFG_GETI("LEVEL_2_GOAL_COMPLEXITY"))
+        {
+            Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
+            SetFinished();
+        }
+    }
 }
 
 void Level2::Finish()

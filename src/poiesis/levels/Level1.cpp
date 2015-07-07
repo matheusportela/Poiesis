@@ -178,7 +178,7 @@ void Level1::Update()
 
         if (growthComponent->GetLevel() == CFG_GETI("LEVEL_1_GOAL_SIZE"))
         {
-            Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
+            Engine::GetInstance().SetNextLevel(std::make_shared<Level2>());
             SetFinished();
         }
     }

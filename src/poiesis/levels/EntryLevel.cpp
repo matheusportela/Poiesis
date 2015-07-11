@@ -3,6 +3,8 @@
 void EntryLevel::Start()
 {
     LOG_I("[EntryLevel] Starting");
+
+    Engine::GetInstance().PlayMusic(CFG_GETP("BACKGROUND_MUSIC"));
     
     EntityFactory::CreateButton(CFG_GETP("START_BUTTON_IMAGE"),
         Rectangle(800, 500, 150, 50),

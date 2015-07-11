@@ -82,6 +82,11 @@ class Engine
     // Shutdown engine adapters and managers.
     void Shutdown();
 
+    void PlayMusic(std::string file, int repetitions = 0);
+    void StopMusic(std::string file);
+    void PlaySoundEffect(std::string file, int repetitions = 0);
+    void StopSoundEffect(std::string file);
+
     void CreateWindow(std::string title, int height, int width);
     void SetCurrentLevel(std::shared_ptr<Level> level);
     void SetNextLevel(std::shared_ptr<Level> level);

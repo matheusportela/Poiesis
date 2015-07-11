@@ -62,6 +62,46 @@ void Engine::Shutdown()
     systemAdapter->Shutdown();
 }
 
+void Engine::PlayMusic(std::string file, int repetitions)
+{
+    if (musicAdapter == nullptr)
+    {
+        LOG_E("[Engine] Music adapter must be initialized before playing a "
+            << "music.");
+        exit(1);
+    }
+
+    if (!musicAdapter->IsLoaded(file))
+        musicAdapter->Load(file);
+
+    musicAdapter->Play(file, repetitions);
+}
+
+void Engine::StopMusic(std::string file)
+{
+    musicAdapter->Stop(file);
+}
+
+void Engine::PlaySoundEffect(std::string file, int repetitions)
+{
+    if (soundEffectAdapter == nullptr)
+    {
+        LOG_E("[Engine] Sound effect adapter must be initialized before playing "
+            << "a sound effect.");
+        exit(1);
+    }
+
+    if (!soundEffectAdapter->IsLoaded(file))
+        soundEffectAdapter->Load(file);
+
+    soundEffectAdapter->Play(file, repetitions);
+}
+
+void Engine::StopSoundEffect(std::string file)
+{
+    soundEffectAdapter->Stop(file);
+}
+
 void Engine::CreateWindow(std::string title, int height, int width)
 {
     if (graphicsAdapter == nullptr)

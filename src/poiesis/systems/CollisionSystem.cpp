@@ -302,6 +302,8 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
     ++energy;
     growthComponent->SetEnergy(energy);
     DestroyEntity(eatableEntity);
+
+    Engine::GetInstance().PlaySoundEffect(CFG_GETP("EAT_SOUND_EFFECT"));
 }
 
 void CollisionSystem::DestroyEntity(std::shared_ptr<Entity> entity)

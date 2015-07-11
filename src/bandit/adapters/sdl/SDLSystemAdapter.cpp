@@ -45,7 +45,7 @@ void SDLSystemAdapter::InitializeImageSystem()
 void SDLSystemAdapter::InitializeAudioSystem()
 {
     int chunkSize = 1024;
-    int flags = MIX_INIT_MP3 | MIX_INIT_OGG;
+    int flags = MIX_INIT_OGG;
 
     // Initializes only JPG loader. Returns zero when no loader could be loaded.
     if (Mix_Init(flags) != flags)

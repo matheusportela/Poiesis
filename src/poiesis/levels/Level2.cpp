@@ -119,7 +119,7 @@ void Level2::Update()
 
         if (complexityComponent->GetComplexity() == CFG_GETI("LEVEL_2_GOAL_COMPLEXITY"))
         {
-            Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
+            Engine::GetInstance().SetNextLevel(std::make_shared<Level3>());
             SetFinished();
         }
     }

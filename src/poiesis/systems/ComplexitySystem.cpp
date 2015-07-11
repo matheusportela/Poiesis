@@ -54,7 +54,7 @@ void ComplexitySystem::AdjustComplexityParticleDistance(
         auto energy = growthComponent->GetEnergy();
 
         position.Normalize();
-        position *= 100*(5 + energy)/10.0;
+        position *= 100*(5 - energy)/10.0;
 
         spriteComponent->SetPosition(position);
     }
@@ -63,7 +63,7 @@ void ComplexitySystem::AdjustComplexityParticleDistance(
 bool ComplexitySystem::KillEntityWithoutEnergy(std::shared_ptr<Entity> entity,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    if (growthComponent->GetEnergy() <= CFG_GETI("COMPLEXITY_MINIMUM_ENERGY"))
+    if (growthComponent->GetEnergy() > CFG_GETI("COMPLEXITY_MAXIMUM_ENERGY"))
     {
         Engine::GetInstance().DeleteEntity(entity);
         return true;
@@ -77,7 +77,7 @@ void ComplexitySystem::EmitParticle(std::shared_ptr<Entity> entity)
     auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "GrowthComponent"));
     auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ComplexityComponent"));
 
-    if (growthComponent->GetEnergy() > CFG_GETI("COMPLEXITY_MAXIMUM_ENERGY"))
+    if (growthComponent->GetEnergy() < CFG_GETI("COMPLEXITY_MINIMUM_ENERGY"))
     {
         auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
         auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");

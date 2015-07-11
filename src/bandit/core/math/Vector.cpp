@@ -180,18 +180,16 @@ void Vector::Normalize()
 {
     float magnitude = GetMagnitude();
 
-    if (magnitude == 0)
+    if (magnitude > 0)
     {
-        LOG_E("[Vector] Normalize can only be applied to vectors with non-zero "
-            << "magnitude.");
-        exit(1);
+        x /= magnitude;
+        y /= magnitude;
     }
-
-    float new_x = x/magnitude;
-    float new_y = y/magnitude;
-
-    x = new_x;
-    y = new_y;
+    else
+    {
+        LOG_W("[Vector] Normalizing zero magnitude vector does not change "
+            << "anything.");
+    }
 }
 
 void Vector::Saturate(float maximum)

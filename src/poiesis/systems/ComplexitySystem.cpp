@@ -81,6 +81,10 @@ void ComplexitySystem::EmitParticle(std::shared_ptr<Entity> entity)
     {
         auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
         auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
+
+        if (spriteComponents.size() == 1)
+            return;
+
         Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(entity, "SpriteComponent");
 
         for (unsigned int i = 0; i < spriteComponents.size()-1; ++i)
@@ -93,6 +97,7 @@ void ComplexitySystem::EmitParticle(std::shared_ptr<Entity> entity)
         Vector cellParticlePosition = particleComponent->GetPosition() + sprite->GetPosition();
         Vector cellParticleForce = sprite->GetPosition()*1.25;
         cellParticleForce.Normalize();
+        cellParticleForce.Rotate(particleComponent->GetAngle());
         cellParticleForce *= CFG_GETF("COMPLEXITY_PARTICLE_EMIT_FORCE");
 
         complexityComponent->SetComplexity(complexityComponent->GetComplexity() - 1);
@@ -101,5 +106,6 @@ void ComplexitySystem::EmitParticle(std::shared_ptr<Entity> entity)
         auto cellParticle = EntityFactory::CreateCellParticle(cellParticlePosition);
         auto cellParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(cellParticle, "ParticleComponent"));
         cellParticleComponent->SetForce(cellParticleForce);
+        cellParticleComponent->SetVelocity(particleComponent->GetVelocity());
     }
 }

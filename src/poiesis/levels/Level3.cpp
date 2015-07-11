@@ -89,6 +89,23 @@ void Level3::DeleteAccessorySystems()
 void Level3::Update()
 {
     LOG_D("[Level3] Updating");
+
+    if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
+    {
+        Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
+        SetFinished();
+    }
+    else
+    {
+        auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+        auto reproductionComponent = std::static_pointer_cast<ReproductionComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "ReproductionComponent"));
+
+        if (reproductionComponent->GetReproduced())
+        {
+            Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
+            SetFinished();
+        }
+    }
 }
 
 void Level3::Finish()

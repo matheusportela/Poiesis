@@ -8,9 +8,13 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/EntityFactory.h"
+
+#include "poiesis/components/ReproductionComponent.h"
+
 #include "poiesis/levels/EntryLevel.h"
 #include "poiesis/levels/LoseLevel.h"
 #include "poiesis/levels/WinLevel.h"
+
 #include "poiesis/systems/AnimationSystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CollisionSystem.h"

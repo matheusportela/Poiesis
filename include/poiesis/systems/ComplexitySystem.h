@@ -5,8 +5,11 @@
 
 #include "bandit/Engine.h"
 
-#include "poiesis/components/ColliderComponent.h"
+#include "poiesis/EntityFactory.h"
+
+#include "poiesis/components/ComplexityComponent.h"
 #include "poiesis/components/GrowthComponent.h"
+#include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/SpriteComponent.h"
 
 class ComplexitySystem : public System

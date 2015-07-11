@@ -181,3 +181,20 @@ unsigned int EntityManager::GetNumberOfEntities()
 {
     return entities.size();
 }
+
+void EntityManager::DeleteComponentsOfClass(std::shared_ptr<Entity> entity,
+    std::string componentClass)
+{
+    std::shared_ptr<Component> component;
+
+    for (unsigned int i = 0; i < componentsByEntity[entity->GetId()].size(); ++i)
+    {
+        component = componentsByEntity[entity->GetId()][i];
+
+        if (component->GetComponentClass() == componentClass)
+        {
+            componentsByEntity[entity->GetId()].erase(componentsByEntity[entity->GetId()].begin() + i);
+            --i; // Decrease index since entities is one size smaller
+        }
+    }
+}

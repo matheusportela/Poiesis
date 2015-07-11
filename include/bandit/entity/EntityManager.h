@@ -60,6 +60,9 @@ class EntityManager
     // Gets the number of entities currently managed.
     unsigned int GetNumberOfEntities();
 
+    void DeleteComponentsOfClass(std::shared_ptr<Entity> entity,
+        std::string componentClass);
+
   private:
     void DeleteEntityComponents(std::shared_ptr<Entity> entity);
     void DeleteEntityFromContainer(std::shared_ptr<Entity> entity);

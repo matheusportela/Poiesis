@@ -9,7 +9,7 @@ void ComplexitySystem::Update(float dt)
 {
     std::shared_ptr<GrowthComponent> growthComponent;
     std::shared_ptr<SpriteComponent> spriteComponent;
-    std::shared_ptr<ColliderComponent> colliderComponent;
+    std::shared_ptr<ComplexityComponent> complexityComponent;
     auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("GrowthComponent");
 
     timer.Update(dt);
@@ -17,10 +17,29 @@ void ComplexitySystem::Update(float dt)
     for (auto entity : entities)
     {
         growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "GrowthComponent"));
+        complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ComplexityComponent"));
 
         ConsumeEnergy(growthComponent);
         AdjustComplexityParticleDistance(entity, growthComponent);
         KillEntityWithoutEnergy(entity, growthComponent);
+
+        if (growthComponent->GetEnergy() > 2)
+        {
+            auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
+            auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
+            Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(entity, "SpriteComponent");
+
+            for (unsigned int i = 0; i < spriteComponents.size()-1; ++i)
+            {
+                auto spriteComponent = spriteComponents[i];
+                Engine::GetInstance().AddComponent(spriteComponent, entity);
+            }
+
+            complexityComponent->SetComplexity(complexityComponent->GetComplexity() - 1);
+            growthComponent->SetEnergy(0);
+
+            EntityFactory::CreateCellParticle(particleComponent->GetPosition() + Vector(50, 50));
+        }
     }
 
     if (timer.HasFired())

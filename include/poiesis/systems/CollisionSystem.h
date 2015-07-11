@@ -24,7 +24,10 @@
 class CollisionSystem : public System
 {
   public:
+    CollisionSystem();
     std::string GetName();
+    void EnableReproduction();
+    void DisableReproduction();
     void Update(float dt);
     void CheckCollisions();
     bool IsColliding(std::shared_ptr<Entity> entity1,
@@ -48,6 +51,7 @@ class CollisionSystem : public System
         std::shared_ptr<Entity> growingEntity);
 
   private:
+    bool reproductionEnabled;
     std::vector<std::shared_ptr<Entity>> collidableEntities;
     std::vector<unsigned int> deletedEntities;
 };

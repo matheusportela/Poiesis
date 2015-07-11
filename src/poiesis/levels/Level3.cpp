@@ -67,8 +67,11 @@ void Level3::CreateEssentialSystems()
 
 void Level3::CreateAccessorySystems()
 {
+    auto collisionSystem = std::make_shared<CollisionSystem>();
+    collisionSystem->EnableReproduction();
+    Engine::GetInstance().AddSystem(collisionSystem);
+
     Engine::GetInstance().AddSystem(std::make_shared<CombatPowerSystem>());
-    Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AnimationSystem>());

@@ -1,8 +1,22 @@
 #include "poiesis/systems/CollisionSystem.h"
 
+CollisionSystem::CollisionSystem() : reproductionEnabled(false)
+{
+}
+
 std::string CollisionSystem::GetName()
 {
     return "CollisionSystem";
+}
+
+void CollisionSystem::EnableReproduction()
+{
+    reproductionEnabled = true;
+}
+
+void CollisionSystem::DisableReproduction()
+{
+    reproductionEnabled = false;
 }
 
 void CollisionSystem::Update(float dt)
@@ -100,7 +114,8 @@ bool CollisionSystem::IsColliding(std::shared_ptr<Entity> entity1,
 void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
-    if (Engine::GetInstance().HasComponent(entity1, "ReproductionComponent") && 
+    if (reproductionEnabled &&
+        Engine::GetInstance().HasComponent(entity1, "ReproductionComponent") && 
         Engine::GetInstance().HasComponent(entity2, "ReproductionComponent"))
         ReproduceEntities(entity1, entity2);
     else if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
@@ -212,8 +227,6 @@ void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
 void CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
-    LOG_W("[CollisionSystem] Reproduce entities");
-
     auto reproductionComponent1 = std::static_pointer_cast<ReproductionComponent>(
         Engine::GetInstance().GetSingleComponentOfClass(entity1,
             "ReproductionComponent"));
@@ -234,11 +247,12 @@ void CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
 
     if (enabled1 && enabled2 && type1 == type2)
     {
+        LOG_D("[CollisionSystem] Reproducing entities " << entity1->GetId()
+            << " and " << entity2->GetId());
         EntityFactory::CreateCell(type1, particleComponent1->GetPosition() + Vector(50, 50));
         reproductionComponent1->SetEnabled(false);
         reproductionComponent2->SetEnabled(false);
     }
-
 }
 
 void CollisionSystem::IncorporateEntity(std::shared_ptr<Entity> eaterEntity,

@@ -22,6 +22,7 @@ class ComplexitySystem : public System
         std::shared_ptr<GrowthComponent> growthComponent);
     bool KillEntityWithoutEnergy(std::shared_ptr<Entity> entity,
         std::shared_ptr<GrowthComponent> growthComponent);
+    void EmitParticle(std::shared_ptr<Entity> entity);
 
   private:
     Timer timer;

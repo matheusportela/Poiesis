@@ -21,29 +21,12 @@ void ComplexitySystem::Update(float dt)
 
         ConsumeEnergy(growthComponent);
         AdjustComplexityParticleDistance(entity, growthComponent);
+        EmitParticle(entity);
         KillEntityWithoutEnergy(entity, growthComponent);
-
-        if (growthComponent->GetEnergy() > 2)
-        {
-            auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
-            auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
-            Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(entity, "SpriteComponent");
-
-            for (unsigned int i = 0; i < spriteComponents.size()-1; ++i)
-            {
-                auto spriteComponent = spriteComponents[i];
-                Engine::GetInstance().AddComponent(spriteComponent, entity);
-            }
-
-            complexityComponent->SetComplexity(complexityComponent->GetComplexity() - 1);
-            growthComponent->SetEnergy(0);
-
-            EntityFactory::CreateCellParticle(particleComponent->GetPosition() + Vector(50, 50));
-        }
     }
 
     if (timer.HasFired())
-        timer.SetTime(CFG_GETF("GROWTH_ENERGY_CONSUMING_PERIOD"));
+        timer.SetTime(CFG_GETF("COMPLEXITY_ENERGY_CONSUMING_PERIOD"));
 }
 
 void ComplexitySystem::ConsumeEnergy(std::shared_ptr<GrowthComponent> growthComponent)
@@ -51,7 +34,7 @@ void ComplexitySystem::ConsumeEnergy(std::shared_ptr<GrowthComponent> growthComp
     Random r;
     int energy = growthComponent->GetEnergy();
 
-    if (timer.HasFired() && (r.GenerateFloat() < CFG_GETF("GROWTH_ENERGY_CONSUMING_CHANCE")))
+    if (timer.HasFired() && (r.GenerateFloat() < CFG_GETF("COMPLEXITY_ENERGY_CONSUMING_CHANCE")))
         --energy;
 
     growthComponent->SetEnergy(energy);
@@ -87,4 +70,36 @@ bool ComplexitySystem::KillEntityWithoutEnergy(std::shared_ptr<Entity> entity,
     }
 
     return false;
+}
+
+void ComplexitySystem::EmitParticle(std::shared_ptr<Entity> entity)
+{
+    auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "GrowthComponent"));
+    auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ComplexityComponent"));
+
+    if (growthComponent->GetEnergy() > CFG_GETI("COMPLEXITY_MAXIMUM_ENERGY"))
+    {
+        auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
+        auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
+        Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(entity, "SpriteComponent");
+
+        for (unsigned int i = 0; i < spriteComponents.size()-1; ++i)
+        {
+            auto spriteComponent = spriteComponents[i];
+            Engine::GetInstance().AddComponent(spriteComponent, entity);
+        }
+
+        auto sprite = std::static_pointer_cast<SpriteComponent>(spriteComponents[spriteComponents.size()-1]);
+        Vector cellParticlePosition = particleComponent->GetPosition() + sprite->GetPosition();
+        Vector cellParticleForce = sprite->GetPosition()*1.25;
+        cellParticleForce.Normalize();
+        cellParticleForce *= CFG_GETF("COMPLEXITY_PARTICLE_EMIT_FORCE");
+
+        complexityComponent->SetComplexity(complexityComponent->GetComplexity() - 1);
+        growthComponent->SetEnergy(0);
+
+        auto cellParticle = EntityFactory::CreateCellParticle(cellParticlePosition);
+        auto cellParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(cellParticle, "ParticleComponent"));
+        cellParticleComponent->SetForce(cellParticleForce);
+    }
 }

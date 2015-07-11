@@ -243,19 +243,19 @@ bool CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
         Engine::GetInstance().GetSingleComponentOfClass(entity2,
             "ParticleComponent"));
 
-    auto enabled1 = reproductionComponent1->GetEnabled();
-    auto enabled2 = reproductionComponent2->GetEnabled();
+    auto reproduced1 = reproductionComponent1->GetReproduced();
+    auto reproduced2 = reproductionComponent2->GetReproduced();
 
     auto type1 = reproductionComponent1->GetType();
     auto type2 = reproductionComponent2->GetType();
 
-    if (enabled1 && enabled2 && type1 == type2)
+    if (!reproduced1 && !reproduced2 && type1 == type2)
     {
         LOG_D("[CollisionSystem] Reproducing entities " << entity1->GetId()
             << " and " << entity2->GetId());
         EntityFactory::CreateCell(type1, particleComponent1->GetPosition() + Vector(50, 50));
-        reproductionComponent1->SetEnabled(false);
-        reproductionComponent2->SetEnabled(false);
+        reproductionComponent1->SetReproduced(true);
+        reproductionComponent2->SetReproduced(true);
         return true;
     }
 

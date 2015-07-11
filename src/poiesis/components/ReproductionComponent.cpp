@@ -1,7 +1,7 @@
 #include "poiesis/components/ReproductionComponent.h"
 
 ReproductionComponent::ReproductionComponent(int type) :
-    enabled(true), type(type)
+    reproduced(false), type(type)
 {
 }
 
@@ -10,14 +10,14 @@ std::string ReproductionComponent::GetComponentClass()
     return "ReproductionComponent";
 }
 
-bool ReproductionComponent::GetEnabled()
+bool ReproductionComponent::GetReproduced()
 {
-    return enabled;
+    return reproduced;
 }
 
-void ReproductionComponent::SetEnabled(bool enabled)
+void ReproductionComponent::SetReproduced(bool reproduced)
 {
-    this->enabled = enabled;
+    this->reproduced = reproduced;
 }
 
 int ReproductionComponent::GetType()

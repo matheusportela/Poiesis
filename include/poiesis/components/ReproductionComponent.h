@@ -14,12 +14,12 @@ class ReproductionComponent : public Component
     int GetType();
     void SetType(int type);
 
-    bool GetEnabled();
-    void SetEnabled(bool enabled);
+    bool GetReproduced();
+    void SetReproduced(bool reproduced);
 
   private:
-    // Holds whether reproduction is enabled.
-    bool enabled;
+    // Holds whether the entity has reproduced.
+    bool reproduced;
 
     // Holds the type of the reproduction system, which allows an entity to
     // reproduce.

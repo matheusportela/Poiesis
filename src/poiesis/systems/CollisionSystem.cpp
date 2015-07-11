@@ -100,7 +100,10 @@ bool CollisionSystem::IsColliding(std::shared_ptr<Entity> entity1,
 void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
-    if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
+    if (Engine::GetInstance().HasComponent(entity1, "ReproductionComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "ReproductionComponent"))
+        ReproduceEntities(entity1, entity2);
+    else if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
         Engine::GetInstance().HasComponent(entity2, "CellParticleComponent"))
         IncorporateEntity(entity1, entity2);
     else if (Engine::GetInstance().HasComponent(entity2, "ComplexityComponent") && 
@@ -204,6 +207,38 @@ void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
         LOG_D("[CollisionSystem] Tied combat");
         CollideBodies(entity1, entity2);
     }
+}
+
+void CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
+    std::shared_ptr<Entity> entity2)
+{
+    LOG_W("[CollisionSystem] Reproduce entities");
+
+    auto reproductionComponent1 = std::static_pointer_cast<ReproductionComponent>(
+        Engine::GetInstance().GetSingleComponentOfClass(entity1,
+            "ReproductionComponent"));
+
+    auto reproductionComponent2 = std::static_pointer_cast<ReproductionComponent>(
+        Engine::GetInstance().GetSingleComponentOfClass(entity2,
+            "ReproductionComponent"));
+
+    auto particleComponent1 = std::static_pointer_cast<ParticleComponent>(
+        Engine::GetInstance().GetSingleComponentOfClass(entity2,
+            "ParticleComponent"));
+
+    auto enabled1 = reproductionComponent1->GetEnabled();
+    auto enabled2 = reproductionComponent2->GetEnabled();
+
+    auto type1 = reproductionComponent1->GetType();
+    auto type2 = reproductionComponent2->GetType();
+
+    if (enabled1 && enabled2 && type1 == type2)
+    {
+        EntityFactory::CreateCell(type1, particleComponent1->GetPosition() + Vector(50, 50));
+        reproductionComponent1->SetEnabled(false);
+        reproductionComponent2->SetEnabled(false);
+    }
+
 }
 
 void CollisionSystem::IncorporateEntity(std::shared_ptr<Entity> eaterEntity,

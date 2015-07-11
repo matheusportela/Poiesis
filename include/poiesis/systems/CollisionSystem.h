@@ -7,6 +7,7 @@
 
 #include "bandit/Engine.h"
 
+#include "poiesis/EntityFactory.h"
 #include "poiesis/Quadtree.h"
 
 #include "poiesis/components/CameraComponent.h"
@@ -15,6 +16,7 @@
 #include "poiesis/components/ComplexityComponent.h"
 #include "poiesis/components/GrowthComponent.h"
 #include "poiesis/components/ParticleComponent.h"
+#include "poiesis/components/ReproductionComponent.h"
 #include "poiesis/components/SlowingComponent.h"
 #include "poiesis/components/SpriteComponent.h"
 #include "poiesis/components/VitaminComponent.h"
@@ -32,6 +34,8 @@ class CollisionSystem : public System
     void CollideBodies(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
     void CombatEntities(std::shared_ptr<Entity> entity1,
+        std::shared_ptr<Entity> entity2);
+    void ReproduceEntities(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
     void IncorporateEntity(std::shared_ptr<Entity> eaterEntity,
         std::shared_ptr<Entity> eatableEntity);

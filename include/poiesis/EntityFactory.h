@@ -20,6 +20,7 @@
 #include "poiesis/components/MoveableComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/PlayerComponent.h"
+#include "poiesis/components/ReproductionComponent.h"
 #include "poiesis/components/SlowingComponent.h"
 #include "poiesis/components/SpriteComponent.h"
 #include "poiesis/components/VitaminComponent.h"

@@ -8,17 +8,21 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/EntityFactory.h"
+
 #include "poiesis/levels/EntryLevel.h"
 #include "poiesis/levels/Level3.h"
 #include "poiesis/levels/LoseLevel.h"
+
 #include "poiesis/systems/AnimationSystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CollisionSystem.h"
 #include "poiesis/systems/CombatPowerSystem.h"
+#include "poiesis/systems/ComplexitySystem.h"
 #include "poiesis/systems/DebugSystem.h"
 #include "poiesis/systems/InputSystem.h"
 #include "poiesis/systems/ParticleSystem.h"
 #include "poiesis/systems/RenderingSystem.h"
+#include "poiesis/systems/SpawningSystem.h"
 
 class Level2 : public Level
 {
@@ -27,6 +31,7 @@ class Level2 : public Level
     void CreateAllEntities();
     void CreateButtons();
     void CreateCells();
+    void CreateFood();
     void CreateCellParticles();
     void CreateAllSystems();
     void CreateEssentialSystems();

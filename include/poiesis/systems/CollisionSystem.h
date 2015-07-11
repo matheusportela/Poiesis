@@ -38,7 +38,7 @@ class CollisionSystem : public System
         std::shared_ptr<Entity> entity2);
     void CombatEntities(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
-    void ReproduceEntities(std::shared_ptr<Entity> entity1,
+    bool ReproduceEntities(std::shared_ptr<Entity> entity1,
         std::shared_ptr<Entity> entity2);
     void IncorporateEntity(std::shared_ptr<Entity> eaterEntity,
         std::shared_ptr<Entity> eatableEntity);

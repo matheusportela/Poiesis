@@ -117,8 +117,12 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     if (reproductionEnabled &&
         Engine::GetInstance().HasComponent(entity1, "ReproductionComponent") && 
         Engine::GetInstance().HasComponent(entity2, "ReproductionComponent"))
-        ReproduceEntities(entity1, entity2);
-    else if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
+    {
+        if (ReproduceEntities(entity1, entity2))
+            return;
+    }
+
+    if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
         Engine::GetInstance().HasComponent(entity2, "CellParticleComponent"))
         IncorporateEntity(entity1, entity2);
     else if (Engine::GetInstance().HasComponent(entity2, "ComplexityComponent") && 
@@ -224,7 +228,7 @@ void CollisionSystem::CombatEntities(std::shared_ptr<Entity> entity1,
     }
 }
 
-void CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
+bool CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
     std::shared_ptr<Entity> entity2)
 {
     auto reproductionComponent1 = std::static_pointer_cast<ReproductionComponent>(
@@ -252,7 +256,10 @@ void CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
         EntityFactory::CreateCell(type1, particleComponent1->GetPosition() + Vector(50, 50));
         reproductionComponent1->SetEnabled(false);
         reproductionComponent2->SetEnabled(false);
+        return true;
     }
+
+    return false;
 }
 
 void CollisionSystem::IncorporateEntity(std::shared_ptr<Entity> eaterEntity,

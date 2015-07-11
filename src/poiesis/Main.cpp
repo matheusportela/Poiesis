@@ -1,5 +1,5 @@
 #include <iostream>
-#include <memory.h>
+#include <memory>
 
 #include "bandit/Engine.h"
 
@@ -19,6 +19,6 @@ int main()
     Engine::GetInstance().Run();
 
     BANDIT_ENGINE_SHUTDOWN();
-    
+
     return 0;
 }

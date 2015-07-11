@@ -15,77 +15,52 @@ template <typename T>
 class Quadtree
 {
   public:
-    Quadtree(float x, float y, float width, float height, int level,
-        int maxLevel, int maxObjects);
-    void Add(T object, float x, float y);
-    std::vector<T> Get(float x, float y);
+    const int MAX_OBJECTS = 4;
+
+    Quadtree(Rectangle area);
+    void Add(T object, Vector position);
+    std::vector<T> Get(Vector position);
     void Clear();
 
   private:
     bool IsLeaf();
     void Split();
-    bool Contains(std::shared_ptr<Quadtree> child, float x, float y);
-    bool Contains(float x, float y);
 
     std::shared_ptr<Quadtree> nw;
     std::shared_ptr<Quadtree> ne;
     std::shared_ptr<Quadtree> sw;
     std::shared_ptr<Quadtree> se;
-    float x;
-    float y;
-    float width;
-    float height;
-    int level;
-    int maxLevel;
-    int maxObjects;
+    Rectangle area;
     std::vector<T> objects;
+    std::vector<Vector> positions;
 };
 
 template <typename T>
-Quadtree<T>::Quadtree(float x, float y, float width, float height, int level,
-    int maxLevel, int maxObjects) :
-    x(x), y(y), width(width), height(height), level(level), maxLevel(maxLevel),
-    maxObjects(maxObjects)
+Quadtree<T>::Quadtree(Rectangle area) :
+    area(area)
 {
 }
 
 template <typename T>
-void Quadtree<T>::Add(T object, float x, float y)
+void Quadtree<T>::Add(T object, Vector position)
 {
-    if (!IsLeaf())
+    if (!area.IsInside(position))
+        return;
+
+    if (IsLeaf() && objects.size() < MAX_OBJECTS)
     {
-        if (Contains(nw, x, y))
-            nw->Add(object, x, y);
-        else if (Contains(ne, x, y))
-            ne->Add(object, x, y);
-        else if (Contains(sw, x, y))
-            sw->Add(object, x, y);
-        else if (Contains(se, x, y))
-            se->Add(object, x, y);
+        objects.push_back(object);
+        positions.push_back(position);
     }
     else
     {
-        objects.push_back(object);
+        if (IsLeaf())
+            Split();
 
-        if (objects.size() > maxObjects && level < maxLevel)
-        {
-            if (IsLeaf())
-                Split();
-
-            for (T movingObject : objects)
-            {
-                if (Contains(nw, x, y))
-                    nw->Add(movingObject, x, y);
-                else if (Contains(ne, x, y))
-                    ne->Add(movingObject, x, y);
-                else if (Contains(sw, x, y))
-                    sw->Add(movingObject, x, y);
-                else if (Contains(se, x, y))
-                    se->Add(movingObject, x, y);
-            }
-
-            objects.clear();
-        }
+        nw->Add(object, position);
+        ne->Add(object, position);
+        sw->Add(object, position);
+        se->Add(object, position);
     }
 }
 
@@ -96,44 +71,29 @@ bool Quadtree<T>::IsLeaf()
 }
 
 template <typename T>
-bool Quadtree<T>::Contains(std::shared_ptr<Quadtree> child, float x, float y)
+std::vector<T> Quadtree<T>::Get(Vector position)
 {
-    return (x > child->x &&
-            x <= child->x + child->width &&
-            y > child->y &&
-            y <= child->y + child->height);
-}
-
-template <typename T>
-bool Quadtree<T>::Contains(float x, float y)
-{
-    return (x > this->x &&
-            x <= this->x + this->width &&
-            y > this->y &&
-            y <= this->y + this->height);
-}
-
-template <typename T>
-std::vector<T> Quadtree<T>::Get(float x, float y)
-{
-    if (level == maxLevel || IsLeaf())
-        return objects;
-
+    std::vector<T> childObjects;
     std::vector<T> returnObjects;
-    
-    if (x > this->x && x <= this->x + width/2)
+
+    if (IsLeaf())
     {
-        if (y > this->y && y <= this->y + height/2)
-            returnObjects = nw->Get(x, y);
-        else if (y > this->y + height/2 && y <= this->y + height)
-            returnObjects = sw->Get(x, y);
+        if (area.IsInside(position))
+            returnObjects = objects;
     }
-    else if (x > this->x + width/2 && x <= this->x + width)
+    else
     {
-        if (y > this->y && y <= this->y + height/2)
-            returnObjects = ne->Get(x, y);
-        else if (y > this->y + height/2 && y <= this->y + height)
-            returnObjects = se->Get(x, y);
+        childObjects = nw->Get(position);
+        returnObjects.insert(returnObjects.end(), childObjects.begin(), childObjects.end());
+
+        childObjects = ne->Get(position);
+        returnObjects.insert(returnObjects.end(), childObjects.begin(), childObjects.end());
+
+        childObjects = sw->Get(position);
+        returnObjects.insert(returnObjects.end(), childObjects.begin(), childObjects.end());
+
+        childObjects = se->Get(position);
+        returnObjects.insert(returnObjects.end(), childObjects.begin(), childObjects.end());
     }
 
     return returnObjects;
@@ -142,17 +102,26 @@ std::vector<T> Quadtree<T>::Get(float x, float y)
 template <typename T>
 void Quadtree<T>::Split()
 {
-    if (level != maxLevel)
-    {
-        float newWidth = width/2;
-        float newHeight = height/2;
-        int newLevel = level + 1;
+    float x = area.GetTopLeft().GetX();
+    float y = area.GetTopLeft().GetY();
+    float newWidth = area.GetW()/2;
+    float newHeight = area.GetH()/2;
+    
+    nw = std::make_shared<Quadtree>(Rectangle(x, y, newWidth, newHeight));
+    ne = std::make_shared<Quadtree>(Rectangle(x + newWidth, y, newWidth, newHeight));
+    sw = std::make_shared<Quadtree>(Rectangle(x, y + newHeight, newWidth, newHeight));
+    se = std::make_shared<Quadtree>(Rectangle(x + newWidth, y + newHeight, newWidth, newHeight));
 
-        nw = std::make_shared<Quadtree>(x, y, newWidth, newHeight, newLevel, maxLevel, maxObjects);
-        ne = std::make_shared<Quadtree>(x + newWidth, y, newWidth, newHeight, newLevel, maxLevel, maxObjects);
-        sw = std::make_shared<Quadtree>(x, y + newHeight, newWidth, newHeight, newLevel, maxLevel, maxObjects);
-        se = std::make_shared<Quadtree>(x + newWidth, y + newHeight, newWidth, newHeight, newLevel, maxLevel, maxObjects);
+    for (unsigned int i = 0; i < objects.size(); ++i)
+    {
+        nw->Add(objects[i], positions[i]);
+        ne->Add(objects[i], positions[i]);
+        sw->Add(objects[i], positions[i]);
+        se->Add(objects[i], positions[i]);
     }
+
+    objects.clear();
+    positions.clear();
 }
 
 template <typename T>

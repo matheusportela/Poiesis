@@ -28,12 +28,8 @@ void CollisionSystem::Update(float dt)
 
 void CollisionSystem::CheckCollisions()
 {
-    int initialLevel = 0;
-    int maxLevels = 4;
-    int maxObjects = 20;
     float maxDistance = 2000;
-    Quadtree<std::shared_ptr<Entity>> quadtree(-2500, -2500, 5000, 5000,
-        initialLevel, maxLevels, maxObjects);
+    Quadtree<std::shared_ptr<Entity>> quadtree(Rectangle(-2500, -2500, 5000, 5000));
     auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
     collidableEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("ColliderComponent");
 
@@ -59,11 +55,11 @@ void CollisionSystem::CheckCollisions()
             if (cameraPosition.CalculateDistance(position) > maxDistance)
                 continue;
             else
-                quadtree.Add(entity, position.GetX(), position.GetY());
+                quadtree.Add(entity, position);
         }
         else
         {
-            quadtree.Add(entity, position.GetX(), position.GetY());
+            quadtree.Add(entity, position);
         }
     }
 
@@ -74,7 +70,7 @@ void CollisionSystem::CheckCollisions()
 
         auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
         auto position = particleComponent->GetPosition();
-        auto quadtreeEntities = quadtree.Get(position.GetX(), position.GetY());
+        auto quadtreeEntities = quadtree.Get(position);
 
         for (unsigned int j = 0; j < quadtreeEntities.size(); ++j)
         {

@@ -52,9 +52,18 @@ void ComplexitySystem::AdjustComplexityParticleDistance(
         spriteComponent = std::static_pointer_cast<SpriteComponent>(spriteComponents[i]);
         auto position = spriteComponent->GetPosition();
         auto energy = growthComponent->GetEnergy();
+        auto target = 100*(7 - energy)/10.0;
+        float magnitude;
+
+        if (position.GetMagnitude() > target)
+            magnitude = position.GetMagnitude() - 1;
+        else if (position.GetMagnitude() < target)
+            magnitude = position.GetMagnitude() + 1;
+        else
+            magnitude = position.GetMagnitude();
 
         position.Normalize();
-        position *= 100*(5 - energy)/10.0;
+        position *= magnitude;
 
         spriteComponent->SetPosition(position);
     }

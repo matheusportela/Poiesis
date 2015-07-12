@@ -447,7 +447,7 @@ bool CollisionSystem::TransmitInfection(std::shared_ptr<Entity> transmitterEntit
             if (transmitterInfectionComponent->GetInfectionType() == CannotInput)
                 Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
             else if (transmitterInfectionComponent->GetInfectionType() == StrongImpulses)
-                Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
+                Engine::GetInstance().PlaySoundEffect(CFG_GETP("IMPULSES_SOUND_EFFECT"));
         }
             
 

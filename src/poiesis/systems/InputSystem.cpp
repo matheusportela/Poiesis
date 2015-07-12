@@ -58,9 +58,15 @@ bool InputSystem::ProcessPlayerImpulse()
     auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
     auto colliderComponent = std::static_pointer_cast<ColliderComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ColliderComponent"));
     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "ParticleComponent"));
+    auto infectionComponent = std::static_pointer_cast<InfectionComponent>(Engine::GetInstance().GetSingleComponentOfClass(playerEntity, "InfectionComponent"));
     auto mousePosition = Engine::GetInstance().GetMousePosition();
 
-    if (Engine::GetInstance().CheckInputOccurred(InputType::MousePress) and
+    if (infectionComponent->GetInfectionType() == CannotInput)
+    {
+        processingImpulse = false;
+        return true;
+    }
+    else if (Engine::GetInstance().CheckInputOccurred(InputType::MousePress) and
         HasClickedOnPlayer(mousePosition))
     {
         LOG_I("[InputSystem] Impulse begin");

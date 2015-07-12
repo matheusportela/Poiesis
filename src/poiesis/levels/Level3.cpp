@@ -90,6 +90,7 @@ void Level3::CreateAccessorySystems()
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AnimationSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<InfectionSystem>());
 }
 
 void Level3::DeleteAccessorySystems()
@@ -99,6 +100,7 @@ void Level3::DeleteAccessorySystems()
     Engine::GetInstance().DeleteSystem("ParticleSystem");
     Engine::GetInstance().DeleteSystem("CameraSystem");
     Engine::GetInstance().DeleteSystem("AnimationSystem");
+    Engine::GetInstance().DeleteSystem("InfectionSystem");
 }
 
 void Level3::Update()
@@ -114,9 +116,6 @@ void Level3::Update()
     {
         auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
         auto reproductionComponent = std::static_pointer_cast<ReproductionComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "ReproductionComponent"));
-        auto infectionComponent = std::static_pointer_cast<InfectionComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "InfectionComponent"));
-
-        LOG_W("Player infection: " << infectionComponent->GetInfectionType());
 
         if (reproductionComponent->GetReproduced())
         {

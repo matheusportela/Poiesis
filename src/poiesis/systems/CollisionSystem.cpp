@@ -430,6 +430,13 @@ bool CollisionSystem::TransmitInfection(std::shared_ptr<Entity> transmitterEntit
 
         // Avoid epidemies by blocking further transmissions
         receiverInfectionComponent->SetTransmissible(false);
+        receiverInfectionComponent->SetRemainingTime(
+            transmitterInfectionComponent->GetRemainingTime());
+        receiverInfectionComponent->SetTemporary(true);
+
+        if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent")
+            && transmitterInfectionComponent->GetInfectionType() == CannotInput)
+            Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
 
         DestroyEntity(transmitterEntity);
         return true;

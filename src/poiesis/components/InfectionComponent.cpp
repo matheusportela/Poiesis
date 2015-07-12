@@ -1,8 +1,9 @@
 #include "poiesis/components/InfectionComponent.h"
 
 InfectionComponent::InfectionComponent(InfectionType infectionType,
-    bool transmissible) :
-    infectionType(infectionType), transmissible(transmissible)
+    bool transmissible, bool temporary, float remainingTime) :
+    infectionType(infectionType), transmissible(transmissible),
+    temporary(temporary), remainingTime(remainingTime)
 {
 }
 
@@ -29,4 +30,24 @@ bool InfectionComponent::GetTransmissible()
 void InfectionComponent::SetTransmissible(bool transmissible)
 {
     this->transmissible = transmissible;
+}
+
+bool InfectionComponent::GetTemporary()
+{
+    return temporary;
+}
+
+void InfectionComponent::SetTemporary(bool temporary)
+{
+    this->temporary = temporary;
+}
+
+float InfectionComponent::GetRemainingTime()
+{
+    return remainingTime;
+}
+
+void InfectionComponent::SetRemainingTime(float remainingTime)
+{
+    this->remainingTime = remainingTime;
 }

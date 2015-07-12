@@ -8,6 +8,7 @@
 #include "poiesis/components/ButtonComponent.h"
 #include "poiesis/components/CameraComponent.h"
 #include "poiesis/components/ColliderComponent.h"
+#include "poiesis/components/InfectionComponent.h"
 #include "poiesis/components/MoveableComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 

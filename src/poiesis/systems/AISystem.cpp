@@ -10,14 +10,15 @@ void AISystem::Update(float dt)
     // Avoid warnings for not using dt.
     LOG_D("[AISystem] Update: " << dt);
 
-    auto aiEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("AIComponent");
-    auto eatableEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("EatableComponent");
+    auto entities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("AIComponent");
 
-    if (aiEntities.size() == 0 || eatableEntities.size() == 0)
+    if (entities.size() == 0)
         return;
 
+    std::shared_ptr<AIComponent> aiComponent;
     std::shared_ptr<ParticleComponent> aiParticleComponent;
     std::shared_ptr<ParticleComponent> eatableParticleComponent;
+    std::vector<std::shared_ptr<Entity>> pursueEntities;
     float distance;
     float closestDistance = std::numeric_limits<float>::max();
     Vector aiParticlePosition;
@@ -28,12 +29,17 @@ void AISystem::Update(float dt)
     Vector resultantForce;
     Random r;
 
-    for (auto aiEntity : aiEntities)
+    for (auto entity : entities)
     {
-        aiParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(aiEntity, "ParticleComponent"));
+        aiComponent = std::static_pointer_cast<AIComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "AIComponent"));
+        aiParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
         aiParticlePosition = aiParticleComponent->GetPosition();
+        pursueEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass(aiComponent->GetPursueComponent());
 
-        for (auto eatableEntity : eatableEntities)
+        if (pursueEntities.size() == 0)
+            continue;
+
+        for (auto eatableEntity : pursueEntities)
         {
             eatableParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(eatableEntity, "ParticleComponent"));
             eatableParticlePosition = eatableParticleComponent->GetPosition();

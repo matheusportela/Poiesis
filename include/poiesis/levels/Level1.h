@@ -8,10 +8,14 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/EntityFactory.h"
+
+#include "poiesis/components/AIComponent.h"
 #include "poiesis/components/CameraComponent.h"
+
 #include "poiesis/levels/EntryLevel.h"
 #include "poiesis/levels/LoseLevel.h"
 #include "poiesis/levels/Level2.h"
+
 #include "poiesis/systems/AISystem.h"
 #include "poiesis/systems/AnimationSystem.h"
 #include "poiesis/systems/CameraSystem.h"

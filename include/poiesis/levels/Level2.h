@@ -9,10 +9,13 @@
 
 #include "poiesis/EntityFactory.h"
 
+#include "poiesis/components/AIComponent.h"
+
 #include "poiesis/levels/EntryLevel.h"
 #include "poiesis/levels/Level3.h"
 #include "poiesis/levels/LoseLevel.h"
 
+#include "poiesis/systems/AISystem.h"
 #include "poiesis/systems/AnimationSystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CollisionSystem.h"

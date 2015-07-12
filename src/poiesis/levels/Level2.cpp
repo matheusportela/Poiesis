@@ -16,7 +16,9 @@ void Level2::CreateAllEntities()
     CreateButtons();
 
     // Cells and food must be created after areas to be rendered above them.
-    EntityFactory::CreatePlayer();
+    auto player = EntityFactory::CreatePlayer();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<AIComponent>("CellParticleComponent"), player);
 
     CreateCells();
     CreateFood();
@@ -45,12 +47,15 @@ void Level2::CreateCells()
     Random r;
     float x;
     float y;
+    std::shared_ptr<Entity> cell;
 
     for (int i = 0; i < CFG_GETI("LEVEL_2_INITIAL_NUM_CELLS"); ++i)
     {
         x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
-        EntityFactory::CreateRandomCell(Vector(x, y));
+        cell = EntityFactory::CreateRandomCell(Vector(x, y));
+        Engine::GetInstance().AddComponent(
+            std::make_shared<AIComponent>("CellParticleComponent"), cell);
     }
 }
 
@@ -114,6 +119,7 @@ void Level2::CreateAccessorySystems()
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ComplexitySystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AnimationSystem>());
 }
 

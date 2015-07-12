@@ -29,7 +29,6 @@ std::shared_ptr<Entity> EntityFactory::CreateCellWithoutSprite(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<ColliderComponent>(CFG_GETF("CELL_COLLIDER_RADIUS")),
         cell);
-    Engine::GetInstance().AddComponent(std::make_shared<AIComponent>(), cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<CombatComponent>(), cell);
     return cell;

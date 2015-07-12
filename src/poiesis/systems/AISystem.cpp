@@ -28,8 +28,8 @@ void AISystem::Update(float dt)
         
         drivingForce += PursueComponent(entity, aiComponent->GetPursueComponent());
         
-        if (aiComponent->GetPursueComponent() == "CellParticleComponent")
-            drivingForce += FleeFromComponent(entity, "ComplexityComponent");
+        // if (aiComponent->GetPursueComponent() == "CellParticleComponent")
+        //     drivingForce += FleeFromComponent(entity, "ComplexityComponent");
 
         auto aiParticleComponent = std::static_pointer_cast<ParticleComponent>(
             Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
@@ -58,15 +58,16 @@ Vector AISystem::FleeFromComponent(std::shared_ptr<Entity> entity,
     std::string componentClass)
 {
     auto aiParticlePosition = GetEntityPosition(entity);
-    auto pursueEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass(componentClass);
-    auto closestEntity = GetClosestEntity(entity, pursueEntities);
+    auto fleeEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass(componentClass);
+    Vector drivingForce;
 
-    if (!closestEntity)
-        return Vector(0, 0);
-
-    auto closestParticlePosition = GetEntityPosition(closestEntity);
-    auto drivingForce = CalculateRepulsionForce(aiParticlePosition, closestParticlePosition)
-        *(1/(1 + aiParticlePosition.CalculateDistance(closestParticlePosition)));
+    for (auto fleeEntity : fleeEntities)
+    {
+        auto fleeEntityPosition = GetEntityPosition(fleeEntity);
+        drivingForce += CalculateRepulsionForce(aiParticlePosition, fleeEntityPosition)
+            *(1/(1 + aiParticlePosition.CalculateDistance(fleeEntityPosition)));
+    }
+    
     return drivingForce;
 }
 

@@ -3,7 +3,8 @@
 void Level2::Start()
 {
     LOG_I("[Level2] Starting");
-    
+
+    finished = false;
     CreateAllEntities();
     CreateAllSystems();
 }
@@ -129,6 +130,8 @@ void Level2::DeleteAccessorySystems()
     Engine::GetInstance().DeleteSystem("CombatPowerSystem");
     Engine::GetInstance().DeleteSystem("CollisionSystem");
     Engine::GetInstance().DeleteSystem("ParticleSystem");
+    Engine::GetInstance().DeleteSystem("ComplexitySystem");
+    Engine::GetInstance().DeleteSystem("AISystem");
     Engine::GetInstance().DeleteSystem("CameraSystem");
     Engine::GetInstance().DeleteSystem("AnimationSystem");
 }
@@ -137,20 +140,27 @@ void Level2::Update()
 {
     LOG_D("[Level2] Updating");
 
-    if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
+    if (finished)
     {
-        Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
-        SetFinished();
+        ZoomOutEffect();
     }
     else
     {
-        auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
-        auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "ComplexityComponent"));
-
-        if (complexityComponent->GetComplexity() == CFG_GETI("LEVEL_2_GOAL_COMPLEXITY"))
+        if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
         {
-            Engine::GetInstance().SetNextLevel(std::make_shared<Level3>());
+            Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
             SetFinished();
+        }
+        else
+        {
+            auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+            auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "ComplexityComponent"));
+
+            if (complexityComponent->GetComplexity() == CFG_GETI("LEVEL_2_GOAL_COMPLEXITY"))
+            {
+                finished = true;
+                Engine::GetInstance().DeleteSystem("CollisionSystem");
+            }
         }
     }
 }
@@ -161,6 +171,24 @@ void Level2::Finish()
 
     Engine::GetInstance().ClearEntities();
     Engine::GetInstance().ClearSystems();
+}
+
+void Level2::ZoomOutEffect()
+{
+    auto cameraEntity = Engine::GetInstance().GetEntityWithComponentOfClass("CameraComponent");
+    auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
+    auto height = cameraComponent->GetHeight();
+
+    if (height < 1.5)
+    {
+        height += 0.01;
+        cameraComponent->SetHeight(height);
+    }
+    else
+    {
+        Engine::GetInstance().SetNextLevel(std::make_shared<Level3>());
+        SetFinished();
+    }
 }
 
 void Level2::MenuButtonCallback()

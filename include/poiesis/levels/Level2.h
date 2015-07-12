@@ -42,12 +42,13 @@ class Level2 : public Level
     void DeleteAccessorySystems();
     void Update();
     void Finish();
+    void ZoomOutEffect();
     void MenuButtonCallback();
     void PauseButtonCallback();
     void ExitButtonCallback();
 
   private:
-    bool win;
+    bool finished;
     bool paused;
 
     std::shared_ptr<Entity> pauseMenuExitButton;

@@ -4,6 +4,7 @@ void Level1::Start()
 {
     LOG_I("[Level1] Starting");
     
+    finished = false;
     CreateAllEntities();
     CreateAllSystems();
 }
@@ -171,20 +172,27 @@ void Level1::Update()
 {
     LOG_D("[Level1] Updating");
 
-    if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
+    if (finished)
     {
-        Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
-        SetFinished();
+        ZoomOutEffect();
     }
     else
     {
-        auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
-        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "GrowthComponent"));
-
-        if (growthComponent->GetLevel() == CFG_GETI("LEVEL_1_GOAL_SIZE"))
+        if (!Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
         {
-            Engine::GetInstance().SetNextLevel(std::make_shared<Level2>());
+            Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
             SetFinished();
+        }
+        else
+        {
+            auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+            auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "GrowthComponent"));
+
+            if (growthComponent->GetLevel() == CFG_GETI("LEVEL_1_GOAL_SIZE"))
+            {
+                finished = true;
+                Engine::GetInstance().DeleteSystem("GrowthSystem");
+            }
         }
     }
 }
@@ -195,6 +203,24 @@ void Level1::Finish()
 
     Engine::GetInstance().ClearEntities();
     Engine::GetInstance().ClearSystems();
+}
+
+void Level1::ZoomOutEffect()
+{
+    auto cameraEntity = Engine::GetInstance().GetEntityWithComponentOfClass("CameraComponent");
+    auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
+    auto height = cameraComponent->GetHeight();
+
+    if (height < 4)
+    {
+        height += 0.01;
+        cameraComponent->SetHeight(height);
+    }
+    else
+    {
+        Engine::GetInstance().SetNextLevel(std::make_shared<Level2>());
+        SetFinished();
+    }
 }
 
 void Level1::MenuButtonCallback()

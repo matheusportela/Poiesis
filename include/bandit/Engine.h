@@ -93,6 +93,9 @@ class Engine
 
     std::shared_ptr<Entity> CreateEntity();
     void DeleteEntity(std::shared_ptr<Entity> entity);
+    void DeleteEntitiesWithComponentsOfClass(std::string componentClass);
+    void DeleteComponentsOfClass(std::shared_ptr<Entity> entity,
+        std::string componentClass);
     void ClearEntities();
     std::vector<std::shared_ptr<Entity>> GetAllEntitiesWithComponentOfClass(
         std::string componentClass);

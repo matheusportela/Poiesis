@@ -25,6 +25,8 @@ class EntityManager
     // Deletes an entity from the management.
     void DeleteEntity(std::shared_ptr<Entity> entity);
 
+    void DeleteEntitiesWithComponentsOfClass(std::string componentClass);
+
     // Adds a new component to an existing entity.
     void AddComponent(std::shared_ptr<Component> component,
         std::shared_ptr<Entity> entity);

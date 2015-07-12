@@ -79,7 +79,7 @@ void RenderingSystem::RenderParticle(std::shared_ptr<Entity> entity, Vector came
     auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
             
     // Skip rendering entities that are too far from the screen.
-    if (particleComponent->GetPosition().CalculateDistance(cameraPosition) > CFG_GETF("RENDERING_MAX_DISTANCE"))
+    if (particleComponent->GetPosition().CalculateDistance(cameraPosition) > CFG_GETF("RENDERING_MAX_DISTANCE")*GetCameraHeight())
         return;
 
     for (auto component : spriteComponents)

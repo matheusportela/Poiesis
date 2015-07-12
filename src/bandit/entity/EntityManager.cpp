@@ -43,6 +43,19 @@ void EntityManager::DeleteEntityFromContainer(std::shared_ptr<Entity> entity)
     }
 }
 
+void EntityManager::DeleteEntitiesWithComponentsOfClass(
+    std::string componentClass)
+{
+    for (unsigned int i = 0; i < entities.size(); ++i)
+    {
+        if (HasComponent(entities[i], componentClass))
+        {
+            DeleteEntity(entities[i]);
+            --i; // Decrease index since entities is one size smaller
+        }
+    }
+}
+
 void EntityManager::AddComponent(std::shared_ptr<Component> component,
     std::shared_ptr<Entity> entity)
 {

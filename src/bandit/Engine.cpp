@@ -141,6 +141,17 @@ void Engine::DeleteEntity(std::shared_ptr<Entity> entity)
     entityManager->DeleteEntity(entity);
 }
 
+void Engine::DeleteEntitiesWithComponentsOfClass(std::string componentClass)
+{
+    entityManager->DeleteEntitiesWithComponentsOfClass(componentClass);
+}
+
+void Engine::DeleteComponentsOfClass(std::shared_ptr<Entity> entity,
+    std::string componentClass)
+{
+    entityManager->DeleteComponentsOfClass(entity, componentClass);
+}
+
 void Engine::ClearEntities()
 {
     entityManager->Clear();

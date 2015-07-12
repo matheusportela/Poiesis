@@ -11,18 +11,30 @@ void Level2::Start()
 
 void Level2::CreateAllEntities()
 {
-    EntityFactory::CreateBackground();
-    EntityFactory::CreateCamera(CFG_GETF("LEVEL_2_CAMERA_HEIGHT"));
+    // EntityFactory::CreateBackground();
 
-    CreateButtons();
+    if (!Engine::GetInstance().HasEntityWithComponentOfClass("CameraComponent"))
+        EntityFactory::CreateCamera(CFG_GETF("LEVEL_2_CAMERA_HEIGHT"));
+
+    // CreateButtons();
 
     // Cells and food must be created after areas to be rendered above them.
-    auto player = EntityFactory::CreatePlayer();
-    Engine::GetInstance().AddComponent(
-        std::make_shared<AIComponent>("CellParticleComponent"), player);
+    if (Engine::GetInstance().HasEntityWithComponentOfClass("PlayerComponent"))
+    {
+        auto player = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
+        Engine::GetInstance().DeleteComponentsOfClass(player, "AIComponent");
+        Engine::GetInstance().AddComponent(
+            std::make_shared<AIComponent>("CellParticleComponent"), player);
+    }
+    else
+    {
+       auto player = EntityFactory::CreatePlayer(); 
+       Engine::GetInstance().AddComponent(
+            std::make_shared<AIComponent>("CellParticleComponent"), player);
+    }
 
-    CreateCells();
-    CreateFood();
+    // CreateCells();
+    // CreateFood();
     CreateCellParticles();
 }
 

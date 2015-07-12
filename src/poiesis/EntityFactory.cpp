@@ -273,8 +273,11 @@ std::shared_ptr<Entity> EntityFactory::CreateBacterium(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<ColliderComponent>(CFG_GETF("BACTERIUM_COLLIDER_RADIUS")),
         bacterium);
+    // Engine::GetInstance().AddComponent(
+    //     std::make_shared<InfectionComponent>(CannotInput, true, false,
+    //         CFG_GETF("INFECTION_FROZEN_DURATION")), bacterium);
     Engine::GetInstance().AddComponent(
-        std::make_shared<InfectionComponent>(CannotInput, true, false,
-            CFG_GETF("INFECTION_FROZEN_DURATION")), bacterium);
+        std::make_shared<InfectionComponent>(StrongImpulses, true, false,
+            CFG_GETF("INFECTION_IMPULSES_DURATION")), bacterium);
     return bacterium;
 }

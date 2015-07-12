@@ -28,5 +28,21 @@ void InfectionSystem::Update(float dt)
 
             infectionComponent->SetRemainingTime(remainingTime);
         }
+
+        if (infectionComponent->GetInfectionType() == StrongImpulses)
+        {
+            Random r;
+            float strongImpulseChance = 0.1;
+
+            if (r.GenerateFloat() < strongImpulseChance)
+            {
+                auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
+
+                Vector randomForce(r.GenerateFloat(-1, 1), r.GenerateFloat(-1, 1));
+                randomForce *= 10000;
+
+                particleComponent->SetForce(randomForce);
+            }
+        }
     }
 }

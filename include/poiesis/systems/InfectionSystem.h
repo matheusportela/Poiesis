@@ -6,6 +6,7 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/components/InfectionComponent.h"
+#include "poiesis/components/ParticleComponent.h"
 
 class InfectionSystem : public System
 {

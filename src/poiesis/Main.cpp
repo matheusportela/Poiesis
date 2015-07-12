@@ -8,7 +8,7 @@
 
 int main()
 {
-    LOG_SET_INFO();
+    LOG_SET_DEBUG();
     BANDIT_ENGINE_INIT();
     CFG_INIT("Configurations.cfg");
 

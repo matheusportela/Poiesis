@@ -40,7 +40,7 @@ void CollisionSystem::Update(float dt)
 void CollisionSystem::CheckCollisions()
 {
     float maxDistance = 2000;
-    Quadtree<std::shared_ptr<Entity>> quadtree(Rectangle(-2500, -2500, 5000, 5000));
+    Quadtree<std::shared_ptr<Entity>> quadtree(Rectangle(-5000, -5000, 10000, 10000));
     auto cameraEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("CameraComponent");
     collidableEntities = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("ColliderComponent");
 

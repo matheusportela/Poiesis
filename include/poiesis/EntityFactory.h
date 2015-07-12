@@ -17,6 +17,7 @@
 #include "poiesis/components/ComplexityComponent.h"
 #include "poiesis/components/EatableComponent.h"
 #include "poiesis/components/GrowthComponent.h"
+#include "poiesis/components/InfectionComponent.h"
 #include "poiesis/components/MoveableComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/PlayerComponent.h"
@@ -68,6 +69,8 @@ class EntityFactory
     // Creates button: a region which an sprite and responds to clicks.
     static std::shared_ptr<Entity> CreateButton(std::string image,
         Rectangle rectangle, std::function<void()> callback);
+
+    static std::shared_ptr<Entity> CreateBacterium(Vector position);
 
   private:
     static std::shared_ptr<Entity> CreateCellWithoutSprite(Vector position);

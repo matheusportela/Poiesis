@@ -15,6 +15,7 @@
 #include "poiesis/components/CombatComponent.h"
 #include "poiesis/components/ComplexityComponent.h"
 #include "poiesis/components/GrowthComponent.h"
+#include "poiesis/components/InfectionComponent.h"
 #include "poiesis/components/ParticleComponent.h"
 #include "poiesis/components/ReproductionComponent.h"
 #include "poiesis/components/SlowingComponent.h"
@@ -52,6 +53,8 @@ class CollisionSystem : public System
     void VitaminateEntity(std::shared_ptr<Entity> vitamineEntity,
         std::shared_ptr<Entity> growingEntity);
     void EmitParticles(std::shared_ptr<Entity> entity);
+    bool TransmitInfection(std::shared_ptr<Entity> transmitterEntity,
+        std::shared_ptr<Entity> receiverEntity);
 
   private:
     bool reproductionEnabled;

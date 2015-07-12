@@ -137,6 +137,19 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
         EmitParticles(entity2);
     }
 
+    if (Engine::GetInstance().HasComponent(entity1, "InfectionComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "InfectionComponent"))
+    {
+        if (TransmitInfection(entity1, entity2))
+            return;
+    }
+    else if (Engine::GetInstance().HasComponent(entity2, "InfectionComponent") && 
+        Engine::GetInstance().HasComponent(entity1, "InfectionComponent"))
+    {
+        if (TransmitInfection(entity2, entity1))
+            return;
+    }
+
     if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
         Engine::GetInstance().HasComponent(entity2, "CellParticleComponent"))
         IncorporateEntity(entity1, entity2);
@@ -398,4 +411,29 @@ void CollisionSystem::EmitParticles(std::shared_ptr<Entity> entity)
     }
 
     complexityComponent->SetComplexity(0);
+}
+
+bool CollisionSystem::TransmitInfection(std::shared_ptr<Entity> transmitterEntity,
+    std::shared_ptr<Entity> receiverEntity)
+{
+    auto transmitterInfectionComponent = std::static_pointer_cast<InfectionComponent>(Engine::GetInstance().GetSingleComponentOfClass(transmitterEntity, "InfectionComponent"));
+    auto receiverInfectionComponent = std::static_pointer_cast<InfectionComponent>(Engine::GetInstance().GetSingleComponentOfClass(receiverEntity, "InfectionComponent"));
+
+    // Only transmit to healthy entities
+    if (receiverInfectionComponent->GetInfectionType() != NoInfection)
+        return false;
+
+    if (transmitterInfectionComponent->GetTransmissible())
+    {
+        receiverInfectionComponent->SetInfectionType(
+            transmitterInfectionComponent->GetInfectionType());
+
+        // Avoid epidemies by blocking further transmissions
+        receiverInfectionComponent->SetTransmissible(false);
+
+        DestroyEntity(transmitterEntity);
+        return true;
+    }
+
+    return false;
 }

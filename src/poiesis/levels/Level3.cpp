@@ -19,6 +19,7 @@ void Level3::CreateAllEntities()
     EntityFactory::CreatePlayer();
 
     CreateCells();
+    CreateBacteria();
 }
 
 void Level3::CreateButtons()
@@ -49,6 +50,20 @@ void Level3::CreateCells()
         x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
         EntityFactory::CreateRandomCell(Vector(x, y));
+    }
+}
+
+void Level3::CreateBacteria()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_3_INITIAL_NUM_CELLS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
+        EntityFactory::CreateBacterium(Vector(x, y));
     }
 }
 
@@ -99,6 +114,9 @@ void Level3::Update()
     {
         auto playerEntity = Engine::GetInstance().GetEntityWithComponentOfClass("PlayerComponent");
         auto reproductionComponent = std::static_pointer_cast<ReproductionComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "ReproductionComponent"));
+        auto infectionComponent = std::static_pointer_cast<InfectionComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(playerEntity, "InfectionComponent"));
+
+        LOG_W("Player infection: " << infectionComponent->GetInfectionType());
 
         if (reproductionComponent->GetReproduced())
         {

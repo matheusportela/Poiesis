@@ -201,7 +201,7 @@ void Level1::Finish()
 {
     LOG_I("[Level1] Finishing");
 
-    // Engine::GetInstance().ClearEntities();
+    Engine::GetInstance().ClearEntities();
 
     Engine::GetInstance().ClearSystems();
 }

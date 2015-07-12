@@ -31,6 +31,8 @@ std::shared_ptr<Entity> EntityFactory::CreateCellWithoutSprite(Vector position)
         cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<CombatComponent>(), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<InfectionComponent>(NoInfection, false), cell);
     return cell;
 }
 
@@ -256,3 +258,21 @@ std::shared_ptr<Entity> EntityFactory::CreateButton(std::string image,
     return button;
 }
 
+std::shared_ptr<Entity> EntityFactory::CreateBacterium(Vector position)
+{
+    std::shared_ptr<Entity> bacterium = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("VIRUS_IMAGE")), bacterium);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<MoveableComponent>(), bacterium);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(CFG_GETF("VIRUS_INVERSE_MASS"),
+            position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING")),
+        bacterium);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("VIRUS_COLLIDER_RADIUS")),
+        bacterium);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<InfectionComponent>(CannotInput), bacterium);
+    return bacterium;
+}

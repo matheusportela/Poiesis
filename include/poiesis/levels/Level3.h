@@ -9,6 +9,7 @@
 
 #include "poiesis/EntityFactory.h"
 
+#include "poiesis/components/InfectionComponent.h"
 #include "poiesis/components/ReproductionComponent.h"
 
 #include "poiesis/levels/EntryLevel.h"
@@ -31,6 +32,7 @@ class Level3 : public Level
     void CreateAllEntities();
     void CreateButtons();
     void CreateCells();
+    void CreateBacteria();
     void CreateAllSystems();
     void CreateEssentialSystems();
     void CreateAccessorySystems();

@@ -15,7 +15,7 @@ template <typename T>
 class Quadtree
 {
   public:
-    const int MAX_OBJECTS = 4;
+    const int MAX_OBJECTS = 10;
 
     Quadtree(Rectangle area);
     void Add(T object, Vector position);

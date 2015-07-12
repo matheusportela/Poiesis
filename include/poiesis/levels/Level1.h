@@ -23,6 +23,7 @@
 #include "poiesis/systems/CombatPowerSystem.h"
 #include "poiesis/systems/DebugSystem.h"
 #include "poiesis/systems/GrowthSystem.h"
+#include "poiesis/systems/InfectionSystem.h"
 #include "poiesis/systems/InputSystem.h"
 #include "poiesis/systems/ParticleSystem.h"
 #include "poiesis/systems/RenderingSystem.h"

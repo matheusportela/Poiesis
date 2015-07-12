@@ -325,6 +325,14 @@ void CollisionSystem::EatEntity(std::shared_ptr<Entity> eaterEntity,
 {
     LOG_D("[CollisionSystem] Entity " << eaterEntity->GetId() << " is eating entity " << eatableEntity->GetId());
 
+    if (Engine::GetInstance().HasComponent(eaterEntity, "InfectionComponent"))
+    {
+        auto infectionComponent = std::static_pointer_cast<InfectionComponent>(Engine::GetInstance().GetSingleComponentOfClass(eaterEntity, "InfectionComponent"));
+
+        if (infectionComponent->GetInfectionType() == CannotEat)
+            return;
+    }
+
     auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetSingleComponentOfClass(eaterEntity, "GrowthComponent"));
     auto energy = growthComponent->GetEnergy();
     ++energy;
@@ -434,9 +442,14 @@ bool CollisionSystem::TransmitInfection(std::shared_ptr<Entity> transmitterEntit
             transmitterInfectionComponent->GetRemainingTime());
         receiverInfectionComponent->SetTemporary(true);
 
-        if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent")
-            && transmitterInfectionComponent->GetInfectionType() == CannotInput)
-            Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
+        if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent"))
+        {
+            if (transmitterInfectionComponent->GetInfectionType() == CannotInput)
+                Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
+            else if (transmitterInfectionComponent->GetInfectionType() == StrongImpulses)
+                Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
+        }
+            
 
         DestroyEntity(transmitterEntity);
         return true;

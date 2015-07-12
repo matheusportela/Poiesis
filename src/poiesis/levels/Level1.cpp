@@ -154,6 +154,7 @@ void Level1::CreateAccessorySystems()
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AnimationSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<InfectionSystem>());
 }
 
 void Level1::DeleteAccessorySystems()

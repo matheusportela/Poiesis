@@ -39,7 +39,7 @@ void InfectionSystem::Update(float dt)
                 auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
 
                 Vector randomForce(r.GenerateFloat(-1, 1), r.GenerateFloat(-1, 1));
-                randomForce *= 10000;
+                randomForce *= CFG_GETF("INFECTION_IMPULSES_FORCE");
 
                 particleComponent->SetForce(randomForce);
             }

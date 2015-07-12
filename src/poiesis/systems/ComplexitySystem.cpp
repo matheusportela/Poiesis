@@ -103,10 +103,12 @@ void ComplexitySystem::EmitParticle(std::shared_ptr<Entity> entity)
         }
 
         auto sprite = std::static_pointer_cast<SpriteComponent>(spriteComponents[spriteComponents.size()-1]);
-        Vector cellParticlePosition = particleComponent->GetPosition() + sprite->GetPosition();
-        Vector cellParticleForce = sprite->GetPosition()*1.25;
+        Vector cellParticlePosition = sprite->GetPosition();
+        cellParticlePosition.Rotate(particleComponent->GetAngle());
+        cellParticlePosition += particleComponent->GetPosition();
+        Vector cellParticleForce = sprite->GetPosition();
+        cellParticleForce.Rotate(particleComponent->GetAngle() + M_PI_2);
         cellParticleForce.Normalize();
-        cellParticleForce.Rotate(particleComponent->GetAngle());
         cellParticleForce *= CFG_GETF("COMPLEXITY_PARTICLE_EMIT_FORCE");
 
         complexityComponent->SetComplexity(complexityComponent->GetComplexity() - 1);

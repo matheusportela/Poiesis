@@ -28,6 +28,8 @@ class CollisionSystem : public System
     std::string GetName();
     void EnableReproduction();
     void DisableReproduction();
+    void EnableComplexity();
+    void DisableComplexity();
     void Update(float dt);
     void CheckCollisions();
     bool IsColliding(std::shared_ptr<Entity> entity1,
@@ -49,9 +51,11 @@ class CollisionSystem : public System
         std::shared_ptr<Entity> movingEntity);
     void VitaminateEntity(std::shared_ptr<Entity> vitamineEntity,
         std::shared_ptr<Entity> growingEntity);
+    void EmitParticles(std::shared_ptr<Entity> entity);
 
   private:
     bool reproductionEnabled;
+    bool complexityEnabled;
     std::vector<std::shared_ptr<Entity>> collidableEntities;
     std::vector<unsigned int> deletedEntities;
 };

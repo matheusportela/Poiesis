@@ -106,7 +106,11 @@ void Level2::CreateAccessorySystems()
         CFG_GETF("FOOD_SPAWNING_CHANCE"),
         CFG_GETF("FOOD_SPAWNING_PERIOD")));
     Engine::GetInstance().AddSystem(std::make_shared<CombatPowerSystem>());
-    Engine::GetInstance().AddSystem(std::make_shared<CollisionSystem>());
+
+    auto collisionSystem = std::make_shared<CollisionSystem>();
+    collisionSystem->EnableComplexity();
+    Engine::GetInstance().AddSystem(collisionSystem);
+
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ComplexitySystem>());

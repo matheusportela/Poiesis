@@ -1,6 +1,7 @@
 #include "poiesis/systems/CollisionSystem.h"
 
-CollisionSystem::CollisionSystem() : reproductionEnabled(false)
+CollisionSystem::CollisionSystem() :
+    reproductionEnabled(false), complexityEnabled(false)
 {
 }
 
@@ -17,6 +18,16 @@ void CollisionSystem::EnableReproduction()
 void CollisionSystem::DisableReproduction()
 {
     reproductionEnabled = false;
+}
+
+void CollisionSystem::EnableComplexity()
+{
+    complexityEnabled = true;
+}
+
+void CollisionSystem::DisableComplexity()
+{
+    complexityEnabled = false;
 }
 
 void CollisionSystem::Update(float dt)
@@ -116,6 +127,14 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     {
         if (ReproduceEntities(entity1, entity2))
             return;
+    }
+
+    if (complexityEnabled &&
+        Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "ComplexityComponent"))
+    {
+        EmitParticles(entity1);
+        EmitParticles(entity2);
     }
 
     if (Engine::GetInstance().HasComponent(entity1, "ComplexityComponent") && 
@@ -347,4 +366,36 @@ void CollisionSystem::VitaminateEntity(std::shared_ptr<Entity> vitaminEntity,
     growthPower += growthFactor;
 
     growthComponent->SetGrowthPower(growthPower);
+}
+
+void CollisionSystem::EmitParticles(std::shared_ptr<Entity> entity)
+{
+    auto particleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ParticleComponent"));
+    auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
+    auto complexityComponent = std::static_pointer_cast<ComplexityComponent>(Engine::GetInstance().GetSingleComponentOfClass(entity, "ComplexityComponent"));
+
+    if (spriteComponents.size() == 1)
+        return;
+
+    Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(entity, "SpriteComponent");
+    Engine::GetInstance().AddComponent(spriteComponents[0], entity);
+
+    for (unsigned int i = 1; i < spriteComponents.size(); ++i)
+    {
+        auto sprite = std::static_pointer_cast<SpriteComponent>(spriteComponents[i]);
+        Vector cellParticlePosition = sprite->GetPosition();
+        cellParticlePosition.Rotate(particleComponent->GetAngle());
+        cellParticlePosition += particleComponent->GetPosition();
+        Vector cellParticleForce = sprite->GetPosition();
+        cellParticleForce.Rotate(particleComponent->GetAngle());
+        cellParticleForce.Normalize();
+        cellParticleForce *= CFG_GETF("COMPLEXITY_PARTICLE_EMIT_FORCE")*particleComponent->GetVelocity().GetMagnitude()/500;
+
+        auto cellParticle = EntityFactory::CreateCellParticle(cellParticlePosition);
+        auto cellParticleComponent = std::static_pointer_cast<ParticleComponent>(Engine::GetInstance().GetSingleComponentOfClass(cellParticle, "ParticleComponent"));
+        cellParticleComponent->SetForce(cellParticleForce);
+        cellParticleComponent->SetVelocity(particleComponent->GetVelocity());
+    }
+
+    complexityComponent->SetComplexity(0);
 }

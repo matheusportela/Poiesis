@@ -95,8 +95,8 @@ void Level3::CreateAccessorySystems()
 
 void Level3::DeleteAccessorySystems()
 {
-    Engine::GetInstance().DeleteSystem("CombatPowerSystem");
     Engine::GetInstance().DeleteSystem("CollisionSystem");
+    Engine::GetInstance().DeleteSystem("CombatPowerSystem");
     Engine::GetInstance().DeleteSystem("ParticleSystem");
     Engine::GetInstance().DeleteSystem("CameraSystem");
     Engine::GetInstance().DeleteSystem("AnimationSystem");

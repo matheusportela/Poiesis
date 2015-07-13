@@ -21,9 +21,12 @@ class EntryLevel : public Level
     void Finish();
     void StartButtonCallback();
     void ExitButtonCallback();
-    void PreloadImages();
-    void PreloadAnimation(std::string filename, int numFrames);
-    void PreloadImage(std::string filename);
+    bool PreloadImages();
+    bool PreloadAnimation(std::string filename, int numFrames);
+    bool PreloadImage(std::string filename);
+
+  private:
+    bool canCreateStartButton;
 };
 
 #endif // ENTRY_LEVEL_H_

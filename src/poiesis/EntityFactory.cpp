@@ -79,7 +79,8 @@ std::shared_ptr<Entity> EntityFactory::CreateCellParticle(Vector position)
 {
     std::shared_ptr<Entity> cellParticle = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("CELL_PARTICLE_IMAGE")),
+        std::make_shared<SpriteComponent>(CFG_GETP("CELL_PARTICLE_IMAGE"),
+            Vector(0, 0), 0, 0, true, CFG_GETF("CELL_PARTICLE_SCALE")),
         cellParticle);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), cellParticle);

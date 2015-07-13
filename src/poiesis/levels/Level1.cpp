@@ -22,7 +22,7 @@ void Level1::CreateAllEntities()
     Engine::GetInstance().AddComponent(
         std::make_shared<AIComponent>("EatableComponent"), player);
 
-    CreateCells();
+    // CreateCells();
     CreateBacteria();
     CreateFood();
 }
@@ -141,10 +141,10 @@ void Level1::CreateEssentialSystems()
 
 void Level1::CreateAccessorySystems()
 {
-    Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
-            CellSpawning,
-            CFG_GETF("CELL_SPAWNING_CHANCE"),
-            CFG_GETF("CELL_SPAWNING_PERIOD")));
+    // Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
+    //         Level1CellSpawning,
+    //         CFG_GETF("CELL_SPAWNING_CHANCE"),
+    //         CFG_GETF("CELL_SPAWNING_PERIOD")));
     Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
             FoodSpawning,
             CFG_GETF("FOOD_SPAWNING_CHANCE"),
@@ -174,6 +174,23 @@ void Level1::DeleteAccessorySystems()
 void Level1::Update()
 {
     LOG_D("[Level1] Updating");
+
+    auto cells = Engine::GetInstance().GetAllEntitiesWithComponentOfClass("GrowthComponent");
+
+    for (int i = cells.size(); i < CFG_GETI("LEVEL_1_INITIAL_NUM_CELLS"); ++i)
+    {
+        Random r;
+        float x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
+        float y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
+        auto cell = EntityFactory::CreateCell(Vector(x, y));
+        auto growthComponent = std::static_pointer_cast<GrowthComponent>(Engine::GetInstance().GetEntityManager()->GetSingleComponentOfClass(cell, "GrowthComponent"));
+
+        if (r.GenerateFloat() < 0.1)
+            growthComponent->SetLevel(2);
+
+        Engine::GetInstance().AddComponent(
+            std::make_shared<AIComponent>("EatableComponent"), cell);
+    }
 
     if (finished)
     {

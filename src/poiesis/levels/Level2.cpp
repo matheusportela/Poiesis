@@ -188,10 +188,10 @@ void Level2::CreateEssentialSystems()
 
 void Level2::CreateAccessorySystems()
 {
-    Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
-        CellParticleSpawning,
-        CFG_GETF("CELL_PARTICLE_SPAWNING_CHANCE"),
-        CFG_GETF("CELL_PARTICLE_SPAWNING_PERIOD")));
+    // Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
+    //     CellParticleSpawning,
+    //     CFG_GETF("CELL_PARTICLE_SPAWNING_CHANCE"),
+    //     CFG_GETF("CELL_PARTICLE_SPAWNING_PERIOD")));
     Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
         FoodSpawning,
         CFG_GETF("FOOD_SPAWNING_CHANCE"),

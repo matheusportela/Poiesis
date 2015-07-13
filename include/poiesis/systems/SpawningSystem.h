@@ -9,6 +9,9 @@
 
 enum SpawningType
 {
+    Level1CellSpawning,
+    Level2CellSpawning,
+    Level3CellSpawning,
     CellSpawning,
     CellParticleSpawning,
     FoodSpawning,
@@ -24,6 +27,9 @@ class SpawningSystem : public System
     std::string GetName();
     void Update(float dt);
     void Spawn();
+    void SpawnLevel1Cell();
+    void SpawnLevel2Cell();
+    void SpawnLevel3Cell();
     void SpawnCell();
     void SpawnCellParticle();
     void SpawnFood();

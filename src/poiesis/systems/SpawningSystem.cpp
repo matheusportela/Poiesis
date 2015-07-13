@@ -39,24 +39,24 @@ void SpawningSystem::Spawn()
 
 void SpawningSystem::SpawnCell()
 {
-    float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));
-    float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT"));
+    float x = random.GenerateFloat(CFG_GETF("LEVEL_MIN_X"), CFG_GETF("LEVEL_MAX_X"));
+    float y = random.GenerateFloat(CFG_GETF("LEVEL_MIN_Y"), CFG_GETF("LEVEL_MAX_Y"));
     EntityFactory::CreateCell(Vector(x, y));
     LOG_I("[SpawningSystem] Spawning new cell at " << x << ", " << y);
 }
 
 void SpawningSystem::SpawnCellParticle()
 {
-    float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));
-    float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT"));
+    float x = random.GenerateFloat(CFG_GETF("LEVEL_MIN_X"), CFG_GETF("LEVEL_MAX_X"));
+    float y = random.GenerateFloat(CFG_GETF("LEVEL_MIN_Y"), CFG_GETF("LEVEL_MAX_Y"));
     EntityFactory::CreateCellParticle(Vector(x, y));
     LOG_I("[SpawningSystem] Spawning new cell particle at " << x << ", " << y);
 }
 
 void SpawningSystem::SpawnFood()
 {
-    float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));
-    float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT")); 
+    float x = random.GenerateFloat(CFG_GETF("LEVEL_MIN_X"), CFG_GETF("LEVEL_MAX_X"));
+    float y = random.GenerateFloat(CFG_GETF("LEVEL_MIN_Y"), CFG_GETF("LEVEL_MAX_Y"));
     EntityFactory::CreateFood(Vector(x, y));
     LOG_I("[SpawningSystem] Spawning new food at " << x << ", " << y);
 }

@@ -4,8 +4,8 @@ void EntryLevel::Start()
 {
     LOG_I("[EntryLevel] Starting");
 
-    Engine::GetInstance().PlayMusic(CFG_GETP("BACKGROUND_MUSIC"),
-        REPEAT_CONTINUOUSLY);
+    // Engine::GetInstance().PlayMusic(CFG_GETP("BACKGROUND_MUSIC"),
+    //     REPEAT_CONTINUOUSLY);
     
     EntityFactory::CreateButton(CFG_GETP("EXIT_BUTTON_IMAGE"),
         Rectangle(800, 600, 150, 50),
@@ -50,7 +50,7 @@ void EntryLevel::StartButtonCallback()
 {
     LOG_I("[EntryLevel] Clicked on start button");
     SetFinished();
-    Engine::GetInstance().SetNextLevel(std::make_shared<Level1>());
+    Engine::GetInstance().SetNextLevel(std::make_shared<Level2>());
 }
 
 void EntryLevel::ExitButtonCallback()

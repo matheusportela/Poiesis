@@ -2,9 +2,9 @@
 
 void LoseLevel::Start()
 {
-    EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
-        Rectangle(1700, 10, 150, 50),
-        std::bind(&LoseLevel::MenuButtonCallback, this));
+    // EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
+    //     Rectangle(1700, 10, 150, 50),
+    //     std::bind(&LoseLevel::MenuButtonCallback, this));
 
     Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());

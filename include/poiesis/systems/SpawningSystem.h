@@ -11,7 +11,9 @@ enum SpawningType
 {
     CellSpawning,
     CellParticleSpawning,
-    FoodSpawning
+    FoodSpawning,
+    BacteriumSpawning,
+    VirusSpawning
 };
 
 class SpawningSystem : public System
@@ -25,6 +27,8 @@ class SpawningSystem : public System
     void SpawnCell();
     void SpawnCellParticle();
     void SpawnFood();
+    void SpawnBacterium();
+    void SpawnVirus();
 
   private:
     SpawningType spawningType;

@@ -17,20 +17,21 @@ void Level3::CreateAllEntities()
     CreateAreas();
 
     // Cells and food must be created after areas to be rendered above them.
-    EntityFactory::CreatePlayer();
+    EntityFactory::CreateLevel3Player();
 
-    // CreateCells();
+    CreateCells();
     CreateBacteria();
+    CreateViruses();
 }
 
 void Level3::CreateButtons()
 {
-    EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
-        Rectangle(CFG_GETF("LEVEL_COMMON_MENU_BUTTON_X"),
-            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_Y"),
-            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_WIDTH"),
-            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_HEIGHT")),
-        std::bind(&Level3::MenuButtonCallback, this));
+    // EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
+    //     Rectangle(CFG_GETF("LEVEL_COMMON_MENU_BUTTON_X"),
+    //         CFG_GETF("LEVEL_COMMON_MENU_BUTTON_Y"),
+    //         CFG_GETF("LEVEL_COMMON_MENU_BUTTON_WIDTH"),
+    //         CFG_GETF("LEVEL_COMMON_MENU_BUTTON_HEIGHT")),
+    //     std::bind(&Level3::MenuButtonCallback, this));
 
     EntityFactory::CreateButton(CFG_GETP("PAUSE_BUTTON_IMAGE"),
         Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_X"),
@@ -85,7 +86,7 @@ void Level3::CreateCells()
     {
         x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
-        EntityFactory::CreateCell(Vector(x, y));
+        EntityFactory::CreateLevel3Cell(Vector(x, y));
     }
 }
 
@@ -95,11 +96,25 @@ void Level3::CreateBacteria()
     float x;
     float y;
 
-    for (int i = 0; i < CFG_GETI("LEVEL_3_INITIAL_NUM_CELLS"); ++i)
+    for (int i = 0; i < CFG_GETI("LEVEL_3_INITIAL_NUM_BACTERIA"); ++i)
     {
         x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
         EntityFactory::CreateBacterium(Vector(x, y));
+    }
+}
+
+void Level3::CreateViruses()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_3_INITIAL_NUM_VIRUSES"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
+        EntityFactory::CreateVirus(Vector(x, y));
     }
 }
 
@@ -184,19 +199,19 @@ void Level3::PauseButtonCallback()
     {
         paused = false;
         CreateAccessorySystems();
-        Engine::GetInstance().DeleteEntity(pauseMenuExitButton);
+        // Engine::GetInstance().DeleteEntity(pauseMenuExitButton);
     }
     else
     {
         paused = true;
         DeleteAccessorySystems();
-        pauseMenuExitButton = EntityFactory::CreateButton(
-            CFG_GETP("EXIT_BUTTON_IMAGE"),
-            Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_X"),
-                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_Y"),
-                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
-                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
-            std::bind(&Level3::ExitButtonCallback, this));
+        // pauseMenuExitButton = EntityFactory::CreateButton(
+        //     CFG_GETP("EXIT_BUTTON_IMAGE"),
+        //     Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_X"),
+        //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_Y"),
+        //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
+        //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
+        //     std::bind(&Level3::ExitButtonCallback, this));
     }
 }
 

@@ -177,6 +177,12 @@ void CollisionSystem::SolveCollision(std::shared_ptr<Entity> entity1,
     else if (Engine::GetInstance().HasComponent(entity2, "VitaminComponent") && 
         Engine::GetInstance().HasComponent(entity1, "GrowthComponent"))
         VitaminateEntity(entity2, entity1);
+    else if (Engine::GetInstance().HasComponent(entity1, "VitaminComponent") && 
+        Engine::GetInstance().HasComponent(entity2, "ParticleComponent"))
+        return;
+    else if (Engine::GetInstance().HasComponent(entity2, "VitaminComponent") && 
+        Engine::GetInstance().HasComponent(entity1, "ParticleComponent"))
+        return;
     else
         CollideBodies(entity1, entity2);
 }
@@ -442,49 +448,48 @@ bool CollisionSystem::TransmitInfection(std::shared_ptr<Entity> transmitterEntit
             transmitterInfectionComponent->GetRemainingTime());
         receiverInfectionComponent->SetTemporary(true);
 
-        if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent"))
+        if (transmitterInfectionComponent->GetInfectionType() == CannotInput)
         {
-            if (transmitterInfectionComponent->GetInfectionType() == CannotInput)
-            {
+            if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent"))
                 Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
 
-                auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(receiverEntity, "SpriteComponent");
-                Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(receiverEntity, "SpriteComponent");
-                Engine::GetInstance().AddComponent(
-                std::make_shared<SpriteComponent>(CFG_GETP("CELL_FROZEN_IMAGE"),
-                    Vector(0, 0), 0, 0, true,
-                    CFG_GETF("CELL_FROZEN_SCALE")), receiverEntity);
-                for (unsigned int i = 1; i < spriteComponents.size(); ++i)
-                    Engine::GetInstance().AddComponent(spriteComponents[i], receiverEntity);
-            }
-            else if (transmitterInfectionComponent->GetInfectionType() == StrongImpulses)
-            {
-                Engine::GetInstance().PlaySoundEffect(CFG_GETP("IMPULSES_SOUND_EFFECT"));
-
-                auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(receiverEntity, "SpriteComponent");
-                Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(receiverEntity, "SpriteComponent");
-                Engine::GetInstance().AddComponent(
-                std::make_shared<SpriteComponent>(CFG_GETP("CELL_ERRACTIC_IMAGE"),
-                    Vector(0, 0), 0, CFG_GETF("CELL_ERRACTIC_ROTATION_SPEED"),
-                    true, CFG_GETF("CELL_ERRACTIC_SCALE")), receiverEntity);
-                for (unsigned int i = 1; i < spriteComponents.size(); ++i)
-                    Engine::GetInstance().AddComponent(spriteComponents[i], receiverEntity);
-            }
-            else if (transmitterInfectionComponent->GetInfectionType() == CannotEat)
-            {
-                Engine::GetInstance().PlaySoundEffect(CFG_GETP("IMPULSES_SOUND_EFFECT"));
-
-                auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(receiverEntity, "SpriteComponent");
-                Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(receiverEntity, "SpriteComponent");
-                Engine::GetInstance().AddComponent(
-                std::make_shared<SpriteComponent>(CFG_GETP("CELL_CANNOT_EAT_IMAGE"),
-                    Vector(0, 0), 0, 0, true,
-                    CFG_GETF("CELL_CANNOT_EAT_SCALE")), receiverEntity);
-                for (unsigned int i = 1; i < spriteComponents.size(); ++i)
-                    Engine::GetInstance().AddComponent(spriteComponents[i], receiverEntity);
-            }
+            auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(receiverEntity, "SpriteComponent");
+            Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(receiverEntity, "SpriteComponent");
+            Engine::GetInstance().AddComponent(
+            std::make_shared<SpriteComponent>(CFG_GETP("CELL_FROZEN_IMAGE"),
+                Vector(0, 0), 0, 0, true,
+                CFG_GETF("CELL_FROZEN_SCALE")), receiverEntity);
+            for (unsigned int i = 1; i < spriteComponents.size(); ++i)
+                Engine::GetInstance().AddComponent(spriteComponents[i], receiverEntity);
         }
-            
+        else if (transmitterInfectionComponent->GetInfectionType() == StrongImpulses)
+        {
+            if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent"))
+                Engine::GetInstance().PlaySoundEffect(CFG_GETP("IMPULSES_SOUND_EFFECT"));
+
+            auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(receiverEntity, "SpriteComponent");
+            Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(receiverEntity, "SpriteComponent");
+            Engine::GetInstance().AddComponent(
+            std::make_shared<SpriteComponent>(CFG_GETP("CELL_ERRACTIC_IMAGE"),
+                Vector(0, 0), 0, CFG_GETF("CELL_ERRACTIC_ROTATION_SPEED"),
+                true, CFG_GETF("CELL_ERRACTIC_SCALE")), receiverEntity);
+            for (unsigned int i = 1; i < spriteComponents.size(); ++i)
+                Engine::GetInstance().AddComponent(spriteComponents[i], receiverEntity);
+        }
+        else if (transmitterInfectionComponent->GetInfectionType() == CannotEat)
+        {
+            if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent"))
+                Engine::GetInstance().PlaySoundEffect(CFG_GETP("IMPULSES_SOUND_EFFECT"));
+
+            auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(receiverEntity, "SpriteComponent");
+            Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(receiverEntity, "SpriteComponent");
+            Engine::GetInstance().AddComponent(
+            std::make_shared<SpriteComponent>(CFG_GETP("CELL_CANNOT_EAT_IMAGE"),
+                Vector(0, 0), 0, 0, true,
+                CFG_GETF("CELL_CANNOT_EAT_SCALE")), receiverEntity);
+            for (unsigned int i = 1; i < spriteComponents.size(); ++i)
+                Engine::GetInstance().AddComponent(spriteComponents[i], receiverEntity);
+        }
 
         DestroyEntity(transmitterEntity);
         return true;

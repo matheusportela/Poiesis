@@ -154,7 +154,7 @@ void GrowthSystem::UpdateCollisionRadius(
 void GrowthSystem::UpdateSpriteSize(std::shared_ptr<SpriteComponent> spriteComponent,
     std::shared_ptr<GrowthComponent> growthComponent)
 {
-    spriteComponent->SetScale(growthComponent->GetLevel()*CFG_GETF("CELL_ANIMATION_SCALE"));
+    spriteComponent->SetScale(growthComponent->GetLevel()*spriteComponent->GetBaseScale());
 }
 
 void GrowthSystem::UpdateSpriteFrameDuration(std::shared_ptr<SpriteComponent> spriteComponent,

@@ -35,6 +35,7 @@ class Level3 : public Level
     void CreateAreas();
     void CreateCells();
     void CreateBacteria();
+    void CreateViruses();
     void CreateAllSystems();
     void CreateEssentialSystems();
     void CreateAccessorySystems();

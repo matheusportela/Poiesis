@@ -31,6 +31,9 @@ class SpriteComponent : public Component
     bool GetCentered();
     void SetCentered(bool centered);
 
+    float GetBaseScale();
+    void SetBaseScale(float baseScale);
+
     float GetScale();
     void SetScale(float scale);
 
@@ -67,6 +70,9 @@ class SpriteComponent : public Component
 
     // Holds whether the image should be displayed centered.
     bool centered;
+
+    // Holds the initial scale.
+    float baseScale;
 
     // Holds the scale factor to zoom the image in or out.
     float scale;

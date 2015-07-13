@@ -22,6 +22,7 @@
 #include "poiesis/systems/CombatPowerSystem.h"
 #include "poiesis/systems/ComplexitySystem.h"
 #include "poiesis/systems/DebugSystem.h"
+#include "poiesis/systems/InfectionSystem.h"
 #include "poiesis/systems/InputSystem.h"
 #include "poiesis/systems/ParticleSystem.h"
 #include "poiesis/systems/RenderingSystem.h"
@@ -35,7 +36,9 @@ class Level2 : public Level
     void CreateButtons();
     void CreateAreas();
     void CreateCells();
+    void CreateBacteria();
     void CreateFood();
+    void CreateViruses();
     void CreateCellParticles();
     void CreateAllSystems();
     void CreateEssentialSystems();

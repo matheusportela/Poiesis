@@ -38,6 +38,9 @@ class EntityFactory
     // Creates player: a cell that is followed by the camera.
     static std::shared_ptr<Entity> CreatePlayer();
 
+    static std::shared_ptr<Entity> CreateLevel3Cell(Vector position);
+    static std::shared_ptr<Entity> CreateLevel3Player();
+
     // Creates food: a sprite that can move with user input.
     static std::shared_ptr<Entity> CreateFood(Vector position);
 

@@ -12,9 +12,9 @@ def generate_name(filename, base, num):
 def rename_file(path, filename, output, base, num):
     original = os.path.join(path, filename)
     renamed = generate_name(filename, base, num)
-    final = os.path.join(output, base)
-    os.rename(original, renamed)
-    print '"%s" -> "%s"' % (original, renamed)
+    final = os.path.join(output, renamed)
+    os.rename(original, final)
+    print '"%s" -> "%s"' % (original, final)
 
 def main():
     parser = OptionParser(usage='Usage: %prog -d DIR -b BASE')

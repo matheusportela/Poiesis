@@ -33,6 +33,12 @@ void SpawningSystem::Spawn()
             case FoodSpawning:
                 SpawnFood();
                 break;
+            case BacteriumSpawning:
+                SpawnBacterium();
+                break;
+            case VirusSpawning:
+                SpawnVirus();
+                break;
         }
     }
 }
@@ -59,4 +65,20 @@ void SpawningSystem::SpawnFood()
     float y = random.GenerateFloat(CFG_GETF("LEVEL_MIN_Y"), CFG_GETF("LEVEL_MAX_Y"));
     EntityFactory::CreateFood(Vector(x, y));
     LOG_I("[SpawningSystem] Spawning new food at " << x << ", " << y);
+}
+
+void SpawningSystem::SpawnBacterium()
+{
+    float x = random.GenerateFloat(CFG_GETF("LEVEL_MIN_X"), CFG_GETF("LEVEL_MAX_X"));
+    float y = random.GenerateFloat(CFG_GETF("LEVEL_MIN_Y"), CFG_GETF("LEVEL_MAX_Y"));
+    EntityFactory::CreateBacterium(Vector(x, y));
+    LOG_I("[SpawningSystem] Spawning new bacterium at " << x << ", " << y);
+}
+
+void SpawningSystem::SpawnVirus()
+{
+    float x = random.GenerateFloat(CFG_GETF("LEVEL_MIN_X"), CFG_GETF("LEVEL_MAX_X"));
+    float y = random.GenerateFloat(CFG_GETF("LEVEL_MIN_Y"), CFG_GETF("LEVEL_MAX_Y"));
+    EntityFactory::CreateVirus(Vector(x, y));
+    LOG_I("[SpawningSystem] Spawning new virus at " << x << ", " << y);
 }

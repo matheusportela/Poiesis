@@ -40,18 +40,20 @@ void Level2::CreateAllEntities()
     // }
 
     CreateCells();
+    CreateBacteria();
+    CreateViruses();
     CreateFood();
     CreateCellParticles();
 }
 
 void Level2::CreateButtons()
 {
-    EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
-        Rectangle(CFG_GETF("LEVEL_COMMON_MENU_BUTTON_X"),
-            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_Y"),
-            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_WIDTH"),
-            CFG_GETF("LEVEL_COMMON_MENU_BUTTON_HEIGHT")),
-        std::bind(&Level2::MenuButtonCallback, this));
+    // EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
+    //     Rectangle(CFG_GETF("LEVEL_COMMON_MENU_BUTTON_X"),
+    //         CFG_GETF("LEVEL_COMMON_MENU_BUTTON_Y"),
+    //         CFG_GETF("LEVEL_COMMON_MENU_BUTTON_WIDTH"),
+    //         CFG_GETF("LEVEL_COMMON_MENU_BUTTON_HEIGHT")),
+    //     std::bind(&Level2::MenuButtonCallback, this));
 
     EntityFactory::CreateButton(CFG_GETP("PAUSE_BUTTON_IMAGE"),
         Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_X"),
@@ -110,6 +112,34 @@ void Level2::CreateCells()
         cell = EntityFactory::CreateCell(Vector(x, y));
         Engine::GetInstance().AddComponent(
             std::make_shared<AIComponent>("CellParticleComponent"), cell);
+    }
+}
+
+void Level2::CreateBacteria()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_2_INITIAL_NUM_BACTERIA"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
+        EntityFactory::CreateBacterium(Vector(x, y));
+    }
+}
+
+void Level2::CreateViruses()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_2_INITIAL_NUM_VIRUSES"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
+        EntityFactory::CreateVirus(Vector(x, y));
     }
 }
 
@@ -175,6 +205,7 @@ void Level2::CreateAccessorySystems()
     Engine::GetInstance().AddSystem(std::make_shared<ComplexitySystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AnimationSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<InfectionSystem>());
 }
 
 void Level2::DeleteAccessorySystems()
@@ -187,6 +218,7 @@ void Level2::DeleteAccessorySystems()
     Engine::GetInstance().DeleteSystem("AISystem");
     Engine::GetInstance().DeleteSystem("CameraSystem");
     Engine::GetInstance().DeleteSystem("AnimationSystem");
+    Engine::GetInstance().DeleteSystem("InfectionSystem");
 }
 
 void Level2::Update()
@@ -213,6 +245,19 @@ void Level2::Update()
             {
                 finished = true;
                 Engine::GetInstance().DeleteSystem("CollisionSystem");
+
+                auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(playerEntity, "SpriteComponent");
+                Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(playerEntity, "SpriteComponent");
+                auto sprite = std::static_pointer_cast<SpriteComponent>(spriteComponents[0]);
+                auto animation = std::make_shared<SpriteComponent>(
+                    CFG_GETP("CELL_TO_REPRODUCTION_ANIMATION"),
+                    Vector(0, 0), sprite->GetRotation(),
+                    sprite->GetRotationSpeed(), true,
+                    CFG_GETF("CELL_TO_REPRODUCTION_SCALE"),
+                    CFG_GETI("CELL_TO_REPRODUCTION_NUM_FRAMES"),
+                    CFG_GETF("CELL_TO_REPRODUCTION_FRAME_DURATION"), false, true);
+                animation->SetCurrentFrame(0);
+                Engine::GetInstance().AddComponent(animation, playerEntity);
             }
         }
     }
@@ -232,7 +277,7 @@ void Level2::ZoomOutEffect()
     auto cameraComponent = std::static_pointer_cast<CameraComponent>(Engine::GetInstance().GetSingleComponentOfClass(cameraEntity, "CameraComponent"));
     auto height = cameraComponent->GetHeight();
 
-    if (height < 1.5)
+    if (height < CFG_GETF("LEVEL_3_CAMERA_HEIGHT"))
     {
         height += 0.01;
         cameraComponent->SetHeight(height);
@@ -259,19 +304,19 @@ void Level2::PauseButtonCallback()
     {
         paused = false;
         CreateAccessorySystems();
-        Engine::GetInstance().DeleteEntity(pauseMenuExitButton);
+        // Engine::GetInstance().DeleteEntity(pauseMenuExitButton);
     }
     else
     {
         paused = true;
         DeleteAccessorySystems();
-        pauseMenuExitButton = EntityFactory::CreateButton(
-            CFG_GETP("EXIT_BUTTON_IMAGE"),
-            Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_X"),
-                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_Y"),
-                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
-                CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
-            std::bind(&Level2::ExitButtonCallback, this));
+        // pauseMenuExitButton = EntityFactory::CreateButton(
+        //     CFG_GETP("EXIT_BUTTON_IMAGE"),
+        //     Rectangle(CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_X"),
+        //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_Y"),
+        //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
+        //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
+        //     std::bind(&Level2::ExitButtonCallback, this));
     }
 }
 

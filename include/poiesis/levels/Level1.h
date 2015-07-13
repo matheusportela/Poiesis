@@ -37,8 +37,8 @@ class Level1 : public Level
     void CreateButtons();
     void CreateAreas();
     void CreateCells();
+    void CreateBacteria();
     void CreateFood();
-    void CreateViruses();
     void CreateAllSystems();
     void CreateEssentialSystems();
     void CreateAccessorySystems();

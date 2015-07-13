@@ -4,7 +4,7 @@ SpriteComponent::SpriteComponent(std::string filename, Vector position,
     float rotation, float rotationSpeed, bool centered, float scale,
     int numFrames, float frameDuration, bool repeat, bool multipleFiles) :
     filename(filename), position(position), rotation(rotation),
-    rotationSpeed(rotationSpeed), centered(centered), scale(scale),
+    rotationSpeed(rotationSpeed), centered(centered), baseScale(scale), scale(scale),
     numFrames(numFrames), frameDuration(frameDuration), repeat(repeat),
     multipleFiles(multipleFiles)
 {
@@ -74,6 +74,16 @@ bool SpriteComponent::GetCentered()
 void SpriteComponent::SetCentered(bool centered)
 {
     this->centered = centered;
+}
+
+float SpriteComponent::GetBaseScale()
+{
+    return baseScale;
+}
+
+void SpriteComponent::SetBaseScale(float baseScale)
+{
+    this->baseScale = baseScale;
 }
 
 float SpriteComponent::GetScale()

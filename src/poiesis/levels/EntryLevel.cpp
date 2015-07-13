@@ -7,9 +7,15 @@ void EntryLevel::Start()
     // Engine::GetInstance().PlayMusic(CFG_GETP("BACKGROUND_MUSIC"),
     //     REPEAT_CONTINUOUSLY);
     
-    EntityFactory::CreateButton(CFG_GETP("EXIT_BUTTON_IMAGE"),
-        Rectangle(800, 600, 150, 50),
-        std::bind(&EntryLevel::ExitButtonCallback, this));
+    // EntityFactory::CreateButton(CFG_GETP("EXIT_BUTTON_IMAGE"),
+    //     Rectangle(800, 600, 150, 50),
+    //     std::bind(&EntryLevel::ExitButtonCallback, this));
+
+    auto logo = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(0, Vector(CFG_GETI("WINDOW_WIDTH")/2, 150)), logo);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("ENTRY_LOGO")), logo);
 
     // Creating systems.
     Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
@@ -32,7 +38,7 @@ void EntryLevel::Update()
     else if (canCreateStartButton)
     {
         EntityFactory::CreateButton(CFG_GETP("START_BUTTON_IMAGE"),
-            Rectangle(800, 500, 150, 50),
+            Rectangle(800, 500, 150, 75),
             std::bind(&EntryLevel::StartButtonCallback, this));
 
         canCreateStartButton = false;
@@ -50,7 +56,22 @@ void EntryLevel::StartButtonCallback()
 {
     LOG_I("[EntryLevel] Clicked on start button");
     SetFinished();
-    Engine::GetInstance().SetNextLevel(std::make_shared<Level2>());
+
+    switch (CFG_GETI("ENTRY_LEVEL"))
+    {
+        case 1:
+            Engine::GetInstance().SetNextLevel(std::make_shared<Level1>());
+            break;
+        case 2:
+            Engine::GetInstance().SetNextLevel(std::make_shared<Level2>());
+            break;
+        case 3:
+            Engine::GetInstance().SetNextLevel(std::make_shared<Level3>());
+            break;
+        default:
+            LOG_E("[EntryLevel] Unknown initial level");
+            exit(1);
+    }
 }
 
 void EntryLevel::ExitButtonCallback()

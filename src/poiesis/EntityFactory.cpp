@@ -55,6 +55,49 @@ std::shared_ptr<Entity> EntityFactory::CreatePlayer()
     return player;
 }
 
+std::shared_ptr<Entity> EntityFactory::CreateLevel3Cell(Vector position)
+{
+    std::shared_ptr<Entity> cell = Engine::GetInstance().CreateEntity();
+    Engine::GetInstance().AddComponent(
+        std::make_shared<MoveableComponent>(), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ComplexityComponent>(CFG_GETI("CELL_MAX_COMPLEXITY")),
+        cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ParticleComponent>(CFG_GETF("CELL_INVERSE_MASS"),
+            position, Vector(0, 0), Vector(0, 0), CFG_GETF("DEFAULT_DAMPING"),
+            0, CFG_GETF("CELL_ANGULAR_VELOCITY")),
+            cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<GrowthComponent>(), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ColliderComponent>(CFG_GETF("CELL_COLLIDER_RADIUS")),
+        cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<CombatComponent>(), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<InfectionComponent>(NoInfection, false), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<SpriteComponent>(CFG_GETP("REPRODUCTION_CELL_IMAGE"),
+            Vector(0, 0), 0, 
+            CFG_GETF("REPRODUCTION_CELL_ROTATION_SPEED"), true,
+            CFG_GETF("REPRODUCTION_CELL_ANIMATION_SCALE")),
+        cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<ReproductionComponent>(1), cell);
+    return cell;
+}
+
+std::shared_ptr<Entity> EntityFactory::CreateLevel3Player()
+{
+    std::shared_ptr<Entity> player = CreateLevel3Cell(Vector(0, 0));
+    Engine::GetInstance().AddComponent(
+        std::make_shared<PlayerComponent>(), player);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<CameraFollowComponent>(), player);
+    return player;
+}
+
 std::shared_ptr<Entity> EntityFactory::CreateFood(Vector position)
 {
     std::shared_ptr<Entity> food = Engine::GetInstance().CreateEntity();

@@ -6,6 +6,8 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/EntityFactory.h"
+#include "poiesis/components/ParticleComponent.h"
+#include "poiesis/components/SpriteComponent.h"
 #include "poiesis/levels/Level1.h"
 #include "poiesis/levels/Level2.h"
 #include "poiesis/levels/Level3.h"

@@ -204,7 +204,8 @@ std::shared_ptr<Entity> EntityFactory::CreateBacterium(Vector position)
     std::shared_ptr<Entity> bacterium = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>(CFG_GETP("BACTERIUM_IMAGE"),
-            Vector(0, 0), 0, CFG_GETF("BACTERIUM_ANGULAR_VELOCITY")), bacterium);
+            Vector(0, 0), 0, CFG_GETF("BACTERIUM_ANGULAR_VELOCITY"), true,
+            CFG_GETF("BACTERIUM_SCALE")), bacterium);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), bacterium);
     Engine::GetInstance().AddComponent(

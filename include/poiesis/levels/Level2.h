@@ -33,6 +33,7 @@ class Level2 : public Level
     void Start();
     void CreateAllEntities();
     void CreateButtons();
+    void CreateAreas();
     void CreateCells();
     void CreateFood();
     void CreateCellParticles();

@@ -18,9 +18,10 @@ void Level2::CreateAllEntities()
     //     EntityFactory::CreateCamera(CFG_GETF("LEVEL_2_CAMERA_HEIGHT"));
 
     CreateButtons();
+    CreateAreas();
 
-   auto player = EntityFactory::CreatePlayer(); 
-   Engine::GetInstance().AddComponent(
+    auto player = EntityFactory::CreatePlayer(); 
+    Engine::GetInstance().AddComponent(
         std::make_shared<AIComponent>("CellParticleComponent"), player);
 
     // Cells and food must be created after areas to be rendered above them.
@@ -58,6 +59,41 @@ void Level2::CreateButtons()
             CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_WIDTH"),
             CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_HEIGHT")),
         std::bind(&Level2::PauseButtonCallback, this));
+}
+
+void Level2::CreateAreas()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_2_NUM_SLOW_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
+        EntityFactory::CreateSlowArea(Vector(x, y));
+    }
+
+    for (int i = 0; i < CFG_GETI("LEVEL_2_NUM_FAST_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
+        EntityFactory::CreateFastArea(Vector(x, y));
+    }
+
+    for (int i = 0; i < CFG_GETI("LEVEL_2_NUM_VITAMIN_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
+        EntityFactory::CreateVitaminArea(Vector(x, y));
+    }
+
+    for (int i = 0; i < CFG_GETI("LEVEL_2_NUM_ACID_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_X"), CFG_GETF("LEVEL_2_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_2_MIN_Y"), CFG_GETF("LEVEL_2_MAX_Y"));
+        EntityFactory::CreateAcidArea(Vector(x, y));
+    }
 }
 
 void Level2::CreateCells()

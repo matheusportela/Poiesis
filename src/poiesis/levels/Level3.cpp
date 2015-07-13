@@ -14,6 +14,7 @@ void Level3::CreateAllEntities()
     EntityFactory::CreateCamera(CFG_GETF("LEVEL_3_CAMERA_HEIGHT"));
 
     CreateButtons();
+    CreateAreas();
 
     // Cells and food must be created after areas to be rendered above them.
     EntityFactory::CreatePlayer();
@@ -37,6 +38,41 @@ void Level3::CreateButtons()
             CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_WIDTH"),
             CFG_GETF("LEVEL_COMMON_PAUSE_BUTTON_HEIGHT")),
         std::bind(&Level3::PauseButtonCallback, this));
+}
+
+void Level3::CreateAreas()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_3_NUM_SLOW_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
+        EntityFactory::CreateSlowArea(Vector(x, y));
+    }
+
+    for (int i = 0; i < CFG_GETI("LEVEL_3_NUM_FAST_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
+        EntityFactory::CreateFastArea(Vector(x, y));
+    }
+
+    for (int i = 0; i < CFG_GETI("LEVEL_3_NUM_VITAMIN_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
+        EntityFactory::CreateVitaminArea(Vector(x, y));
+    }
+
+    for (int i = 0; i < CFG_GETI("LEVEL_3_NUM_ACID_AREAS"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
+        EntityFactory::CreateAcidArea(Vector(x, y));
+    }
 }
 
 void Level3::CreateCells()

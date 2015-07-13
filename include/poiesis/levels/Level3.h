@@ -32,6 +32,7 @@ class Level3 : public Level
     void Start();
     void CreateAllEntities();
     void CreateButtons();
+    void CreateAreas();
     void CreateCells();
     void CreateBacteria();
     void CreateAllSystems();

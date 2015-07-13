@@ -18,7 +18,7 @@ void Level3::CreateAllEntities()
     // Cells and food must be created after areas to be rendered above them.
     EntityFactory::CreatePlayer();
 
-    CreateCells();
+    // CreateCells();
     CreateBacteria();
 }
 

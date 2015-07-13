@@ -7,6 +7,8 @@
 
 #include "poiesis/EntityFactory.h"
 #include "poiesis/levels/Level1.h"
+#include "poiesis/levels/Level2.h"
+#include "poiesis/levels/Level3.h"
 #include "poiesis/systems/DebugSystem.h"
 #include "poiesis/systems/InputSystem.h"
 #include "poiesis/systems/RenderingSystem.h"

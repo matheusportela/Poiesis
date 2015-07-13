@@ -38,7 +38,7 @@ void EntryLevel::StartButtonCallback()
 {
     LOG_I("[EntryLevel] Clicked on start button");
     SetFinished();
-    Engine::GetInstance().SetNextLevel(std::make_shared<Level1>());
+    Engine::GetInstance().SetNextLevel(std::make_shared<Level3>());
 }
 
 void EntryLevel::ExitButtonCallback()

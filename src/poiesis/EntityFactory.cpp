@@ -229,10 +229,6 @@ std::shared_ptr<Entity> EntityFactory::CreateBacterium(Vector position)
     Random r;
     std::shared_ptr<Entity> bacterium = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("BACTERIUM_IMAGE"),
-            Vector(0, 0), r.GenerateFloat(-M_PI, M_PI), CFG_GETF("BACTERIUM_ANGULAR_VELOCITY"), true,
-            CFG_GETF("BACTERIUM_SCALE")), bacterium);
-    Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), bacterium);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(CFG_GETF("BACTERIUM_INVERSE_MASS"),
@@ -241,11 +237,40 @@ std::shared_ptr<Entity> EntityFactory::CreateBacterium(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<ColliderComponent>(CFG_GETF("BACTERIUM_COLLIDER_RADIUS")),
         bacterium);
-    Engine::GetInstance().AddComponent(
-        std::make_shared<InfectionComponent>(CannotInput, true, false,
-            CFG_GETF("INFECTION_FROZEN_DURATION")), bacterium);
-    // Engine::GetInstance().AddComponent(
-    //     std::make_shared<InfectionComponent>(StrongImpulses, true, false,
-    //         CFG_GETF("INFECTION_IMPULSES_DURATION")), bacterium);
+
+    switch (r.GenerateInt(0, 3))
+    {
+        case 0:
+            Engine::GetInstance().AddComponent(
+                std::make_shared<SpriteComponent>(CFG_GETP("BACTERIUM_FROZEN_IMAGE"),
+                    Vector(0, 0), r.GenerateFloat(-M_PI, M_PI), CFG_GETF("BACTERIUM_ANGULAR_VELOCITY"), true,
+                    CFG_GETF("BACTERIUM_SCALE")), bacterium);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<InfectionComponent>(CannotInput, true, false,
+                    CFG_GETF("INFECTION_FROZEN_DURATION")), bacterium);
+            break;
+        case 1:
+            Engine::GetInstance().AddComponent(
+                std::make_shared<SpriteComponent>(CFG_GETP("BACTERIUM_ERRACTIC_IMAGE"),
+                    Vector(0, 0), r.GenerateFloat(-M_PI, M_PI), CFG_GETF("BACTERIUM_ANGULAR_VELOCITY"), true,
+                    CFG_GETF("BACTERIUM_SCALE")), bacterium);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<InfectionComponent>(StrongImpulses, true, false,
+                    CFG_GETF("INFECTION_IMPULSES_DURATION")), bacterium);
+            break;
+        case 2:
+            Engine::GetInstance().AddComponent(
+                std::make_shared<SpriteComponent>(CFG_GETP("BACTERIUM_CANNOT_EAT_IMAGE"),
+                    Vector(0, 0), r.GenerateFloat(-M_PI, M_PI), CFG_GETF("BACTERIUM_ANGULAR_VELOCITY"), true,
+                    CFG_GETF("BACTERIUM_SCALE")), bacterium);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<InfectionComponent>(CannotEat, true, false,
+                    CFG_GETF("INFECTION_CANNOT_EAT_DURATION")), bacterium);
+            break;
+        default:
+            LOG_E("[EntityFactory] Bacterium type larger than permitted.");
+            exit(1);
+            break;
+    }
     return bacterium;
 }

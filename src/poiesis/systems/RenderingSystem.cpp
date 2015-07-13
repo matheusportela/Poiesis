@@ -131,7 +131,6 @@ void RenderingSystem::RenderSprite(std::shared_ptr<Entity> entity, std::shared_p
     {
         currentFrame = 0;
         numFrames = 1;
-        LOG_W("Scale: " << spriteComponent->GetScale());
     }
 
     if (spriteComponent->GetCentered())

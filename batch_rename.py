@@ -33,12 +33,8 @@ def main():
         parser.error('Base name not given')
 
     path = options.directory
+    output = path
     base = options.base
-
-    if options.output:
-        output = options.output
-    else:
-        output = path
 
     files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
     files.sort()

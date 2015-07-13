@@ -101,9 +101,13 @@ std::shared_ptr<Entity> EntityFactory::CreateCellParticle(Vector position)
 
 std::shared_ptr<Entity> EntityFactory::CreateVirus(Vector position)
 {
+    Random r;
     std::shared_ptr<Entity> virus = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("VIRUS_IMAGE")), virus);
+        std::make_shared<SpriteComponent>(CFG_GETP("VIRUS_IMAGE"),
+            Vector(0, 0), r.GenerateFloat(-M_PI, M_PI),
+            CFG_GETF("VIRUS_ANGULAR_VELOCITY"), true,
+            CFG_GETF("VIRUS_SCALE")), virus);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), virus);
     Engine::GetInstance().AddComponent(
@@ -131,7 +135,12 @@ std::shared_ptr<Entity> EntityFactory::CreateSlowArea(Vector position)
 {
     std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("SLOW_AREA_IMAGE")), area);
+        std::make_shared<SpriteComponent>(CFG_GETP("SLOW_AREA_ANIMATION"),
+            Vector(0, 0), 0, 0, true,
+            CFG_GETF("SLOW_AREA_ANIMATION_SCALE"),
+            CFG_GETI("SLOW_AREA_ANIMATION_NUM_FRAMES"),
+            CFG_GETF("SLOW_AREA_ANIMATION_FRAME_DURATION"), true, true),
+        area);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(0, position), area);
     Engine::GetInstance().AddComponent(
@@ -166,7 +175,12 @@ std::shared_ptr<Entity> EntityFactory::CreateVitaminArea(Vector position)
 {
     std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("VITAMIN_AREA_IMAGE")), area);
+        std::make_shared<SpriteComponent>(CFG_GETP("VITAMIN_AREA_ANIMATION"),
+            Vector(0, 0), 0, 0, true,
+            CFG_GETF("VITAMIN_AREA_ANIMATION_SCALE"),
+            CFG_GETI("VITAMIN_AREA_ANIMATION_NUM_FRAMES"),
+            CFG_GETF("VITAMIN_AREA_ANIMATION_FRAME_DURATION"), true, true),
+        area);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(0, position), area);
     Engine::GetInstance().AddComponent(
@@ -182,7 +196,12 @@ std::shared_ptr<Entity> EntityFactory::CreateAcidArea(Vector position)
 {
     std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("ACID_AREA_IMAGE")), area);
+        std::make_shared<SpriteComponent>(CFG_GETP("ACID_AREA_ANIMATION"),
+            Vector(0, 0), 0, 0, true,
+            CFG_GETF("ACID_AREA_ANIMATION_SCALE"),
+            CFG_GETI("ACID_AREA_ANIMATION_NUM_FRAMES"),
+            CFG_GETF("ACID_AREA_ANIMATION_FRAME_DURATION"), true, true),
+        area);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(0, position), area);
     Engine::GetInstance().AddComponent(
@@ -207,10 +226,11 @@ std::shared_ptr<Entity> EntityFactory::CreateButton(std::string image,
 
 std::shared_ptr<Entity> EntityFactory::CreateBacterium(Vector position)
 {
+    Random r;
     std::shared_ptr<Entity> bacterium = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>(CFG_GETP("BACTERIUM_IMAGE"),
-            Vector(0, 0), 0, CFG_GETF("BACTERIUM_ANGULAR_VELOCITY"), true,
+            Vector(0, 0), r.GenerateFloat(-M_PI, M_PI), CFG_GETF("BACTERIUM_ANGULAR_VELOCITY"), true,
             CFG_GETF("BACTERIUM_SCALE")), bacterium);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), bacterium);

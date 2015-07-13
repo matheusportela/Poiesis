@@ -59,7 +59,8 @@ std::shared_ptr<Entity> EntityFactory::CreateFood(Vector position)
 {
     std::shared_ptr<Entity> food = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("FOOD_IMAGE")), food);
+        std::make_shared<SpriteComponent>(CFG_GETP("FOOD_IMAGE"), Vector(0, 0),
+            0, 0, true, CFG_GETF("FOOD_SCALE")), food);
     Engine::GetInstance().AddComponent(
         std::make_shared<MoveableComponent>(), food);
     Engine::GetInstance().AddComponent(

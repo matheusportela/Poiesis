@@ -445,9 +445,22 @@ bool CollisionSystem::TransmitInfection(std::shared_ptr<Entity> transmitterEntit
         if (Engine::GetInstance().HasComponent(receiverEntity, "PlayerComponent"))
         {
             if (transmitterInfectionComponent->GetInfectionType() == CannotInput)
+            {
                 Engine::GetInstance().PlaySoundEffect(CFG_GETP("FROZEN_SOUND_EFFECT"));
+
+                auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(receiverEntity, "SpriteComponent");
+                Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(receiverEntity, "SpriteComponent");
+                Engine::GetInstance().AddComponent(
+                std::make_shared<SpriteComponent>(CFG_GETP("CELL_FROZEN_IMAGE"),
+                    Vector(0, 0), 0, 0, true,
+                    CFG_GETF("CELL_FROZEN_SCALE")), receiverEntity);
+                for (unsigned int i = 1; i < spriteComponents.size(); ++i)
+                    Engine::GetInstance().AddComponent(spriteComponents[i], receiverEntity);
+            }
             else if (transmitterInfectionComponent->GetInfectionType() == StrongImpulses)
+            {
                 Engine::GetInstance().PlaySoundEffect(CFG_GETP("IMPULSES_SOUND_EFFECT"));
+            }
         }
             
 

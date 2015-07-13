@@ -7,6 +7,9 @@
 
 #include "bandit/Engine.h"
 
+#include "poiesis/EntityFactory.h"
+#include "poiesis/components/SpriteComponent.h"
+
 enum InfectionType
 {
     NoInfection,

@@ -31,12 +31,20 @@ void EntryLevel::Update()
     {
         if (!Engine::GetInstance().GetGraphicsAdapter()->IsFontLoaded(CFG_GETP("FONT_FILE")))
             Engine::GetInstance().GetGraphicsAdapter()->LoadFont(CFG_GETP("FONT_FILE"), CFG_GETI("DEBUG_MESSAGE_SIZE"));
-
-        Engine::GetInstance().GetGraphicsAdapter()->Write("Loading",
-            CFG_GETP("FONT_FILE"), 835, 500);
+        
+        if (!loading)
+        {
+            loading = Engine::GetInstance().CreateEntity();
+            Engine::GetInstance().AddComponent(
+                std::make_shared<ParticleComponent>(0, Vector(800, 500)), loading);
+            Engine::GetInstance().AddComponent(
+                std::make_shared<SpriteComponent>(CFG_GETP("LOADING_IMAGE")), loading);
+        }
     }
     else if (canCreateStartButton)
     {
+        Engine::GetInstance().DeleteEntity(loading);
+
         EntityFactory::CreateButton(CFG_GETP("START_BUTTON_IMAGE"),
             Rectangle(800, 500, 150, 75),
             std::bind(&EntryLevel::StartButtonCallback, this));

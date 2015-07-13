@@ -44,6 +44,9 @@ void Level2::CreateAllEntities()
     CreateViruses();
     CreateFood();
     CreateCellParticles();
+
+    for (int i = 0; i < 6; ++i)
+        EntityFactory::CreateCellParticle(Vector(0, 0));
 }
 
 void Level2::CreateButtons()

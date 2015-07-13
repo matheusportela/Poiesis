@@ -28,6 +28,7 @@ class EntryLevel : public Level
     bool PreloadImage(std::string filename);
 
   private:
+    std::shared_ptr<Entity> loading;
     bool canCreateStartButton;
 };
 

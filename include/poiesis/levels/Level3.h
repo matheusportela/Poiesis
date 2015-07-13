@@ -16,6 +16,7 @@
 #include "poiesis/levels/LoseLevel.h"
 #include "poiesis/levels/WinLevel.h"
 
+#include "poiesis/systems/AISystem.h"
 #include "poiesis/systems/AnimationSystem.h"
 #include "poiesis/systems/CameraSystem.h"
 #include "poiesis/systems/CollisionSystem.h"
@@ -25,6 +26,8 @@
 #include "poiesis/systems/InputSystem.h"
 #include "poiesis/systems/ParticleSystem.h"
 #include "poiesis/systems/RenderingSystem.h"
+#include "poiesis/systems/ReproductionSystem.h"
+#include "poiesis/systems/SpawningSystem.h"
 
 class Level3 : public Level
 {
@@ -36,6 +39,7 @@ class Level3 : public Level
     void CreateCells();
     void CreateBacteria();
     void CreateViruses();
+    void CreateFood();
     void CreateAllSystems();
     void CreateEssentialSystems();
     void CreateAccessorySystems();

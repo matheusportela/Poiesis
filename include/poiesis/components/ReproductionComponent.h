@@ -17,7 +17,13 @@ class ReproductionComponent : public Component
     bool GetReproduced();
     void SetReproduced(bool reproduced);
 
+    bool GetEnabled();
+    void SetEnabled(bool enabled);
+
   private:
+    // Holds whether can reproduce.
+    bool enabled;
+
     // Holds whether the entity has reproduced.
     bool reproduced;
 

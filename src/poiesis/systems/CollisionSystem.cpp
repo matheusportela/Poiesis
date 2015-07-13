@@ -274,8 +274,20 @@ bool CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
             "ReproductionComponent"));
 
     auto particleComponent1 = std::static_pointer_cast<ParticleComponent>(
+        Engine::GetInstance().GetSingleComponentOfClass(entity1,
+            "ParticleComponent"));
+    auto particleComponent2 = std::static_pointer_cast<ParticleComponent>(
         Engine::GetInstance().GetSingleComponentOfClass(entity2,
             "ParticleComponent"));
+
+    auto position1 = particleComponent1->GetPosition();
+    auto position2 = particleComponent2->GetPosition();
+
+    if (position1.CalculateDistance(position2) >= CFG_GETF("REPRODUCTION_DISTANCE_MAX"))
+        return true;
+
+    auto enabled1 = reproductionComponent1->GetEnabled();
+    auto enabled2 = reproductionComponent2->GetEnabled();
 
     auto reproduced1 = reproductionComponent1->GetReproduced();
     auto reproduced2 = reproductionComponent2->GetReproduced();
@@ -283,7 +295,7 @@ bool CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
     auto type1 = reproductionComponent1->GetType();
     auto type2 = reproductionComponent2->GetType();
 
-    if (!reproduced1 && !reproduced2 && type1 == type2)
+    if (enabled1 && enabled2 && !reproduced1 && !reproduced2 && type1 == type2)
     {
         LOG_D("[CollisionSystem] Reproducing entities " << entity1->GetId()
             << " and " << entity2->GetId());

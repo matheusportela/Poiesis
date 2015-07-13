@@ -11,8 +11,12 @@
 class InfectionSystem : public System
 {
   public:
+    void SetLevel3(bool isLevel3);
     std::string GetName();
     void Update(float dt);
+
+  private:
+    bool isLevel3;
 };
 
 #endif // INFECTION_SYSTEM_H_

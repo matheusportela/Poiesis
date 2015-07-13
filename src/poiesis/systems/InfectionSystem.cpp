@@ -1,5 +1,10 @@
 #include "poiesis/systems/InfectionSystem.h"
 
+void InfectionSystem::SetLevel3(bool isLevel3)
+{
+    this->isLevel3 = isLevel3;
+}
+
 std::string InfectionSystem::GetName()
 {
     return "InfectionSystem";
@@ -27,13 +32,28 @@ void InfectionSystem::Update(float dt)
 
                 auto spriteComponents = Engine::GetInstance().GetComponentsOfClass(entity, "SpriteComponent");
                 Engine::GetInstance().GetEntityManager()->DeleteComponentsOfClass(entity, "SpriteComponent");
-                Engine::GetInstance().AddComponent(
-                    std::make_shared<SpriteComponent>(CFG_GETP("CELL_ANIMATION"),
-                        Vector(0, 0), 0, 0, true,
-                        CFG_GETF("CELL_ANIMATION_SCALE"),
-                        CFG_GETI("CELL_ANIMATION_NUM_FRAMES"),
-                        CFG_GETF("CELL_ANIMATION_FRAME_DURATION"), true, true),
-                    entity);
+
+                if (!isLevel3)
+                {
+                    Engine::GetInstance().AddComponent(
+                        std::make_shared<SpriteComponent>(CFG_GETP("CELL_ANIMATION"),
+                            Vector(0, 0), 0, 0, true,
+                            CFG_GETF("CELL_ANIMATION_SCALE"),
+                            CFG_GETI("CELL_ANIMATION_NUM_FRAMES"),
+                            CFG_GETF("CELL_ANIMATION_FRAME_DURATION"), true, true),
+                        entity);
+                }
+                else
+                {
+                    Engine::GetInstance().AddComponent(
+                        std::make_shared<SpriteComponent>(CFG_GETP("REPRODUCTION_MATURING_ANIMATION"),
+                            Vector(0, 0), 0, CFG_GETF("REPRODUCTION_MATURING_ROTATION_SPEED"), true,
+                            CFG_GETF("REPRODUCTION_MATURING_SCALE"),
+                            CFG_GETI("REPRODUCTION_MATURING_NUM_FRAMES"),
+                            1, true, true),
+                        entity);
+                }
+
                 for (unsigned int i = 1; i < spriteComponents.size(); ++i)
                     Engine::GetInstance().AddComponent(spriteComponents[i], entity);
             }

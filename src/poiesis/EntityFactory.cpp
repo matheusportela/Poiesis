@@ -78,13 +78,16 @@ std::shared_ptr<Entity> EntityFactory::CreateLevel3Cell(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<InfectionComponent>(NoInfection, false), cell);
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("REPRODUCTION_CELL_IMAGE"),
-            Vector(0, 0), 0, 
-            CFG_GETF("REPRODUCTION_CELL_ROTATION_SPEED"), true,
-            CFG_GETF("REPRODUCTION_CELL_ANIMATION_SCALE")),
+        std::make_shared<SpriteComponent>(CFG_GETP("REPRODUCTION_MATURING_ANIMATION"),
+            Vector(0, 0), 0, CFG_GETF("REPRODUCTION_MATURING_ROTATION_SPEED"), true,
+            CFG_GETF("REPRODUCTION_MATURING_SCALE"),
+            CFG_GETI("REPRODUCTION_MATURING_NUM_FRAMES"),
+            1, true, true),
         cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<ReproductionComponent>(1), cell);
+    Engine::GetInstance().AddComponent(
+        std::make_shared<AIComponent>("EatableComponent"), cell);
     return cell;
 }
 

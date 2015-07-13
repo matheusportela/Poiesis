@@ -11,7 +11,8 @@ void Level3::Start()
 void Level3::CreateAllEntities()
 {
     // EntityFactory::CreateBackground();
-    EntityFactory::CreateCamera(CFG_GETF("LEVEL_3_CAMERA_HEIGHT"));
+    // EntityFactory::CreateCamera(CFG_GETF("LEVEL_3_CAMERA_HEIGHT"));
+    EntityFactory::CreateCamera(1);
 
     CreateButtons();
     CreateAreas();
@@ -22,6 +23,7 @@ void Level3::CreateAllEntities()
     CreateCells();
     CreateBacteria();
     CreateViruses();
+    CreateFood();
 }
 
 void Level3::CreateButtons()
@@ -118,6 +120,20 @@ void Level3::CreateViruses()
     }
 }
 
+void Level3::CreateFood()
+{
+    Random r;
+    float x;
+    float y;
+
+    for (int i = 0; i < CFG_GETI("LEVEL_3_INITIAL_NUM_FOOD"); ++i)
+    {
+        x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
+        y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
+        EntityFactory::CreateFood(Vector(x, y));
+    }
+}
+
 void Level3::CreateAllSystems()
 {
     CreateEssentialSystems();
@@ -137,20 +153,33 @@ void Level3::CreateAccessorySystems()
     collisionSystem->EnableReproduction();
     Engine::GetInstance().AddSystem(collisionSystem);
 
+    Engine::GetInstance().AddSystem(std::make_shared<SpawningSystem>(
+        FoodSpawning,
+        CFG_GETF("FOOD_SPAWNING_CHANCE"),
+        CFG_GETF("FOOD_SPAWNING_PERIOD")));
+    Engine::GetInstance().AddSystem(std::make_shared<AISystem>());
+
     Engine::GetInstance().AddSystem(std::make_shared<CombatPowerSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<ParticleSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<CameraSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<AnimationSystem>());
-    Engine::GetInstance().AddSystem(std::make_shared<InfectionSystem>());
+    Engine::GetInstance().AddSystem(std::make_shared<ReproductionSystem>());
+
+    auto infectionSystem = std::make_shared<InfectionSystem>();
+    infectionSystem->SetLevel3(true);
+    Engine::GetInstance().AddSystem(infectionSystem);
 }
 
 void Level3::DeleteAccessorySystems()
 {
     Engine::GetInstance().DeleteSystem("CollisionSystem");
+    Engine::GetInstance().DeleteSystem("SpawningSystem");
+    Engine::GetInstance().DeleteSystem("AISystem");
     Engine::GetInstance().DeleteSystem("CombatPowerSystem");
     Engine::GetInstance().DeleteSystem("ParticleSystem");
     Engine::GetInstance().DeleteSystem("CameraSystem");
     Engine::GetInstance().DeleteSystem("AnimationSystem");
+    Engine::GetInstance().DeleteSystem("ReproductionSystem");
     Engine::GetInstance().DeleteSystem("InfectionSystem");
 }
 

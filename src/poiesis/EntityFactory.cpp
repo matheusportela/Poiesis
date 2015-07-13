@@ -146,7 +146,12 @@ std::shared_ptr<Entity> EntityFactory::CreateFastArea(Vector position)
 {
     std::shared_ptr<Entity> area = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(CFG_GETP("FAST_AREA_IMAGE")), area);
+        std::make_shared<SpriteComponent>(CFG_GETP("FAST_AREA_ANIMATION"),
+            Vector(0, 0), 0, 0, true,
+            CFG_GETF("FAST_AREA_ANIMATION_SCALE"),
+            CFG_GETI("FAST_AREA_ANIMATION_NUM_FRAMES"),
+            CFG_GETF("FAST_AREA_ANIMATION_FRAME_DURATION"), true, true),
+        area);
     Engine::GetInstance().AddComponent(
         std::make_shared<ParticleComponent>(0, position), area);
     Engine::GetInstance().AddComponent(

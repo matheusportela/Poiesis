@@ -55,6 +55,7 @@ class Level3 : public Level
     bool paused;
 
     std::shared_ptr<Entity> pauseMenuExitButton;
+    std::shared_ptr<Entity> pauseMenuButton;
 };
 
 #endif // LEVEL_3_H_

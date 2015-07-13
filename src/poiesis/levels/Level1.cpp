@@ -134,7 +134,9 @@ void Level1::CreateEssentialSystems()
 {
     Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
-    Engine::GetInstance().AddSystem(std::make_shared<DebugSystem>());
+    
+    if (CFG_GETB("DEBUG"))
+        Engine::GetInstance().AddSystem(std::make_shared<DebugSystem>());
 }
 
 void Level1::CreateAccessorySystems()
@@ -241,6 +243,7 @@ void Level1::PauseButtonCallback()
         paused = false;
         CreateAccessorySystems();
         // Engine::GetInstance().DeleteEntity(pauseMenuExitButton);
+        Engine::GetInstance().DeleteEntity(pauseMenuButton);
     }
     else
     {
@@ -253,6 +256,13 @@ void Level1::PauseButtonCallback()
         //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_WIDTH"),
         //         CFG_GETF("LEVEL_COMMON_PAUSE_MENU_EXIT_BUTTON_HEIGHT")),
         //     std::bind(&Level1::ExitButtonCallback, this));
+
+        pauseMenuButton = EntityFactory::CreateButton(CFG_GETP("MENU_BUTTON_IMAGE"),
+            Rectangle(CFG_GETF("LEVEL_COMMON_MENU_BUTTON_X"),
+                CFG_GETF("LEVEL_COMMON_MENU_BUTTON_Y"),
+                CFG_GETF("LEVEL_COMMON_MENU_BUTTON_WIDTH"),
+                CFG_GETF("LEVEL_COMMON_MENU_BUTTON_HEIGHT")),
+            std::bind(&Level1::MenuButtonCallback, this));
     }
 }
 

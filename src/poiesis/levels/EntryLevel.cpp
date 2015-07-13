@@ -4,8 +4,8 @@ void EntryLevel::Start()
 {
     LOG_I("[EntryLevel] Starting");
 
-    // Engine::GetInstance().PlayMusic(CFG_GETP("BACKGROUND_MUSIC"),
-    //     REPEAT_CONTINUOUSLY);
+    Engine::GetInstance().PlayMusic(CFG_GETP("BACKGROUND_MUSIC"),
+        REPEAT_CONTINUOUSLY);
     
     // EntityFactory::CreateButton(CFG_GETP("EXIT_BUTTON_IMAGE"),
     //     Rectangle(800, 600, 150, 50),
@@ -13,14 +13,16 @@ void EntryLevel::Start()
 
     auto logo = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
-        std::make_shared<ParticleComponent>(0, Vector(CFG_GETI("WINDOW_WIDTH")/2, 150)), logo);
+        std::make_shared<ParticleComponent>(0, Vector(50 + CFG_GETI("WINDOW_WIDTH")/2, 150)), logo);
     Engine::GetInstance().AddComponent(
         std::make_shared<SpriteComponent>(CFG_GETP("ENTRY_LOGO")), logo);
 
     // Creating systems.
     Engine::GetInstance().AddSystem(std::make_shared<RenderingSystem>());
     Engine::GetInstance().AddSystem(std::make_shared<InputSystem>());
-    Engine::GetInstance().AddSystem(std::make_shared<DebugSystem>());
+
+    if (CFG_GETB("DEBUG"))
+        Engine::GetInstance().AddSystem(std::make_shared<DebugSystem>());
 
     canCreateStartButton = true;
 }
@@ -36,17 +38,18 @@ void EntryLevel::Update()
         {
             loading = Engine::GetInstance().CreateEntity();
             Engine::GetInstance().AddComponent(
-                std::make_shared<ParticleComponent>(0, Vector(800, 500)), loading);
+                std::make_shared<ParticleComponent>(0, Vector(925, 525)), loading);
             Engine::GetInstance().AddComponent(
                 std::make_shared<SpriteComponent>(CFG_GETP("LOADING_IMAGE")), loading);
         }
     }
     else if (canCreateStartButton)
     {
-        Engine::GetInstance().DeleteEntity(loading);
+        if (loading)
+            Engine::GetInstance().DeleteEntity(loading);
 
         EntityFactory::CreateButton(CFG_GETP("START_BUTTON_IMAGE"),
-            Rectangle(800, 500, 150, 75),
+            Rectangle(850, 500, 150, 75),
             std::bind(&EntryLevel::StartButtonCallback, this));
 
         canCreateStartButton = false;
@@ -75,6 +78,12 @@ void EntryLevel::StartButtonCallback()
             break;
         case 3:
             Engine::GetInstance().SetNextLevel(std::make_shared<Level3>());
+            break;
+        case 4:
+            Engine::GetInstance().SetNextLevel(std::make_shared<WinLevel>());
+            break;
+        case 5:
+            Engine::GetInstance().SetNextLevel(std::make_shared<LoseLevel>());
             break;
         default:
             LOG_E("[EntryLevel] Unknown initial level");

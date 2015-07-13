@@ -11,7 +11,7 @@ void Level1::Start()
 
 void Level1::CreateAllEntities()
 {
-    EntityFactory::CreateBackground();
+    // EntityFactory::CreateBackground();
     EntityFactory::CreateCamera(CFG_GETF("LEVEL_1_CAMERA_HEIGHT"));
 
     CreateButtons();
@@ -90,7 +90,7 @@ void Level1::CreateCells()
     {
         x = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_X"), CFG_GETF("LEVEL_1_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_1_MIN_Y"), CFG_GETF("LEVEL_1_MAX_Y"));
-        cell = EntityFactory::CreateRandomCell(Vector(x, y));
+        cell = EntityFactory::CreateCell(Vector(x, y));
         Engine::GetInstance().AddComponent(
             std::make_shared<AIComponent>("EatableComponent"), cell);
     }

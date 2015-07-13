@@ -2,10 +2,11 @@
 
 SpriteComponent::SpriteComponent(std::string filename, Vector position,
     float rotation, float rotationSpeed, bool centered, float scale,
-    int numFrames, float frameDuration, bool repeat) :
+    int numFrames, float frameDuration, bool repeat, bool multipleFiles) :
     filename(filename), position(position), rotation(rotation),
     rotationSpeed(rotationSpeed), centered(centered), scale(scale),
-    numFrames(numFrames), frameDuration(frameDuration), repeat(repeat)
+    numFrames(numFrames), frameDuration(frameDuration), repeat(repeat),
+    multipleFiles(multipleFiles)
 {
     Random r;
 
@@ -133,4 +134,14 @@ float SpriteComponent::GetElapsedTime()
 void SpriteComponent::SetElapsedTime(float elapsedTime)
 {
     this->elapsedTime = elapsedTime;
+}
+
+bool SpriteComponent::GetMultipleFiles()
+{
+    return multipleFiles;
+}
+
+void SpriteComponent::SetMultipleFiles(bool multipleFiles)
+{
+    this->multipleFiles = multipleFiles;
 }

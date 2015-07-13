@@ -179,7 +179,7 @@ void SDLGraphicsAdapter::UnloadAllFonts()
 void SDLGraphicsAdapter::InitRendering()
 {
     // Select the black color for drawing.
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 251, 245, 184, 255);
 
     // Clear the entire screen with the selected color.
     SDL_RenderClear(renderer);
@@ -247,9 +247,9 @@ void SDLGraphicsAdapter::Write(std::string text, std::string fontFile, int x, in
     int height;
     SDL_Color color =
     {
-        .r = 255,
-        .g = 255,
-        .b = 255,
+        .r = 25,
+        .g = 25,
+        .b = 25,
         .a = 0      
     };
     TTF_Font* font = fontTable[fontFile];

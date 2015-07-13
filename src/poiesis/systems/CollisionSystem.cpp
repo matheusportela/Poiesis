@@ -281,7 +281,7 @@ bool CollisionSystem::ReproduceEntities(std::shared_ptr<Entity> entity1,
     {
         LOG_D("[CollisionSystem] Reproducing entities " << entity1->GetId()
             << " and " << entity2->GetId());
-        EntityFactory::CreateCell(type1, particleComponent1->GetPosition() + Vector(50, 50));
+        EntityFactory::CreateCell(particleComponent1->GetPosition() + Vector(50, 50));
         reproductionComponent1->SetReproduced(true);
         reproductionComponent2->SetReproduced(true);
         return true;

@@ -11,7 +11,7 @@ std::shared_ptr<Entity> EntityFactory::CreateBackground()
     return background;
 }
 
-std::shared_ptr<Entity> EntityFactory::CreateCellWithoutSprite(Vector position)
+std::shared_ptr<Entity> EntityFactory::CreateCell(Vector position)
 {
     std::shared_ptr<Entity> cell = Engine::GetInstance().CreateEntity();
     Engine::GetInstance().AddComponent(
@@ -33,80 +33,21 @@ std::shared_ptr<Entity> EntityFactory::CreateCellWithoutSprite(Vector position)
         std::make_shared<CombatComponent>(), cell);
     Engine::GetInstance().AddComponent(
         std::make_shared<InfectionComponent>(NoInfection, false), cell);
-    return cell;
-}
-
-std::shared_ptr<Entity> EntityFactory::CreateCell(std::string image,
-    Vector position)
-{
-    std::shared_ptr<Entity> cell = CreateCellWithoutSprite(position);
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(image), cell);
-    return cell;
-}
-
-std::shared_ptr<Entity> EntityFactory::CreateAnimatedCell(std::string image,
-    int numFrames, float frameDuration, Vector position)
-{
-    std::shared_ptr<Entity> cell = CreateCellWithoutSprite(position);
+        std::make_shared<SpriteComponent>(CFG_GETP("CELL_ANIMATION"),
+            Vector(0, 0), 0, 0, true,
+            CFG_GETF("CELL_ANIMATION_SCALE"),
+            CFG_GETI("CELL_ANIMATION_NUM_FRAMES"),
+            CFG_GETF("CELL_ANIMATION_FRAME_DURATION"), true, true),
+        cell);
     Engine::GetInstance().AddComponent(
-        std::make_shared<SpriteComponent>(image, Vector(0, 0), 0, 0, true, 1,
-            numFrames, frameDuration, true), cell);
+        std::make_shared<ReproductionComponent>(1), cell);
     return cell;
-}
-
-std::shared_ptr<Entity> EntityFactory::CreateCell(int type,
-    Vector position)
-{
-    std::shared_ptr<Entity> cell;
-
-    switch (type)
-    {
-        case 1:
-            cell = CreateAnimatedCell(CFG_GETP("CELL_1_ANIMATION"),
-                CFG_GETI("CELL_1_ANIMATION_NUM_FRAMES"),
-                CFG_GETF("CELL_1_ANIMATION_FRAME_DURATION"), position);
-            break;
-        case 2:
-            cell = CreateAnimatedCell(CFG_GETP("CELL_2_ANIMATION"),
-                CFG_GETI("CELL_2_ANIMATION_NUM_FRAMES"),
-                CFG_GETF("CELL_2_ANIMATION_FRAME_DURATION"), position);
-            break;
-        case 3:
-            cell = CreateAnimatedCell(CFG_GETP("CELL_3_ANIMATION"),
-                CFG_GETI("CELL_3_ANIMATION_NUM_FRAMES"),
-                CFG_GETF("CELL_3_ANIMATION_FRAME_DURATION"), position);
-            break;
-        case 4:
-            cell = CreateAnimatedCell(CFG_GETP("CELL_4_ANIMATION"),
-                CFG_GETI("CELL_4_ANIMATION_NUM_FRAMES"),
-                CFG_GETF("CELL_4_ANIMATION_FRAME_DURATION"), position);
-            break;
-        case 5:
-            cell = CreateAnimatedCell(CFG_GETP("CELL_5_ANIMATION"),
-                CFG_GETI("CELL_5_ANIMATION_NUM_FRAMES"),
-                CFG_GETF("CELL_5_ANIMATION_FRAME_DURATION"), position);
-            break;
-        default:
-            LOG_E("[EntityFactory] Unknown cell type: " << type);
-            exit(1);
-    }
-
-    Engine::GetInstance().AddComponent(
-        std::make_shared<ReproductionComponent>(type), cell);
-    return cell;
-}
-
-std::shared_ptr<Entity> EntityFactory::CreateRandomCell(Vector position)
-{
-    Random r;
-    int type = r.GenerateInt(1, 6);
-    return CreateCell(type, position);
 }
 
 std::shared_ptr<Entity> EntityFactory::CreatePlayer()
 {
-    std::shared_ptr<Entity> player = CreateCell(1, Vector(0, 0));
+    std::shared_ptr<Entity> player = CreateCell(Vector(0, 0));
     Engine::GetInstance().AddComponent(
         std::make_shared<PlayerComponent>(), player);
     Engine::GetInstance().AddComponent(
@@ -273,11 +214,11 @@ std::shared_ptr<Entity> EntityFactory::CreateBacterium(Vector position)
     Engine::GetInstance().AddComponent(
         std::make_shared<ColliderComponent>(CFG_GETF("BACTERIUM_COLLIDER_RADIUS")),
         bacterium);
-    // Engine::GetInstance().AddComponent(
-    //     std::make_shared<InfectionComponent>(CannotInput, true, false,
-    //         CFG_GETF("INFECTION_FROZEN_DURATION")), bacterium);
     Engine::GetInstance().AddComponent(
-        std::make_shared<InfectionComponent>(StrongImpulses, true, false,
-            CFG_GETF("INFECTION_IMPULSES_DURATION")), bacterium);
+        std::make_shared<InfectionComponent>(CannotInput, true, false,
+            CFG_GETF("INFECTION_FROZEN_DURATION")), bacterium);
+    // Engine::GetInstance().AddComponent(
+    //     std::make_shared<InfectionComponent>(StrongImpulses, true, false,
+    //         CFG_GETF("INFECTION_IMPULSES_DURATION")), bacterium);
     return bacterium;
 }

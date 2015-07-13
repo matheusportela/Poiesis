@@ -10,7 +10,7 @@ void Level3::Start()
 
 void Level3::CreateAllEntities()
 {
-    EntityFactory::CreateBackground();
+    // EntityFactory::CreateBackground();
     EntityFactory::CreateCamera(CFG_GETF("LEVEL_3_CAMERA_HEIGHT"));
 
     CreateButtons();
@@ -49,7 +49,7 @@ void Level3::CreateCells()
     {
         x = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_X"), CFG_GETF("LEVEL_3_MAX_X"));
         y = r.GenerateFloat(CFG_GETF("LEVEL_3_MIN_Y"), CFG_GETF("LEVEL_3_MAX_Y"));
-        EntityFactory::CreateRandomCell(Vector(x, y));
+        EntityFactory::CreateCell(Vector(x, y));
     }
 }
 

@@ -112,15 +112,31 @@ void RenderingSystem::RenderSprite(std::shared_ptr<Entity> entity, std::shared_p
 {
     std::string filename = spriteComponent->GetFilename();
 
+    if (spriteComponent->GetMultipleFiles())
+    {
+        std::string frameNumberStr = std::to_string(spriteComponent->GetCurrentFrame());
+        filename = filename + std::string(4 - frameNumberStr.length(), '0') + frameNumberStr + ".png";
+    }
+
     if (!Engine::GetInstance().GetGraphicsAdapter()->IsLoaded(filename))
     {
         Engine::GetInstance().GetGraphicsAdapter()->LoadImage(filename);
         LOG_D("[RenderingSystem] Loaded image \"" << filename << "\" for entity with ID: " << entity->GetId());
     }
 
+    auto currentFrame = spriteComponent->GetCurrentFrame();
+    auto numFrames = spriteComponent->GetNumFrames();
+
+    if (spriteComponent->GetMultipleFiles())
+    {
+        currentFrame = 0;
+        numFrames = 1;
+        LOG_W("Scale: " << spriteComponent->GetScale());
+    }
+
     if (spriteComponent->GetCentered())
-        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetRotation(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderCenteredImage(filename, position.GetX(), position.GetY(), spriteComponent->GetRotation(), spriteComponent->GetScale()/height, currentFrame, numFrames);
     else
-        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetRotation(), spriteComponent->GetScale()/height, spriteComponent->GetCurrentFrame(), spriteComponent->GetNumFrames());
+        Engine::GetInstance().GetGraphicsAdapter()->RenderImage(filename, position.GetX(), position.GetY(), spriteComponent->GetRotation(), spriteComponent->GetScale()/height, currentFrame, numFrames);
     LOG_D("[RenderingSystem] Rendered image \"" << filename << "\" for entity with ID: " << entity->GetId());
 }

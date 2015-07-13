@@ -13,7 +13,7 @@ class SpriteComponent : public Component
     SpriteComponent(std::string filename, Vector position = Vector(0, 0),
         float rotation = 0, float rotationSpeed = 0, bool centered = true,
         float scale = 1, int numFrames = 1, float frameDuration = 0,
-        bool repeat = true);
+        bool repeat = true, bool multipleFiles = false);
     std::string GetComponentClass();
 
     std::string GetFilename();
@@ -49,6 +49,9 @@ class SpriteComponent : public Component
     float GetElapsedTime();
     void SetElapsedTime(float elapsedTime);
 
+    bool GetMultipleFiles();
+    void SetMultipleFiles(bool multipleFiles);
+
   private:
     // Holds the file containing the image to be displayed.
     std::string filename;
@@ -82,6 +85,9 @@ class SpriteComponent : public Component
 
     // Elapsed time since the sprite frame beginning, in seconds.
     float elapsedTime;
+
+    // Holds whether the animation spreads through multiple files.
+    bool multipleFiles;
 };
 
 #endif // SPRITE_COMPONENT_H_

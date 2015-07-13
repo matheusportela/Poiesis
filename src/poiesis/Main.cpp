@@ -4,11 +4,13 @@
 #include "bandit/Engine.h"
 
 #include "poiesis/levels/EntryLevel.h"
+#include "poiesis/levels/Level1.h"
+#include "poiesis/levels/Level2.h"
 #include "poiesis/levels/Level3.h"
 
 int main()
 {
-    LOG_SET_INFO();
+    LOG_SET_DEBUG();
     BANDIT_ENGINE_INIT();
     CFG_INIT("Configurations.cfg");
 

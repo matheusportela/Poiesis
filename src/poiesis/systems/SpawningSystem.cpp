@@ -41,7 +41,7 @@ void SpawningSystem::SpawnCell()
 {
     float x = random.GenerateFloat(0, CFG_GETF("WINDOW_WIDTH"));
     float y = random.GenerateFloat(0, CFG_GETF("WINDOW_HEIGHT"));
-    EntityFactory::CreateRandomCell(Vector(x, y));
+    EntityFactory::CreateCell(Vector(x, y));
     LOG_I("[SpawningSystem] Spawning new cell at " << x << ", " << y);
 }
 
